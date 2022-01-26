@@ -1,0 +1,6 @@
+<ng-container *ngFor="let avatar of avatars">
+  <p-avatar class="mr-1 mt-2 cursor-pointer" [title]="avatar.name" [image]="avatar.image" shape="circle"
+            [size]="size"
+  (click)="avatarClicked(avatar)"></p-avatar>
+</ng-container>
+

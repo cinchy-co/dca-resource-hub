@@ -1,1 +1,91 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+
+/* You can add global styles to this file, and also import other style files */
+
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.item-center-n-relative {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+}
+
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+.text-sm-12 {
+  font-size: 0.83rem;
+}
+
+// Override styles
+
+.p-autocomplete {
+  width: 35vw;
+
+  @media (max-width: 697px) {
+    width: 80vw;
+    margin-top: 10px;
+  }
+}
+
+.p-card-body, .p-card-content {
+  padding: 0 !important;
+  margin: 0;
+}
+
+.p-card {
+  height: 100%;
+}
+
+app-avatars {
+  .p-avatar.p-avatar-xl {
+    width: 6rem !important;
+    height: 6rem !important;
+    font-size: 2rem;
+  }
+}
+
+p-button {
+  .p-button {
+    background: rgb(132 204 22);
+    border: rgb(132 204 22);
+
+    &:enabled:hover {
+      background: rgb(163 230 53);
+      color: black;
+    }
+  }
+}
+

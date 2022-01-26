@@ -1,0 +1,6 @@
+{
+  "authority": "https://datacollaboration.net/sso",
+  "cinchyRootUrl": "https://datacollaboration.net/Cinchy",
+  "clientId": "dca-private-local",
+  "redirectUri": "https://localhost:4200/"
+}
