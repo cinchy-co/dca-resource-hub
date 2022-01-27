@@ -12,17 +12,18 @@
 
   <div class="p-4 relative">
     <div class="flex flex-col items-center justify-between">
-      <div class="flex flex-row gap-1">
+      <div class="flex flex-col md:flex-row lg:flex-row gap-1 relative">
         <p-selectButton [options]="searchByOptions" [(ngModel)]="selectedSearchBy" optionLabel="name"
                         (onOptionClick)="searchByClicked($event)">
         </p-selectButton>
 
-        <div class="flex flex-row gap-1 items-center" *ngIf="showRegion && dropdownOptionStr">
+        <div class="flex flex-row gap-1 items-center relative md:absolute lg:absolute md:left-[320px] lg:left-[320px] left-auto"
+             [@fadeSlideInOut] *ngIf="showRegion && dropdownOptionStr">
           <p-selectButton [options]="regionSearchBy" [(ngModel)]="selectedRegionSearchBy" optionLabel="name"
                           (onOptionClick)="searchByClicked($event)">
           </p-selectButton>
-          <span *ngIf="countrySelected" class="text-sm-12">
-          (Of {{countrySelected}})
+          <span *ngIf="countrySelected" class="text-sm-12 text-slate-500">
+           ({{countrySelected}})
         </span>
         </div>
       </div>

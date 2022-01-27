@@ -3,11 +3,23 @@ import {ApiCallsService} from "../../services/api-calls.service";
 import {IAvatar, ILegislation, IOption} from "../../models/common.model";
 import {RegionSearch, SearchBy} from "../../models/general-values.model";
 import {WindowRefService} from "../../services/window-ref.service";
+import {animate, style, transition, trigger} from "@angular/animations";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
+  animations: [
+      trigger('fadeSlideInOut', [
+        transition(':enter', [
+          style({ opacity: 0, transform: 'translateY(10px)' }),
+          animate('500ms', style({ opacity: 1, transform: 'translateY(0)' })),
+        ]),
+        transition(':leave', [
+          animate('500ms', style({ opacity: 0, transform: 'translateY(10px)' })),
+        ]),
+      ]),
+  ]
 })
 export class HomeComponent implements OnInit, AfterViewInit {
   @Input() avatars: IAvatar[];
