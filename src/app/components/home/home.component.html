@@ -11,7 +11,7 @@
   </div>
 
   <div class="p-4 relative">
-    <div class="flex flex-col items-center justify-between">
+    <div class="flex flex-row flex-wrap flex-wrap items-center md:flex-col lg:flex-row justify-evenly">
       <div class="flex flex-col md:flex-row lg:flex-row gap-1 relative">
         <p-selectButton [options]="searchByOptions" [(ngModel)]="selectedSearchBy" optionLabel="name"
                         (onOptionClick)="searchByClicked($event)">
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <div *ngIf="filteredLegislationData?.length" class="p-4">
+  <div *ngIf="filteredLegislationData?.length" class="p-4 pt-0">
     <p-accordion [multiple]="true">
       <p-accordionTab header="Laws" [selected]="true">
         <ng-template pTemplate="content">
@@ -59,7 +59,9 @@
       </p-accordionTab>
 
       <p-accordionTab header="Regulator">
-        Content 2
+        <ng-template pTemplate="content">
+          WIP.....
+        </ng-template>
       </p-accordionTab>
     </p-accordion>
   </div>
