@@ -17,8 +17,9 @@
                         (onOptionClick)="searchByClicked($event)">
         </p-selectButton>
 
-        <div class="flex flex-row gap-1 items-center relative md:absolute lg:absolute md:left-[320px] lg:left-[320px] left-auto"
-             [@fadeSlideInOut] *ngIf="showRegion && dropdownOptionStr">
+        <div
+          class="flex flex-row gap-1 items-center relative md:absolute lg:absolute md:left-[320px] lg:left-[320px] left-auto"
+          [@fadeSlideInOut] *ngIf="showRegion && dropdownOptionStr">
           <p-selectButton [options]="regionSearchBy" [(ngModel)]="selectedRegionSearchBy" optionLabel="name"
                           (onOptionClick)="searchByClicked($event)">
           </p-selectButton>
@@ -42,13 +43,24 @@
     </div>
   </div>
 
-  <div *ngIf="filteredLegislationData?.length">
-    <app-laws class="p-4 mt-2 grid-cols-2 auto-rows-fr grid gap-2"
-              [allKeys]="allKeys" [legislationData]="paginatedLegislationData">
-    </app-laws>
-  </div>
+  <div *ngIf="filteredLegislationData?.length" class="p-4">
+    <p-accordion [multiple]="true">
+      <p-accordionTab header="Laws" [selected]="true">
+        <ng-template pTemplate="content">
+          <app-laws class="p-4 mt-2 grid-cols-2 auto-rows-fr grid gap-2"
+                    [allKeys]="allKeys" [legislationData]="paginatedLegislationData">
+          </app-laws>
 
-  <p-paginator *ngIf="filteredLegislationData?.length" [rows]="pageSize" [totalRecords]="filteredLegislationData.length"
-               (onPageChange)="paginate($event)">
-  </p-paginator>
+          <p-paginator *ngIf="filteredLegislationData?.length" [rows]="pageSize"
+                       [totalRecords]="filteredLegislationData.length"
+                       (onPageChange)="paginate($event)">
+          </p-paginator>
+        </ng-template>
+      </p-accordionTab>
+
+      <p-accordionTab header="Regulator">
+        Content 2
+      </p-accordionTab>
+    </p-accordion>
+  </div>
 </section>

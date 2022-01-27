@@ -1,0 +1,13 @@
+.page-wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  app-home {
+    flex: 1 0 auto;
+  }
+
+  app-footer {
+    flex-shrink: 0;
+  }
+}

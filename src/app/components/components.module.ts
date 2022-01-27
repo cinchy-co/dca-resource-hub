@@ -1,7 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {HomeComponent} from './home/home.component';
-import {HeaderComponent} from './header/header.component';
 import {AutoCompleteModule} from 'primeng/autocomplete';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {PaginatorModule} from 'primeng/paginator';
@@ -9,10 +7,15 @@ import {CardModule} from 'primeng/card';
 import {SelectButtonModule} from 'primeng/selectbutton';
 import {AvatarModule} from 'primeng/avatar';
 import {AvatarGroupModule} from 'primeng/avatargroup';
+import {ButtonModule} from 'primeng/button';
+import {AccordionModule} from 'primeng/accordion';
+
+import {HomeComponent} from './home/home.component';
+import {HeaderComponent} from './header/header.component';
 import {AvatarsComponent} from "./avatars/avatars.component";
 import {VideoBannerComponent} from './video-banner/video-banner.component';
-import {ButtonModule} from 'primeng/button';
-import { LawsComponent } from './laws/laws.component';
+import {LawsComponent} from './laws/laws.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,8 @@ import { LawsComponent } from './laws/laws.component';
     HeaderComponent,
     AvatarsComponent,
     VideoBannerComponent,
-    LawsComponent
+    LawsComponent,
+    FooterComponent
   ],
   imports: [
     CommonModule,
@@ -32,13 +36,13 @@ import { LawsComponent } from './laws/laws.component';
     SelectButtonModule,
     AvatarModule,
     AvatarGroupModule,
-    ButtonModule
+    ButtonModule,
+    AccordionModule
   ],
   exports: [
     HomeComponent,
     HeaderComponent,
-    AvatarsComponent,
-    VideoBannerComponent
+    FooterComponent
   ]
 })
 export class ComponentsModule {
