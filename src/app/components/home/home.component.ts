@@ -28,6 +28,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   showRegion: boolean;
   regionSearchBy = [RegionSearch];
   dropdownOptionStr: string;
+  countrySelected: string;
 
   constructor(private apiCallsService: ApiCallsService, private windowRefService: WindowRefService) {
   }
@@ -85,7 +86,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   setKeys() {
     this.allKeys = (Object.keys(this.legislationData[0]) as (keyof ILegislation)[]).filter(
-      keyItem => keyItem !== 'Summary' && keyItem !== 'Title' && keyItem !== 'Links'
+      keyItem => keyItem !== 'Summary' && keyItem !== 'Law' && keyItem !== 'Law Url'
     );
   }
 
@@ -114,6 +115,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
       item.Country === this.dropdownOptionStr && item.Region);
     this.showRegion = (this.selectedOption.code === 'Country' && !!legislationDataPerCountry?.length)
       || this.selectedOption.code === 'Region';
+    this.storeCountrySelected();
+  }
+
+  storeCountrySelected() {
+    if (this.selectedSearchBy.code === 'Country' && this.selectedOption.code !== 'Region') {
+      this.countrySelected = this.dropdownOptionStr;
+    } else if (this.selectedOption.code !== 'Region') {
+      this.countrySelected = '';
+    }
   }
 
   filterLegislation(currentSearchByKeyVal: string) {

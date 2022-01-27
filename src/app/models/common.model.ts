@@ -1,5 +1,5 @@
 export interface ILegislation {
-  Title: string;
+  Law: string;
   'Year Passed': string;
   'Class': string;
   'Scope': string;
@@ -14,7 +14,7 @@ export interface ILegislation {
   'Country': string;
   'Region': string;
   'Supra': string;
-  'Links': string;
+  'Law Url': string;
 }
 
 export interface IOption {

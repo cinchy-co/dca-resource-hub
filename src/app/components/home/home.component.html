@@ -21,9 +21,9 @@
           <p-selectButton [options]="regionSearchBy" [(ngModel)]="selectedRegionSearchBy" optionLabel="name"
                           (onOptionClick)="searchByClicked($event)">
           </p-selectButton>
-        <!--  <span *ngIf="selectedRegionSearchBy?.code" class="text-sm-12">
-          (Of {{dropdownOptionStr}})
-        </span>-->
+          <span *ngIf="countrySelected" class="text-sm-12">
+          (Of {{countrySelected}})
+        </span>
         </div>
       </div>
 
