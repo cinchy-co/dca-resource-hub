@@ -1,0 +1,23 @@
+<div class="mb-3 basis-[49%] mr-2 font-light" *ngFor="let item of legislationData">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="pl-4">
+        <div class="flex flex-row justify-between items-center">
+          <h1 class="pt-2 text-lg font-bold text-cyan-700">{{item.Title}}</h1>
+          <p class="text-sm-12 text-blue-700 mr-2" [innerHTML]="item['Links']"></p>
+        </div>
+        <p class="text-xs text-gray-700">{{item['Summary']}}</p>
+      </div>
+    </ng-template>
+
+    <div class="flex flex-wrap p-2 pl-4 justify-between">
+      <div class="lg:basis-[30%] md:basis-[30%] sm:basis-full mr-3 md:mr-2 lg:mr-2" *ngFor="let key of allKeys">
+        <span class="font-sans mr-1 mb-2 text-sm-12 text-gray-900">{{key}}: </span>
+        <span class="font-sans text-sm-12 text-gray-500"
+              [ngClass]="{'text-blue-600' : key === 'Links'}"
+              [innerHTML]="key === 'Year Passed' ? (item[key] | date: 'yyyy') : item[key]">
+              </span>
+      </div>
+    </div>
+  </p-card>
+</div>

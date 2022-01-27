@@ -12,13 +12,15 @@ import {AvatarGroupModule} from 'primeng/avatargroup';
 import {AvatarsComponent} from "./avatars/avatars.component";
 import {VideoBannerComponent} from './video-banner/video-banner.component';
 import {ButtonModule} from 'primeng/button';
+import { LawsComponent } from './laws/laws.component';
 
 @NgModule({
   declarations: [
     HomeComponent,
     HeaderComponent,
     AvatarsComponent,
-    VideoBannerComponent
+    VideoBannerComponent,
+    LawsComponent
   ],
   imports: [
     CommonModule,

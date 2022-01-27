@@ -7,24 +7,33 @@
 
   <div class="flex flex-row flex-wrap items-center justify-center bg-yellow-400 h-16 shadow-normal">
     <span class="mr-3 text-lg">For more content and awesome stuff</span>
-    <p-button icon="pi pi-bell"  class="p-button-raised" label="JOIN FREE" ></p-button>
+    <p-button icon="pi pi-bell" class="p-button-raised" label="JOIN FREE"></p-button>
   </div>
 
   <div class="p-4 relative">
     <div class="flex flex-col items-center justify-between">
-      <label class="text-base font-semibold">Search By</label>
-      <div>
+      <div class="flex flex-row gap-1">
         <p-selectButton [options]="searchByOptions" [(ngModel)]="selectedSearchBy" optionLabel="name"
                         (onOptionClick)="searchByClicked($event)">
         </p-selectButton>
+
+        <div class="flex flex-row gap-1 items-center" *ngIf="showRegion && dropdownOptionStr">
+          <p-selectButton [options]="regionSearchBy" [(ngModel)]="selectedRegionSearchBy" optionLabel="name"
+                          (onOptionClick)="searchByClicked($event)">
+          </p-selectButton>
+        <!--  <span *ngIf="selectedRegionSearchBy?.code" class="text-sm-12">
+          (Of {{dropdownOptionStr}})
+        </span>-->
+        </div>
       </div>
 
       <div *ngIf="selectedSearchBy && autoCompleteOptions?.length" class="flex-col mt-2 flex">
         <p-autoComplete
           [(ngModel)]="legislationVal" [suggestions]="filteredAutoCompleteOptions"
-          (completeMethod)="filterAutoCompleteOptions($event)" [field]="selectedSearchBy.name"
+          (completeMethod)="filterAutoCompleteOptions($event)" [field]="selectedOption.name"
           (onSelect)="itemSelected($event)"
           (onClear)="reset()"
+          (onKeyUp)="search($event)"
           [dropdown]="true"
           [placeholder]="'Search for' + ' ' + placeholderForSearch">
         </p-autoComplete>
@@ -32,31 +41,10 @@
     </div>
   </div>
 
-  <div *ngIf="filteredLegislationData?.length" class="p-4 mt-2 grid-cols-2 auto-rows-fr grid gap-2">
-
-    <div class="mb-3 basis-[49%] mr-2 font-light" *ngFor="let item of paginatedLegislationData">
-      <p-card>
-        <ng-template pTemplate="header">
-          <div class="pl-4">
-            <div class="flex flex-row justify-between items-center">
-              <h1 class="pt-2 text-lg font-bold text-cyan-700">{{item.Title}}</h1>
-              <p class="text-sm-12 text-blue-700 mr-2" [innerHTML]="item['Links']"></p>
-            </div>
-            <p class="text-xs text-gray-700">{{item['Summary']}}</p>
-          </div>
-        </ng-template>
-
-        <div class="flex flex-wrap p-2 pl-4 justify-between">
-          <div class="lg:basis-[30%] md:basis-[30%] sm:basis-full mr-3 md:mr-2 lg:mr-2" *ngFor="let key of allKeys">
-            <span class="font-sans mr-1 mb-2 text-sm-12 text-gray-900">{{key}}: </span>
-            <span class="font-sans text-sm-12 text-gray-500"
-                  [ngClass]="{'text-blue-600' : key === 'Links'}"
-                  [innerHTML]="key === 'Year Passed' ? (item[key] | date: 'yyyy') : item[key]">
-              </span>
-          </div>
-        </div>
-      </p-card>
-    </div>
+  <div *ngIf="filteredLegislationData?.length">
+    <app-laws class="p-4 mt-2 grid-cols-2 auto-rows-fr grid gap-2"
+              [allKeys]="allKeys" [legislationData]="paginatedLegislationData">
+    </app-laws>
   </div>
 
   <p-paginator *ngIf="filteredLegislationData?.length" [rows]="pageSize" [totalRecords]="filteredLegislationData.length"

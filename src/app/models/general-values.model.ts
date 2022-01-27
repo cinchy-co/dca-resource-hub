@@ -4,3 +4,5 @@ export const SearchBy = [
   {name: 'Sector', code: 'Sector'},
   {name: 'Class', code: 'Class'}
 ];
+
+export const RegionSearch = {name: 'Region', code: 'Region'};

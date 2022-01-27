@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {ApiCallsService} from "../../services/api-calls.service";
 import {IAvatar, ILegislation, IOption} from "../../models/common.model";
-import {SearchBy} from "../../models/general-values.model";
+import {RegionSearch, SearchBy} from "../../models/general-values.model";
 import {WindowRefService} from "../../services/window-ref.service";
 
 @Component({
@@ -22,8 +22,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
   allKeys: (keyof ILegislation)[];
   searchByOptions: IOption[] = SearchBy;
   selectedSearchBy: IOption;
+  selectedOption: IOption;
+  selectedRegionSearchBy!: IOption | null;
   placeholderForSearch: string;
-  isSsr: boolean;
+  showRegion: boolean;
+  regionSearchBy = [RegionSearch];
+  dropdownOptionStr: string;
 
   constructor(private apiCallsService: ApiCallsService, private windowRefService: WindowRefService) {
   }
@@ -35,29 +39,48 @@ export class HomeComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
   }
 
-  searchByClicked(optionObj: any) {
-    this.selectedSearchBy = optionObj.option;
-    this.placeholderForSearch = this.selectedSearchBy.name;
-   // this.filteredLegislationData = this.legislationData.
-    const key = this.selectedSearchBy.code as keyof ILegislation;
-    const uniqueOptions = [...new Set(this.legislationData.map(item => {
+  async getLegislationData() {
+    this.legislationData = await this.apiCallsService.getLegislation().toPromise();
+    this.filteredLegislationData = [...this.legislationData];
+    this.setPaginateData();
+    this.setKeys();
+    this.searchByClicked({option: SearchBy[0]});
+  }
+
+  searchByClicked(optionObj: {option: IOption}) {
+   this.selectedOption = optionObj.option;
+    const legislationData = this.getFilteredLegislationOptions(this.selectedOption);
+    this.placeholderForSearch = this.selectedOption.name;
+    const key = this.selectedOption.code as keyof ILegislation;
+    const uniqueOptions = [...new Set(legislationData.map(item => {
       return item[key];
     }))];
-    this.autoCompleteOptions = uniqueOptions.filter(item => item).map(optionItem => {
+    this.autoCompleteOptions = (uniqueOptions.filter(item => item)).map(optionItem => {
       const newDropdownList = {} as ILegislation;
       newDropdownList[key] = optionItem;
       return newDropdownList;
     });
     this.filteredAutoCompleteOptions = this.autoCompleteOptions;
     this.reset();
-    console.log('OPITONS', this.autoCompleteOptions);
   }
 
-  async getLegislationData() {
-    this.legislationData = await this.apiCallsService.getLegislation().toPromise();
-    this.filteredLegislationData = [...this.legislationData];
-    this.setPaginateData();
-    this.setKeys();
+  getFilteredLegislationOptions(option: IOption): ILegislation[] {
+    let legislationDataPerCountry: ILegislation[] = this.legislationData.filter(item => item.Country === this.dropdownOptionStr);
+    if (option.code === 'Region') {
+      this.selectedRegionSearchBy = this.selectedOption;
+      this.showRegion = !!legislationDataPerCountry?.length;
+    } else {
+      this.selectedSearchBy = this.selectedOption;
+      this.selectedRegionSearchBy = null;
+      this.showRegion = false;
+    }
+    return this.showRegion ? [...legislationDataPerCountry] : this.legislationData;
+  }
+
+  setPaginateData() {
+    const startPoint = this.currentPage * this.pageSize;
+    const endPoint = startPoint + this.pageSize;
+    this.paginatedLegislationData = [...this.filteredLegislationData].slice(startPoint, endPoint);
   }
 
   setKeys() {
@@ -69,8 +92,34 @@ export class HomeComponent implements OnInit, AfterViewInit {
   filterAutoCompleteOptions(event: any) {
     let query = event.query;
     this.filteredAutoCompleteOptions = this.autoCompleteOptions.filter(legislation => {
-      const key = this.selectedSearchBy.code as keyof ILegislation;
+      const key = this.selectedRegionSearchBy ? (this.selectedRegionSearchBy.code as keyof ILegislation)
+        : this.selectedSearchBy.code as keyof ILegislation;
       return legislation[key].toLowerCase().indexOf(query.toLowerCase()) == 0;
+    });
+  }
+
+  search(event: any) {
+    if (event.code === 'Enter') {
+      this.filterLegislation(this.legislationVal);
+      this.setPaginateData();
+    }
+  }
+
+  itemSelected(event: ILegislation){
+    const key = this.selectedOption.code as keyof ILegislation;
+    this.dropdownOptionStr = event[key];
+    this.filterLegislation(this.dropdownOptionStr);
+    this.setPaginateData();
+    let legislationDataPerCountry: ILegislation[] = this.legislationData.filter(item =>
+      item.Country === this.dropdownOptionStr && item.Region);
+    this.showRegion = (this.selectedOption.code === 'Country' && !!legislationDataPerCountry?.length)
+      || this.selectedOption.code === 'Region';
+  }
+
+  filterLegislation(currentSearchByKeyVal: string) {
+    this.filteredLegislationData = this.legislationData.filter(legislation => {
+      const key = this.selectedOption.code as keyof ILegislation;
+      return legislation[key]?.toLowerCase()?.indexOf(currentSearchByKeyVal.toLowerCase()) == 0;
     });
   }
 
@@ -78,27 +127,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.legislationVal = '';
     this.filteredLegislationData = [...this.legislationData];
     this.setPaginateData();
-  }
-
-  itemSelected(event: ILegislation){
-    const key = this.selectedSearchBy.code as keyof ILegislation;
-    const currentSearchByKeyVal = event[key];
-    this.filterLegislation(currentSearchByKeyVal);
-    this.setPaginateData();
-  }
-
-  filterLegislation(currentSearchByKeyVal: string) {
-    this.filteredLegislationData = this.legislationData.filter(legislation => {
-      const key = this.selectedSearchBy.code as keyof ILegislation;
-      return legislation[key]?.toLowerCase()?.indexOf(currentSearchByKeyVal.toLowerCase()) == 0;
-    });
-    console.log('D', this.filteredLegislationData);
-  }
-
-  setPaginateData() {
-    const startPoint = this.currentPage * this.pageSize;
-    const endPoint = startPoint + this.pageSize;
-    this.paginatedLegislationData = [...this.filteredLegislationData].slice(startPoint, endPoint);
   }
 
   paginate(event: any) {
