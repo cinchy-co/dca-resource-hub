@@ -1,0 +1,27 @@
+<div class="mb-3 basis-[49%] mr-2 font-light" *ngFor="let item of regulatorData">
+  <p-card>
+    <ng-template pTemplate="header">
+      <div class="pl-4">
+        <div class="flex flex-row justify-between items-center">
+          <a role="link" [href]="item['Entity Url']" target="_blank" class="pt-2 text-lg font-bold text-cyan-700">{{item.Entity}}</a>
+        </div>
+        <p class="text-xs text-gray-700">{{item['Short Name']}}</p>
+      </div>
+    </ng-template>
+
+    <div class="flex flex-wrap p-2 pl-4 justify-between">
+      <div class="lg:basis-[30%] md:basis-[30%] sm:basis-full mr-3 md:mr-2 lg:mr-2" *ngFor="let key of allKeys">
+        <span class="font-sans mr-1 mb-2 text-sm-12 text-gray-900">{{key}}: </span>
+        <span class="font-sans text-sm-12 text-gray-500" *ngIf="key !== 'Twitter'; else twitter"
+              [ngClass]="{'text-blue-600' : key === 'Twitter'}"
+              [innerHTML]="item[key]">
+        </span>
+        <ng-template #twitter>
+          <a role="link" [href]="item['Twitter']" target="_blank" class="pt-2 text-sm-12 text-cyan-700">
+            {{item['Twitter'] ? 'Link' : ''}}
+          </a>
+        </ng-template>
+      </div>
+    </div>
+  </p-card>
+</div>

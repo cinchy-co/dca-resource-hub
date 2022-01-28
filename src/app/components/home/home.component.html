@@ -29,7 +29,7 @@
         </div>
       </div>
 
-      <div *ngIf="selectedSearchBy && autoCompleteOptions?.length" class="flex-col mt-2 flex">
+      <div *ngIf="selectedSearchBy && autoCompleteOptions?.length" class="flex-col mt-2 lg:mt-0 flex">
         <p-autoComplete
           [(ngModel)]="legislationVal" [suggestions]="filteredAutoCompleteOptions"
           (completeMethod)="filterAutoCompleteOptions($event)" [field]="selectedOption.name"
@@ -41,11 +41,34 @@
         </p-autoComplete>
       </div>
     </div>
+
+    <p-progressSpinner class="item-center-n-relative" *ngIf="!(selectedSearchBy && autoCompleteOptions?.length)"></p-progressSpinner>
   </div>
 
   <div *ngIf="filteredLegislationData?.length" class="p-4 pt-0">
-    <p-accordion [multiple]="true">
-      <p-accordionTab header="Laws" [selected]="true">
+    <p-accordion [multiple]="true" expandIcon="pi pi-fw pi-plus" collapseIcon="pi pi-fw pi-minus">
+      <p-accordionTab *ngIf="countrySelected">
+        <ng-template pTemplate="header"><span class="text-cyan-900">Regulators</span></ng-template>
+        <ng-template pTemplate="content">
+          <ng-container *ngIf="paginatedRegulatorData?.length; else noMessage">
+            <app-regulators class="p-4 mt-2 grid-cols-2 auto-rows-fr grid gap-2"
+                            [allKeys]="allRegulatorKeys" [regulatorData]="paginatedRegulatorData">
+            </app-regulators>
+
+            <p-paginator *ngIf="filteredRegulatorData?.length" [rows]="pageSize"
+                         [totalRecords]="filteredRegulatorData.length"
+                         (onPageChange)="regulatorPaginate($event)">
+            </p-paginator>
+          </ng-container>
+
+          <ng-template #noMessage>
+            <h1>No Regulators present for this Country or Region</h1>
+          </ng-template>
+        </ng-template>
+      </p-accordionTab>
+
+      <p-accordionTab [selected]="true">
+        <ng-template pTemplate="header"><span class="text-cyan-900">Laws</span></ng-template>
         <ng-template pTemplate="content">
           <app-laws class="p-4 mt-2 grid-cols-2 auto-rows-fr grid gap-2"
                     [allKeys]="allKeys" [legislationData]="paginatedLegislationData">
@@ -55,12 +78,6 @@
                        [totalRecords]="filteredLegislationData.length"
                        (onPageChange)="paginate($event)">
           </p-paginator>
-        </ng-template>
-      </p-accordionTab>
-
-      <p-accordionTab header="Regulator">
-        <ng-template pTemplate="content">
-          WIP.....
         </ng-template>
       </p-accordionTab>
     </p-accordion>

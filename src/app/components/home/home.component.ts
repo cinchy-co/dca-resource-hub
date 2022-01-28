@@ -21,7 +21,7 @@ import {animate, style, transition, trigger} from "@angular/animations";
       ]),
   ]
 })
-export class HomeComponent implements OnInit, AfterViewInit {
+export class HomeComponent implements OnInit {
   @Input() avatars: IAvatar[];
   legislationData: ILegislation[];
   filteredLegislationData: ILegislation[];
@@ -30,8 +30,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
   paginatedLegislationData: ILegislation[];
   legislationVal: any;
   currentPage = 0;
-  pageSize = 8;
+  regulatorCurrentPage = 0;
+  pageSize = 6;
   allKeys: (keyof ILegislation)[];
+  allRegulatorKeys: any[];
   searchByOptions: IOption[] = SearchBy;
   selectedSearchBy: IOption;
   selectedOption: IOption;
@@ -41,15 +43,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
   regionSearchBy = [RegionSearch];
   dropdownOptionStr: string;
   countrySelected: string;
+  regulatorData: any;
+  filteredRegulatorData: any;
+  paginatedRegulatorData: any;
 
-  constructor(private apiCallsService: ApiCallsService, private windowRefService: WindowRefService) {
+  constructor(private apiCallsService: ApiCallsService) {
   }
 
   ngOnInit(): void {
     this.getLegislationData();
-  }
-
-  ngAfterViewInit() {
+    this.getRegulatorData()
   }
 
   async getLegislationData() {
@@ -58,6 +61,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.setPaginateData();
     this.setKeys();
     this.searchByClicked({option: SearchBy[0]});
+  }
+
+  async getRegulatorData() {
+    this.regulatorData = await this.apiCallsService.getPrivacyRegulators().toPromise();
+    this.filteredRegulatorData = [...this.regulatorData];
+    this.setRegulatorKeys();
+    this.setRegulatorPaginateData();
   }
 
   searchByClicked(optionObj: {option: IOption}) {
@@ -96,9 +106,22 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.paginatedLegislationData = [...this.filteredLegislationData].slice(startPoint, endPoint);
   }
 
+  setRegulatorPaginateData() {
+    const startPoint = this.regulatorCurrentPage * this.pageSize;
+    const endPoint = startPoint + this.pageSize;
+    this.paginatedRegulatorData = [...this.filteredRegulatorData].slice(startPoint, endPoint);
+    console.log('pppp dara0, thi', this.paginatedRegulatorData)
+  }
+
   setKeys() {
     this.allKeys = (Object.keys(this.legislationData[0]) as (keyof ILegislation)[]).filter(
       keyItem => keyItem !== 'Summary' && keyItem !== 'Law' && keyItem !== 'Law Url'
+    );
+  }
+
+  setRegulatorKeys() {
+    this.allRegulatorKeys = (Object.keys(this.regulatorData[0])).filter(
+      keyItem => keyItem !== 'Entity Name' && keyItem !== 'Short Name' && keyItem !== 'Entity Url'
     );
   }
 
@@ -122,12 +145,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     const key = this.selectedOption.code as keyof ILegislation;
     this.dropdownOptionStr = event[key];
     this.filterLegislation(this.dropdownOptionStr);
-    this.setPaginateData();
     let legislationDataPerCountry: ILegislation[] = this.legislationData.filter(item =>
       item.Country === this.dropdownOptionStr && item.Region);
     this.showRegion = (this.selectedOption.code === 'Country' && !!legislationDataPerCountry?.length)
       || this.selectedOption.code === 'Region';
     this.storeCountrySelected();
+    if (this.countrySelected) { this.filterRegulator(this.dropdownOptionStr); }
   }
 
   storeCountrySelected() {
@@ -143,6 +166,15 @@ export class HomeComponent implements OnInit, AfterViewInit {
       const key = this.selectedOption.code as keyof ILegislation;
       return legislation[key]?.toLowerCase()?.indexOf(currentSearchByKeyVal.toLowerCase()) == 0;
     });
+    this.setPaginateData();
+  }
+
+  filterRegulator(currentSearchByKeyVal: string) {
+    this.filteredRegulatorData = this.regulatorData.filter((regulator: any) => {
+      const key = this.selectedOption.code;
+      return regulator[key]?.toLowerCase()?.indexOf(currentSearchByKeyVal.toLowerCase()) == 0;
+    });
+    this.setRegulatorPaginateData();
   }
 
   reset() {
@@ -154,6 +186,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
   paginate(event: any) {
     this.currentPage = event.page;
     this.setPaginateData();
+  }
+
+  regulatorPaginate(event: any) {
+    this.regulatorCurrentPage = event.page;
+    this.setRegulatorPaginateData();
   }
 
 }

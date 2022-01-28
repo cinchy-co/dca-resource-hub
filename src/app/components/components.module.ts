@@ -9,13 +9,16 @@ import {AvatarModule} from 'primeng/avatar';
 import {AvatarGroupModule} from 'primeng/avatargroup';
 import {ButtonModule} from 'primeng/button';
 import {AccordionModule} from 'primeng/accordion';
+import {ProgressSpinnerModule} from 'primeng/progressspinner';
+
 
 import {HomeComponent} from './home/home.component';
 import {HeaderComponent} from './header/header.component';
 import {AvatarsComponent} from "./avatars/avatars.component";
 import {VideoBannerComponent} from './video-banner/video-banner.component';
 import {LawsComponent} from './laws/laws.component';
-import { FooterComponent } from './footer/footer.component';
+import {FooterComponent} from './footer/footer.component';
+import {RegulatorsComponent} from './regulators/regulators.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +27,8 @@ import { FooterComponent } from './footer/footer.component';
     AvatarsComponent,
     VideoBannerComponent,
     LawsComponent,
-    FooterComponent
+    FooterComponent,
+    RegulatorsComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +41,8 @@ import { FooterComponent } from './footer/footer.component';
     AvatarModule,
     AvatarGroupModule,
     ButtonModule,
-    AccordionModule
+    AccordionModule,
+    ProgressSpinnerModule
   ],
   exports: [
     HomeComponent,

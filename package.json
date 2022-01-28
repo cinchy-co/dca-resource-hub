@@ -24,7 +24,6 @@
     "@angular/platform-browser-dynamic": "~13.1.0",
     "@angular/platform-server": "~13.1.0",
     "@angular/router": "~13.1.0",
-    "@cinchy-co/angular-sdk": "^4.4.0",
     "@nguniversal/express-engine": "^13.0.2",
     "domino": "^2.1.6",
     "express": "^4.15.2",
