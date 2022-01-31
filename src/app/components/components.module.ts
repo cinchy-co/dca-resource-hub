@@ -10,7 +10,7 @@ import {AvatarGroupModule} from 'primeng/avatargroup';
 import {ButtonModule} from 'primeng/button';
 import {AccordionModule} from 'primeng/accordion';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
-
+import {CarouselModule} from 'primeng/carousel';
 
 import {HomeComponent} from './home/home.component';
 import {HeaderComponent} from './header/header.component';
@@ -19,6 +19,7 @@ import {VideoBannerComponent} from './video-banner/video-banner.component';
 import {LawsComponent} from './laws/laws.component';
 import {FooterComponent} from './footer/footer.component';
 import {RegulatorsComponent} from './regulators/regulators.component';
+import {NewsFeedComponent} from './news-feed/news-feed.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import {RegulatorsComponent} from './regulators/regulators.component';
     VideoBannerComponent,
     LawsComponent,
     FooterComponent,
-    RegulatorsComponent
+    RegulatorsComponent,
+    NewsFeedComponent
   ],
   imports: [
     CommonModule,
@@ -42,7 +44,8 @@ import {RegulatorsComponent} from './regulators/regulators.component';
     AvatarGroupModule,
     ButtonModule,
     AccordionModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    CarouselModule
   ],
   exports: [
     HomeComponent,

@@ -1,0 +1,11 @@
+<section>
+  <p-carousel class="h-full" [value]="newsFeed" [numVisible]="1" [numScroll]="1" [autoplayInterval]="10000"
+  [showIndicators]="false" [showNavigators]="true">
+    <ng-template let-car pTemplate="item">
+      <div class="flex flex-row justify-center items-center gap-2 p-2 pl-4 h-full bg-gray-900 text-gray-100">
+        <span class="font-bold">NEWS:</span>
+        <span [title]="car.Brief ? car.Brief : ''">{{car.Headline}}</span>
+      </div>
+    </ng-template>
+  </p-carousel>
+</section>

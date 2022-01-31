@@ -28,3 +28,9 @@ export interface IAvatar {
   linkedinUrl: string;
   image: string;
 }
+
+
+export interface IDropdownClick {
+  dropdownStr: string,
+  countrySelected: string
+}
