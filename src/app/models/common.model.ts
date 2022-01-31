@@ -1,6 +1,6 @@
 export interface ILegislation {
   Law: string;
-  'Year Passed': string;
+  Passed: string;
   'Class': string;
   'Scope': string;
   'Sector': string;

@@ -11,7 +11,6 @@ export class NewsFeedComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('NEWS FEED', this.newsFeed)
   }
 
 }

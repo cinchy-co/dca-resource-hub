@@ -3,8 +3,8 @@
   [showIndicators]="false" [showNavigators]="true">
     <ng-template let-car pTemplate="item">
       <div class="flex flex-row justify-center items-center gap-2 p-2 pl-4 h-full bg-gray-900 text-gray-100">
-        <span class="font-bold">NEWS:</span>
-        <span [title]="car.Brief ? car.Brief : ''">{{car.Headline}}</span>
+        <span class="font-bold hidden md:block lg:block">NEWS:</span>
+        <a [href]="car.URL" target="_blank" [title]="car.Brief ? car.Brief : ''">{{car.Headline}}</a>
       </div>
     </ng-template>
   </p-carousel>
