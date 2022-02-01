@@ -7,7 +7,7 @@
             <a rel="noopener" role="link" [href]="item['URL'] ? item['URL'] : 'javascript:void(0);'" target="_blank"
                class="pt-2 text-lg font-bold text-cyan-700">{{item.Headline}}</a>
           </div>
-          <p class="text-sm-12 text-gray-700">{{item['Date'] | date: 'yyyy/dd'}}, {{item['Country']}}</p>
+          <p class="text-sm-12 text-gray-700">{{item['Date'] | date: 'yyyy/dd'}}{{item['Country'] ? ',' + ' ' + item['Country'] : ''}}</p>
         </div>
       </ng-template>
 
