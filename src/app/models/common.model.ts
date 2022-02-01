@@ -4,12 +4,12 @@ export interface ILegislation {
   'Class': string;
   'Scope': string;
   'Sector': string;
-  'Type Of Law': string;
-  'Targeted Info': string;
-  'Protects Who': string;
-  'Regulates Who': string;
+  'Type': string;
+  'Information': string;
+  'Protects': string;
+  'Regulates': string;
   'Summary': string;
-  'Enforce Orgs': string;
+  'Enforcers': string;
   'City': string;
   'Country': string;
   'Region': string;
