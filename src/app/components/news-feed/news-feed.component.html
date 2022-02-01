@@ -1,11 +1,32 @@
-<section>
-  <p-carousel class="h-full" [value]="newsFeed" [numVisible]="1" [numScroll]="1" [autoplayInterval]="10000"
-  [showIndicators]="false" [showNavigators]="true">
-    <ng-template let-car pTemplate="item">
-      <div class="flex flex-row justify-center items-center gap-2 p-2 pl-4 h-full bg-gray-900 text-gray-100">
-        <span class="font-bold hidden md:block lg:block">NEWS:</span>
-        <a [href]="car.URL" target="_blank" [title]="car.Brief ? car.Brief : ''">{{car.Headline}}</a>
+<section class="p-4 mt-2 md:grid-cols-2  lg:grid-cols-2 grid-cols-1 auto-rows-fr grid gap-2" *ngIf="paginatedNewsData?.length; else noMessage">
+  <div class="mb-3 md:basis-[49%] lg:basis-[49%] basis-full mr-2 font-light" *ngFor="let item of paginatedNewsData">
+    <p-card>
+      <ng-template pTemplate="header">
+        <div class="pl-4">
+          <div class="flex flex-row justify-between items-center">
+            <a rel="noopener" role="link" [href]="item['Url'] ? item['Url'] : 'javascript:void(0);'" target="_blank"
+               class="pt-2 text-lg font-bold text-cyan-700">{{item.Headline}}</a>
+          </div>
+          <p class="text-xs text-gray-700">{{item['Date'] | date: 'yyyy/dd'}}, {{item['Country']}}</p>
+        </div>
+      </ng-template>
+
+      <div class="flex flex-wrap p-2 pl-4 justify-start">
+        <div class="flex flex-col basis-full mr-4 md:mr-2 lg:mr-2">
+          <span class="font-sans text-sm-12 mb-2 text-gray-500"
+                [innerHTML]="item['Brief']">
+              </span>
+        </div>
       </div>
-    </ng-template>
-  </p-carousel>
+    </p-card>
+  </div>
 </section>
+
+<ng-template #noMessage>
+  <h1>No latest news present for this Country or Region</h1>
+</ng-template>
+
+<p-paginator *ngIf="filteredNewsData?.length" [rows]="pageSize"
+             [totalRecords]="filteredNewsData.length"
+             (onPageChange)="paginate($event)">
+</p-paginator>

@@ -35,6 +35,10 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
         this.filterRegulator(dropdownStr);
       }
     });
+
+    this.appStateService.getReset().pipe(takeUntil(this.destroyed$)).subscribe(isReset => {
+      this.reset();
+    });
   }
 
   setRegulatorKeys() {
@@ -59,6 +63,11 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
 
   regulatorPaginate(event: any) {
     this.regulatorCurrentPage = event.page;
+    this.setRegulatorPaginateData();
+  }
+
+  reset() {
+    this.filteredRegulatorData = [...this.regulatorData];
     this.setRegulatorPaginateData();
   }
 
