@@ -1,4 +1,4 @@
-<section class="p-4 mt-2 grid-cols-2 auto-rows-fr grid gap-2">
+<section class="p-4 mt-2 md:grid-cols-2 lg:grid-cols-2 grid-cols-1 auto-rows-fr grid gap-2">
   <div class="mb-3 basis-[49%] mr-2 font-light" *ngFor="let item of paginatedLegislationData">
     <p-card>
       <ng-template pTemplate="header">
@@ -7,12 +7,12 @@
             <a rel="noopener" role="link" [href]="item['Law Url']" target="_blank"
                class="pt-2 text-lg font-bold text-cyan-700">{{item.Law}}</a>
           </div>
-          <p class="text-xs text-gray-700">{{item['Summary']}}</p>
+          <p class="text-sm-12 text-gray-700">{{item['Summary']}}</p>
         </div>
       </ng-template>
 
       <div class="flex flex-wrap p-2 pl-4 justify-start">
-        <div class="flex flex-col lg:basis-[23%] md:basis-[30%] sm:basis-[100%] mr-4 md:mr-2 lg:mr-2" *ngFor="let key of allKeys">
+        <div class="flex flex-col lg:basis-[23%] md:basis-[30%] basis-[45%] mr-4 md:mr-2 lg:mr-2" *ngFor="let key of allKeys">
           <span class="font-sans mr-1 text-sm-12 text-black">{{key}}: </span>
           <span class="font-sans text-sm-12 mb-2 text-gray-500"
                 [ngClass]="{'text-blue-600' : key === 'Law'}"

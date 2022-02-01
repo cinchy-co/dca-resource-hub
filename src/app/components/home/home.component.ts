@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit {
   countrySelected: string;
   regulatorData: any;
   newsFeedData: any;
+  podcastsData: any;
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService) {
   }
@@ -47,6 +48,7 @@ export class HomeComponent implements OnInit {
     this.getLegislationData();
     this.getRegulatorData();
     this.getNewsFeed();
+    this.getPodcasts();
   }
 
   async getLegislationData() {
@@ -60,6 +62,10 @@ export class HomeComponent implements OnInit {
 
   async getNewsFeed() {
     this.newsFeedData = await this.apiCallsService.getPrivacyNewsFeed().toPromise();
+  }
+
+  async getPodcasts() {
+    this.podcastsData = await this.apiCallsService.getPrivacyPodcasts().toPromise();
   }
 
   searchByClicked(optionObj: {option: IOption}) {
