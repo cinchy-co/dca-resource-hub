@@ -2,7 +2,7 @@
   <div class="mb-3 md:basis-[49%] lg:basis-[49%] basis-full mr-2 font-light" *ngFor="let item of paginatedNewsData">
     <p-card>
       <ng-template pTemplate="header">
-        <div class="pl-4">
+        <div class="pl-4 pr-1">
           <div class="flex flex-row justify-between items-center">
             <a rel="noopener" role="link" [href]="item['URL'] ? item['URL'] : 'javascript:void(0);'" target="_blank"
                class="pt-2 text-lg font-bold text-cyan-700">{{item.Headline}}</a>

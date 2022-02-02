@@ -1,4 +1,14 @@
 <div class="h-20 relative mt-4 flex flex-col justify-center item-center">
+  <div class="bg-gray-700 flex flex-row items-center justify-center">
+    <span class="text-white">SHARE</span>
+    <share-buttons [theme]="'modern-light'"
+                   [include]="['facebook','twitter','linkedin','email']"
+                   [show]="5"
+                   [showText]="false"
+                   [url]="currentUrl"
+    ></share-buttons>
+  </div>
+
   <div class="bg-gray-900 flex flex-row justify-center item-center">
     <div class="text-sm-12 text-gray-300 p-4">
       <p>© Data Collaboration Alliance 2021. All rights reserved.</p>

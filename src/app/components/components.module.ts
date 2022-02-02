@@ -12,6 +12,10 @@ import {AccordionModule} from 'primeng/accordion';
 import {ProgressSpinnerModule} from 'primeng/progressspinner';
 import {CarouselModule} from 'primeng/carousel';
 import {ChipModule} from 'primeng/chip';
+import {ShareModule} from 'ngx-sharebuttons'
+import {ShareIconsModule} from "ngx-sharebuttons/icons";
+import {ShareButtonsModule} from "ngx-sharebuttons/buttons";
+
 
 import {HomeComponent} from './home/home.component';
 import {HeaderComponent} from './header/header.component';
@@ -22,6 +26,7 @@ import {FooterComponent} from './footer/footer.component';
 import {RegulatorsComponent} from './regulators/regulators.component';
 import {NewsFeedComponent} from './news-feed/news-feed.component';
 import {PodcastsComponent} from './podcasts/podcasts.component';
+
 
 @NgModule({
   declarations: [
@@ -49,7 +54,10 @@ import {PodcastsComponent} from './podcasts/podcasts.component';
     AccordionModule,
     ProgressSpinnerModule,
     CarouselModule,
-    ChipModule
+    ChipModule,
+    ShareModule,
+    ShareIconsModule,
+    ShareButtonsModule,
   ],
   exports: [
     HomeComponent,

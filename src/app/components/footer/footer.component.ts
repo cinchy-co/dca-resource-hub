@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'app-footer',
@@ -6,10 +7,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit {
+  currentUrl: string;
 
-  constructor() { }
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: object) { }
 
   ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      this.currentUrl = window.location.href;
+    }
   }
 
 }
