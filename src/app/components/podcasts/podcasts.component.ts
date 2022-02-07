@@ -1,4 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
+import {PAGE_SIZE} from "../../models/general-values.model";
 
 @Component({
   selector: 'app-podcasts',
@@ -9,7 +10,7 @@ export class PodcastsComponent implements OnInit {
   @Input() podcasts: any;
   paginatedPodcastsData: any;
   currentPage = 0;
-  pageSize = 8;
+  pageSize = PAGE_SIZE;
   constructor() { }
 
   ngOnInit(): void {

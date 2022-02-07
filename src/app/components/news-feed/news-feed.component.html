@@ -1,4 +1,4 @@
-<section class="p-4 mt-2 md:grid-cols-2  lg:grid-cols-2 grid-cols-1 auto-rows-fr grid gap-2" *ngIf="paginatedNewsData?.length; else noMessage">
+<section class="p-4 mt-2 md:grid-cols-2 lg:grid-cols-4 grid-cols-1 auto-rows-fr grid gap-2" *ngIf="paginatedNewsData?.length; else noMessage">
   <div class="mb-3 md:basis-[49%] lg:basis-[49%] basis-full mr-2 font-light" *ngFor="let item of paginatedNewsData">
     <p-card>
       <ng-template pTemplate="header">
@@ -7,7 +7,7 @@
             <a rel="noopener" role="link" [href]="item['URL'] ? item['URL'] : 'javascript:void(0);'" target="_blank"
                class="pt-2 text-lg font-bold text-cyan-700">{{item.Headline}}</a>
           </div>
-          <p class="text-sm-12 text-gray-700">{{item['Date'] | date: 'yyyy/dd'}}{{item['Country'] ? ',' + ' ' + item['Country'] : ''}}</p>
+          <p class="text-sm-12 text-gray-700">{{item['Date'] | date}}{{item['Country'] ? ',' + ' ' + item['Country'] : ''}}</p>
         </div>
       </ng-template>
 

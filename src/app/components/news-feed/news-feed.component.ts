@@ -2,6 +2,7 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {IOption} from "../../models/common.model";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {AppStateService} from "../../services/app-state.service";
+import {PAGE_SIZE} from "../../models/general-values.model";
 
 @Component({
   selector: 'app-news-feed',
@@ -12,7 +13,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   @Input() newsFeed: any;
   @Input() selectedOption: IOption;
   currentPage = 0;
-  pageSize = 6;
+  pageSize = PAGE_SIZE;
   paginatedNewsData: any;
   filteredNewsData: any;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);

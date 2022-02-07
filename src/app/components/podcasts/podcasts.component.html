@@ -1,4 +1,4 @@
-<section class="p-4 mt-2 md:grid-cols-2 lg:grid-cols-2 grid-cols-1 auto-rows-fr grid gap-2" *ngIf="paginatedPodcastsData?.length; else noMessage">
+<section class="p-4 mt-2 md:grid-cols-2 lg:grid-cols-4 grid-cols-1 auto-rows-fr grid gap-2" *ngIf="paginatedPodcastsData?.length; else noMessage">
   <div class="mb-3 md:basis-[49%] lg:basis-[49%] basis-full mr-2 font-light" *ngFor="let item of paginatedPodcastsData">
     <p-card>
       <ng-template pTemplate="header">

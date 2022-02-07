@@ -1,7 +1,8 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {ILegislation, IOption} from "../../models/common.model";
+import {IDropdownClick, ILegislation, IOption} from "../../models/common.model";
 import {AppStateService} from "../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
+import {PAGE_SIZE, SearchByLaw} from "../../models/general-values.model";
 
 @Component({
   selector: 'app-laws',
@@ -11,19 +12,23 @@ import {ReplaySubject, takeUntil} from "rxjs";
 export class LawsComponent implements OnInit, OnDestroy {
   @Input() legislationData: ILegislation[];
   @Input() selectedOption: IOption;
+  @Input() isCountrySelected: boolean;
+  childSelectedOption: IOption;
   filteredLegislationData: ILegislation[];
   paginatedLegislationData: ILegislation[];
   currentPage = 0;
-  pageSize = 6;
+  pageSize = PAGE_SIZE - 2;
   allKeys: (keyof ILegislation)[];
+  searchByOptions: IOption[] = SearchByLaw;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
-
+  childFilteredData: ILegislation[];
 
   constructor(private appStateService: AppStateService) {
   }
 
   ngOnInit(): void {
     this.filteredLegislationData = [...this.legislationData];
+    this.childFilteredData = [...this.legislationData];
     this.setPaginateData();
     this.setKeys();
     this.subscribeToStateChanges();
@@ -36,8 +41,8 @@ export class LawsComponent implements OnInit, OnDestroy {
     });
 
     this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$)).subscribe(({dropdownStr, countrySelected}) => {
-      this.filterLegislation(dropdownStr);
-    });
+        this.filterLegislation(dropdownStr);
+      });
 
     this.appStateService.getReset().pipe(takeUntil(this.destroyed$)).subscribe(isReset => {
       this.reset();
@@ -56,11 +61,13 @@ export class LawsComponent implements OnInit, OnDestroy {
     );
   }
 
-  filterLegislation(currentSearchByKeyVal: string) {
-    this.filteredLegislationData = this.legislationData.filter(legislation => {
-      const key = this.selectedOption.code as keyof ILegislation;
+  filterLegislation(currentSearchByKeyVal: string, option?: IOption, filteredData?: ILegislation[]) {
+    const dataToFilterFrom = filteredData ? [...filteredData] : this.legislationData;
+    this.filteredLegislationData = dataToFilterFrom.filter(legislation => {
+      const key = option ? (option.code as keyof ILegislation) : this.selectedOption.code as keyof ILegislation;
       return legislation[key]?.toLowerCase()?.indexOf(currentSearchByKeyVal.toLowerCase()) == 0;
     });
+    this.childFilteredData = option ? this.childFilteredData : this.filteredLegislationData;
     this.setPaginateData();
   }
 
@@ -71,6 +78,24 @@ export class LawsComponent implements OnInit, OnDestroy {
 
   paginate(event: any) {
     this.currentPage = event.page;
+    this.setPaginateData();
+  }
+
+  resetChild() {
+    this.filteredLegislationData = this.childFilteredData;
+    this.setPaginateData();
+  }
+
+  searchBySelected(option: IOption) {
+    this.childSelectedOption = option;
+  }
+
+  itemSelectedInDropdown(data: IDropdownClick) {
+    this.filterLegislation(data.dropdownStr, this.childSelectedOption, this.childFilteredData);
+  }
+
+  itemSearched(searchVal: string) {
+    this.filterLegislation(searchVal);
     this.setPaginateData();
   }
 

@@ -1,0 +1,28 @@
+<div class="flex flex-row flex-wrap flex-wrap items-center md:flex-col lg:flex-row justify-evenly  gap-2">
+  <div class="flex flex-col md:flex-row lg:flex-row gap-1 relative">
+    <p-selectButton [options]="searchByOptions" [(ngModel)]="selectedSearchBy" optionLabel="name"
+                    (onOptionClick)="searchByClicked($event)">
+    </p-selectButton>
+
+    <div class="flex flex-row gap-1 items-center" [@fadeSlideInOut] *ngIf="showRegion && dropdownOptionStr">
+      <p-selectButton [options]="regionSearchBy" [(ngModel)]="selectedRegionSearchBy" optionLabel="name"
+                      (onOptionClick)="searchByClicked($event)">
+      </p-selectButton>
+      <span *ngIf="countrySelected" class="text-sm-12 text-slate-500">
+           ({{countrySelected}})
+        </span>
+    </div>
+  </div>
+
+  <div *ngIf="selectedSearchBy?.code && autoCompleteOptions?.length" [@fadeSlideInOut] class="flex-col mt-2 lg:mt-0 flex">
+    <p-autoComplete
+      [(ngModel)]="autoSearchVal" [suggestions]="filteredAutoCompleteOptions"
+      (completeMethod)="filterAutoCompleteOptions($event)" [field]="selectedOption.name"
+      (onSelect)="itemSelected($event)"
+      (onClear)="reset()"
+      (onKeyUp)="search($event)"
+      [dropdown]="true"
+      [placeholder]="'Search for' + ' ' + placeholderForSearch">
+    </p-autoComplete>
+  </div>
+</div>

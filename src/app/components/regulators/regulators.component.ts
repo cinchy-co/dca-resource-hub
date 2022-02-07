@@ -2,6 +2,7 @@ import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {ILegislation, IOption} from "../../models/common.model";
 import {AppStateService} from "../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
+import {PAGE_SIZE} from "../../models/general-values.model";
 
 @Component({
   selector: 'app-regulators',
@@ -14,7 +15,7 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   filteredRegulatorData: any[];
   paginatedRegulatorData: any;
   regulatorCurrentPage = 0;
-  pageSize = 6;
+  pageSize = PAGE_SIZE - 2;
   allKeys: any;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 

@@ -11,45 +11,22 @@
   </div>
 
   <div class="p-4 relative">
-    <div class="flex flex-row flex-wrap flex-wrap items-center md:flex-col lg:flex-row justify-evenly">
-      <div class="flex flex-col md:flex-row lg:flex-row gap-1 relative">
-        <p-selectButton [options]="searchByOptions" [(ngModel)]="selectedSearchBy" optionLabel="name"
-                        (onOptionClick)="searchByClicked($event)">
-        </p-selectButton>
+    <app-search-by-autocomplete *ngIf="legislationData?.length" [searchByOptions]="searchByOptions"
+                                [allDataForOptions]="legislationData"
+                                [preSelectedSearchBy]="searchByOptions[0]"
+                                (optionClicked)="itemSelectedInDropdown($event)"
+                                (searchBySelected)="searchBySelected($event)"
+                                (itemSearched)="itemSearched($event)"
+                                (resetAll)="reset()">
+    </app-search-by-autocomplete>
 
-        <div
-          class="flex flex-row gap-1 items-center relative md:absolute lg:absolute md:left-[320px] lg:left-[320px] left-auto"
-          [@fadeSlideInOut] *ngIf="showRegion && dropdownOptionStr">
-          <p-selectButton [options]="regionSearchBy" [(ngModel)]="selectedRegionSearchBy" optionLabel="name"
-                          (onOptionClick)="searchByClicked($event)">
-          </p-selectButton>
-          <span *ngIf="countrySelected" class="text-sm-12 text-slate-500">
-           ({{countrySelected}})
-        </span>
-        </div>
-      </div>
-
-      <div *ngIf="selectedSearchBy && autoCompleteOptions?.length" class="flex-col mt-2 lg:mt-0 flex">
-        <p-autoComplete
-          [(ngModel)]="legislationVal" [suggestions]="filteredAutoCompleteOptions"
-          (completeMethod)="filterAutoCompleteOptions($event)" [field]="selectedOption.name"
-          (onSelect)="itemSelected($event)"
-          (onClear)="reset()"
-          (onKeyUp)="search($event)"
-          [dropdown]="true"
-          [placeholder]="'Search for' + ' ' + placeholderForSearch">
-        </p-autoComplete>
-      </div>
-    </div>
-
-    <p-progressSpinner class="item-center-n-relative"
-                       *ngIf="!(selectedSearchBy && autoCompleteOptions?.length)"></p-progressSpinner>
+    <p-progressSpinner class="item-center-n-relative" *ngIf="!(legislationData?.length)"></p-progressSpinner>
   </div>
 
 
   <div *ngIf="legislationData?.length" class="p-4 pt-0">
     <p-accordion [multiple]="true" expandIcon="pi pi-fw pi-plus" collapseIcon="pi pi-fw pi-minus">
-      <p-accordionTab *ngIf="countrySelected || legislationVal === ''" [selected]="true">
+      <p-accordionTab *ngIf="countrySelected || searchVal === ''" [selected]="true">
         <ng-template pTemplate="header"><span class="text-cyan-900">News Feed</span></ng-template>
         <ng-template pTemplate="content">
           <ng-container *ngIf="newsFeedData?.length">
@@ -59,7 +36,7 @@
         </ng-template>
       </p-accordionTab>
 
-      <p-accordionTab *ngIf="countrySelected || legislationVal === ''">
+      <p-accordionTab *ngIf="countrySelected || searchVal === ''">
         <ng-template pTemplate="header"><span class="text-cyan-900">Regulators</span></ng-template>
         <ng-template pTemplate="content">
           <ng-container *ngIf="regulatorData?.length">
@@ -69,19 +46,11 @@
         </ng-template>
       </p-accordionTab>
 
-      <p-accordionTab [selected]="!(countrySelected || legislationVal === '')">
+      <p-accordionTab [selected]="!(countrySelected || searchVal === '')">
         <ng-template pTemplate="header"><span class="text-cyan-900">Laws</span></ng-template>
         <ng-template pTemplate="content">
-          <app-laws [selectedOption]="selectedOption" [legislationData]="legislationData">
+          <app-laws [selectedOption]="selectedOption" [legislationData]="legislationData" [isCountrySelected]="!!countrySelected">
           </app-laws>
-        </ng-template>
-      </p-accordionTab>
-
-      <p-accordionTab [selected]="false">
-        <ng-template pTemplate="header"><span class="text-cyan-900">All Podcasts</span></ng-template>
-        <ng-template pTemplate="content">
-          <app-podcasts [podcasts]="podcastsData">
-          </app-podcasts>
         </ng-template>
       </p-accordionTab>
     </p-accordion>

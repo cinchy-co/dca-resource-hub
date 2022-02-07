@@ -15,7 +15,7 @@ import {ChipModule} from 'primeng/chip';
 import {ShareModule} from 'ngx-sharebuttons'
 import {ShareIconsModule} from "ngx-sharebuttons/icons";
 import {ShareButtonsModule} from "ngx-sharebuttons/buttons";
-
+import {DcaCommonModule} from "../dca-common/dca-common.module";
 
 import {HomeComponent} from './home/home.component';
 import {HeaderComponent} from './header/header.component';
@@ -58,6 +58,7 @@ import {PodcastsComponent} from './podcasts/podcasts.component';
     ShareModule,
     ShareIconsModule,
     ShareButtonsModule,
+    DcaCommonModule
   ],
   exports: [
     HomeComponent,
