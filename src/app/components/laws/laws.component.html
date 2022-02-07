@@ -1,11 +1,14 @@
-<app-search-by-autocomplete *ngIf="isCountrySelected && childFilteredData?.length && selectedOption" [searchByOptions]="searchByOptions"
-                            [allDataForOptions]="childFilteredData"
-                            [resetOnChange]="true"
-                            (optionClicked)="itemSelectedInDropdown($event)"
-                            (searchBySelected)="searchBySelected($event)"
-                            (resetAll)="resetChild()"
-                            (itemSearched)="itemSearched($event)">
-</app-search-by-autocomplete>
+<div class="flex flex-row items-center justify-start gap-4 pl-4">
+  <app-search-by-autocomplete *ngIf="isCountrySelected && childFilteredData?.length && selectedOption" [searchByOptions]="searchByOptions"
+                              [allDataForOptions]="childFilteredData"
+                              [resetOnChange]="true"
+                              (optionClicked)="itemSelectedInDropdown($event)"
+                              (searchBySelected)="searchBySelected($event)"
+                              (resetAll)="resetChild()"
+                              (itemSearched)="itemSearched($event)">
+  </app-search-by-autocomplete>
+
+</div>
 
 <section class="p-4 mt-2 md:grid-cols-2 lg:grid-cols-2 grid-cols-1 auto-rows-fr grid gap-2">
   <div class="mb-3 basis-[49%] mr-2 font-light" *ngFor="let item of paginatedLegislationData">
