@@ -25,15 +25,15 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
-  getPrivacyNewsFeed(): Observable<any> {
-    const url = 'https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Privacy%20Newsfeed';
+  getNewsFeedAndPodcasts(): Observable<any> {
+    const url = 'https://datacollaboration.net/API/Collaborative%20Privacy/Get%20News%20and%20Podcasts';
     return this.getResponse(url);
   }
 
-  getPrivacyPodcasts(): Observable<any> {
+ /* getPrivacyPodcasts(): Observable<any> {
     const url = 'https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Privacy%20Podcasts';
     return this.getResponse(url);
-  }
+  }*/
 
   getResponse(url: string): Observable<any> {
     return this.http.get(url, {

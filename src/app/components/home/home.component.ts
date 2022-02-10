@@ -14,9 +14,8 @@ export class HomeComponent implements OnInit {
     legislationData: ILegislation[];
     allRegulatorKeys: any[];
     searchByOptions: IOption[] = SearchBy;
-    podcastsData: any;
     regulatorData: any;
-    newsFeedData: any;
+    newsAndPodcastsData: any;
     searchVal: any; //
     selectedOption: IOption; //
     dropdownOptionStr: string; //
@@ -28,8 +27,7 @@ export class HomeComponent implements OnInit {
     ngOnInit(): void {
         this.getLegislationData();
         this.getRegulatorData();
-        this.getNewsFeed();
-        this.getPodcasts();
+        this.getNewsAndPodcasts();
     }
 
     async getLegislationData() {
@@ -40,12 +38,8 @@ export class HomeComponent implements OnInit {
         this.regulatorData = await this.apiCallsService.getPrivacyRegulators().toPromise();
     }
 
-    async getNewsFeed() {
-        this.newsFeedData = await this.apiCallsService.getPrivacyNewsFeed().toPromise();
-    }
-
-    async getPodcasts() {
-        this.podcastsData = await this.apiCallsService.getPrivacyPodcasts().toPromise();
+    async getNewsAndPodcasts() {
+        this.newsAndPodcastsData = await this.apiCallsService.getNewsFeedAndPodcasts().toPromise();
     }
 
     searchBySelected(option: IOption) {

@@ -31,6 +31,7 @@
     "@nguniversal/express-engine": "^13.0.2",
     "domino": "^2.1.6",
     "express": "^4.15.2",
+    "ngx-ellipsis": "^3.1.6",
     "ngx-plyr": "^4.0.0",
     "ngx-sharebuttons": "^10.0.0",
     "plyr": "^3.6.12",

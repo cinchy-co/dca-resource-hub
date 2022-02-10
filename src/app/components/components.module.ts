@@ -16,6 +16,8 @@ import {ShareModule} from 'ngx-sharebuttons'
 import {ShareIconsModule} from "ngx-sharebuttons/icons";
 import {ShareButtonsModule} from "ngx-sharebuttons/buttons";
 import {DcaCommonModule} from "../dca-common/dca-common.module";
+import {RadioButtonModule} from 'primeng/radiobutton';
+import { EllipsisModule } from 'ngx-ellipsis';
 
 import {HomeComponent} from './home/home.component';
 import {HeaderComponent} from './header/header.component';
@@ -58,7 +60,9 @@ import {PodcastsComponent} from './podcasts/podcasts.component';
     ShareModule,
     ShareIconsModule,
     ShareButtonsModule,
-    DcaCommonModule
+    DcaCommonModule,
+    RadioButtonModule,
+    EllipsisModule
   ],
   exports: [
     HomeComponent,
