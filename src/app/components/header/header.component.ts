@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {IAvatar} from "../../models/common.model";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-header',
@@ -9,10 +10,14 @@ import {IAvatar} from "../../models/common.model";
 export class HeaderComponent implements OnInit {
   @Input() avatars: IAvatar[];
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit() {
+  }
+
+  goToHome() {
+    this.router.navigate(['/']);
   }
 
 }
