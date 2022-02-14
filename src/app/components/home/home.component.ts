@@ -3,6 +3,7 @@ import {ApiCallsService} from "../../services/api-calls.service";
 import {IAvatar, IDropdownClick, ILegislation, IOption} from "../../models/common.model";
 import {SearchBy} from "../../models/general-values.model";
 import {AppStateService} from "../../services/app-state.service";
+import {Router} from "@angular/router";
 
 @Component({
     selector: 'app-home',
@@ -21,8 +22,12 @@ export class HomeComponent implements OnInit {
     dropdownOptionStr: string; //
     countrySelected: string;//
 
-    constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService) {
+    constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService, private router: Router) {
     }
+
+  goToPipps() {
+    this.router.navigate([`/ppips`]);
+  }
 
     ngOnInit(): void {
         this.getLegislationData();

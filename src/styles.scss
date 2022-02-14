@@ -16,6 +16,10 @@ body {
   margin: 0;
 }
 
+app-home, app-pipps {
+  flex: 1 0 auto;
+}
+
 .item-center-n-relative {
   top: 50%;
   left: 50%;
@@ -97,11 +101,35 @@ p-button {
   height: 100%;
 }
 
-.p-carousel-content{
+.p-carousel-content {
   background: #111827;
 }
 
 .p-chip .p-chip-text {
- font-size: 12px;
+  font-size: 12px;
   line-height: 1;
+}
+
+.pipps-container {
+  .p-sidebar .p-sidebar-header + .p-sidebar-content {
+    padding-top: 30px;
+    padding-bottom: 150px;
+  }
+
+  p-panel {
+    .p-panel .p-panel-header {
+      border: 0.5px solid #dee2e6;
+      border-left: 0;
+      border-right: 0;
+      background: white;
+    }
+
+    .p-panel-content {
+      padding-top: 5px;
+    }
+
+    .pi {
+      font-size: 0.7rem;
+    }
+  }
 }

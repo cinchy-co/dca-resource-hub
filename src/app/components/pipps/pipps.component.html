@@ -1,0 +1,34 @@
+<div class="pipps-container flex flex-row" #ppips>
+  <p-sidebar *ngIf="ppipsData" [(visible)]="display" [modal]="false" [style]="{width:'400px'}">
+    <div class="">
+      <h1 class="w-full text-center bg-slate-200 p-2 cursor-pointer">PPIPS</h1>
+
+      <div class="w-full">
+        <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
+          <p-panel [toggleable]="true" [collapsed]="i !== 0">
+
+            <ng-template pTemplate="header">
+              <div class="flex flex-col">
+                <p class="text-xs font-light">{{section.key}}</p>
+                <p class="text-xs font-semibold">{{getCategory(section)}}</p>
+              </div>
+            </ng-template>
+
+            <div class="pl-4">
+              <div class="border-solid border-b p-1 cursor-pointer" *ngFor="let item of section.value">
+                <p class="text-sm-12 font-light text-blue-900" (click)="goToArticle(item)">Article {{item.article}}</p>
+              </div>
+            </div>
+          </p-panel>
+        </ng-container>
+      </div>
+    </div>
+
+  </p-sidebar>
+
+  <div class="ml-[400px] pl-4">ACTUAL PAGE
+  <div *ngIf="currentArticle">
+    {{currentArticle.details}}
+  </div>
+  </div>
+</div>

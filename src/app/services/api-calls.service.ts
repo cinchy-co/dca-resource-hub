@@ -30,10 +30,10 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
- /* getPrivacyPodcasts(): Observable<any> {
-    const url = 'https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Privacy%20Podcasts';
+  getPpips(): Observable<any> {
+    const url = 'https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Ppips';
     return this.getResponse(url);
-  }*/
+  }
 
   getResponse(url: string): Observable<any> {
     return this.http.get(url, {

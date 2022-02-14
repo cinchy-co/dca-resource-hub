@@ -26,7 +26,6 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.filteredNewsData = [...this.newsFeed];
     this.childFilteredData = [...this.newsFeed];
-    console.log('pppp', this.filteredNewsData)
     this.setNewsPaginateData();
     this.subscribeToStateChanges();
   }
