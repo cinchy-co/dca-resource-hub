@@ -31,7 +31,7 @@
         <ng-template pTemplate="content">
           <ng-container *ngIf="newsAndPodcastsData?.length">
 
-            <app-news-feed [selectedOption]="selectedOption" [newsFeed]="newsAndPodcastsData"></app-news-feed>
+            <app-news-feed [selectedOption]="selectedOption" [newsFeed]="newsAndPodcastsData" [tags]="tags"></app-news-feed>
           </ng-container>
         </ng-template>
       </p-accordionTab>

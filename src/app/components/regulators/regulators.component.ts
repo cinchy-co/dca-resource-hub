@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {ILegislation, IOption} from "../../models/common.model";
+import {IOption} from "../../models/common.model";
 import {AppStateService} from "../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {PAGE_SIZE} from "../../models/general-values.model";
@@ -50,9 +50,10 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   }
 
   filterRegulator(currentSearchByKeyVal: string) {
+    const key = this.selectedOption.code;
     this.filteredRegulatorData = this.regulatorData.filter((regulator: any) => {
-      const key = this.selectedOption.code;
-      return regulator[key]?.toLowerCase()?.indexOf(currentSearchByKeyVal.toLowerCase()) == 0;
+      return regulator[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim());
+    //  return regulator[key]?.toLowerCase()?.indexOf(currentSearchByKeyVal.toLowerCase()) == 0;
     });
     this.setRegulatorPaginateData();
   }

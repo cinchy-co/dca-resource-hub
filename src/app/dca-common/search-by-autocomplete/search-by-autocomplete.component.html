@@ -1,5 +1,5 @@
 <div class="flex flex-row flex-wrap flex-wrap items-center md:flex-col lg:flex-row justify-evenly  gap-2">
-  <div class="flex flex-col md:flex-row lg:flex-row gap-1 relative">
+  <div class="flex flex-col md:flex-row lg:flex-row gap-1 relative" *ngIf="!hideSearchByOptions">
     <p-selectButton [options]="searchByOptions" [(ngModel)]="selectedSearchBy" optionLabel="name"
                     (onOptionClick)="searchByClicked($event)">
     </p-selectButton>

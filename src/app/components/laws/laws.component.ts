@@ -63,9 +63,9 @@ export class LawsComponent implements OnInit, OnDestroy {
 
   filterLegislation(currentSearchByKeyVal: string, option?: IOption, filteredData?: ILegislation[]) {
     const dataToFilterFrom = filteredData ? [...filteredData] : this.legislationData;
+    const key = option ? (option.code as keyof ILegislation) : this.selectedOption.code as keyof ILegislation;
     this.filteredLegislationData = dataToFilterFrom.filter(legislation => {
-      const key = option ? (option.code as keyof ILegislation) : this.selectedOption.code as keyof ILegislation;
-      return legislation[key]?.toLowerCase()?.indexOf(currentSearchByKeyVal.toLowerCase()) == 0;
+      return legislation[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim());
     });
     this.childFilteredData = option ? this.childFilteredData : this.filteredLegislationData;
     this.setPaginateData();
@@ -95,7 +95,7 @@ export class LawsComponent implements OnInit, OnDestroy {
   }
 
   itemSearched(searchVal: string) {
-    this.filterLegislation(searchVal);
+    this.filterLegislation(searchVal, this.childSelectedOption, this.childFilteredData);
     this.setPaginateData();
   }
 

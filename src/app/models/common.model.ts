@@ -34,3 +34,8 @@ export interface IDropdownClick {
   dropdownStr: string,
   countrySelected: string
 }
+
+export interface ITag {
+  label: string;
+  group: string;
+}

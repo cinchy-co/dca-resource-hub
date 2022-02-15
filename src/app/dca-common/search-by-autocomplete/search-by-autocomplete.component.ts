@@ -23,6 +23,7 @@ import {animate, style, transition, trigger} from "@angular/animations";
 export class SearchByAutocompleteComponent implements OnInit {
   @Input() searchByOptions: IOption[];
   @Input() resetOnChange = false;
+  @Input() hideSearchByOptions = false;
   @Input() set allDataForOptions(data: any) {
     if (this.resetOnChange) {
       this.resetComponent();
@@ -126,9 +127,11 @@ export class SearchByAutocompleteComponent implements OnInit {
 
   private resetComponent() {
     this.autoSearchVal = '';
-    this.selectedSearchBy = {} as IOption;
-    this.selectedOption = {} as IOption;
     this.dropdownOptionStr = '';
+    if (!this.hideSearchByOptions) {
+      this.selectedSearchBy = {} as IOption;
+      this.selectedOption = {} as IOption;
+    }
   }
 
 }
