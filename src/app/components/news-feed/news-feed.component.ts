@@ -22,14 +22,13 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     sortOrder = 'Descending';
     searchByForTag: IOption = {name: 'Tags', code: 'Tags'};
     private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+    searchVal: string;
 
     constructor(private appStateService: AppStateService) {
     }
 
     ngOnInit(): void {
-        this.newsFeed = this.newsFeed.map((item: any) => {
-            return {...item, tags: item['Tags'] ? item['Tags'].split(',') : []}
-        })
+        this.newsFeed = this.newsFeed.map((item: any) => ({...item, tags: item['Tags'] ? item['Tags'].split(',') : []}));
         this.filteredNewsData = [...this.newsFeed];
         this.childFilteredData = [...this.newsFeed];
         this.setPaginateData();
@@ -37,8 +36,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     }
 
     subscribeToStateChanges() {
-        this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$))
-            .subscribe(({dropdownStr, countrySelected}) => {
+        this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$)).subscribe(({dropdownStr, countrySelected}) => {
                 if (countrySelected) {
                     this.selectedType = '';
                     this.tags = [...this.tags]; // so that it resets in child search
@@ -46,9 +44,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
                 }
             });
 
-        this.appStateService.getReset().pipe(takeUntil(this.destroyed$)).subscribe(isReset => {
-            this.reset();
-        });
+        this.appStateService.getReset().pipe(takeUntil(this.destroyed$)).subscribe(isReset => {this.reset();});
     }
 
     filterNews(currentSearchByKeyVal: string, keyOverride?: string, childFilteredData?: any, option?: IOption) {
@@ -56,7 +52,9 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
         let key = keyOverride ? keyOverride : this.selectedOption.code;
         key = option ? option.code : key;
         this.filteredNewsData = dataToFilterFrom.filter((newsItem: any) => {
-            return newsItem[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim());
+            const ifSearchStr = this.searchVal && key !== 'Tags' ? newsItem['Tags']?.toLowerCase()?.includes(this.searchVal.toLowerCase().trim()) : true;
+            const ifType = this.selectedType && key !== 'Type' ? newsItem['Type']?.toLowerCase()?.includes(this.selectedType.toLowerCase().trim()) : true;
+            return newsItem[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim()) && ifSearchStr && ifType;
         });
         this.childFilteredData = keyOverride || option || (!this.filteredNewsData?.length && option) ? this.childFilteredData : this.filteredNewsData;
         this.setPaginateData();
@@ -99,15 +97,17 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     }
 
     itemSelectedInDropdown(data: IDropdownClick) {
+        this.searchVal = data.dropdownStr;
         this.filterNews(data.dropdownStr, '', this.childFilteredData, this.searchByForTag);
     }
 
     resetChild() {
-        this.filteredNewsData = this.childFilteredData;
-        this.setPaginateData();
+        this.searchVal = '';
+        this.radioOptionClicked();
     }
 
     itemSearched(searchVal: string) {
+        this.searchVal = searchVal;
         this.filterNews(searchVal, '', this.childFilteredData, this.searchByForTag);
         this.setPaginateData();
     }

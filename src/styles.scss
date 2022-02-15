@@ -54,13 +54,14 @@ app-home, app-pipps {
 }
 
 // Override styles
+.inherit-width {
+  .p-autocomplete {
+    width: 35vw;
 
-.p-autocomplete {
-  width: 35vw;
-
-  @media (max-width: 697px) {
-    width: 80vw;
-    margin-top: 10px;
+    @media (max-width: 697px) {
+      width: 80vw;
+      margin-top: 10px;
+    }
   }
 }
 

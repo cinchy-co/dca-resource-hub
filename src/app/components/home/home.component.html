@@ -11,7 +11,7 @@
   </div>
 
   <div class="p-4 relative">
-    <app-search-by-autocomplete *ngIf="legislationData?.length" [searchByOptions]="searchByOptions"
+    <app-search-by-autocomplete *ngIf="legislationData?.length" [searchByOptions]="searchByOptions" class="inherit-width"
                                 [allDataForOptions]="legislationData"
                                 [preSelectedSearchBy]="searchByOptions[0]"
                                 (optionClicked)="itemSelectedInDropdown($event)"

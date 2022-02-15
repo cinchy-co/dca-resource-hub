@@ -1,5 +1,5 @@
 <div class="flex flex-row items-center justify-start gap-4 pl-4">
-  <app-search-by-autocomplete *ngIf="isCountrySelected && childFilteredData?.length && selectedOption"
+  <app-search-by-autocomplete *ngIf="isCountrySelected && childFilteredData?.length && selectedOption" class="inherit-width "
                               [searchByOptions]="searchByOptions"
                               [allDataForOptions]="childFilteredData"
                               [resetOnChange]="true"
