@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {IOption} from "../../models/common.model";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {AppStateService} from "../../services/app-state.service";
@@ -24,8 +24,12 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   constructor(private appStateService: AppStateService) { }
 
   ngOnInit(): void {
+    this.newsFeed = this.newsFeed.map((item : any) => {
+      return {...item, tags: item['Tags'] ? item['Tags'].split(',') : []}
+    })
     this.filteredNewsData = [...this.newsFeed];
     this.childFilteredData = [...this.newsFeed];
+    console.log('ppp DATA', this.newsFeed)
     this.setNewsPaginateData();
     this.subscribeToStateChanges();
   }
