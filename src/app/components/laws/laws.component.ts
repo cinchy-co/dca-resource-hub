@@ -56,7 +56,7 @@ export class LawsComponent implements OnInit, OnDestroy {
 
   setKeys() {
     this.allKeys = (Object.keys(this.legislationData[0]) as (keyof ILegislation)[]).filter(
-      keyItem => keyItem !== 'Summary' && keyItem !== 'Law' && keyItem !== 'Law Url' && keyItem !== 'Combined Country'
+      keyItem => keyItem !== 'Summary' && keyItem !== 'Law' && keyItem !== 'Law Url' && keyItem !== 'Combine Country'
     );
   }
 

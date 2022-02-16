@@ -12,7 +12,7 @@ export interface ILegislation {
   'Enforcers': string;
   'City': string;
   'Country': string;
-  'Combined Country': string;
+  'Combine Country': string;
   'Region': string;
   'Supra': string;
   'Law Url': string;

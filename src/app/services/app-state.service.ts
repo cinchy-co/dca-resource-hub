@@ -60,7 +60,7 @@ export class AppStateService {
 
   globalSearchItem(item: any, currentSearchByKeyVal: string) {
     return item['Country']?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim())
-      || item['Combined Country']?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim())
+      || item['Combine Country']?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim())
       || item['Region']?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim())
       || currentSearchByKeyVal?.toLowerCase()?.includes(item['Region']?.toLowerCase().trim());
   }

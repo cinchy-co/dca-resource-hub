@@ -2,7 +2,7 @@ export const SearchBy = [
   {name: 'Country', code: 'Country'}
 ];
 
-export const MappedCombinedCountryKey = 'Combined Country'
+export const MappedCombinedCountryKey = 'Combine Country'
 
 export const RegionSearch = {name: 'Region', code: 'Region'};
 
