@@ -80,6 +80,14 @@
           <a role="link" [href]="item['URL']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
             {{item['Type'] === 'News Story' ? 'Full story' : 'Podcast'}}
           </a>
+
+          <a role="link" *ngIf="item['Type'] === 'Podcast'" [href]="item['Episode']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
+            Episode
+          </a>
+
+          <a role="link" *ngIf="item['Edit']" [href]="item['Edit']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
+            Edit
+          </a>
         </div>
       </div>
     </p-card>

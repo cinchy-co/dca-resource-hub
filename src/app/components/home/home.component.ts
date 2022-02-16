@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit {
   dropdownOptionStr: string; //
   countrySelected: string;//
   tags: ITag[];
+  showError: boolean
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService, private router: Router) {
   }
@@ -45,8 +46,14 @@ export class HomeComponent implements OnInit {
   }
 
   async getNewsAndPodcasts() {
-    this.tags = await this.apiCallsService.getTags().toPromise();
-    this.newsAndPodcastsData = await this.apiCallsService.getNewsFeedAndPodcasts().toPromise();
+    try {
+      this.tags = await this.apiCallsService.getTags().toPromise();
+      this.newsAndPodcastsData = await this.apiCallsService.getNewsFeedAndPodcasts().toPromise();
+      this.showError = false;
+    } catch (e) {
+      console.log('N ERROR')
+      this.showError = true;
+    }
   }
 
   searchBySelected(option: IOption) {

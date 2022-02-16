@@ -23,7 +23,9 @@
                                 (resetAll)="reset()">
     </app-search-by-autocomplete>
 
-    <p-progressSpinner class="item-center-n-relative" *ngIf="!(legislationData?.length && newsAndPodcastsData?.length)"></p-progressSpinner>
+    <p-progressSpinner class="item-center-n-relative"
+                       *ngIf="!(legislationData?.length && (newsAndPodcastsData?.length || showError))">
+    </p-progressSpinner>
   </div>
 
 
