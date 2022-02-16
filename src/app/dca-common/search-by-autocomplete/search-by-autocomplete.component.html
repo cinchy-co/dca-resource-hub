@@ -1,4 +1,4 @@
-<div class="flex flex-row flex-wrap flex-wrap items-center md:flex-col lg:flex-row gap-2" [ngClass]="{' justify-evenly ' : !hideSearchByOptions}">
+<div class="flex flex-row flex-wrap flex-wrap items-center md:flex-col lg:flex-row gap-2">
   <div class="flex flex-col md:flex-row lg:flex-row gap-1 relative" *ngIf="!hideSearchByOptions">
     <p-selectButton [options]="searchByOptions" [(ngModel)]="selectedSearchBy" optionLabel="name"
                     (onOptionClick)="searchByClicked($event)">
@@ -22,7 +22,7 @@
       (onClear)="reset()"
       (onKeyUp)="search($event)"
       [dropdown]="true"
-      [placeholder]="'Search for' + ' ' + placeholderForSearch">
+      [placeholder]="placeholderOverride ? placeholderOverride : 'Search by' + ' ' + placeholderForSearch">
     </p-autoComplete>
   </div>
 </div>

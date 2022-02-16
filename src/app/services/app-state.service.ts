@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
 import {IDropdownClick, IOption} from "../models/common.model";
+import {MappedCombinedCountryKey} from "../models/general-values.model";
 
 @Injectable({
   providedIn: 'root'
@@ -37,15 +38,30 @@ export class AppStateService {
     return this.dropdownOptionClicked$.asObservable();
   }
 
-  getUniqueOptions(dataForOptions: any, selectedOption: IOption) {
+  getUniqueOptions(dataForOptions: any, selectedOption: IOption, addAnotherSet?: boolean) {
     const key = selectedOption.code;
-    const uniqueOptions = [...new Set(dataForOptions.map((item: any) => {
+    let anotherSetUniqueOptions: any[] = [];
+    let uniqueOptions = [...new Set(dataForOptions.map((item: any) => {
       return item[key];
     }))];
+    if (addAnotherSet) {
+      const keyForAnotherSet = MappedCombinedCountryKey;
+      anotherSetUniqueOptions = [...new Set(dataForOptions.map((item: any) => {
+        return item[keyForAnotherSet];
+      }))];
+    }
+    uniqueOptions = addAnotherSet ? [...uniqueOptions, ...anotherSetUniqueOptions] : uniqueOptions;
     return (uniqueOptions.filter(item => item)).map(optionItem => {
       const newDropdownList: any = {};
       newDropdownList[key] = optionItem;
       return newDropdownList;
     });
+  }
+
+  globalSearchItem(item: any, currentSearchByKeyVal: string) {
+    return item['Country']?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim())
+      || item['Combined Country']?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim())
+      || item['Region']?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim())
+      || currentSearchByKeyVal?.toLowerCase()?.includes(item['Region']?.toLowerCase().trim());
   }
 }

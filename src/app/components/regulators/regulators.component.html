@@ -6,7 +6,8 @@
         <div class="pl-4">
           <div class="flex flex-row justify-between items-center">
             <a rel="noopener" role="link" [href]="item['Entity Url']" target="_blank"
-               class="pt-2 text-lg font-bold text-sky-500">{{item.Entity}} <i class="pi pi-external-link text-xs"></i></a>
+               class="pt-2 text-lg font-bold text-cyan-700">{{item.Entity}}
+            </a>
           </div>
           <p class="text-sm-12 text-gray-700 font-semibold">{{item['Foreign Name']}}</p>
           <p class="text-sm-12 text-gray-700">{{item['Short Name']}}</p>
@@ -26,13 +27,13 @@
       <div class="pl-4 pb-2">
         <p class="text-sm font-semibold">Quick links</p>
         <div class="flex flex-row flex-wrap gap-3">
-          <a role="link" [href]="item['Twitter']" target="_blank" class="pt-0 text-sm-12 text-cyan-700">
+          <a role="link" [href]="item['Twitter']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
             Twitter
           <!--  <i class="pi pi-twitter text-xs"></i>-->
           </a>
 
-          <a role="link" [href]="item['Entity Url']" target="_blank" class="pt-0 text-sm-12 text-cyan-700">
-            Regulator
+          <a role="link" [href]="item['Entity Url']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
+            Website
           </a>
         </div>
       </div>

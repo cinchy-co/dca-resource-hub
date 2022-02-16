@@ -37,7 +37,6 @@ export class LawsComponent implements OnInit, OnDestroy {
   subscribeToStateChanges() {
     this.appStateService.getSearchEnteredVal().pipe(takeUntil(this.destroyed$)).subscribe(searchVal => {
       this.filterLegislation(searchVal);
-      this.setPaginateData();
     });
 
     this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$)).subscribe(({dropdownStr, countrySelected}) => {
@@ -57,15 +56,17 @@ export class LawsComponent implements OnInit, OnDestroy {
 
   setKeys() {
     this.allKeys = (Object.keys(this.legislationData[0]) as (keyof ILegislation)[]).filter(
-      keyItem => keyItem !== 'Summary' && keyItem !== 'Law' && keyItem !== 'Law Url'
+      keyItem => keyItem !== 'Summary' && keyItem !== 'Law' && keyItem !== 'Law Url' && keyItem !== 'Combined Country'
     );
   }
 
   filterLegislation(currentSearchByKeyVal: string, option?: IOption, filteredData?: ILegislation[]) {
     const dataToFilterFrom = filteredData ? [...filteredData] : this.legislationData;
     const key = option ? (option.code as keyof ILegislation) : this.selectedOption.code as keyof ILegislation;
+    const isGlobal = !option?.code;
     this.filteredLegislationData = dataToFilterFrom.filter(legislation => {
-      return legislation[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim());
+      return isGlobal ? this.appStateService.globalSearchItem(legislation, currentSearchByKeyVal)
+        : legislation[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim());
     });
     this.childFilteredData = option ? this.childFilteredData : this.filteredLegislationData;
     this.setPaginateData();

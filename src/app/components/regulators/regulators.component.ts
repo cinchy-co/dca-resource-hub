@@ -30,11 +30,12 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   }
 
   subscribeToStateChanges() {
-    this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$))
-      .subscribe(({dropdownStr, countrySelected}) => {
-      if (countrySelected) {
-        this.filterRegulator(dropdownStr);
-      }
+    this.appStateService.getSearchEnteredVal().pipe(takeUntil(this.destroyed$)).subscribe(searchVal => {
+      this.filterRegulator(searchVal);
+    });
+
+    this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$)).subscribe(({dropdownStr, countrySelected}) => {
+        this.filterRegulator(dropdownStr); // Only ONE OPTIONS IS PRESENT AT GLOBAL Search (COuntry and combine country and region)
     });
 
     this.appStateService.getReset().pipe(takeUntil(this.destroyed$)).subscribe(isReset => {
@@ -50,9 +51,9 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   }
 
   filterRegulator(currentSearchByKeyVal: string) {
-    const key = this.selectedOption.code;
+    const key = this.selectedOption.code; // NOt used as it is static now and only 'Country' and 'Combined Country' search can happen at global
     this.filteredRegulatorData = this.regulatorData.filter((regulator: any) => {
-      return regulator[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim());
+      return this.appStateService.globalSearchItem(regulator, currentSearchByKeyVal);
     //  return regulator[key]?.toLowerCase()?.indexOf(currentSearchByKeyVal.toLowerCase()) == 0;
     });
     this.setRegulatorPaginateData();

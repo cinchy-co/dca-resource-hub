@@ -1,5 +1,5 @@
 <div class="flex flex-row items-center justify-start gap-4 pl-4">
-  <app-search-by-autocomplete *ngIf="isCountrySelected && childFilteredData?.length && selectedOption" class="inherit-width "
+  <app-search-by-autocomplete *ngIf="childFilteredData?.length && selectedOption" class="inherit-width "
                               [searchByOptions]="searchByOptions"
                               [allDataForOptions]="childFilteredData"
                               [resetOnChange]="true"
@@ -18,8 +18,7 @@
         <div class="pl-4">
           <div class="flex flex-row justify-between items-center">
             <a rel="noopener" role="link" [href]="item['Law Url']" target="_blank"
-               class="pt-2 text-lg font-bold text-sky-500">{{item.Law}}
-              <i class="pi pi-external-link text-xs"></i>
+               class="pt-2 text-lg font-bold text-cyan-700">{{item.Law}}
             </a>
           </div>
           <p class="text-sm-12 text-gray-700 font-semibold">{{item['Summary']}}</p>
@@ -36,6 +35,15 @@
                   [innerHTML]="key === 'Passed' ? (item[key] | date: 'yyyy') : item[key] || '-'">
           </span>
           </ng-container>
+        </div>
+      </div>
+
+      <div class="pl-4 pb-2">
+        <p class="text-sm font-semibold">Quick links</p>
+        <div class="flex flex-row flex-wrap gap-3">
+          <a role="link" [href]="item['Law Url']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
+            Legislation
+          </a>
         </div>
       </div>
     </p-card>

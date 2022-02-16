@@ -13,10 +13,11 @@
                    (onClick)="radioOptionClicked()"></p-radioButton>
     <label for="podcasts">Podcasts</label>
 
-    <div class="ml-2 w-[250px]">
+    <div class="ml-2 mb-2 w-[300px]">
       <app-search-by-autocomplete
         [searchByOptions]="[searchByForTag]" [resetOnChange]="true" [allDataForOptions]="tags"
         [hideSearchByOptions]="true" [preSelectedSearchBy]="searchByForTag"
+        [placeholderOverride]="'Search by subject area'"
         (optionClicked)="itemSelectedInDropdown($event)"
         (resetAll)="resetChild()"
         (itemSearched)="itemSearched($event)">
@@ -41,7 +42,7 @@
         <div class="pl-4 pr-1">
           <div class="flex flex-row justify-between items-center">
             <a rel="noopener" role="link" [href]="item['URL'] ? item['URL'] : 'javascript:void(0);'" target="_blank"
-               class="pt-2 text-lg font-bold text-sky-500" style="height: 70px;" ellipsis
+               class="pt-2 text-lg font-bold text-cyan-700" style="height: 70px;" ellipsis
                [title]="item.Headline">{{item.Headline}}
             </a>
           </div>
@@ -76,8 +77,8 @@
       <div class="pl-4 pb-2">
         <p class="text-sm font-semibold">Quick links</p>
         <div class="flex flex-row flex-wrap gap-3">
-          <a role="link" [href]="item['URL']" target="_blank" class="pt-0 text-sm-12 text-cyan-700">
-            {{item['Type'] === 'News Story' ? 'News' : 'Podcast'}}
+          <a role="link" [href]="item['URL']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
+            {{item['Type'] === 'News Story' ? 'Full story' : 'Podcast'}}
           </a>
         </div>
       </div>
