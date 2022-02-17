@@ -2,16 +2,18 @@
   <div class="banner">
     <div class="banner__content">
       <div class="banner__background">
-        <img class="banner__background" src="assets/background.png">
+        <img class="banner__background" alt="Node Zero Image" src="assets/background.png">
       </div>
       <div class="banner-content">
         <div class="banner-content__inner">
           <div class="banner-content--text">
             <h1 class="mb-6" [innerHTML]="bannerDetails['Header']"></h1>
             <h4 [innerHTML]="bannerDetails['HeaderDesc']"></h4>
+            <h5 class="underline text-cyan-200"><a [href]="bannerDetails['HeaderLinkLabel']">{{bannerDetails['HeaderLinkLabel']}}</a> </h5>
           </div>
           <div class="video-plyr banner-content--video" id="player">
             <iframe
+              title="Node Zero video"
               src="https://www.youtube.com/embed/bTqVqk7FSmY?origin=https://plyr.io&amp;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
               allowfullscreen
               allowtransparency

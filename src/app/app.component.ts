@@ -1,7 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {ApiCallsService} from "./services/api-calls.service";
-import {IAvatar} from "./models/common.model";
-import {AppStateService} from "./services/app-state.service";
 
 @Component({
   selector: 'app-root',
