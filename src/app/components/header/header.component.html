@@ -1,4 +1,4 @@
-<section class="dca-header fixed w-full bg-gray-900">
+<section class="dca-header fixed w-full">
   <div class="relative">
     <div class="dca-header--container flex flex-row justify-between items-center">
       <img class="dca-logo cursor-pointer" src="assets/LogoWhite.png" alt="logo" (click)="goToHome()">
@@ -6,7 +6,7 @@
 
 
       <div class="pr-5">
-        <app-avatars [avatars]="avatars" [size]="'large'"></app-avatars>
+        <p-button icon="pi pi-bell" class="btn-color p-button-raised" label="LOGIN" (click)="login()"></p-button>
       </div>
     </div>
   </div>

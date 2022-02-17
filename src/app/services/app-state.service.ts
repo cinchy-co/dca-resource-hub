@@ -10,6 +10,7 @@ export class AppStateService {
   search$: Subject<string> = new Subject<string>();
   reset$: Subject<boolean> = new Subject<boolean>();
   dropdownOptionClicked$: BehaviorSubject<IDropdownClick> = new BehaviorSubject<IDropdownClick>({dropdownStr: '', countrySelected: ''});
+  avatars: any;
 
   constructor() {
   }

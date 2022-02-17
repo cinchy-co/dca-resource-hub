@@ -22,18 +22,17 @@ export class HomeComponent implements OnInit {
   dropdownOptionStr: string; //
   countrySelected: string;//
   tags: ITag[];
+  bannerDetails: any;
 
-  constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService, private router: Router) {
+  constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService) {
   }
 
-  goToPipps() {
-    this.router.navigate([`/ppips`]);
-  }
-
-  ngOnInit(): void {
+  async ngOnInit() {
     this.getLegislationData();
     this.getRegulatorData();
     this.getNewsAndPodcasts();
+    this.getBannerDetails();
+    this.avatars = await this.apiCallsService.getDataStewards().toPromise();
   }
 
   async getLegislationData() {
@@ -47,6 +46,10 @@ export class HomeComponent implements OnInit {
   async getNewsAndPodcasts() {
     this.tags = await this.apiCallsService.getTags().toPromise();
     this.newsAndPodcastsData = await this.apiCallsService.getNewsFeedAndPodcasts().toPromise();
+  }
+
+  async getBannerDetails() {
+    this.bannerDetails = await this.apiCallsService.getHeaderBannerDetails().toPromise();
   }
 
   searchBySelected(option: IOption) {

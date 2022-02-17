@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import * as Plyr from 'plyr';
 
 @Component({
@@ -7,6 +7,7 @@ import * as Plyr from 'plyr';
   styleUrls: ['./video-banner.component.scss']
 })
 export class VideoBannerComponent implements OnInit, AfterViewInit {
+  @Input() bannerDetails: any;
   youtubeSources: Plyr.Source[] = [
     {
       src: 'https://youtube.com/watch?v=bTqVqk7FSmY',
@@ -21,6 +22,10 @@ export class VideoBannerComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
    // const FaIconComponent = (await import('@fortawesome/angular-fontawesome')).FaIconComponent
+
+  }
+
+  joinNow() {
 
   }
 

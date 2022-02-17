@@ -82,14 +82,15 @@ app-avatars {
   }
 }
 
-p-button {
+p-button.btn-color {
   .p-button {
-    background: rgb(132 204 22);
-    border: rgb(132 204 22);
+    background-color: #4A0CDA;
+    border: #4A0CDA;
 
     &:enabled:hover {
-      background: rgb(163 230 53);
-      color: black;
+      background-color: #4A0CDA;
+      opacity: 0.8;
+      color: white;
     }
   }
 }
@@ -131,6 +132,19 @@ p-button {
 
     .pi {
       font-size: 0.7rem;
+    }
+  }
+}
+
+app-avatars {
+  .p-avatar.p-avatar-lg {
+    width: 7rem;
+    height: 7rem;
+    font-size: 1.5rem;
+
+    @media (max-width: 992px) {
+      width: 5rem;
+      height: 5rem;
     }
   }
 }

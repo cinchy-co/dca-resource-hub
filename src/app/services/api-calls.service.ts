@@ -10,6 +10,11 @@ export class ApiCallsService {
   constructor(private http: HttpClient) {
   }
 
+  getHeaderBannerDetails(): Observable<any> {
+    const url = 'https://datacollaboration.net/API/Node%20Zero%20Website/Get%20Node%20Zero%20Website%20Details'
+    return this.getResponse(url);
+  }
+
   getLegislation(): Observable<any> {
     const url = 'https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Privacy%20Legislation%20Grid'
     return this.getResponse(url);

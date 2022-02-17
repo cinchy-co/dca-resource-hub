@@ -1,6 +1,26 @@
-<ng-container *ngFor="let avatar of avatars">
-  <p-avatar class="mr-1 mt-2 cursor-pointer" [title]="avatar.name" [image]="avatar.image" shape="circle"
-            [size]="size"
-  (click)="avatarClicked(avatar)"></p-avatar>
-</ng-container>
+<section class="flex items-center justify-center">
 
+  <div class="md:w-[80%] lg:w-[80%] sm:w-[80%] w-[100%]">
+    <div class="flex flex-row flex-wrap justify-around p-4 items-center">
+      <div class="mb-3 flex flex-col md:basis-[30%] lg:basis-[40%] sm:basis-[50%] basis-[70%]
+       items-center md:items-start lg:items-start">
+        <p class="text-lg mr-3 mb-3 text-center lg:text-left md:text-left" [innerHTML]="bannerDetails['BannerDesc']">
+        </p>
+        <p-button icon="pi pi-bell" class="p-button-raised btn-color" [label]="bannerDetails['ButtonLabel']" (click)="join()"></p-button>
+      </div>
+
+
+      <div class="basis-[60%] md:basis-[40%] lg:basis-[40%] sm:basis-[60%]">
+          <div class="grid-cols-3 auto-rows-fr grid gap-x-6 gap-y-2">
+            <ng-container *ngFor="let avatar of avatars">
+              <p-avatar class="mt-2 cursor-pointer" [title]="avatar.name" [image]="avatar.image" shape="circle"
+                        [size]="size"
+                        (click)="avatarClicked(avatar)">
+              </p-avatar>
+            </ng-container>
+          </div>
+      </div>
+    </div>
+  </div>
+
+</section>
