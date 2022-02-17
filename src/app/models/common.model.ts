@@ -16,6 +16,7 @@ export interface ILegislation {
   'Region': string;
   'Supra': string;
   'Law Url': string;
+  'Edit': string;
 }
 
 export interface IOption {

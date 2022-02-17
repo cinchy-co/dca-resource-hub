@@ -35,6 +35,10 @@
           <a role="link" [href]="item['Entity Url']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
             Website
           </a>
+
+          <a role="link" *ngIf="item['Edit']" [href]="item['Edit']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
+            Website
+          </a>
         </div>
       </div>
     </p-card>

@@ -46,7 +46,7 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   setRegulatorKeys() {
     this.allKeys = (Object.keys(this.regulatorData[0])).filter(
       keyItem => keyItem !== 'Entity' && keyItem !== 'Short Name' && keyItem !== 'Entity Url'
-      && keyItem !== 'Foreign Name' && keyItem !== 'Twitter' && keyItem !== 'Combine Country'
+      && keyItem !== 'Foreign Name' && keyItem !== 'Twitter' && keyItem !== 'Combine Country' && keyItem !== 'Edit'
     );
   }
 
