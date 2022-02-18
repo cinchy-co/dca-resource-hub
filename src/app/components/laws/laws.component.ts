@@ -1,5 +1,5 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {IDropdownClick, ILegislation, IOption} from "../../models/common.model";
+import {IDropdownClick, ILegislation, IOption, ITag} from "../../models/common.model";
 import {AppStateService} from "../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {PAGE_SIZE, SearchByLaw} from "../../models/general-values.model";
@@ -13,6 +13,7 @@ export class LawsComponent implements OnInit, OnDestroy {
   @Input() legislationData: ILegislation[];
   @Input() selectedOption: IOption;
   @Input() isCountrySelected: boolean;
+  @Input() tags: ITag[];
   childSelectedOption: IOption;
   filteredLegislationData: ILegislation[];
   paginatedLegislationData: ILegislation[];
@@ -27,6 +28,7 @@ export class LawsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.legislationData = this.legislationData.map((item: any) => ({...item, tags: item['Tags'] ? item['Tags'].split(',') : []}));
     this.filteredLegislationData = [...this.legislationData];
     this.childFilteredData = [...this.legislationData];
     this.setPaginateData();
@@ -36,16 +38,21 @@ export class LawsComponent implements OnInit, OnDestroy {
 
   subscribeToStateChanges() {
     this.appStateService.getSearchEnteredVal().pipe(takeUntil(this.destroyed$)).subscribe(searchVal => {
-      this.filterLegislation(searchVal);
+      this.updateValues(searchVal);
     });
 
     this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$)).subscribe(({dropdownStr, countrySelected}) => {
-        this.filterLegislation(dropdownStr);
+        this.updateValues(dropdownStr);
       });
 
     this.appStateService.getReset().pipe(takeUntil(this.destroyed$)).subscribe(isReset => {
       this.reset();
     });
+  }
+
+  updateValues(searchStr: string) {
+   // this.tags = [...this.tags]; // so that it resets in child search
+    this.filterLegislation(searchStr);
   }
 
   setPaginateData() {
@@ -57,7 +64,7 @@ export class LawsComponent implements OnInit, OnDestroy {
   setKeys() {
     this.allKeys = (Object.keys(this.legislationData[0]) as (keyof ILegislation)[]).filter(
       keyItem => keyItem !== 'Summary' && keyItem !== 'Law' && keyItem !== 'Law Url'
-        && keyItem !== 'Combine Country' && keyItem !== 'Edit'
+        && keyItem !== 'Combine Country' && keyItem !== 'Edit' && keyItem !== 'Tags' && keyItem !== 'tags'
     );
   }
 

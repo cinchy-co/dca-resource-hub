@@ -55,7 +55,8 @@
         <ng-template pTemplate="header"><span class="text-cyan-900">Laws</span></ng-template>
         <ng-template pTemplate="content">
           <app-laws [selectedOption]="selectedOption" [legislationData]="legislationData"
-                    [isCountrySelected]="!!countrySelected">
+                    [isCountrySelected]="!!countrySelected"
+                    [tags]="tags">
           </app-laws>
         </ng-template>
       </p-accordionTab>

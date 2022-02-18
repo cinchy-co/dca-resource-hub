@@ -1,7 +1,8 @@
 <div class="flex flex-row items-center justify-start gap-4 pl-4">
-  <app-search-by-autocomplete *ngIf="childFilteredData?.length && selectedOption" class="inherit-width "
+  <app-search-by-autocomplete *ngIf="childFilteredData?.length && tags && selectedOption" class="inherit-width "
                               [searchByOptions]="searchByOptions"
                               [allDataForOptions]="childFilteredData"
+                              [tagsData]="tags"
                               [resetOnChange]="true"
                               (optionClicked)="itemSelectedInDropdown($event)"
                               (searchBySelected)="searchBySelected($event)"
@@ -11,7 +12,7 @@
 
 </div>
 
-<section class="p-4 mt-2 md:grid-cols-2 lg:grid-cols-2 grid-cols-1 auto-rows-fr grid gap-2">
+<section class="p-4 mt-2 md:grid-cols-2 lg:grid-cols-2 grid-cols-1 auto-rows-fr grid gap-2" *ngIf="paginatedLegislationData?.length; else noMessage">
   <div class="mb-3 basis-[49%] mr-2 font-light" *ngFor="let item of paginatedLegislationData">
     <p-card>
       <ng-template pTemplate="header">
@@ -22,6 +23,12 @@
             </a>
           </div>
           <p class="text-sm-12 text-gray-700 font-semibold">{{item['Summary']}}</p>
+        </div>
+
+        <div class="flex flex-row flex-wrap gap-1 pt-1 pl-4 text-sm-12 text-gray-700">
+          <ng-container *ngFor="let tag of item['tags']">
+            <p-chip class="mr-2" [label]="tag"></p-chip>
+          </ng-container>
         </div>
       </ng-template>
 
@@ -53,6 +60,10 @@
     </p-card>
   </div>
 </section>
+
+<ng-template #noMessage>
+  <h1 class="mt-3 pl-4 text-red">No Law for selected search</h1>
+</ng-template>
 
 <p-paginator *ngIf="filteredLegislationData?.length" [rows]="pageSize"
              [totalRecords]="filteredLegislationData.length"

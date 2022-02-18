@@ -17,6 +17,9 @@ export interface ILegislation {
   'Supra': string;
   'Law Url': string;
   'Edit': string;
+  'Tags': string;
+  'Full Citation': string;
+  tags: any;
 }
 
 export interface IOption {

@@ -12,6 +12,12 @@
           <p class="text-sm-12 text-gray-700 font-semibold">{{item['Foreign Name']}}</p>
           <p class="text-sm-12 text-gray-700">{{item['Short Name']}}</p>
         </div>
+
+        <div class="flex flex-row flex-wrap gap-1 pt-1 pl-4 text-sm-12 text-gray-700">
+          <ng-container *ngFor="let tag of item['tags']">
+            <p-chip class="mr-2" [label]="tag"></p-chip>
+          </ng-container>
+        </div>
       </ng-template>
 
       <div class="flex flex-wrap p-2 pl-4 justify-start">

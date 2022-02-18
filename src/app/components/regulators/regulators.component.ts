@@ -23,6 +23,7 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.regulatorData = this.regulatorData.map((item: any) => ({...item, tags: item['Tags'] ? item['Tags'].split(',') : []}));
     this.filteredRegulatorData = [...this.regulatorData];
     this.setRegulatorKeys();
     this.setRegulatorPaginateData();
@@ -47,6 +48,7 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
     this.allKeys = (Object.keys(this.regulatorData[0])).filter(
       keyItem => keyItem !== 'Entity' && keyItem !== 'Short Name' && keyItem !== 'Entity Url'
       && keyItem !== 'Foreign Name' && keyItem !== 'Twitter' && keyItem !== 'Combine Country' && keyItem !== 'Edit'
+        && keyItem !== 'Tags' && keyItem !== 'tags'
     );
   }
 

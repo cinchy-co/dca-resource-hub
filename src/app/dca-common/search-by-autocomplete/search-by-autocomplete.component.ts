@@ -33,6 +33,17 @@ export class SearchByAutocompleteComponent implements OnInit {
     this._allData = data;
   };
 
+  @Input() set tagsData(data: any) {
+    if (this.resetOnChange) {
+      this.resetComponent();
+    }
+    this._tagsData = data;
+  }
+
+  get tagsData() {
+    return this._tagsData
+  }
+
   get allDataForOptions() {
     return this._allData;
   }
@@ -47,6 +58,7 @@ export class SearchByAutocompleteComponent implements OnInit {
   @Output() searchBySelected: EventEmitter<any> = new EventEmitter<any>();
 
   private _allData: any;
+  private _tagsData: any;
   filteredAutoCompleteOptions: any;
   autoCompleteOptions: any;
   selectedSearchBy: IOption;
@@ -67,10 +79,15 @@ export class SearchByAutocompleteComponent implements OnInit {
 
   searchByClicked(optionObj: { option: IOption }) {
     this.selectedOption = optionObj.option;
-    const legislationData = this.getFilteredOptions(this.selectedOption);
     this.placeholderForSearch = this.selectedOption.name;
-    this.autoCompleteOptions = this.appStateService.getUniqueOptions(legislationData, this.selectedOption, this.global);
-    this.filteredAutoCompleteOptions = this.autoCompleteOptions;
+    if (this.selectedOption.code === 'Tags' && this.tagsData) {
+      this.autoCompleteOptions = this.tagsData;
+      this.filteredAutoCompleteOptions = this.tagsData;
+    } else {
+      const legislationData = this.getFilteredOptions(this.selectedOption);
+      this.autoCompleteOptions = this.appStateService.getUniqueOptions(legislationData, this.selectedOption, this.global);
+      this.filteredAutoCompleteOptions = this.autoCompleteOptions;
+    }
     this.searchBySelected.emit(this.selectedOption);
     this.reset();
   }
