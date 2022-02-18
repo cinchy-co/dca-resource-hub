@@ -14,5 +14,5 @@ export const SearchByLaw = [
   {name: 'Law', code: 'Law'},
   {name: 'Sector', code: 'Sector'},
   {name: 'Class', code: 'Class'},
-  {name: 'Tags', code: 'Tags'}
+  {name: 'Subject Area', code: 'Tags'}
 ]
