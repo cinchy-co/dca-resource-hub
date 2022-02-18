@@ -31,7 +31,8 @@
               "src/favicon.png",
               "src/assets",
               "src/sitemap.xml",
-              "src/robots.txt"
+              "src/robots.txt",
+              "src/web.config"
             ],
             "styles": [
               "src/styles.scss",
@@ -106,7 +107,8 @@
               "src/favicon.png",
               "src/assets",
               "src/sitemap.xml",
-              "src/robots.txt"
+              "src/robots.txt",
+              "src/web.config"
             ],
             "styles": [
               "src/styles.scss",
