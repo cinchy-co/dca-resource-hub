@@ -8,7 +8,7 @@ const routes: Routes = [
     component: HomeComponent
   },
   {
-    path: 'ppips',
+    path: 'legislation',
     loadChildren: () => import('./components/pipps/pipps.module').then(m => m.PippsModule),
   }
 ];

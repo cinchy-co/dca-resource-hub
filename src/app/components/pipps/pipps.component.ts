@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {ApiCallsService} from "../../services/api-calls.service";
-import {IPpips} from "./models/ppips.model";
+import {IOption, IPpips, Legislation} from "./models/ppips.model";
 import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
@@ -15,6 +15,9 @@ export class PippsComponent implements OnInit {
   allSections: Map<any, IPpips[]> = new Map();
   selectedId: string;
   currentArticle: IPpips;
+  legislation = Legislation;
+  selectedLegislation: IOption;
+  currentLegislation: string;
 
   constructor(private apiCallService: ApiCallsService, private changeDetectorRef: ChangeDetectorRef, private router: Router,
               private route: ActivatedRoute) {
@@ -24,9 +27,21 @@ export class PippsComponent implements OnInit {
     this.ppipsData = await this.apiCallService.getPpips().toPromise();
     this.createSections();
     this.route.paramMap.subscribe((params: any) => {
-        this.selectedId = params.get('article');
+      this.selectedId = params.get('article');
+      this.currentLegislation = params.get('legislation');
+      if (this.currentLegislation && !this.selectedId) {
+        this.currentArticle = {} as IPpips;
+      }
+
+      if (this.selectedId) {
         this.currentArticle = this.ppipsData.find(article => article.article === this.selectedId) as IPpips;
-      });
+      }
+    });
+  }
+
+  legislationChanged(event: any) {
+    const legislation = event.value;
+    this.router.navigate(['/legislation', {legislation: legislation.code}], {relativeTo: this.route});
   }
 
   createSections() {
@@ -50,7 +65,11 @@ export class PippsComponent implements OnInit {
   }
 
   goToArticle(article: IPpips) {
-    this.router.navigate(['/ppips', {article: article.article}],  { relativeTo: this.route });
+    let urlParams: any = {article: article.article};
+    if (this.currentLegislation) {
+      urlParams = {legislation: this.currentLegislation, ...urlParams};
+    }
+      this.router.navigate(['/legislation', urlParams], {relativeTo: this.route});
   }
 
 }

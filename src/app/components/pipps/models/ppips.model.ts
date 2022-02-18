@@ -6,3 +6,13 @@ export interface IPpips {
   commentary: string;
   id: number;
 }
+
+export interface IOption {
+  name: string;
+  code: string;
+}
+
+export const Legislation: IOption[] = [
+  {name: 'PPIPS', code: 'ppips'}/*,
+  {name: 'GDPR', code: 'gdpr'}*/
+]

@@ -125,7 +125,7 @@ p-button.btn-color {
 
 .pipps-container {
   .p-sidebar .p-sidebar-header + .p-sidebar-content {
-    padding-top: 30px;
+    padding-top: 90px;
     padding-bottom: 150px;
   }
 
@@ -163,5 +163,11 @@ app-avatars {
 app-footer {
   fa-icon {
     font-size: 28px;
+  }
+}
+
+.pipps-container {
+  .p-dropdown {
+    width: 100%;
   }
 }

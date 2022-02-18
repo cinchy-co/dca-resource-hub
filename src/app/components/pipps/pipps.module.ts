@@ -5,6 +5,10 @@ import {RouterModule} from "@angular/router";
 import {DcaCommonModule} from "../../dca-common/dca-common.module";
 import {SidebarModule} from "primeng/sidebar";
 import {PanelModule} from "primeng/panel";
+import {DropdownModule} from 'primeng/dropdown';
+import {FormsModule} from "@angular/forms";
+import {CardModule} from "primeng/card";
+import {DividerModule} from "primeng/divider";
 
 const routes = [
   {
@@ -13,6 +17,10 @@ const routes = [
   },
   {
     path: ':article',
+    component: PippsComponent,
+  },
+  {
+    path: ':legislation',
     component: PippsComponent,
   },
 ];
@@ -26,7 +34,11 @@ const routes = [
     RouterModule.forChild(routes),
     DcaCommonModule,
     SidebarModule,
-    PanelModule
+    PanelModule,
+    DropdownModule,
+    FormsModule,
+    CardModule,
+    DividerModule
   ]
 })
 export class PippsModule {

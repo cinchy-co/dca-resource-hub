@@ -1,34 +1,70 @@
-<div class="pipps-container flex flex-row" #ppips>
-  <p-sidebar *ngIf="ppipsData" [(visible)]="display" [modal]="false" [style]="{width:'400px'}">
-    <div class="">
-      <h1 class="w-full text-center bg-slate-200 p-2 cursor-pointer">PPIPS</h1>
+<div class="pipps-container flex flex-col" #ppips>
 
-      <div class="w-full">
-        <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
-          <p-panel [toggleable]="true" [collapsed]="i !== 0">
+  <div class="banner fixed w-full">
+    <div class="banner__content">
+      <div class="banner__background">
+        <img class="banner__background" alt="Node Zero Image" src="assets/background.png">
+      </div>
 
-            <ng-template pTemplate="header">
-              <div class="flex flex-col">
-                <p class="text-xs font-light">{{section.key}}</p>
-                <p class="text-xs font-semibold">{{getCategory(section)}}</p>
-              </div>
-            </ng-template>
-
-            <div class="pl-4">
-              <div class="border-solid border-b p-1 cursor-pointer" *ngFor="let item of section.value">
-                <p class="text-sm-12 font-light text-blue-900" (click)="goToArticle(item)">Article {{item.article}}</p>
-              </div>
-            </div>
-          </p-panel>
-        </ng-container>
+      <div class="banner-content">
+        <div class="banner-content__inner">
+          <div class="banner-content--text">
+            <h1 class="text-2xl font-bold">PRIVACY LEGISLATION</h1>
+          </div>
+        </div>
       </div>
     </div>
-
-  </p-sidebar>
-
-  <div class="ml-[400px] pl-4">ACTUAL PAGE
-  <div *ngIf="currentArticle">
-    {{currentArticle.details}}
   </div>
+
+ <!-- <div class="pipps-hero bg-indigo-900 text-white h-[50px] fixed w-full">
+    <div class="relative flex items-center justify-center">
+      <h1 class="text-lg font-bold">PRIVACY LEGISLATION</h1>
+    </div>
+  </div>-->
+
+  <div class="pipps-container-content flex flex-row">
+    <p-sidebar *ngIf="ppipsData" [(visible)]="display" [modal]="false" [style]="{width:'400px'}">
+      <div class="w-full">
+        <p-dropdown class="w-full text-center p-2"
+                    [options]="legislation" [(ngModel)]="selectedLegislation" optionLabel="name"
+                    (onChange)="legislationChanged($event)"></p-dropdown>
+
+        <div class="w-full">
+          <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
+            <p-panel [toggleable]="true" [collapsed]="i !== 0">
+
+              <ng-template pTemplate="header">
+                <div class="flex flex-col">
+                  <p class="text-xs font-light">{{section.key}}</p>
+                  <p class="text-xs font-semibold">{{getCategory(section)}}</p>
+                </div>
+              </ng-template>
+
+              <div class="pl-4">
+                <div class="border-solid border-b p-1 cursor-pointer" *ngFor="let item of section.value">
+                  <p class="text-sm-12 font-light text-blue-900" (click)="goToArticle(item)">
+                    Article {{item.article}}</p>
+                </div>
+              </div>
+            </p-panel>
+          </ng-container>
+        </div>
+      </div>
+
+    </p-sidebar>
+
+    <div class="ml-[400px] mr-3 pl-4 pb-8 w-full mt-4">
+      <div *ngIf="currentArticle" class="w-[80%] m-auto">
+        <p-card class="">
+          <div class="p-5 w-full">
+            <h1 class="text-3xl text-center font-bold">Article: {{currentArticle.article}}</h1>
+            <p-divider></p-divider>
+            <div class="mt-8 pl-2">
+              <p>{{currentArticle.details}}</p>
+            </div>
+          </div>
+        </p-card>
+      </div>
+    </div>
   </div>
 </div>
