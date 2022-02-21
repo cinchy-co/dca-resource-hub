@@ -25,6 +25,7 @@ export class SearchByAutocompleteComponent implements OnInit {
   @Input() resetOnChange = false;
   @Input() global = false;
   @Input() hideSearchByOptions = false;
+  @Input() showSearchButton = false;
   @Input() placeholderOverride: string;
   @Input() set allDataForOptions(data: any) {
     if (this.resetOnChange) {
@@ -133,8 +134,8 @@ export class SearchByAutocompleteComponent implements OnInit {
     }
   }
 
-  search(event: any) {
-    if (event.code === 'Enter' || event.keycode === '13') {
+  search(event: any, isSearchClicked?:boolean) {
+    if (event.code === 'Enter' || event.keyCode == 13 || isSearchClicked) {
       this.itemSearched.emit(this.autoSearchVal);
     }
   }

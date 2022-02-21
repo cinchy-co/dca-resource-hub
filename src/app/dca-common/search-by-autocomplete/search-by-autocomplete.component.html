@@ -14,7 +14,8 @@
     </div>
   </div>
 
-  <div *ngIf="selectedSearchBy?.code && autoCompleteOptions?.length" [@fadeSlideInOut] class="flex-col mt-2 lg:mt-0 flex">
+  <div *ngIf="selectedSearchBy?.code && autoCompleteOptions?.length" [@fadeSlideInOut]
+       class="p-2 flex-row mt-2 lg:mt-0 flex gap-3 items-center">
     <p-autoComplete
       [(ngModel)]="autoSearchVal" [suggestions]="filteredAutoCompleteOptions"
       (completeMethod)="filterAutoCompleteOptions($event)" [field]="selectedOption.code"
@@ -25,5 +26,19 @@
       type="search"
       [placeholder]="placeholderOverride ? placeholderOverride : 'Search by' + ' ' + placeholderForSearch">
     </p-autoComplete>
+
+    <div class="mt-[10px] sm:mt-[0px] md:mt-[0px] lg:mt-[0px]" *ngIf="showSearchButton">
+      <div class="hidden sm:block md:block lg:block">
+        <button class="w-[100%]" pButton type="button" icon="pi pi-search" iconPos="right" label="Search"
+                (click)="search($event, true)">
+        </button>
+      </div>
+
+      <div class="block sm:hidden lg:hidden md:hidden">
+        <button class="w-[100%]" pButton type="button" icon="pi pi-search" iconPos="right" label=""
+                (click)="search($event, true)">
+        </button>
+      </div>
+    </div>
   </div>
 </div>

@@ -4,6 +4,7 @@ import { SearchByAutocompleteComponent } from './search-by-autocomplete/search-b
 import {AutoCompleteModule} from "primeng/autocomplete";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SelectButtonModule} from "primeng/selectbutton";
+import {ButtonModule} from "primeng/button";
 
 
 
@@ -11,13 +12,14 @@ import {SelectButtonModule} from "primeng/selectbutton";
   declarations: [
     SearchByAutocompleteComponent
   ],
-  imports: [
-    CommonModule,
-    AutoCompleteModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SelectButtonModule
-  ],
+    imports: [
+        CommonModule,
+        AutoCompleteModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SelectButtonModule,
+        ButtonModule
+    ],
   exports: [
     SearchByAutocompleteComponent
   ]
