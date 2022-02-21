@@ -134,7 +134,7 @@ export class SearchByAutocompleteComponent implements OnInit {
   }
 
   search(event: any) {
-    if (event.code === 'Enter') {
+    if (event.code === 'Enter' || event.keycode === '13') {
       this.itemSearched.emit(this.autoSearchVal);
     }
   }
