@@ -65,6 +65,10 @@ app-pipps {
 }
 
 // Override styles
+p-autocomplete, .p-autocomplete {
+  width: 100%;
+}
+
 .inherit-width {
   .p-autocomplete {
     width: 35vw;
