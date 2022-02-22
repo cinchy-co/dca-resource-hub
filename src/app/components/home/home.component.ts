@@ -50,7 +50,6 @@ export class HomeComponent implements OnInit {
       this.newsAndPodcastsData = await this.apiCallsService.getNewsFeedAndPodcasts().toPromise();
       this.showError = false;
     } catch (e) {
-      console.log('N ERROR')
       this.showError = true;
     }
   }

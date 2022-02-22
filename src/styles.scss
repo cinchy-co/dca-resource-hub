@@ -104,6 +104,19 @@ p-button.btn-color {
       color: white;
     }
   }
+
+  &-green{
+    .p-button {
+      background-color: #00b529;
+      border: #00b529;
+
+      &:enabled:hover {
+        background-color: #00b529;
+        opacity: 0.8;
+        color: white;
+      }
+    }
+  }
 }
 
 .p-accordion-toggle-icon {

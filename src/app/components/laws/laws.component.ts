@@ -1,8 +1,10 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {IDropdownClick, ILegislation, IOption, ITag} from "../../models/common.model";
 import {AppStateService} from "../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {PAGE_SIZE, SearchByLaw} from "../../models/general-values.model";
+import {isPlatformBrowser} from "@angular/common";
+import {WindowRefService} from "../../services/window-ref.service";
 
 @Component({
   selector: 'app-laws',
@@ -24,7 +26,8 @@ export class LawsComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   childFilteredData: ILegislation[];
 
-  constructor(private appStateService: AppStateService) {
+  constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
+              private windowRef: WindowRefService) {
   }
 
   ngOnInit(): void {
@@ -83,6 +86,7 @@ export class LawsComponent implements OnInit, OnDestroy {
 
   reset() {
     this.filteredLegislationData = [...this.legislationData];
+    this.childFilteredData = [...this.legislationData];
     this.setPaginateData();
   }
 
@@ -107,6 +111,13 @@ export class LawsComponent implements OnInit, OnDestroy {
   itemSearched(searchVal: string) {
     this.filterLegislation(searchVal, this.childSelectedOption, this.childFilteredData);
     this.setPaginateData();
+  }
+
+  joinFree() {
+    const url = 'https://www.datacollaboration.org/dataprivacy';
+    if(isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
   }
 
   ngOnDestroy() {

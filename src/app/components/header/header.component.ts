@@ -30,4 +30,11 @@ export class HeaderComponent implements OnInit {
     }
   }
 
+  joinFree() {
+    const url = 'https://www.datacollaboration.org/dataprivacy';
+    if(isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
+  }
+
 }

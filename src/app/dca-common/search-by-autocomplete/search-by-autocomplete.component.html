@@ -15,7 +15,7 @@
   </div>
 
   <div *ngIf="selectedSearchBy?.code && autoCompleteOptions?.length" [@fadeSlideInOut]
-       class="p-2 flex-row mt-2 lg:mt-0 flex gap-3 items-center">
+       class="flex-row gap-3 lg:mt-0 flex items-start">
     <p-autoComplete
       [(ngModel)]="autoSearchVal" [suggestions]="filteredAutoCompleteOptions"
       (completeMethod)="filterAutoCompleteOptions($event)" [field]="selectedOption.code"
