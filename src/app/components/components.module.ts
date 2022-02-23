@@ -28,6 +28,7 @@ import {FooterComponent} from './footer/footer.component';
 import {RegulatorsComponent} from './regulators/regulators.component';
 import {NewsFeedComponent} from './news-feed/news-feed.component';
 import {PodcastsComponent} from './podcasts/podcasts.component';
+import {PipesModule} from "../pipes/pipes.module";
 
 
 @NgModule({
@@ -42,28 +43,29 @@ import {PodcastsComponent} from './podcasts/podcasts.component';
     NewsFeedComponent,
     PodcastsComponent
   ],
-  imports: [
-    CommonModule,
-    AutoCompleteModule,
-    FormsModule,
-    ReactiveFormsModule,
-    PaginatorModule,
-    CardModule,
-    SelectButtonModule,
-    AvatarModule,
-    AvatarGroupModule,
-    ButtonModule,
-    AccordionModule,
-    ProgressSpinnerModule,
-    CarouselModule,
-    ChipModule,
-    ShareModule,
-    ShareIconsModule,
-    ShareButtonsModule,
-    DcaCommonModule,
-    RadioButtonModule,
-    EllipsisModule
-  ],
+    imports: [
+        CommonModule,
+        AutoCompleteModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PaginatorModule,
+        CardModule,
+        SelectButtonModule,
+        AvatarModule,
+        AvatarGroupModule,
+        ButtonModule,
+        AccordionModule,
+        ProgressSpinnerModule,
+        CarouselModule,
+        ChipModule,
+        ShareModule,
+        ShareIconsModule,
+        ShareButtonsModule,
+        DcaCommonModule,
+        RadioButtonModule,
+        EllipsisModule,
+        PipesModule
+    ],
   exports: [
     HomeComponent,
     HeaderComponent,
