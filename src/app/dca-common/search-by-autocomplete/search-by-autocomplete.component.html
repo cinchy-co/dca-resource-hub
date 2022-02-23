@@ -1,4 +1,4 @@
-<div class="flex flex-row flex-wrap flex-wrap items-center md:flex-col lg:flex-row gap-2">
+<div class="w-full flex flex-row flex-wrap flex-wrap items-center md:flex-col lg:flex-row gap-2">
   <div class="flex flex-col md:flex-row lg:flex-row gap-1 relative" *ngIf="!hideSearchByOptions">
     <p-selectButton [options]="searchByOptions" [(ngModel)]="selectedSearchBy" optionLabel="name"
                     (onOptionClick)="searchByClicked($event)">
@@ -15,7 +15,7 @@
   </div>
 
   <div *ngIf="selectedSearchBy?.code && autoCompleteOptions?.length" [@fadeSlideInOut]
-       class="flex-row gap-3 lg:mt-0 flex items-start">
+       class="w-full flex-row gap-3 lg:mt-0 flex items-start">
     <p-autoComplete
       [(ngModel)]="autoSearchVal" [suggestions]="filteredAutoCompleteOptions"
       (completeMethod)="filterAutoCompleteOptions($event)" [field]="selectedOption.code"

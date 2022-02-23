@@ -13,7 +13,7 @@
                    (onClick)="radioOptionClicked()"></p-radioButton>
     <label for="podcasts">Podcasts</label>
 
-    <div class="ml-2 mb-2 w-[300px]">
+    <div class="mb-2 w-[300px]">
       <app-search-by-autocomplete
         [searchByOptions]="[searchByForTag]" [resetOnChange]="true" [allDataForOptions]="tags"
         [hideSearchByOptions]="true" [preSelectedSearchBy]="searchByForTag"
@@ -26,7 +26,7 @@
 
   </div>
 
-  <div class="pl-4 pr-8 cursor-pointer flex flex-row gap-2 items-center">
+  <div class="pr-8 cursor-pointer flex flex-row gap-2 items-center">
     <p-chip [label]="sortOrder === 'Descending' ? 'Oldest' : 'Latest'" (click)="sortChanged()"
             [icon]="sortOrder === 'Descending' ? 'pi pi-sort-amount-up' : 'pi pi-sort-amount-down'">
     </p-chip>
