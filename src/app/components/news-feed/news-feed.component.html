@@ -1,19 +1,21 @@
 <section class="pl-4 flex flex-row flex-wrap justify-between items-center">
 
-  <div class="flex flex-row flex-wrap gap-2 items-center">
-    <p-radioButton inputId="all" name="groupname" value="" [(ngModel)]="selectedType"
-                   (onClick)="radioOptionClicked()"></p-radioButton>
-    <label for="all">All</label>
+  <div class="flex flex-row flex-wrap gap-3 items-center">
+    <div class="flex flex-row flex-wrap gap-2 items-center">
+      <p-radioButton inputId="all" name="groupname" value="" [(ngModel)]="selectedType"
+                     (onClick)="radioOptionClicked()"></p-radioButton>
+      <label for="all">All</label>
 
-    <p-radioButton inputId="news" name="groupname" value="News Story" [(ngModel)]="selectedType"
-                   (onClick)="radioOptionClicked()"></p-radioButton>
-    <label for="news">News</label>
+      <p-radioButton inputId="news" name="groupname" value="News Story" [(ngModel)]="selectedType"
+                     (onClick)="radioOptionClicked()"></p-radioButton>
+      <label for="news">News</label>
 
-    <p-radioButton inputId="podcasts" name="groupname" value="Podcast" [(ngModel)]="selectedType"
-                   (onClick)="radioOptionClicked()"></p-radioButton>
-    <label for="podcasts">Podcasts</label>
+      <p-radioButton inputId="podcasts" name="groupname" value="Podcast" [(ngModel)]="selectedType"
+                     (onClick)="radioOptionClicked()"></p-radioButton>
+      <label for="podcasts">Podcasts</label>
+    </div>
 
-    <div class="mb-2 w-[300px]">
+    <div class="w-[300px]">
       <app-search-by-autocomplete
         [searchByOptions]="[searchByForTag]" [resetOnChange]="true" [allDataForOptions]="tags"
         [hideSearchByOptions]="true" [preSelectedSearchBy]="searchByForTag"
@@ -24,12 +26,21 @@
       </app-search-by-autocomplete>
     </div>
 
+    <div class="cursor-pointer">
+      <p-chip [label]="sortOrder === 'Descending' ? 'Oldest' : 'Latest'" (click)="sortChanged()"
+              [icon]="sortOrder === 'Descending' ? 'pi pi-sort-amount-up' : 'pi pi-sort-amount-down'">
+      </p-chip>
+    </div>
   </div>
 
-  <div class="pr-8 cursor-pointer flex flex-row gap-2 items-center">
-    <p-chip [label]="sortOrder === 'Descending' ? 'Oldest' : 'Latest'" (click)="sortChanged()"
-            [icon]="sortOrder === 'Descending' ? 'pi pi-sort-amount-up' : 'pi pi-sort-amount-down'">
-    </p-chip>
+
+  <div *ngIf="bannerDetails?.length && bannerDetails[0]['NewsContributeLabel']" class="flex pr-4 flex-col items-center gap-2">
+   <div class="flex flex-row items-center gap-2">
+     <span class="text-sm-12 font-semibold" [innerHTML]="bannerDetails[0]['NewsContributeLabel']"></span>
+     <p-button iconPos="right" class="btn-color-green p-button-raised mr-2" [label]="bannerDetails[0]['NewsButtonLabel']"
+               (click)="joinFree()">
+     </p-button>
+   </div>
   </div>
 
 </section>

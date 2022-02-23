@@ -32,7 +32,6 @@ export class LawsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    console.log('BANNER', this.bannerDetails)
     this.legislationData = this.legislationData.map((item: any) => ({...item, tags: item['Tags'] ? item['Tags'].split(',') : []}));
     this.filteredLegislationData = [...this.legislationData];
     this.childFilteredData = [...this.legislationData];

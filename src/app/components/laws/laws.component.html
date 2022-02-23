@@ -12,8 +12,10 @@
     </app-search-by-autocomplete>
 
     <div *ngIf="bannerDetails?.length && bannerDetails[0]['LawsContributeLabel']" class="flex flex-row items-center gap-2">
-      <span class="text-sm-12 font-semibold">{{bannerDetails[0]['LawsContributeLabel']}}</span>
-      <p-button iconPos="right" class="btn-color-green p-button-raised mr-2" label="Contribute" (click)="joinFree()"></p-button>
+      <span class="text-sm-12 font-semibold" [innerHTML]="bannerDetails[0]['LawsContributeLabel']"></span>
+      <p-button iconPos="right" class="btn-color-green p-button-raised mr-2" [label]="bannerDetails[0]['LawsButtonLabel']"
+                (click)="joinFree()">
+      </p-button>
     </div>
   </div>
 

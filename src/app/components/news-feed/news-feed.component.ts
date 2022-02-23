@@ -1,8 +1,10 @@
-import {ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
 import {IDropdownClick, ILegislation, IOption, ITag} from "../../models/common.model";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {AppStateService} from "../../services/app-state.service";
 import {PAGE_SIZE} from "../../models/general-values.model";
+import {isPlatformBrowser} from "@angular/common";
+import {WindowRefService} from "../../services/window-ref.service";
 
 @Component({
   selector: 'app-news-feed',
@@ -13,6 +15,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   @Input() newsFeed: any;
   @Input() tags: ITag[];
   @Input() selectedOption: IOption;
+  @Input() bannerDetails: any;
   currentPage = 0;
   pageSize = PAGE_SIZE;
   paginatedNewsData: any;
@@ -24,7 +27,8 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   searchVal: string;
 
-  constructor(private appStateService: AppStateService) {
+  constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
+              private windowRef: WindowRefService) {
   }
 
   ngOnInit(): void {
@@ -126,6 +130,13 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     this.searchVal = searchVal;
     this.filterNews(searchVal, '', this.childFilteredData, this.searchByForTag);
     this.setPaginateData();
+  }
+
+  joinFree() {
+    const url = this.bannerDetails[0]['NewsContributeLink'];
+    if(isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
   }
 
   ngOnDestroy() {

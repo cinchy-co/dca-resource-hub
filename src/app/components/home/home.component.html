@@ -37,6 +37,7 @@
           <ng-container *ngIf="newsAndPodcastsData?.length">
 
             <app-news-feed [selectedOption]="selectedOption" [newsFeed]="newsAndPodcastsData"
+                           [bannerDetails]="bannerDetails"
                            [tags]="tags"></app-news-feed>
           </ng-container>
         </ng-template>
