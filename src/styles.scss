@@ -101,12 +101,19 @@ p-button.btn-color {
   .p-button {
     background-color: #4A0CDA;
     border: #4A0CDA;
+    color: rgb(14 163 228);
 
     &:enabled:hover {
       background-color: #4A0CDA;
       opacity: 0.8;
       color: white;
     }
+  }
+
+  &-text {
+    background-color: rgb(14 163 228);
+    border: #4A0CDA;
+    color: rgb(14 163 228);
   }
 
   &-green{

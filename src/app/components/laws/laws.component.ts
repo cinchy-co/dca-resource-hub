@@ -16,6 +16,7 @@ export class LawsComponent implements OnInit, OnDestroy {
   @Input() selectedOption: IOption;
   @Input() isCountrySelected: boolean;
   @Input() tags: ITag[];
+  @Input() bannerDetails: any;
   childSelectedOption: IOption;
   filteredLegislationData: ILegislation[];
   paginatedLegislationData: ILegislation[];
@@ -31,6 +32,7 @@ export class LawsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    console.log('BANNER', this.bannerDetails)
     this.legislationData = this.legislationData.map((item: any) => ({...item, tags: item['Tags'] ? item['Tags'].split(',') : []}));
     this.filteredLegislationData = [...this.legislationData];
     this.childFilteredData = [...this.legislationData];
@@ -114,7 +116,7 @@ export class LawsComponent implements OnInit, OnDestroy {
   }
 
   joinFree() {
-    const url = 'https://www.datacollaboration.org/dataprivacy';
+    const url = this.bannerDetails[0]['LawsContributeLink'];
     if(isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.open(url, '_blank');
     }
