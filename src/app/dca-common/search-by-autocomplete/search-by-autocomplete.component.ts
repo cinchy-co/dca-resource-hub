@@ -80,6 +80,7 @@ export class SearchByAutocompleteComponent implements OnInit {
 
   searchByClicked(optionObj: { option: IOption }) {
     this.selectedOption = optionObj.option;
+    const key = this.selectedOption.code;
     this.placeholderForSearch = this.selectedOption.name;
     if (this.selectedOption.code === 'Tags' && this.tagsData) {
       this.autoCompleteOptions = this.tagsData;
@@ -88,6 +89,9 @@ export class SearchByAutocompleteComponent implements OnInit {
       const legislationData = this.getFilteredOptions(this.selectedOption);
       this.autoCompleteOptions = this.appStateService.getUniqueOptions(legislationData, this.selectedOption, this.global);
       this.filteredAutoCompleteOptions = this.autoCompleteOptions;
+      this.filteredAutoCompleteOptions?.sort((a: any, b: any) => {
+        return  a[key].localeCompare(b[key]);
+      });
     }
     this.searchBySelected.emit(this.selectedOption);
     this.reset();
