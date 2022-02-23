@@ -71,8 +71,9 @@
     </div>
   </ng-template>
 
-  <p-paginator *ngIf="filteredLegislationData?.length" [rows]="pageSize"
+  <p-paginator [pageLinkSize]="3" *ngIf="filteredLegislationData?.length" [rows]="pageSize"
                [totalRecords]="filteredLegislationData.length"
+               [alwaysShow]="false"
                (onPageChange)="paginate($event)">
   </p-paginator>
 

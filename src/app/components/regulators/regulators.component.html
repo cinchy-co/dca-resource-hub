@@ -55,7 +55,8 @@
   <h1 class="pl-4 text-red-700">No Regulators found for this search criteria</h1>
 </ng-template>
 
-<p-paginator *ngIf="filteredRegulatorData?.length" [rows]="pageSize"
+<p-paginator [pageLinkSize]="3" *ngIf="filteredRegulatorData?.length" [rows]="pageSize"
+             [alwaysShow]="false"
              [totalRecords]="filteredRegulatorData.length"
              (onPageChange)="regulatorPaginate($event)">
 </p-paginator>
