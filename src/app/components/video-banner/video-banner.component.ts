@@ -1,5 +1,7 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
 import * as Plyr from 'plyr';
+import {isPlatformBrowser} from "@angular/common";
+import {WindowRefService} from "../../services/window-ref.service";
 
 @Component({
   selector: 'app-video-banner',
@@ -15,13 +17,16 @@ export class VideoBannerComponent implements OnInit, AfterViewInit {
     },
   ];
   isLoaded: boolean;
-  constructor() { }
+
+  constructor(@Inject(PLATFORM_ID) private platformId: any,
+              private windowRef: WindowRefService) {
+  }
 
   ngOnInit(): void {
   }
 
   ngAfterViewInit() {
-   // const FaIconComponent = (await import('@fortawesome/angular-fontawesome')).FaIconComponent
+    // const FaIconComponent = (await import('@fortawesome/angular-fontawesome')).FaIconComponent
 
   }
 
@@ -29,4 +34,11 @@ export class VideoBannerComponent implements OnInit, AfterViewInit {
 
   }
 
+
+  goToFeedback() {
+    const url = 'https://docs.google.com/forms/d/e/1FAIpQLScqqzHjk2BSiDu4_7O-d8L8f31Gze72Wkb7UK4POLsECXiqkw/viewform?usp=sf_link';
+    if (isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
+  }
 }
