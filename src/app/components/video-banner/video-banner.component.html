@@ -5,8 +5,12 @@
         <img class="banner__background" alt="Node Zero Image" src="assets/background.png">
       </div>
 
-      <div class="absolute top-2 right-2 text-black cursor-pointer mr-2 flex flex-row items-center" (click)="goToFeedback()">
-        <div class="bg-white h-[58px] w-[58px] border-[3px] p-2 rounded-[50%] border-white flex flex-col items-center jusitfy-center">
+      <div
+        class="block sm:hidden lg:hidden md:hidden absolute top-[72px] right-1 text-black cursor-pointer mr-2 flex flex-row items-center"
+        (click)="goToFeedback()">
+        <div
+          class="text-white bg-[#00b529] h-[58px] w-[58px] border-[3px] p-2 rounded-[50%]
+           border-[#00b529] flex flex-col items-center justify-start">
           <p class="text-sm-12 mb-0">BETA</p>
           <sub class="mt-0">feedback</sub>
         </div>
@@ -14,10 +18,19 @@
       <div class="banner-content">
         <div class="banner-content__inner">
           <div class="banner-content--text">
-
-            <h1 class="mb-6" [innerHTML]="bannerDetails['Header']"></h1>
+            <div class="flex flex-row">
+              <h1 class="mb-6" [innerHTML]="bannerDetails['Header']"></h1>
+              <div class="hidden sm:block md:block lg:block text-black mr-2 mt-2 flex flex-row items-center">
+                <div class="text-white bg-[#00b529] h-[62px] w-[62px] border-[3px] p-2 rounded-[50%]
+                 border-[#00b529] cursor-pointer flex flex-col items-center justify-start" (click)="goToFeedback()">
+                  <p class="text-sm-12 font-semibold mb-0 mt-1">BETA</p>
+                  <sub class="mt-0">feedback</sub>
+                </div>
+              </div>
+            </div>
             <h4 [innerHTML]="bannerDetails['HeaderDesc']"></h4>
-            <h5 class="underline text-sky-500"><a [href]="bannerDetails['HeaderLink']">{{bannerDetails['HeaderLinkLabel']}}</a> </h5>
+            <h5 class="underline text-sky-500"><a
+              [href]="bannerDetails['HeaderLink']">{{bannerDetails['HeaderLinkLabel']}}</a></h5>
           </div>
           <div class="video-plyr banner-content--video" id="player">
             <iframe
