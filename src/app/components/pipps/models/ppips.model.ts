@@ -13,6 +13,6 @@ export interface IOption {
 }
 
 export const Legislation: IOption[] = [
-  {name: 'PPIPS', code: 'ppips'}/*,
-  {name: 'GDPR', code: 'gdpr'}*/
+  {name: 'PPIPS', code: 'ppips'},
+  {name: 'GDPR', code: 'gdpr'}
 ]

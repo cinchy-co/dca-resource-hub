@@ -23,15 +23,16 @@
   </div>-->
 
   <div class="pipps-container-content flex flex-row">
-    <p-sidebar *ngIf="ppipsData" [(visible)]="display" [modal]="false" [style]="{width:'400px'}">
+    <p-sidebar *ngIf="currentLegislationData" [(visible)]="display" [modal]="false" [style]="{width:'400px'}">
       <div class="w-full">
         <p-dropdown class="w-full text-center p-2"
                     [options]="legislation" [(ngModel)]="selectedLegislation" optionLabel="name"
-                    (onChange)="legislationChanged($event)"></p-dropdown>
+                    (onChange)="legislationChanged($event)">
+        </p-dropdown>
 
         <div class="w-full">
           <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
-            <p-panel [toggleable]="true" [collapsed]="i !== 0">
+            <p-panel [toggleable]="true" [collapsed]="i !== currentOpenSection">
 
               <ng-template pTemplate="header">
                 <div class="flex flex-col">
@@ -54,13 +55,33 @@
     </p-sidebar>
 
     <div class="ml-[400px] mr-3 pl-4 pb-8 w-full mt-4">
-      <div *ngIf="currentArticle" class="w-[80%] m-auto">
+      <div *ngIf="showIndexPage" class="w-[80%] m-auto flex flex-col">
+        <h1 class="text-[32px] text-cyan-700 mb-4">Quick Access</h1>
+        <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
+            <div>
+              <div class="flex flex-row gap-2">
+                <p class="text-sm font-light">{{section.key}}: </p>
+                <p class="text-sm font-semibold">{{getCategory(section)}}</p>
+              </div>
+            </div>
+
+            <div class="pl-2 mb-4 flex flex-row flex-wrap gap-2">
+              <div class="border-solid border-b p-1 cursor-pointer" *ngFor="let item of section.value">
+                <p class="text-sm-12 font-light text-blue-900" (click)="goToArticle(item)">
+                  Article {{item.article}}</p>
+              </div>
+            </div>
+        </ng-container>
+      </div>
+
+      <div *ngIf="currentArticle && !showIndexPage" class="w-[80%] m-auto flex flex-col">
+        <p class="text-sm text-sky-500 mb-4 pl-4 self-end cursor-pointer" (click)="legislationChanged({value: {code: this.currentLegislation}})">Go to Quick Access</p>
         <p-card class="">
           <div class="p-5 w-full">
             <h1 class="text-3xl text-center font-bold">Article: {{currentArticle.article}}</h1>
             <p-divider></p-divider>
             <div class="mt-8 pl-2">
-              <p>{{currentArticle.details}}</p>
+              <p class="whitespace-pre-wrap" [innerHTML]="currentArticle.details"></p>
             </div>
           </div>
         </p-card>
