@@ -6,6 +6,11 @@
         <img class="banner__background" alt="Node Zero Image" src="assets/background.png">
       </div>
 
+      <div class="cursor-pointer show-in-small absolute right-2 top-2">
+        <button pButton type="button" icon="pi pi-bars" iconPos="left"
+                (click)="toggleSidebar()">
+        </button>
+      </div>
       <div class="banner-content">
         <div class="banner-content__inner">
           <div class="banner-content--text">
@@ -17,8 +22,22 @@
   </div>
 
   <div class="pipps-container-content flex flex-row">
-    <p-sidebar *ngIf="currentLegislationData" [(visible)]="display" [modal]="false" [style]="{width:'450px'}">
-      <div class="w-full">
+    <div class="show-in-medium-large">
+      <p-sidebar *ngIf="currentLegislationData" [(visible)]="display"
+                 [modal]="false" [style]="{width:'450px'}">
+        <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+      </p-sidebar>
+    </div>
+
+    <div class=show-in-small>
+      <p-sidebar *ngIf="currentLegislationData" [modal]="false"
+                 [(visible)]="display" [style]="{width:'100%'}">
+        <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+      </p-sidebar>
+    </div>
+
+    <ng-template #sidebarContent>
+      <div class="w-full" *ngIf="display">
         <p-dropdown class="w-full text-center p-2"
                     [options]="legislation" [(ngModel)]="selectedLegislation" optionLabel="name"
                     (onChange)="legislationChanged($event)">
@@ -45,10 +64,17 @@
           </ng-container>
         </div>
       </div>
+    </ng-template>
 
-    </p-sidebar>
+    <div class="ml-[450px] mr-4 pl-4 pb-8 w-full mt-10 show-in-medium-large">
+      <ng-container *ngTemplateOutlet="mainContent"></ng-container>
+    </div>
 
-    <div class="ml-[450px] mr-4 pl-4 pb-8 w-full mt-10">
+    <div class="mr-4 pl-4 pb-8 w-full mt-10 show-in-small">
+      <ng-container *ngTemplateOutlet="mainContent"></ng-container>
+    </div>
+
+    <ng-template #mainContent>
       <div *ngIf="showIndexPage" class="flex flex-col">
         <p-card class="w-[80%] m-auto">
           <div class="pl-[50px] p-5">
@@ -86,6 +112,6 @@
           </div>
         </p-card>
       </div>
-    </div>
+    </ng-template>
   </div>
 </div>

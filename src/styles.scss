@@ -64,6 +64,22 @@ app-pipps {
   font-size: 0.83rem;
 }
 
+.show-in-small {
+  display: block;
+
+  @media (min-width: 992px) {
+    display: none;
+  }
+}
+
+.show-in-medium-large {
+  display: none;
+
+  @media (min-width: 992px) {
+    display: block;
+  }
+}
+
 // Override styles
 p-autocomplete, .p-autocomplete {
   width: 100%;
@@ -193,5 +209,11 @@ app-footer {
 .pipps-container {
   .p-dropdown {
     width: 100%;
+  }
+}
+
+.pipps-container {
+  .p-sidebar.p-sidebar-active {
+    z-index: 1102 !important;
   }
 }

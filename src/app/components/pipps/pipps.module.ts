@@ -9,6 +9,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import {FormsModule} from "@angular/forms";
 import {CardModule} from "primeng/card";
 import {DividerModule} from "primeng/divider";
+import {ButtonModule} from "primeng/button";
 
 const routes = [
   {
@@ -29,17 +30,18 @@ const routes = [
   declarations: [
     PippsComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    DcaCommonModule,
-    SidebarModule,
-    PanelModule,
-    DropdownModule,
-    FormsModule,
-    CardModule,
-    DividerModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        DcaCommonModule,
+        SidebarModule,
+        PanelModule,
+        DropdownModule,
+        FormsModule,
+        CardModule,
+        DividerModule,
+        ButtonModule
+    ]
 })
 export class PippsModule {
 }

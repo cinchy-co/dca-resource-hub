@@ -33,6 +33,11 @@ export class PippsComponent implements OnInit, OnDestroy {
     this.routeSub()
   }
 
+  toggleSidebar() {
+    this.display = !this.display;
+    this.changeDetectorRef.detectChanges();
+  }
+
   routeSub() {
     this.route.paramMap.pipe(takeUntil(this.destroyed$)).subscribe(async (params: any) => {
       this.selectedId = params.get('article');
