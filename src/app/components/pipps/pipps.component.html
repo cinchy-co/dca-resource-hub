@@ -44,20 +44,20 @@
         </p-dropdown>
 
         <div class="w-full">
-          <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
+          <ng-container *ngFor="let section of allSections | keyvalue: asIsOrder; let i = index">
             <p-panel [toggleable]="true" [collapsed]="i !== currentOpenSection">
 
               <ng-template pTemplate="header">
                 <div class="flex flex-col">
-                  <p class="text-xs font-light">{{section.key}}</p>
-                  <p class="text-xs font-semibold">{{getCategory(section)}}</p>
+                  <p class="text-sm-12 font-semibold">{{section.key}}</p>
+                  <!--<p class="text-xs font-semibold">{{getCategory(section)}}</p>-->
                 </div>
               </ng-template>
 
               <div class="pl-4">
                 <div class="border-solid border-b p-1 cursor-pointer" *ngFor="let item of section.value">
-                  <p class="text-sm-12 font-light text-blue-900" (click)="goToArticle(item)">
-                    Article {{item.article}}</p>
+                  <p class="text-sm-12 font-light text-sky-600" (click)="goToArticle(item)">
+                    {{item.label}}</p>
                 </div>
               </div>
             </p-panel>
@@ -78,23 +78,50 @@
       <div *ngIf="showIndexPage" class="flex flex-col">
         <p-card class="w-[80%] m-auto">
           <div class="pl-[50px] p-5">
-            <h1 class="text-[32px] text-cyan-700 mb-10 text-center">{{this.currentLegislation}}</h1>
-            <p class="text-[28px] mb-10 font-semibold">Quick Access</p>
-            <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
-              <div>
-                <div class="flex flex-row gap-2">
-                  <p class="text-sm font-light">{{section.key}}: </p>
-                  <p class="text-sm font-semibold">{{getCategory(section)}}</p>
-                </div>
-              </div>
+            <h1 class="text-[32px] text-cyan-700 mb-1 text-center">{{selectedLegislation.name}}</h1>
+            <h1 class="text-[32px] text-cyan-700 mb-10 text-center">{{selectedLegislation.code}}</h1>
+            <p class="text-cyan-900 mb-10">{{selectedLegislation.lawDesc}}</p>
 
-              <div class="pl-2 mb-4 flex flex-row flex-wrap gap-2">
-                <div class="border-solid border-b p-1 cursor-pointer" *ngFor="let item of section.value">
-                  <p class="text-sm-12 font-light text-blue-900" (click)="goToArticle(item)">
-                    Article {{item.article}}</p>
+            <div class="mb-10">
+              <p class="text-[28px] mb-5 font-semibold">Quick Access</p>
+              <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
+                <div>
+                  <div class="flex flex-row gap-2">
+                    <p class="text-sm font-light">{{section.key}}: </p>
+                    <!-- <p class="text-sm font-semibold">{{getCategory(section)}}</p>-->
+                  </div>
+
+
+                  <div class="pl-2 mb-4 flex flex-row flex-wrap gap-2">
+                    <div class="border-solid border-b p-1 cursor-pointer" *ngFor="let item of section.value">
+                      <p class="text-sm-12 font-light text-sky-600" (click)="goToArticle(item)">
+                        {{item.articleNumber}}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </ng-container>
+              </ng-container>
+            </div>
+
+            <div>
+              <p class="text-[28px] mb-5 font-semibold">Table of Content</p>
+              <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
+                <div>
+                  <div class="flex flex-row gap-2">
+                    <p class="text-sm font-light">{{section.key}}: </p>
+                    <!-- <p class="text-sm font-semibold">{{getCategory(section)}}</p>-->
+                  </div>
+                </div>
+
+                <div class="pl-2 mb-4 flex flex-col flex-wrap gap-2">
+                  <div class="border-solid border-b p-1 cursor-pointer" *ngFor="let item of section.value">
+                    <p class="text-sm-12 font-light text-sky-600" (click)="goToArticle(item)">
+                      {{item.label}}
+                    </p>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
           </div>
         </p-card>
       </div>
@@ -104,10 +131,20 @@
            (click)="legislationChanged({value: {code: this.currentLegislation}})">Go to Quick Access</p>
         <p-card class="">
           <div class="p-5 w-full">
-            <h1 class="text-3xl text-center font-bold">Article: {{currentArticle.article}}</h1>
+            <h1 class="text-3xl text-center font-bold">{{currentArticle.label}}</h1>
             <p-divider></p-divider>
             <div class="mt-8 pl-2">
-              <p class="whitespace-pre-wrap" [innerHTML]="currentArticle.details"></p>
+              <p class="whitespace-pre-wrap" [innerHTML]="currentArticle.desc | urlSanitizer: 'html'"></p>
+            </div>
+            <p-divider></p-divider>
+            <div class="flex flex-row justify-between" *ngIf="prevNextAndCurrent.next || prevNextAndCurrent.prev">
+              <p class="cursor-pointer text-sm-12 text-sky-500" (click)="goToArticle(prevNextAndCurrent.prev)">
+                <span *ngIf="prevNextAndCurrent.prev?.id">< {{prevNextAndCurrent.prev?.label}}</span>
+              </p>
+
+              <p class="cursor-pointer text-sm-12 text-sky-500" (click)="goToArticle(prevNextAndCurrent.next)">
+                <span *ngIf="prevNextAndCurrent.next?.id">{{prevNextAndCurrent.next?.label}} ></span>
+              </p>
             </div>
           </div>
         </p-card>

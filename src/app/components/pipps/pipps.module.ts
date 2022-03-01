@@ -10,6 +10,7 @@ import {FormsModule} from "@angular/forms";
 import {CardModule} from "primeng/card";
 import {DividerModule} from "primeng/divider";
 import {ButtonModule} from "primeng/button";
+import {PipesModule} from "../../pipes/pipes.module";
 
 const routes = [
   {
@@ -40,7 +41,8 @@ const routes = [
         FormsModule,
         CardModule,
         DividerModule,
-        ButtonModule
+        ButtonModule,
+        PipesModule
     ]
 })
 export class PippsModule {

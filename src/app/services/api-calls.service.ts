@@ -40,6 +40,16 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getAllLegislationLaws(): Observable<any> {
+    const url = 'https://datacollaboration.net/API/Collaborative%20Privacy/Get%20All%20Legislations';
+    return this.getResponse(url);
+  }
+
+  getLegislationDetails(lawId: number): Observable<any> {
+    const url = `https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Legislation%20Details?%40lawId=${lawId}`;
+    return this.getResponse(url);
+  }
+
   getPpips(): Observable<any> {
     const url = 'https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Ppips';
     return this.getResponse(url);
