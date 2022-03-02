@@ -62,12 +62,8 @@ export class PippsComponent implements OnInit, OnDestroy {
       this.currentLegislation = params.get('legislation');
       this.selectedLegislation = this.currentLegislation ?
         this.legislation.find(item => item.code === this.currentLegislation) as IOption : this.selectedLegislation;
-      if (this.currentLegislation && !this.selectedId) {
-        this.currentArticle = {} as ILaw;
-        this.getDataAndCreateSections();
-      } else { //default if no url params present
-        this.getDataAndCreateSections();
-      }
+      this.currentArticle = {} as ILaw;
+      this.getDataAndCreateSections();
       this.scrollToTop();
     });
   }
@@ -148,6 +144,7 @@ export class PippsComponent implements OnInit, OnDestroy {
   }
 
   sectionClicked(section: any, index: number) {
+    console.log('ppp section', section, index)
     this.currentOpenSection = index;
     this.showSectionDetails = true;
     this.showIndexPage = false;
