@@ -9,6 +9,7 @@ export interface ILaw {
   articleNumber: number;
   lawId: number;
   id: number;
+  isLevel3?: boolean;
 }
 
 export interface IOption extends ILawOption{

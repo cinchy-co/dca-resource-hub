@@ -1,8 +1,18 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID
+} from '@angular/core';
 import {ApiCallsService} from "../../services/api-calls.service";
 import {IOption, ILaw, ILawOption} from "./models/ppips.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ReplaySubject, takeUntil} from "rxjs";
+import {isPlatformBrowser} from "@angular/common";
+import {WindowRefService} from "../../services/window-ref.service";
 
 @Component({
   selector: 'app-pipps',
@@ -21,6 +31,8 @@ export class PippsComponent implements OnInit, OnDestroy {
   currentLegislation: string;
   allLegislationData: { [K: string]: any } = {};
   showIndexPage: boolean;
+  showSectionDetails: boolean;
+  currentSectionDetails: {key: string, value: ILaw[]}
   currentOpenSection = 0;
   prevNextAndCurrent = {} as {prev: ILaw, next: ILaw, current: ILaw};
   allLaws: ILawOption[];
@@ -28,7 +40,8 @@ export class PippsComponent implements OnInit, OnDestroy {
 
 
   constructor(private apiCallService: ApiCallsService, private changeDetectorRef: ChangeDetectorRef, private router: Router,
-              private route: ActivatedRoute) {
+              private route: ActivatedRoute, @Inject(PLATFORM_ID) private platformId: any,
+              private windowRef: WindowRefService) {
   }
 
   async ngOnInit() {
@@ -47,7 +60,6 @@ export class PippsComponent implements OnInit, OnDestroy {
     this.route.paramMap.pipe(takeUntil(this.destroyed$)).subscribe(async (params: any) => {
       this.selectedId = +(params.get('article'));
       this.currentLegislation = params.get('legislation');
-      console.log('ppp this.currentLegislation', this.currentLegislation, this.allLegislationData)
       this.selectedLegislation = this.currentLegislation ?
         this.legislation.find(item => item.code === this.currentLegislation) as IOption : this.selectedLegislation;
       if (this.currentLegislation && !this.selectedId) {
@@ -56,7 +68,14 @@ export class PippsComponent implements OnInit, OnDestroy {
       } else { //default if no url params present
         this.getDataAndCreateSections();
       }
+      this.scrollToTop();
     });
+  }
+
+  scrollToTop() {
+    if(isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.scrollTo(0, 0);
+    }
   }
 
   async getDataAndCreateSections() {
@@ -77,13 +96,14 @@ export class PippsComponent implements OnInit, OnDestroy {
       this.showIndexPage = false;
       const keyForFlatData = `${this.currentLegislation}-flat`;
       this.currentArticle = this.allLegislationData[keyForFlatData].find((article: ILaw) => article.articleNumber === this.selectedId) as ILaw;
-      console.log('pppp setArticle this.currentLegislationData', this.currentLegislationData)
       this.setCurrentOpenSection(this.currentArticle);
       this.updatePrevAndBackArticles(this.currentArticle);
     }
   }
 
   legislationChanged(event: any) {
+    this.showIndexPage = true;
+    this.showSectionDetails = false;
     const legislation = event.value;
     this.router.navigate(['/legislation', {legislation: legislation.code}], {relativeTo: this.route});
   }
@@ -93,10 +113,21 @@ export class PippsComponent implements OnInit, OnDestroy {
     this.currentLegislationData.forEach(item => {
       const currentObj = allSections.get(item.level2);
       if (currentObj?.length) {
+        const isLevel3AlreadyPresent = currentObj.find((sectionItem: ILaw) => sectionItem.level3 === item.level3);
+        if (item.level3 && !isLevel3AlreadyPresent) {
+          const level3Item = {...item, isLevel3: true};
+          currentObj.push(level3Item);
+        }
         currentObj.push(item);
         allSections.set(item.level2, currentObj);
       } else {
-        allSections.set(item.level2, [item]);
+        const itemsToSet = [];
+        if (item.level3) {
+          const level3Item = {...item, isLevel3: true};
+          itemsToSet.push(level3Item);
+        }
+        itemsToSet.push(item);
+        allSections.set(item.level2, itemsToSet);
       }
     });
     this.allLegislationData[this.currentLegislation] = allSections;
@@ -106,7 +137,7 @@ export class PippsComponent implements OnInit, OnDestroy {
   }
 
   setCurrentOpenSection(article: ILaw) {
-    console.log('ppp this.allSections', this.allSections, article)
+    this.showSectionDetails = false;
     const allKeys = [...this.allSections.keys()];
     this.currentOpenSection = allKeys.indexOf(article.level2);
   }
@@ -114,6 +145,14 @@ export class PippsComponent implements OnInit, OnDestroy {
   getCategory(section: any): string {
     const currentObj = this.allSections.get(section.key);
     return currentObj ? currentObj[0].label : '';
+  }
+
+  sectionClicked(section: any, index: number) {
+    this.currentOpenSection = index;
+    this.showSectionDetails = true;
+    this.showIndexPage = false;
+    this.currentSectionDetails = section;
+    this.scrollToTop();
   }
 
   goToArticle(article: ILaw) {
