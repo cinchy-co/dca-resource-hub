@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
-import {map, Observable} from "rxjs";
+import {map, Observable, of, tap} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiCallsService {
+  cachedKeyIssues = {} as any;
 
   constructor(private http: HttpClient) {
   }
@@ -45,14 +46,20 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
-  getLegislationDetails(lawId: number): Observable<any> {
-    const url = `https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Legislation%20Details?%40lawId=${lawId}`;
+  getLegislationDetails(law: string): Observable<any> {
+    const url = `https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Legislation%20Details?%40law=${law}`;
     return this.getResponse(url);
   }
 
-  getPpips(): Observable<any> {
-    const url = 'https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Ppips';
-    return this.getResponse(url);
+  getKeyIssues(law: string): Observable<any> {
+    const url = `https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Key%20Issues?%40law=${law}`;
+    if (this.cachedKeyIssues[law]) {
+      return of(this.cachedKeyIssues[law]);
+    } else {
+      return this.getResponse(url).pipe(
+        tap(resp => this.cachedKeyIssues[law] = resp)
+      );
+    }
   }
 
   getResponse(url: string): Observable<any> {

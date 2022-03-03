@@ -111,6 +111,23 @@
               </ng-container>
             </div>
 
+            <div class="mb-10">
+              <div class="flex flex-row gap-2 mb-4">
+                <p class="text-[28px] font-semibold cursor-pointer">Key Issues</p>
+              </div>
+
+
+              <div class="pl-2 mb-4 flex flex-row flex-wrap">
+                <div class="cursor-pointer" *ngFor="let item of keyIssues">
+                  <ng-container>
+                    <p class="border-solid border-b p-1 mr-2 text-sm-12 font-light text-sky-600" (click)="navigateToKeyIssues(item)">
+                      {{item.title}}
+                    </p>
+                  </ng-container>
+                </div>
+              </div>
+            </div>
+
             <div>
               <p class="text-[28px] mb-5 font-semibold">Table of Content</p>
               <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
@@ -135,7 +152,7 @@
 
       <div *ngIf="currentArticle && !showIndexPage" class="w-[80%] m-auto flex flex-col">
         <p class="text-sm text-sky-500 mb-4 pl-4 self-end cursor-pointer"
-           (click)="legislationChanged({value: {code: selectedLegislation.code}})">Go to Quick Access</p>
+           (click)="legislationChanged({value: {code: selectedLegislation.code}})">Table of Content</p>
         <p-card>
           <div class="p-5 w-full" *ngIf="!showSectionDetails">
             <h1 class="text-3xl text-center font-bold">{{currentArticle.label}}</h1>
@@ -145,12 +162,18 @@
             </div>
             <p-divider></p-divider>
             <div class="flex flex-row justify-between" *ngIf="prevNextAndCurrent.next || prevNextAndCurrent.prev">
-              <p class="cursor-pointer text-sm-12 text-sky-500" (click)="goToArticle(prevNextAndCurrent.prev)">
-                <span *ngIf="prevNextAndCurrent.prev?.id">< {{prevNextAndCurrent.prev?.label}}</span>
+              <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center" (click)="goToArticle(prevNextAndCurrent.prev)">
+                <ng-container *ngIf="prevNextAndCurrent.prev?.id">
+                  <i class="pi pi-angle-left"></i>
+                  <span>{{prevNextAndCurrent.prev?.label}}</span>
+                  </ng-container>
               </p>
 
-              <p class="cursor-pointer text-sm-12 text-sky-500" (click)="goToArticle(prevNextAndCurrent.next)">
-                <span *ngIf="prevNextAndCurrent.next?.id">{{prevNextAndCurrent.next?.label}} ></span>
+              <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center" (click)="goToArticle(prevNextAndCurrent.next)">
+                <ng-container *ngIf="prevNextAndCurrent.next?.id">
+                  <span>{{prevNextAndCurrent.next?.label}}</span>
+                  <i class="pi pi-angle-right"></i>
+                </ng-container>
               </p>
             </div>
           </div>

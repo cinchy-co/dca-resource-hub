@@ -29,3 +29,11 @@ export interface ILawOption {
   lawDesc: string;
   id: number
 }
+
+export interface IKeyIssues {
+  title: string;
+  desc: string;
+  law: string;
+  lawId: number
+  id: number
+}

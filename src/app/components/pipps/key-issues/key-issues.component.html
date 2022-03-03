@@ -1,0 +1,41 @@
+<div class="flex flex-col pt-[70px] w-100% sm-[90%] lg:w-[80%] md:w-[80%] m-auto">
+  <div class="p-4 h-[100%]">
+    <div *ngIf="defaultView">
+      <div class="mb-12">
+        <p-divider></p-divider>
+        <p class="text-[40px] text-sky-900 text-center mb-1 font-semibold">{{currentLegislation}}</p>
+        <p class="text-[32px] text-center mb-1 font-semibold">Key Issues</p>
+        <p-divider></p-divider>
+      </div>
+
+      <div *ngFor="let issue of keyIssues">
+        <ng-container>
+          <p class="border-solid cursor-pointer border-b p-1 mr-2 text-sm-12 font-light text-sky-600"
+             (click)="navigateToKeyIssues(issue)">
+            {{issue.title}}
+          </p>
+        </ng-container>
+      </div>
+    </div>
+
+    <div class="mb-5" *ngIf="!defaultView && currentKeyIssue">
+      <div class="flex flex-row justify-between">
+        <p class="cursor-pointer mr-2 font-light text-sky-600 flex flex-row items-center" (click)="navigateToLegislation()">
+          <i class="pi pi-angle-left"></i>
+          <span>Table of Content</span>
+        </p>
+        <p class="cursor-pointer text-sky-500 text-right" (click)="goToAllIssues()">All Key Issues</p>
+      </div>
+      <p-divider></p-divider>
+      <p class="text-[40px] text-sky-900 text-center mb-1 font-semibold">{{currentLegislation}}</p>
+      <p class="text-[32px] text-center mb-1 font-semibold">{{currentKeyIssue.title}}</p>
+      <p-divider></p-divider>
+      <p class="mt-[50px]">{{currentKeyIssue.desc}}</p>
+    </div>
+
+    <p class="border-solid cursor-pointer border-t p-1 mr-2 font-light text-sky-600 text-center"
+       (click)="navigateToLegislation()">
+      Table of Content
+    </p>
+  </div>
+</div>

@@ -11,6 +11,7 @@ import {CardModule} from "primeng/card";
 import {DividerModule} from "primeng/divider";
 import {ButtonModule} from "primeng/button";
 import {PipesModule} from "../../pipes/pipes.module";
+import { KeyIssuesComponent } from './key-issues/key-issues.component';
 
 const routes = [
   {
@@ -25,11 +26,16 @@ const routes = [
     path: ':legislation',
     component: PippsComponent,
   },
+  {
+    path: 'keyIssues/:keyIssueId',
+    component: KeyIssuesComponent,
+  }
 ];
 
 @NgModule({
   declarations: [
-    PippsComponent
+    PippsComponent,
+    KeyIssuesComponent
   ],
     imports: [
         CommonModule,

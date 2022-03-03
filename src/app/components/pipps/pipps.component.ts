@@ -8,7 +8,7 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import {ApiCallsService} from "../../services/api-calls.service";
-import {IOption, ILaw, ILawOption} from "./models/ppips.model";
+import {IOption, ILaw, ILawOption, IKeyIssues} from "./models/ppips.model";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
@@ -32,10 +32,12 @@ export class PippsComponent implements OnInit, OnDestroy {
   allLegislationData: { [K: string]: any } = {};
   showIndexPage: boolean;
   showSectionDetails: boolean;
-  currentSectionDetails: {key: string, value: ILaw[]}
+  currentSectionDetails: { key: string, value: ILaw[] }
   currentOpenSection = 0;
-  prevNextAndCurrent = {} as {prev: ILaw, next: ILaw, current: ILaw};
+  prevNextAndCurrent = {} as { prev: ILaw, next: ILaw, current: ILaw };
   allLaws: ILawOption[];
+  keyIssues: IKeyIssues[];
+  allLawsKeyIssues: { [K: string]: IKeyIssues[] } = {};
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
 
@@ -62,6 +64,7 @@ export class PippsComponent implements OnInit, OnDestroy {
       this.currentLegislation = params.get('legislation');
       this.selectedLegislation = this.currentLegislation ?
         this.legislation.find(item => item.code === this.currentLegislation) as IOption : this.selectedLegislation;
+      this.currentLegislation = this.selectedLegislation.code;
       this.currentArticle = {} as ILaw;
       this.getDataAndCreateSections();
       this.scrollToTop();
@@ -69,7 +72,7 @@ export class PippsComponent implements OnInit, OnDestroy {
   }
 
   scrollToTop() {
-    if(isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.scrollTo(0, 0);
     }
   }
@@ -78,10 +81,13 @@ export class PippsComponent implements OnInit, OnDestroy {
     this.showIndexPage = true;
     if (this.allLegislationData[this.currentLegislation]) {
       this.allSections = this.allLegislationData[this.currentLegislation];
+      this.keyIssues = this.allLawsKeyIssues[this.currentLegislation];
       this.setArticle();
       return;
     }
-    this.currentLegislationData = await this.apiCallService.getLegislationDetails(this.selectedLegislation.id).toPromise();
+    this.currentLegislationData = await this.apiCallService.getLegislationDetails(this.selectedLegislation.code).toPromise();
+    this.keyIssues = await this.apiCallService.getKeyIssues(this.selectedLegislation.code).toPromise();
+    this.allLawsKeyIssues[this.currentLegislation] = this.keyIssues;
     this.allSections = this.getSections();
     this.setArticle();
     this.changeDetectorRef.detectChanges();
@@ -167,6 +173,12 @@ export class PippsComponent implements OnInit, OnDestroy {
     const articleIndexInAllArticles = this.allLegislationData[keyForFlatData].findIndex((article: ILaw) => article.id === currentArticle.id);
     this.prevNextAndCurrent.next = this.currentLegislationData[articleIndexInAllArticles + 1];
     this.prevNextAndCurrent.prev = this.currentLegislationData[articleIndexInAllArticles - 1];
+  }
+
+  navigateToKeyIssues(issue: IKeyIssues) {
+    const issueId = issue.id;
+    const urlParams = {legislation: this.currentLegislation};
+    this.router.navigate([`/legislation/keyIssues/${issueId}`, urlParams]);
   }
 
   asIsOrder(a: any, b: any) {
