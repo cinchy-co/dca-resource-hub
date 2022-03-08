@@ -27,6 +27,7 @@ export class KeyIssuesComponent implements OnInit, OnDestroy {
   currentLegislation: string;
   defaultView: boolean;
   currentKeyIssue: IKeyIssues | undefined;
+  display = true;
 
   constructor(private router: Router, private route: ActivatedRoute, private apiCallService: ApiCallsService,
               private changeDetectorRef: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
