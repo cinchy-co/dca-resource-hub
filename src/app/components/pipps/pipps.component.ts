@@ -175,9 +175,13 @@ export class PippsComponent implements OnInit, OnDestroy {
     this.prevNextAndCurrent.prev = this.currentLegislationData[articleIndexInAllArticles - 1];
   }
 
-  navigateToKeyIssues(issue: IKeyIssues) {
-    const issueId = issue.id;
+  navigateToKeyIssues(issue?: IKeyIssues) {
     const urlParams = {legislation: this.currentLegislation};
+    if (!issue) {
+      this.router.navigate([`/legislation/keyIssues/all`, urlParams]);
+      return ;
+    }
+    const issueId = issue.id;
     this.router.navigate([`/legislation/keyIssues/${issueId}`, urlParams]);
   }
 

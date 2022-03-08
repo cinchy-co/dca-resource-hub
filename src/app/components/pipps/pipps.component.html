@@ -22,6 +22,11 @@
   </div>
 
   <div class="pipps-container-content flex flex-row">
+
+    <p-progressSpinner class="item-center-n-relative"
+                       *ngIf="!(currentLegislationData?.length && (currentLegislationData?.length))">
+    </p-progressSpinner>
+
     <div class="show-in-medium-large">
       <p-sidebar *ngIf="currentLegislationData" [(visible)]="display"
                  [modal]="false" [style]="{width:'450px'}">
@@ -36,40 +41,6 @@
       </p-sidebar>
     </div>
 
-    <ng-template #sidebarContent>
-      <div class="w-full" *ngIf="display">
-        <p-dropdown class="w-full text-center p-2"
-                    [options]="legislation" [(ngModel)]="selectedLegislation" optionLabel="name"
-                    (onChange)="legislationChanged($event)">
-        </p-dropdown>
-
-        <div class="w-full">
-          <ng-container *ngFor="let section of allSections | keyvalue: asIsOrder; let i = index">
-            <p-panel [toggleable]="true" [collapsed]="i !== currentOpenSection">
-
-              <ng-template pTemplate="header">
-                <div class="flex flex-col">
-                  <p class="text-sm-12 text-sky-900 font-semibold cursor-pointer"
-                     (click)="sectionClicked(section, i)">{{section.key}}</p>
-                  <!--<p class="text-xs font-semibold">{{getCategory(section)}}</p>-->
-                </div>
-              </ng-template>
-
-              <div class="pl-4">
-                <div class="cursor-pointer" *ngFor="let item of section.value">
-                  <ng-container *ngIf="!item.isLevel3">
-                    <p class="text-sm-12 p-2 border-solid border-b font-light text-sky-600" (click)="goToArticle(item)">
-                      {{item.label}}
-                    </p>
-                  </ng-container>
-                </div>
-              </div>
-            </p-panel>
-          </ng-container>
-        </div>
-      </div>
-    </ng-template>
-
     <div class="ml-[450px] mr-4 pl-4 pb-8 w-full mt-10 show-in-medium-large">
       <ng-container *ngTemplateOutlet="mainContent"></ng-container>
     </div>
@@ -78,129 +49,169 @@
       <ng-container *ngTemplateOutlet="mainContent"></ng-container>
     </div>
 
-    <ng-template #mainContent>
-      <div *ngIf="showIndexPage && selectedLegislation" class="flex flex-col">
-        <p-card class="w-[80%] m-auto">
-          <div class="pl-[50px] p-5">
-            <h1 class="text-[32px] font-semibold mb-1 text-center">{{selectedLegislation.name}}</h1>
-            <h1 class="text-[32px] mb-10 text-center">{{selectedLegislation.code}}</h1>
-            <p class="text-cyan-900 mb-10">{{selectedLegislation.lawDesc}}</p>
-
-            <div class="mb-10">
-              <p class="text-[28px] mb-5 font-semibold">Quick Access</p>
-              <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
-                <div>
-                  <div class="flex flex-row gap-2">
-                    <p class="text-sm text-sky-900 font-semibold cursor-pointer"
-                       (click)="sectionClicked(section, i)">{{section.key}}: </p>
-                    <!-- <p class="text-sm font-semibold">{{getCategory(section)}}</p>-->
-                  </div>
+  </div>
+</div>
 
 
-                  <div class="pl-2 mb-4 flex flex-row flex-wrap">
-                    <div class="cursor-pointer" *ngFor="let item of section.value">
-                      <ng-container *ngIf="!item.isLevel3">
-                        <p class="border-solid border-b p-1 mr-2 text-sm-12 font-light text-sky-600"
-                           (click)="goToArticle(item)">
-                          {{item.articleNumber}}
-                        </p>
-                      </ng-container>
-                    </div>
-                  </div>
-                </div>
+<ng-template #sidebarContent>
+  <div class="w-full" *ngIf="display">
+    <p-dropdown class="w-full text-center p-2"
+                [options]="legislation" [(ngModel)]="selectedLegislation" optionLabel="name"
+                (onChange)="legislationChanged($event)">
+    </p-dropdown>
+
+    <div class="flex flex-row justify-between p-4">
+      <p class="text-sky-500 text-sm-12 cursor-pointer" (click)="legislationChanged({value: {code: selectedLegislation.code}})">Table of Content</p>
+      <p class="text-sky-500 text-sm-12 cursor-pointer" (click)="navigateToKeyIssues()">Key Issues</p>
+    </div>
+
+    <div class="w-full">
+      <ng-container *ngFor="let section of allSections | keyvalue: asIsOrder; let i = index">
+        <p-panel [toggleable]="true" [collapsed]="i !== currentOpenSection">
+
+          <ng-template pTemplate="header">
+            <div class="flex flex-col">
+              <p class="text-sm-12 text-sky-900 font-semibold cursor-pointer"
+                 (click)="sectionClicked(section, i)">{{section.key}}</p>
+              <!--<p class="text-xs font-semibold">{{getCategory(section)}}</p>-->
+            </div>
+          </ng-template>
+
+          <div class="pl-4">
+            <div class="cursor-pointer" *ngFor="let item of section.value">
+              <ng-container *ngIf="!item.isLevel3">
+                <p class="text-sm-12 p-2 border-solid border-b font-light text-sky-600" (click)="goToArticle(item)">
+                  {{item.label}}
+                </p>
               </ng-container>
             </div>
+          </div>
+        </p-panel>
+      </ng-container>
+    </div>
+  </div>
+</ng-template>
 
-            <div class="mb-10">
-              <div class="flex flex-row gap-2 mb-4">
-                <p class="text-[28px] font-semibold cursor-pointer">Key Issues</p>
+<ng-template #mainContent>
+  <div *ngIf="showIndexPage && selectedLegislation" class="flex flex-col">
+    <p-card class="w-[80%] m-auto">
+      <div class="pl-[50px] p-5">
+        <h1 class="text-[32px] font-semibold mb-1 text-center">{{selectedLegislation.name}}</h1>
+        <h1 class="text-[32px] mb-10 text-center">{{selectedLegislation.code}}</h1>
+        <p class="text-cyan-900 mb-10">{{selectedLegislation.lawDesc}}</p>
+
+        <div class="mb-10">
+          <p class="text-[28px] mb-5 font-semibold">Quick Access</p>
+          <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
+            <div>
+              <div class="flex flex-row gap-2">
+                <p class="text-sm text-sky-900 font-semibold cursor-pointer"
+                   (click)="sectionClicked(section, i)">{{section.key}}: </p>
+                <!-- <p class="text-sm font-semibold">{{getCategory(section)}}</p>-->
               </div>
 
 
               <div class="pl-2 mb-4 flex flex-row flex-wrap">
-                <div class="cursor-pointer" *ngFor="let item of keyIssues">
-                  <ng-container>
-                    <p class="border-solid border-b p-1 mr-2 text-sm-12 font-light text-sky-600" (click)="navigateToKeyIssues(item)">
-                      {{item.title}}
+                <div class="cursor-pointer" *ngFor="let item of section.value">
+                  <ng-container *ngIf="!item.isLevel3">
+                    <p class="border-solid border-b p-1 mr-2 text-sm-12 font-light text-sky-600"
+                       (click)="goToArticle(item)">
+                      {{item.articleNumber}}
                     </p>
                   </ng-container>
                 </div>
               </div>
             </div>
+          </ng-container>
+        </div>
 
-            <div>
-              <p class="text-[28px] mb-5 font-semibold">Table of Content</p>
-              <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
-                <div>
-                  <div class="flex flex-row gap-2">
-                    <p class="text-md font-semibold text-sky-900 cursor-pointer"
-                       (click)="sectionClicked(section, i)">{{section.key}}: </p>
-                    <!-- <p class="text-sm font-semibold">{{getCategory(section)}}</p>-->
-                  </div>
-                </div>
-
-                <div class="pl-2 mb-4 flex flex-col flex-wrap gap-2">
-                  <div class="cursor-pointer" *ngFor="let item of section.value">
-                    <ng-container *ngTemplateOutlet="chapters;context:{item}"></ng-container>
-                  </div>
-                </div>
-              </ng-container>
-            </div>
-          </div>
-        </p-card>
-      </div>
-
-      <div *ngIf="currentArticle && !showIndexPage" class="w-[80%] m-auto flex flex-col">
-        <p class="text-sm text-sky-500 mb-4 pl-4 self-end cursor-pointer"
-           (click)="legislationChanged({value: {code: selectedLegislation.code}})">Table of Content</p>
-        <p-card>
-          <div class="p-5 w-full" *ngIf="!showSectionDetails">
-            <h1 class="text-3xl text-center font-bold">{{currentArticle.label}}</h1>
-            <p-divider></p-divider>
-            <div class="mt-8 pl-2">
-              <p class="whitespace-pre-wrap" [innerHTML]="currentArticle.desc | urlSanitizer: 'html'"></p>
-            </div>
-            <p-divider></p-divider>
-            <div class="flex flex-row justify-between" *ngIf="prevNextAndCurrent.next || prevNextAndCurrent.prev">
-              <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center" (click)="goToArticle(prevNextAndCurrent.prev)">
-                <ng-container *ngIf="prevNextAndCurrent.prev?.id">
-                  <i class="pi pi-angle-left"></i>
-                  <span>{{prevNextAndCurrent.prev?.label}}</span>
-                  </ng-container>
-              </p>
-
-              <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center" (click)="goToArticle(prevNextAndCurrent.next)">
-                <ng-container *ngIf="prevNextAndCurrent.next?.id">
-                  <span>{{prevNextAndCurrent.next?.label}}</span>
-                  <i class="pi pi-angle-right"></i>
-                </ng-container>
-              </p>
-            </div>
+        <div class="mb-10">
+          <div class="flex flex-row gap-2 mb-4">
+            <p class="text-[28px] font-semibold cursor-pointer">Key Issues</p>
           </div>
 
-          <div class="p-5 w-full" *ngIf="showSectionDetails">
-            <div>
-              <div class="mb-10">
-                <hr>
-                <p class="text-[32px] text-center m-2 font-semibold">{{currentSectionDetails.key}}</p>
-                <hr>
-              </div>
+
+          <div class="pl-2 mb-4 flex flex-row flex-wrap">
+            <div class="cursor-pointer" *ngFor="let item of keyIssues">
               <ng-container>
-
-                <div class="pl-2 mb-4 flex flex-col flex-wrap gap-2">
-                  <div class="cursor-pointer" *ngFor="let item of currentSectionDetails.value">
-                    <ng-container *ngTemplateOutlet="chapters;context:{item}"></ng-container>
-                  </div>
-                </div>
+                <p class="border-solid border-b p-1 mr-2 text-sm-12 font-light text-sky-600" (click)="navigateToKeyIssues(item)">
+                  {{item.title}}
+                </p>
               </ng-container>
             </div>
           </div>
-        </p-card>
-      </div>
-    </ng-template>
-  </div>
-</div>
+        </div>
 
+        <div>
+          <p class="text-[28px] mb-5 font-semibold">Table of Content</p>
+          <ng-container *ngFor="let section of allSections | keyvalue; let i = index">
+            <div>
+              <div class="flex flex-row gap-2">
+                <p class="text-md font-semibold text-sky-900 cursor-pointer"
+                   (click)="sectionClicked(section, i)">{{section.key}}: </p>
+                <!-- <p class="text-sm font-semibold">{{getCategory(section)}}</p>-->
+              </div>
+            </div>
+
+            <div class="pl-2 mb-4 flex flex-col flex-wrap gap-2">
+              <div class="cursor-pointer" *ngFor="let item of section.value">
+                <ng-container *ngTemplateOutlet="chapters;context:{item}"></ng-container>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </p-card>
+  </div>
+
+  <div *ngIf="currentArticle && !showIndexPage" class="w-[80%] m-auto flex flex-col">
+    <p class="text-sm text-sky-500 mb-4 pl-4 self-end cursor-pointer"
+       (click)="legislationChanged({value: {code: selectedLegislation.code}})">Table of Content</p>
+    <p-card>
+      <div class="p-5 w-full" *ngIf="!showSectionDetails">
+        <h1 class="text-3xl text-center font-bold">{{currentArticle.label}}</h1>
+        <p-divider></p-divider>
+        <div class="mt-8 pl-2">
+          <p class="whitespace-pre-wrap" [innerHTML]="currentArticle.desc | urlSanitizer: 'html'"></p>
+        </div>
+        <p-divider></p-divider>
+        <div class="flex flex-row justify-between" *ngIf="prevNextAndCurrent.next || prevNextAndCurrent.prev">
+          <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center" (click)="goToArticle(prevNextAndCurrent.prev)">
+            <ng-container *ngIf="prevNextAndCurrent.prev?.id">
+              <i class="pi pi-angle-left"></i>
+              <span>{{prevNextAndCurrent.prev?.label}}</span>
+            </ng-container>
+          </p>
+
+          <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center" (click)="goToArticle(prevNextAndCurrent.next)">
+            <ng-container *ngIf="prevNextAndCurrent.next?.id">
+              <span>{{prevNextAndCurrent.next?.label}}</span>
+              <i class="pi pi-angle-right"></i>
+            </ng-container>
+          </p>
+        </div>
+      </div>
+
+      <div class="p-5 w-full" *ngIf="showSectionDetails">
+        <div>
+          <div class="mb-10">
+            <hr>
+            <p class="text-[32px] text-center m-2 font-semibold">{{currentSectionDetails.key}}</p>
+            <hr>
+          </div>
+          <ng-container>
+
+            <div class="pl-2 mb-4 flex flex-col flex-wrap gap-2">
+              <div class="cursor-pointer" *ngFor="let item of currentSectionDetails.value">
+                <ng-container *ngTemplateOutlet="chapters;context:{item}"></ng-container>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+    </p-card>
+  </div>
+</ng-template>
 
 <ng-template #chapters let-item="item">
   <ng-container *ngIf="item.isLevel3">
