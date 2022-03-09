@@ -33,10 +33,18 @@
 <ng-template #mainContent>
   <div *ngIf="defaultView">
     <div class="mb-12">
+      <p class="cursor-pointer mr-2 font-light text-sky-600 flex flex-row items-center" (click)="navigateToLegislation()">
+        <i class="pi pi-angle-left"></i>
+        <span>Law</span>
+      </p>
       <p-divider></p-divider>
       <p class="text-[40px] text-sky-900 text-center mb-1 font-semibold">{{currentLegislation}}</p>
       <p class="text-[32px] text-center mb-1 font-semibold">Key Issues</p>
       <p-divider></p-divider>
+    </div>
+
+    <div class="mb-4" *ngIf="keyIssues">
+      <p>{{keyIssues[0].keyIssueDesc}}</p>
     </div>
 
     <div *ngFor="let issue of keyIssues">
@@ -51,11 +59,6 @@
 
   <div class="mb-5" *ngIf="!defaultView && currentKeyIssue">
     <div class="flex flex-row justify-between">
-      <p class="cursor-pointer mr-2 font-light text-sky-600 flex flex-row items-center"
-         (click)="navigateToLegislation()">
-        <i class="pi pi-angle-left"></i>
-        <span>Table of Content</span>
-      </p>
       <p class="cursor-pointer text-sky-500 text-right" (click)="goToAllIssues()">All Key Issues</p>
     </div>
     <p-divider></p-divider>

@@ -35,5 +35,6 @@ export interface IKeyIssues {
   desc: string;
   law: string;
   lawId: number
-  id: number
+  id: number;
+  keyIssueDesc: string;
 }
