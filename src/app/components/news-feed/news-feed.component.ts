@@ -116,7 +116,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     this.setPaginateData();
   }
 
-  itemSelectedInDropdown(data: IDropdownClick) {
+  tagSelectedInDropdown(data: IDropdownClick) {
     this.searchVal = data.dropdownStr;
     this.filterNews(data.dropdownStr, '', this.childFilteredData, this.searchByForTag);
   }
@@ -137,6 +137,11 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
     if(isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.open(url, '_blank');
     }
+  }
+
+  tagClicked(tag: any) {
+    this.tagSelectedInDropdown({dropdownStr: tag});
+    this.searchVal = tag;
   }
 
   ngOnDestroy() {

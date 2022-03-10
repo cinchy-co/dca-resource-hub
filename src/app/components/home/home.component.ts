@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   searchVal: any; //
   selectedOption: IOption; //
   dropdownOptionStr: string; //
-  countrySelected: string;//
+  countrySelected: string | undefined;//
   tags: ITag[];
   showError: boolean
   bannerDetails: any;

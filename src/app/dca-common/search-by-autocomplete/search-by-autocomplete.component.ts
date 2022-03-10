@@ -53,6 +53,10 @@ export class SearchByAutocompleteComponent implements OnInit {
     this.searchByClicked({option: val});
   };
 
+  @Input() set preSelectedDropdown(val: any) {
+    this.searchByClicked({option:  this.selectedOption}, val);
+  };
+
   @Output() optionClicked: EventEmitter<IDropdownClick> = new EventEmitter<IDropdownClick>();
   @Output() resetAll: EventEmitter<any> = new EventEmitter<any>();
   @Output() itemSearched: EventEmitter<any> = new EventEmitter<any>();
@@ -68,7 +72,7 @@ export class SearchByAutocompleteComponent implements OnInit {
   placeholderForSearch: string;
   showRegion: boolean;
   regionSearchBy = [RegionSearch];
-  autoSearchVal: string;
+  autoSearchVal: any;
   dropdownOptionStr: string;
   countrySelected: string;
 
@@ -78,23 +82,30 @@ export class SearchByAutocompleteComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  searchByClicked(optionObj: { option: IOption }) {
-    this.selectedOption = optionObj.option;
+  searchByClicked(optionObj: { option: IOption }, preselectedDropdownStr?: string) {
+    this.selectedOption = optionObj.option ? optionObj.option : this.selectedOption;
     const key = this.selectedOption.code;
     this.placeholderForSearch = this.selectedOption.name;
-    if (this.selectedOption.code === 'Tags' && this.tagsData) {
-      this.autoCompleteOptions = this.tagsData;
-      this.filteredAutoCompleteOptions = this.tagsData;
-    } else {
-      const legislationData = this.getFilteredOptions(this.selectedOption);
-      this.autoCompleteOptions = this.appStateService.getUniqueOptions(legislationData, this.selectedOption, this.global);
-      this.filteredAutoCompleteOptions = this.autoCompleteOptions;
-      this.filteredAutoCompleteOptions?.sort((a: any, b: any) => {
-        return  a[key].localeCompare(b[key]);
-      });
+    if (!this.filteredAutoCompleteOptions) {
+      if (this.selectedOption.code === 'Tags' && this.tagsData) {
+        this.autoCompleteOptions = this.tagsData;
+        this.filteredAutoCompleteOptions = this.tagsData;
+      } else {
+        const legislationData = this.getFilteredOptions(this.selectedOption);
+        this.autoCompleteOptions = this.appStateService.getUniqueOptions(legislationData, this.selectedOption, this.global);
+        this.filteredAutoCompleteOptions = this.autoCompleteOptions;
+        this.filteredAutoCompleteOptions?.sort((a: any, b: any) => {
+          return  a[key].localeCompare(b[key]);
+        });
+      }
     }
+
     this.searchBySelected.emit(this.selectedOption);
-    this.reset();
+    if (preselectedDropdownStr) {
+      this.autoSearchVal = this.autoCompleteOptions.find((item: any) => item[key].trim() === preselectedDropdownStr.trim());
+    } else {
+      this.reset();
+    }
   }
 
   getFilteredOptions(option: IOption): ILegislation[] {
@@ -145,12 +156,12 @@ export class SearchByAutocompleteComponent implements OnInit {
   }
 
   reset() {
-    this.autoSearchVal = '';
+    this.autoSearchVal = null;
     this.resetAll.emit();
   }
 
   private resetComponent() {
-    this.autoSearchVal = '';
+    this.autoSearchVal = null;
     this.dropdownOptionStr = '';
     if (!this.hideSearchByOptions) {
       this.selectedSearchBy = {} as IOption;

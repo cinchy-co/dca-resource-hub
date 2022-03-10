@@ -37,7 +37,7 @@ export interface IAvatar {
 
 export interface IDropdownClick {
   dropdownStr: string,
-  countrySelected: string
+  countrySelected?: string
 }
 
 export interface ITag {

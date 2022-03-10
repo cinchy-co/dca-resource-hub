@@ -20,8 +20,9 @@
         [searchByOptions]="[searchByForTag]" [resetOnChange]="true" [allDataForOptions]="tags"
         [hideSearchByOptions]="true" [preSelectedSearchBy]="searchByForTag"
         [placeholderOverride]="'Search by Subject Area'"
-        (optionClicked)="itemSelectedInDropdown($event)"
+        (optionClicked)="tagSelectedInDropdown($event)"
         (resetAll)="resetChild()"
+        [preSelectedDropdown]="searchVal"
         (itemSearched)="itemSearched($event)">
       </app-search-by-autocomplete>
     </div>
@@ -72,7 +73,7 @@
 
       <div class="flex flex-row flex-wrap gap-1 pt-1 pl-4 text-sm-12 text-gray-700">
         <ng-container *ngFor="let tag of item['tags']">
-          <p-chip class="mr-2" [label]="tag"></p-chip>
+          <p-chip class="mr-2 cursor-pointer" [label]="tag" (click)="tagClicked(tag)"></p-chip>
         </ng-container>
       </div>
 

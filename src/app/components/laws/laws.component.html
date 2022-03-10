@@ -1,5 +1,5 @@
 <section>
-  <div class="flex flex-row flex-wrap items-start justify-between gap-4 pl-4 pr-4">
+  <div class="flex flex-row flex-wrap items-start justify-between gap-4 pl-4 pr-4" *ngIf="false">
     <app-search-by-autocomplete *ngIf="childFilteredData?.length && tags && selectedOption" class="inherit-width "
                                 [searchByOptions]="searchByOptions"
                                 [allDataForOptions]="childFilteredData"
