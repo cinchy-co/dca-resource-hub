@@ -13,6 +13,7 @@ import {ButtonModule} from "primeng/button";
 import {PipesModule} from "../../pipes/pipes.module";
 import { KeyIssuesComponent } from './key-issues/key-issues.component';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {ChipModule} from "primeng/chip";
 
 const routes = [
   {
@@ -38,20 +39,21 @@ const routes = [
     PippsComponent,
     KeyIssuesComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    DcaCommonModule,
-    SidebarModule,
-    PanelModule,
-    DropdownModule,
-    FormsModule,
-    CardModule,
-    DividerModule,
-    ButtonModule,
-    PipesModule,
-    ProgressSpinnerModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        DcaCommonModule,
+        SidebarModule,
+        PanelModule,
+        DropdownModule,
+        FormsModule,
+        CardModule,
+        DividerModule,
+        ButtonModule,
+        PipesModule,
+        ProgressSpinnerModule,
+        ChipModule
+    ]
 })
 export class PippsModule {
 }

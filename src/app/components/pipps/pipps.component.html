@@ -171,10 +171,22 @@
       <div class="p-5 w-full" *ngIf="!showSectionDetails">
         <h1 class="text-3xl text-center font-bold">{{currentArticle.label}}</h1>
         <p-divider></p-divider>
+
         <div class="mt-8 pl-2">
           <p class="whitespace-pre-wrap" [innerHTML]="currentArticle.desc | urlSanitizer: 'html'"></p>
         </div>
         <p-divider></p-divider>
+
+
+        <ng-container *ngIf="currentArticle['tagsArr']">
+          <div class="flex flex-row flex-wrap gap-1 pt-1 pl-4 text-sm-12 text-gray-700">
+            <ng-container *ngFor="let tag of currentArticle['tagsArr']">
+              <p-chip class="mr-2" [label]="tag"></p-chip>
+            </ng-container>
+          </div>
+          <p-divider></p-divider>
+        </ng-container>
+
         <div class="flex flex-row justify-between" *ngIf="prevNextAndCurrent.next || prevNextAndCurrent.prev">
           <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center" (click)="goToArticle(prevNextAndCurrent.prev)">
             <ng-container *ngIf="prevNextAndCurrent.prev?.id">

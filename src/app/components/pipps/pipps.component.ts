@@ -86,6 +86,8 @@ export class PippsComponent implements OnInit, OnDestroy {
       return;
     }
     this.currentLegislationData = await this.apiCallService.getLegislationDetails(this.selectedLegislation.code).toPromise();
+    this.currentLegislationData = this.currentLegislationData.map(item => ({...item, tagsArr: item?.tags?.split(',')}));
+    console.log('ppp this.currentLegislationData', this.currentLegislationData)
     this.keyIssues = await this.apiCallService.getKeyIssues(this.selectedLegislation.code).toPromise();
     this.allLawsKeyIssues[this.currentLegislation] = this.keyIssues;
     this.allSections = this.getSections();

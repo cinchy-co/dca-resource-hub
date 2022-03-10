@@ -9,6 +9,8 @@ export interface ILaw {
   articleNumber: number;
   lawId: number;
   id: number;
+  tags: string;
+  tagsArr: string[];
   isLevel3?: boolean;
 }
 
