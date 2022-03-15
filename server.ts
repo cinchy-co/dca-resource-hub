@@ -2,6 +2,7 @@ import 'zone.js/dist/zone-node';
 
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
+import * as compression from 'compression';
 import { join } from 'path';
 
 import { AppServerModule } from './src/main.server';
@@ -11,8 +12,13 @@ import { existsSync } from 'fs';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const distFolder = join(process.cwd(), 'dist/dca-privacy-leg/browser');
+ // const distFolder = join(process.cwd(), 'dist/dca-privacy-leg/browser');
+  const path = require('path');
+  const distFolder = path.join(__dirname, '../browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
+  process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = '0';
+
+  server.use(compression());
 
   // Our Universal express-engine (found @ https://github.com/angular/universal/tree/master/modules/express-engine)
   server.engine('html', ngExpressEngine({
@@ -21,6 +27,13 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
+
+/*  server.get('*.js', (req, res, next) => {
+    req.url = req.url + '.br';
+    res.set('Content-Encoding', 'br');
+    res.set('Content-Type', 'application/javascript; charset=UTF-8');
+    next();
+  });*/
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
@@ -31,14 +44,22 @@ export function app(): express.Express {
 
   // All regular routes use the Universal engine
   server.get('*', (req, res) => {
-    res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] });
+    const currentDate = new Date();
+    res.render(indexHtml, { req, providers: [{ provide: APP_BASE_HREF, useValue: req.baseUrl }] }, (err, html) => {
+      const endDate = new Date();
+      console.log('End request - time: ' + endDate + ' - elapsed time: ' + (endDate.getTime() - currentDate.getTime()) );
+      if (err) {
+        console.log('Error:', err);
+      }
+      res.send(html);
+    });
   });
 
   return server;
 }
 
 function run(): void {
-  const port = process.env['PORT'] || 4000;
+  const port = process.env['PORT'] || 8080;
 
   // Start up the Node server
   const server = app();
