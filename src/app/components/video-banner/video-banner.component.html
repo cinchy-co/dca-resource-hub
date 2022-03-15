@@ -35,6 +35,7 @@
           <div class="video-plyr banner-content--video" id="player">
             <iframe
               title="Node Zero video"
+              loading="lazy"
               [src]="bannerDetails['HeaderVideoLink'] | urlSanitizer: 'resourceUrl'"
               allowfullscreen
               allowtransparency
