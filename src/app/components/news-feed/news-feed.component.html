@@ -73,7 +73,7 @@
 
       <div class="flex flex-row flex-wrap gap-1 pt-1 pl-4 text-sm-12 text-gray-700">
         <ng-container *ngFor="let tag of item['tags']">
-          <p-chip class="mr-2 cursor-pointer" [label]="tag" (click)="tagClicked(tag)"></p-chip>
+          <p-chip [ngClass]="{'tag-selected': searchVal.trim() == tag.trim()}" class="mr-2 cursor-pointer" [label]="tag" (click)="tagClicked(tag)"></p-chip>
         </ng-container>
       </div>
 
