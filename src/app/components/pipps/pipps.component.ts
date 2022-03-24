@@ -13,6 +13,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
+import {IWebsiteDetails} from "../../models/common.model";
 
 @Component({
   selector: 'app-pipps',
@@ -38,6 +39,7 @@ export class PippsComponent implements OnInit, OnDestroy {
   allLaws: ILawOption[];
   keyIssues: IKeyIssues[];
   allLawsKeyIssues: { [K: string]: IKeyIssues[] } = {};
+  webSiteDetails: IWebsiteDetails;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
 
@@ -48,6 +50,7 @@ export class PippsComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.allLaws = await this.apiCallService.getAllLegislationLaws().toPromise();
+    this.webSiteDetails = (await this.apiCallService.getWebsiteDetails('legislation-navigator').toPromise())[0];
     this.legislation = this.allLaws.map(law => ({...law, code: law.law}));
     this.selectedLegislation = this.legislation[0];
     this.routeSub()
