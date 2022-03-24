@@ -173,8 +173,16 @@ p-button.btn-color {
 
 .pipps-container {
   .p-sidebar .p-sidebar-header + .p-sidebar-content {
-    padding-top: 90px;
+    transition: all 0.5s ease;
+    padding-top: 20px;
     padding-bottom: 150px;
+  }
+
+  &.pd-top-scroll {
+    transition: all 0.5s ease;
+    .p-sidebar .p-sidebar-header + .p-sidebar-content {
+      padding-top: 185px;
+    }
   }
 
   p-panel {

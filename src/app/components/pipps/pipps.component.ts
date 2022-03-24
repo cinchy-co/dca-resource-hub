@@ -1,11 +1,11 @@
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-  Component,
+  Component, ElementRef, HostListener,
   Inject,
   OnDestroy,
   OnInit,
-  PLATFORM_ID
+  PLATFORM_ID, ViewChild
 } from '@angular/core';
 import {ApiCallsService} from "../../services/api-calls.service";
 import {IOption, ILaw, ILawOption, IKeyIssues} from "./models/ppips.model";
@@ -22,6 +22,11 @@ import {IWebsiteDetails} from "../../models/common.model";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PippsComponent implements OnInit, OnDestroy {
+  @ViewChild('snav') sidenav: ElementRef;
+  @ViewChild('snavContent') snavContent: ElementRef;
+  @ViewChild('promoDiv') promoDiv: ElementRef;
+
+  fixed: boolean;
   display = true;
   currentLegislationData: ILaw[];
   allSections: Map<any, ILaw[]> = new Map();
@@ -42,6 +47,18 @@ export class PippsComponent implements OnInit, OnDestroy {
   webSiteDetails: IWebsiteDetails;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    if (isPlatformBrowser(this.platformId) && this.promoDiv) {
+      let number2 = this.promoDiv.nativeElement.getBoundingClientRect().top;
+      let offSetHeight = this.promoDiv.nativeElement.offsetHeight - 80;
+      if (Math.abs(number2) > offSetHeight) {
+        this.fixed = true;
+      } else if (this.fixed && Math.abs(number2) * -1 < offSetHeight) {
+        this.fixed = false;
+      }
+    }
+  }
 
   constructor(private apiCallService: ApiCallsService, private changeDetectorRef: ChangeDetectorRef, private router: Router,
               private route: ActivatedRoute, @Inject(PLATFORM_ID) private platformId: any,
@@ -90,7 +107,6 @@ export class PippsComponent implements OnInit, OnDestroy {
     }
     this.currentLegislationData = await this.apiCallService.getLegislationDetails(this.selectedLegislation.code).toPromise();
     this.currentLegislationData = this.currentLegislationData.map(item => ({...item, tagsArr: item?.tags?.split(',')}));
-    console.log('ppp this.currentLegislationData', this.currentLegislationData)
     this.keyIssues = await this.apiCallService.getKeyIssues(this.selectedLegislation.code).toPromise();
     this.allLawsKeyIssues[this.currentLegislation] = this.keyIssues;
     this.allSections = this.getSections();

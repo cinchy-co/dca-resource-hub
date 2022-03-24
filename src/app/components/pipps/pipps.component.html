@@ -1,6 +1,6 @@
-<div class="pipps-container bg-sky-100 h-[100%] flex flex-col" #ppips>
+<div class="pipps-container bg-sky-100 h-[100%] flex flex-col" [ngClass]="{'pd-top-scroll': !fixed}" #ppips>
 
-  <div class="banner fixed w-full">
+  <div #promoDiv class="banner mt-[70px] w-full">
     <div class="banner__content">
       <div class="banner__background">
         <img class="banner__background" alt="Node Zero Image" src="assets/background.png">
@@ -28,7 +28,7 @@
     </p-progressSpinner>
 
     <div class="show-in-medium-large">
-      <p-sidebar *ngIf="currentLegislationData" [(visible)]="display"
+      <p-sidebar #snav *ngIf="currentLegislationData" [(visible)]="display"
                  [modal]="false" [style]="{width:'450px'}">
         <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
       </p-sidebar>
@@ -41,7 +41,7 @@
       </p-sidebar>
     </div>
 
-    <div class="ml-[450px] mr-4 pl-4 pb-8 w-full mt-10 show-in-medium-large">
+    <div #snavContent class="ml-[450px] mr-4 pl-4 pb-8 w-full mt-10 show-in-medium-large">
       <ng-container *ngTemplateOutlet="mainContent"></ng-container>
     </div>
 
@@ -61,7 +61,8 @@
     </p-dropdown>
 
     <div class="flex flex-row justify-between p-4">
-      <p class="text-sky-500 text-sm-12 cursor-pointer" (click)="legislationChanged({value: {code: selectedLegislation.code}})">Table of Content</p>
+      <p class="text-sky-500 text-sm-12 cursor-pointer"
+         (click)="legislationChanged({value: {code: selectedLegislation.code}})">Table of Content</p>
       <p class="text-sky-500 text-sm-12 cursor-pointer" (click)="navigateToKeyIssues()">Key Issues</p>
     </div>
 
@@ -134,7 +135,8 @@
           <div class="pl-2 mb-4 flex flex-row flex-wrap">
             <div class="cursor-pointer" *ngFor="let item of keyIssues">
               <ng-container>
-                <p class="border-solid border-b p-1 mr-2 text-sm-12 font-light text-sky-600" (click)="navigateToKeyIssues(item)">
+                <p class="border-solid border-b p-1 mr-2 text-sm-12 font-light text-sky-600"
+                   (click)="navigateToKeyIssues(item)">
                   {{item.title}}
                 </p>
               </ng-container>
@@ -188,14 +190,16 @@
         </ng-container>
 
         <div class="flex flex-row justify-between" *ngIf="prevNextAndCurrent.next || prevNextAndCurrent.prev">
-          <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center" (click)="goToArticle(prevNextAndCurrent.prev)">
+          <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center"
+             (click)="goToArticle(prevNextAndCurrent.prev)">
             <ng-container *ngIf="prevNextAndCurrent.prev?.id">
               <i class="pi pi-angle-left"></i>
               <span>{{prevNextAndCurrent.prev?.label}}</span>
             </ng-container>
           </p>
 
-          <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center" (click)="goToArticle(prevNextAndCurrent.next)">
+          <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center"
+             (click)="goToArticle(prevNextAndCurrent.next)">
             <ng-container *ngIf="prevNextAndCurrent.next?.id">
               <span>{{prevNextAndCurrent.next?.label}}</span>
               <i class="pi pi-angle-right"></i>
