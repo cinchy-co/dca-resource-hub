@@ -225,3 +225,11 @@ app-footer {
     z-index: 1102 !important;
   }
 }
+
+.tag-selected {
+  .p-chip {
+    --tw-bg-opacity: 1;
+    background-color: rgb(14 165 233 / var(--tw-bg-opacity));
+    color: white;
+  }
+}

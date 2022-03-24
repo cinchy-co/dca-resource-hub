@@ -142,6 +142,7 @@ export class NewsFeedComponent implements OnInit, OnDestroy {
   tagClicked(tag: any) {
     this.tagSelectedInDropdown({dropdownStr: tag});
     this.searchVal = tag;
+    console.log('pppp tag', this.searchVal);
   }
 
   ngOnDestroy() {
