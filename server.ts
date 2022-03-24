@@ -28,12 +28,12 @@ export function app(): express.Express {
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-/*  server.get('*.js', (req, res, next) => {
+  server.get('*.js', (req, res, next) => {
     req.url = req.url + '.br';
     res.set('Content-Encoding', 'br');
     res.set('Content-Type', 'application/javascript; charset=UTF-8');
     next();
-  });*/
+  });
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
