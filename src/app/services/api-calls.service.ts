@@ -46,6 +46,11 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getWebsiteDetails(routeId: string) {
+    const url = `https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Website%20Map%20by%20Route%20Id?%40routeId=${routeId}`;
+    return this.getResponse(url);
+  }
+
   getLegislationDetails(law: string): Observable<any> {
     const url = `https://datacollaboration.net/API/Collaborative%20Privacy/Get%20Legislation%20Details?%40law=${law}`;
     return this.getResponse(url);

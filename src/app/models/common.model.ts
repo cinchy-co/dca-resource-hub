@@ -44,3 +44,15 @@ export interface ITag {
   label: string;
   group: string;
 }
+
+
+export interface IWebsiteDetails {
+  route: string;
+  routeId: string;
+  metaTitle: string;
+  metaDesc: string;
+  metaImg: string;
+  metaAuthor: string;
+  heroHeader: string;
+  heroDesc: string;
+}
