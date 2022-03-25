@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: 'legislation',
     loadChildren: () => import('./components/pipps/pipps.module').then(m => m.PippsModule),
+  },
+  {
+    path: 'news-podcast',
+    loadChildren: () => import('./components/news-podcast/news-podcast.module').then(m => m.NewsPodcastModule),
   }
 ];
 
