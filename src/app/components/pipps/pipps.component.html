@@ -13,8 +13,14 @@
       </div>
       <div class="banner-content" *ngIf="webSiteDetails">
         <div class="banner-content__inner">
-          <div class="banner-content--text">
-            <h1 class="text-2xl font-bold">{{webSiteDetails.heroHeader}}</h1>
+          <div class="banner-content--text flex items-center gap-4">
+            <h1 class="text-3xl font-bold">{{webSiteDetails.heroHeader}}</h1>
+            <div
+              class="text-white bg-[#00b529] h-[58px] w-[58px] border-[3px] p-2 rounded-[50%]
+           border-[#00b529] flex flex-col items-center justify-start">
+              <p class="text-sm-12 mb-0">BETA</p>
+              <sub class="mt-0">feedback</sub>
+            </div>
           </div>
         </div>
       </div>
@@ -61,9 +67,9 @@
     </p-dropdown>
 
     <div class="flex flex-row justify-between p-4">
-      <p class="text-sky-500 text-sm-12 cursor-pointer"
-         (click)="legislationChanged({value: {code: selectedLegislation.code}})">Table of Content</p>
-      <p class="text-sky-500 text-sm-12 cursor-pointer" (click)="navigateToKeyIssues()">Key Issues</p>
+      <p-button class="btn-color-green p-button-raised">ABOUT</p-button>
+      <p-button class="btn-color-green p-button-raised" (click)="legislationChanged({value: {code: selectedLegislation.code}})">CONTENTS</p-button>
+      <p-button class="btn-color-green p-button-raised" (click)="navigateToKeyIssues()">KEY ISSUES</p-button>
     </div>
 
     <div class="w-full">

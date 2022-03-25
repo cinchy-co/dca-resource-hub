@@ -33,10 +33,9 @@
 <ng-template #mainContent>
   <div *ngIf="defaultView">
     <div class="mb-12">
-      <p class="cursor-pointer mr-2 font-light text-sky-600 flex flex-row items-center" (click)="navigateToLegislation()">
-        <i class="pi pi-angle-left"></i>
-        <span>Law</span>
-      </p>
+      <p-button class="btn-color-green p-button-raised mt-5"
+                (click)="navigateToLegislation()">BACK TO  LAW
+      </p-button>
       <p-divider></p-divider>
       <p class="text-[40px] text-sky-900 text-center mb-1 font-semibold">{{currentLegislation}}</p>
       <p class="text-[32px] text-center mb-1 font-semibold">Key Issues</p>
@@ -59,7 +58,10 @@
 
   <div class="mb-5" *ngIf="!defaultView && currentKeyIssue">
     <div class="flex flex-row justify-between">
-      <p class="cursor-pointer text-sky-500 text-right" (click)="goToAllIssues()">All Key Issues</p>
+      <p-button class="btn-color-green p-button-raised"
+                (click)="navigateToLegislation()">BACK TO  LAW
+      </p-button>
+      <p-button class="btn-color-green p-button-raised" (click)="goToAllIssues()">All Key Issues</p-button>
     </div>
     <p-divider></p-divider>
     <p class="text-[40px] text-sky-900 text-center mb-1 font-semibold">{{currentLegislation}}</p>
@@ -68,8 +70,4 @@
     <p class="mt-[50px]">{{currentKeyIssue.desc}}</p>
   </div>
 
-  <p class="border-solid cursor-pointer border-t p-1 mr-2 font-light text-sky-600 text-center"
-     (click)="navigateToLegislation()">
-    Table of Content
-  </p>
 </ng-template>
