@@ -5,23 +5,28 @@ import {AutoCompleteModule} from "primeng/autocomplete";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {SelectButtonModule} from "primeng/selectbutton";
 import {ButtonModule} from "primeng/button";
+import {VideoBannerComponent} from "./video-banner/video-banner.component";
+import {PipesModule} from "../pipes/pipes.module";
 
 
 
 @NgModule({
   declarations: [
-    SearchByAutocompleteComponent
+    SearchByAutocompleteComponent,
+    VideoBannerComponent
   ],
-    imports: [
-        CommonModule,
-        AutoCompleteModule,
-        FormsModule,
-        ReactiveFormsModule,
-        SelectButtonModule,
-        ButtonModule
-    ],
+  imports: [
+    CommonModule,
+    AutoCompleteModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SelectButtonModule,
+    ButtonModule,
+    PipesModule
+  ],
   exports: [
-    SearchByAutocompleteComponent
+    SearchByAutocompleteComponent,
+    VideoBannerComponent
   ]
 })
 export class DcaCommonModule { }

@@ -27,6 +27,7 @@ export class SearchByAutocompleteComponent implements OnInit {
   @Input() hideSearchByOptions = false;
   @Input() showSearchButton = false;
   @Input() placeholderOverride: string;
+  @Input() label: string;
   @Input() set allDataForOptions(data: any) {
     if (this.resetOnChange) {
       this.resetComponent();

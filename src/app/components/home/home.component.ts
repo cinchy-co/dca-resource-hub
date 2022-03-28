@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
 import {ApiCallsService} from "../../services/api-calls.service";
-import {IAvatar, IDropdownClick, ILegislation, IOption, ITag} from "../../models/common.model";
+import {IAvatar, IDropdownClick, ILegislation, IOption, ITag, IWebsiteDetails} from "../../models/common.model";
 import {SearchBy} from "../../models/general-values.model";
 import {AppStateService} from "../../services/app-state.service";
 import {Router} from "@angular/router";
@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   tags: ITag[];
   showError: boolean
   bannerDetails: any;
+  bannerDetailsPerRoute: IWebsiteDetails;
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService) {
   }
@@ -32,7 +33,8 @@ export class HomeComponent implements OnInit {
     this.getLegislationData();
     this.getRegulatorData();
     this.getNewsAndPodcasts();
-    this.getBannerDetails();
+    this.getWebsiteDetails();
+    this.getBannerDetailsPerRoute();
     this.avatars = await this.apiCallsService.getDataStewards().toPromise();
   }
 
@@ -54,8 +56,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  async getBannerDetails() {
+  async getWebsiteDetails() {
     this.bannerDetails = await this.apiCallsService.getHeaderBannerDetails().toPromise();
+  }
+
+  async getBannerDetailsPerRoute() {
+    this.bannerDetailsPerRoute = (await this.apiCallsService.getWebsiteDetails('privacy').toPromise())[0];
   }
 
   searchBySelected(option: IOption) {

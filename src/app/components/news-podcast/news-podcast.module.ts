@@ -34,6 +34,7 @@ const routes = [
     ChipModule,
     EllipsisModule,
     ProgressSpinnerModule,
+    DcaCommonModule
   ]
 })
 export class NewsPodcastModule { }

@@ -1,24 +1,37 @@
-import {ChangeDetectionStrategy, Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID
+} from '@angular/core';
 import {ReplaySubject, takeUntil} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
-import {IDropdownClick, IOption, ITag} from "../../models/common.model";
+import {IDropdownClick, ILegislation, IOption, ITag, IWebsiteDetails} from "../../models/common.model";
 import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
-import {PAGE_SIZE} from "../../models/general-values.model";
+import {SearchBy, SEPARATE_PAGE_SIZE} from "../../models/general-values.model";
 import {WindowRefService} from "../../services/window-ref.service";
 
 @Component({
   selector: 'app-news-podcast',
   templateUrl: './news-podcast.component.html',
-  styleUrls: ['./news-podcast.component.scss']
+  styleUrls: ['./news-podcast.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewsPodcastComponent implements OnInit, OnDestroy {
   newsFeed: any;
+  legislationData: ILegislation[];
+  searchByCountry: IOption[] = SearchBy;
+  dropdownOptionStr: string;
+  countrySelected: string | undefined;//
+  countrySearchVal: string;
   tags: ITag[];
   selectedOption: IOption = {code: 'Country', name: 'Country'};
-  bannerDetails: any;
   currentPage = 0;
-  pageSize = PAGE_SIZE;
+  pageSize = SEPARATE_PAGE_SIZE;
   paginatedNewsData: any;
   filteredNewsData: any;
   selectedType = '';
@@ -29,13 +42,38 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   searchVal: string;
   newsAndPodcastsData: any;
   showError = false;
+  websiteDetails: IWebsiteDetails;
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
-              private windowRef: WindowRefService, private apiCallsService: ApiCallsService) {
+              private windowRef: WindowRefService, private apiCallsService: ApiCallsService,
+              private changeDetectorRef: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
+    this.getLegislationData();
     this.getNewsAndPodcasts();
+    this.getBannerDetailsPerRoute();
+  }
+
+  async getLegislationData() {
+    this.legislationData = await this.apiCallsService.getLegislation().toPromise();
+  }
+
+  itemSelectedInDropdown(data: IDropdownClick) {
+    this.countrySearchVal = data.dropdownStr;
+    this.dropdownOptionStr = data.dropdownStr;
+    this.countrySelected = data.countrySelected;
+    const {dropdownStr, countrySelected} = data;
+    this.filterNews(dropdownStr);
+  }
+
+  countrySearched(val: string) {
+    this.countrySearchVal = val;
+    this.filterNews(val);
+  }
+
+  async getBannerDetailsPerRoute() {
+    this.websiteDetails = (await this.apiCallsService.getWebsiteDetails('news-podcast').toPromise())[0];
   }
 
   async getNewsAndPodcasts() {
@@ -46,35 +84,15 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
       this.filteredNewsData = [...this.newsFeed];
       this.childFilteredData = [...this.newsFeed];
       this.setPaginateData();
-      this.subscribeToStateChanges();
       this.showError = false;
     } catch (e) {
       this.showError = true;
     }
-  }
-
-  subscribeToStateChanges() {
-    this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$)).subscribe(({dropdownStr, countrySelected}) => {
-      this.updateValues(dropdownStr);
-    });
-
-    this.appStateService.getSearchEnteredVal().pipe(takeUntil(this.destroyed$)).subscribe(searchVal => {
-      this.updateValues(searchVal);
-    });
-
-    this.appStateService.getReset().pipe(takeUntil(this.destroyed$)).subscribe(isReset => {
-      this.reset();
-    });
-  }
-
-  updateValues(searchStr: string) {
-    this.selectedType = '';
-    this.tags = [...this.tags]; // so that it resets in child search
-    this.filterNews(searchStr);
+    this.changeDetectorRef.detectChanges();
   }
 
   filterNews(currentSearchByKeyVal: string, keyOverride?: string, childFilteredData?: any, option?: IOption) {
-    const dataToFilterFrom = childFilteredData ? childFilteredData : this.newsFeed;
+    const dataToFilterFrom = this.newsFeed;
     let key = keyOverride ? keyOverride : this.selectedOption.code;
     key = option ? option.code : key;
     const isGlobalSearch = !keyOverride && !option?.code;
@@ -83,21 +101,24 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
     });
     this.childFilteredData = keyOverride || option || (!this.filteredNewsData?.length && option) ? this.childFilteredData : this.filteredNewsData;
     this.setPaginateData();
+    this.changeDetectorRef.detectChanges();
   }
 
   filterCriteria(key: string, newsItem: any, currentSearchByKeyVal: string, isGlobalSearch: boolean) {
-    if (isGlobalSearch) {
-      return this.appStateService.globalSearchItem(newsItem, currentSearchByKeyVal);
-    }
-    const ifSearchStr = this.searchVal && key !== 'Tags' ? newsItem['Tags']?.toLowerCase()?.includes(this.searchVal.toLowerCase().trim()) : true;
+    // BELOW IS TO FILTER OTHER ITEMS ALSO,
+    // EXAMPLE If user selects Tags search, and if existing country is selected then that also has to be filtered.
+    const ifCountry = this.countrySearchVal && key !== 'Country' ? this.appStateService.globalSearchItem(newsItem, this.countrySearchVal) : true;
+    const ifTagStr = this.searchVal && key !== 'Tags' ? newsItem['Tags']?.toLowerCase()?.includes(this.searchVal.toLowerCase().trim()) : true;
     const ifType = this.selectedType && key !== 'Type' ? newsItem['Type']?.toLowerCase()?.includes(this.selectedType.toLowerCase().trim()) : true;
-    return newsItem[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim()) && ifSearchStr && ifType;
+    return (key === 'Country' ? this.appStateService.globalSearchItem(newsItem, currentSearchByKeyVal)
+        : newsItem[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim())
+      )
+      && ifTagStr && ifType && ifCountry;
   }
 
   radioOptionClicked() {
     if (!this.selectedType) {
-      this.filteredNewsData = this.childFilteredData;
-      this.setPaginateData();
+      this.filterNews('', '', this.childFilteredData, this.searchByForTag);
       return;
     }
     this.filterNews(this.selectedType, 'Type', this.childFilteredData);
@@ -110,11 +131,8 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   }
 
   reset() {
-    this.selectedType = '';
-    this.childFilteredData = [...this.newsFeed];
-    this.filteredNewsData = [...this.newsFeed];
-    this.tags = [...this.tags];
-    this.setPaginateData();
+    this.countrySearchVal = '';
+    this.filterNews('');
   }
 
   paginate(event: any) {
@@ -147,7 +165,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   }
 
   joinFree() {
-    const url = this.bannerDetails[0]['NewsContributeLink'];
+    const url = this.websiteDetails['heroVideo']; // Need to change
     if(isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.open(url, '_blank');
     }

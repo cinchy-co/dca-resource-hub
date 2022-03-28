@@ -22,7 +22,6 @@ import { EllipsisModule } from 'ngx-ellipsis';
 import {HomeComponent} from './home/home.component';
 import {HeaderComponent} from './header/header.component';
 import {AvatarsComponent} from "./avatars/avatars.component";
-import {VideoBannerComponent} from './video-banner/video-banner.component';
 import {LawsComponent} from './laws/laws.component';
 import {FooterComponent} from './footer/footer.component';
 import {RegulatorsComponent} from './regulators/regulators.component';
@@ -36,7 +35,6 @@ import {PipesModule} from "../pipes/pipes.module";
     HomeComponent,
     HeaderComponent,
     AvatarsComponent,
-    VideoBannerComponent,
     LawsComponent,
     FooterComponent,
     RegulatorsComponent,

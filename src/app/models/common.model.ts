@@ -55,4 +55,8 @@ export interface IWebsiteDetails {
   metaAuthor: string;
   heroHeader: string;
   heroDesc: string;
+  heroLinkLabel: string;
+  heroLinkUrl: string;
+  heroVideo: string;
+  insideSectionButton?: string;
 }

@@ -2,6 +2,7 @@ import {AfterViewInit, Component, Inject, Input, OnInit, PLATFORM_ID} from '@ang
 import * as Plyr from 'plyr';
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
+import {IWebsiteDetails} from "../../models/common.model";
 
 @Component({
   selector: 'app-video-banner',
@@ -9,7 +10,7 @@ import {WindowRefService} from "../../services/window-ref.service";
   styleUrls: ['./video-banner.component.scss']
 })
 export class VideoBannerComponent implements OnInit, AfterViewInit {
-  @Input() bannerDetails: any;
+  @Input() bannerDetails: IWebsiteDetails;
   youtubeSources: Plyr.Source[] = [
     {
       src: 'https://youtube.com/watch?v=bTqVqk7FSmY',
