@@ -1,30 +1,7 @@
 <div class="pipps-container bg-sky-100 h-[100%] flex flex-col" [ngClass]="{'pd-top-scroll': !fixed}" #ppips>
 
-  <div #promoDiv class="banner mt-[70px] w-full">
-    <div class="banner__content">
-      <div class="banner__background">
-        <img class="banner__background" alt="Node Zero Image" src="assets/background.png">
-      </div>
-
-      <div class="cursor-pointer show-in-small absolute right-2 top-2">
-        <button pButton type="button" icon="pi pi-bars" iconPos="left"
-                (click)="toggleSidebar()">
-        </button>
-      </div>
-      <div class="banner-content" *ngIf="webSiteDetails">
-        <div class="banner-content__inner">
-          <div class="banner-content--text flex items-center gap-4">
-            <h1 class="text-3xl font-bold">{{webSiteDetails.heroHeader}}</h1>
-            <div
-              class="text-white bg-[#00b529] h-[58px] w-[58px] border-[3px] p-2 rounded-[50%]
-           border-[#00b529] flex flex-col items-center justify-start">
-              <p class="text-sm-12 mb-0">BETA</p>
-              <sub class="mt-0">feedback</sub>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <div #promoDiv class="banner-container mt-[70px] w-full">
+    <app-hero-banner [webSiteDetails]="webSiteDetails" (sidebarToggled)="toggleSidebar()"></app-hero-banner>
   </div>
 
   <div class="pipps-container-content flex flex-row">
@@ -68,7 +45,9 @@
 
     <div class="flex flex-row justify-between p-4">
       <!--<p-button class="btn-color-green p-button-raised">ABOUT</p-button>-->
-      <p-button class="btn-color-green p-button-raised" (click)="legislationChanged({value: {code: selectedLegislation.code}})">CONTENTS</p-button>
+      <p-button class="btn-color-green p-button-raised"
+                (click)="legislationChanged({value: {code: selectedLegislation.code}})">CONTENTS
+      </p-button>
       <p-button class="btn-color-green p-button-raised" (click)="navigateToKeyIssues()">KEY ISSUES</p-button>
     </div>
 

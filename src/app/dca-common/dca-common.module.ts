@@ -7,13 +7,15 @@ import {SelectButtonModule} from "primeng/selectbutton";
 import {ButtonModule} from "primeng/button";
 import {VideoBannerComponent} from "./video-banner/video-banner.component";
 import {PipesModule} from "../pipes/pipes.module";
+import { HeroBannerComponent } from './hero-banner/hero-banner.component';
 
 
 
 @NgModule({
   declarations: [
     SearchByAutocompleteComponent,
-    VideoBannerComponent
+    VideoBannerComponent,
+    HeroBannerComponent
   ],
   imports: [
     CommonModule,
@@ -26,7 +28,8 @@ import {PipesModule} from "../pipes/pipes.module";
   ],
   exports: [
     SearchByAutocompleteComponent,
-    VideoBannerComponent
+    VideoBannerComponent,
+    HeroBannerComponent
   ]
 })
 export class DcaCommonModule { }

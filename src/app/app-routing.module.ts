@@ -12,9 +12,13 @@ const routes: Routes = [
     loadChildren: () => import('./components/pipps/pipps.module').then(m => m.PippsModule),
   },
   {
-    path: 'news-podcast',
+    path: 'privacynewsfeed',
     loadChildren: () => import('./components/news-podcast/news-podcast.module').then(m => m.NewsPodcastModule),
-  }
+  },
+  {
+    path: '**',
+    redirectTo: ''
+  },
 ];
 
 @NgModule({

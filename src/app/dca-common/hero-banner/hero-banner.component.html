@@ -1,0 +1,26 @@
+<section class="banner">
+  <div class="banner__content">
+    <div class="banner__background">
+      <img class="banner__background" alt="Node Zero Image" src="assets/background.png">
+    </div>
+
+    <div class="cursor-pointer show-in-small absolute right-2 top-2">
+      <button pButton type="button" icon="pi pi-bars" iconPos="left"
+              (click)="toggleSidebar()">
+      </button>
+    </div>
+    <div class="banner-content" *ngIf="webSiteDetails">
+      <div class="banner-content__inner">
+        <div class="banner-content--text flex items-center gap-4">
+          <h1 class="text-3xl font-bold">{{webSiteDetails.heroHeader}}</h1>
+          <div
+            class="text-white bg-[#00b529] h-[58px] w-[58px] border-[3px] p-2 rounded-[50%]
+           border-[#00b529] flex flex-col items-center justify-start">
+            <p class="text-sm-12 mb-0">BETA</p>
+            <sub class="mt-0">feedback</sub>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

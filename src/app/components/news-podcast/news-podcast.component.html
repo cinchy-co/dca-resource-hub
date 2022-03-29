@@ -1,14 +1,13 @@
 <section class="mt-[50px]">
   <div class="video">
-    <app-video-banner *ngIf="websiteDetails" [bannerDetails]="websiteDetails" class="basis-[50%]"></app-video-banner>
+    <app-hero-banner *ngIf="websiteDetails" [webSiteDetails]="websiteDetails"></app-hero-banner>
   </div>
 
   <div class="p-10" *ngIf="tags && paginatedNewsData">
-    <div class="flex justify-between pb-5 ">
+    <div class="flex flex-wrap justify-start pb-5 gap-5">
       <div class="relative flex flex-row justify-center">
         <app-search-by-autocomplete *ngIf="legislationData?.length" [searchByOptions]="searchByCountry"
                                     class="inherit-width"
-                                    [label]="'Country'"
                                     [allDataForOptions]="legislationData"
                                     [global]="true"
                                     [preSelectedSearchBy]="searchByCountry[0]"
@@ -26,7 +25,6 @@
 
       <div class="relative flex flex-row justify-center">
         <app-search-by-autocomplete class="inherit-width"
-                                    [label]="'Tags'"
                                     [searchByOptions]="[searchByForTag]"
                                     [allDataForOptions]="tags"
                                     [hideSearchByOptions]="true" [preSelectedSearchBy]="searchByForTag"
