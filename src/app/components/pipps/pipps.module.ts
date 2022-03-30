@@ -14,6 +14,7 @@ import {PipesModule} from "../../pipes/pipes.module";
 import { KeyIssuesComponent } from './key-issues/key-issues.component';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {ChipModule} from "primeng/chip";
+import {ComponentsModule} from "../components.module";
 
 const routes = [
   {
@@ -52,7 +53,8 @@ const routes = [
         ButtonModule,
         PipesModule,
         ProgressSpinnerModule,
-        ChipModule
+        ChipModule,
+        ComponentsModule
     ]
 })
 export class PippsModule {

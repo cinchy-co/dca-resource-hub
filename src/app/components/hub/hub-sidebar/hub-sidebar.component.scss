@@ -1,0 +1,18 @@
+.hub-sidebar {
+  width: 256px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  z-index: 1000;
+  border-right: 1px solid rgb(218, 220, 224);
+  flex-flow: column nowrap;
+  display: flex;
+  transition: width 100ms cubic-bezier(0, 0, 0.2, 1) 0s;
+  transform: translateX(0%);
+}
+
+.logo-text {
+  transition: display 100ms cubic-bezier(0, 0, 0.2, 1) 0s;
+  transform: translateX(0%);
+}

@@ -1,3 +1,4 @@
+<app-header></app-header>
 <section class="mt-[50px]">
   <div class="video">
     <app-hero-banner *ngIf="websiteDetails" [webSiteDetails]="websiteDetails"></app-hero-banner>
@@ -153,3 +154,5 @@
 <p-progressSpinner class="item-center-n-relative"
                    *ngIf="!(tags && paginatedNewsData)">
 </p-progressSpinner>
+
+<app-footer></app-footer>

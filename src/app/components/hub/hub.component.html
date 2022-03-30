@@ -1,0 +1,6 @@
+<section>
+  <app-hub-sidebar (toggleSidebarClicked)="sidebarStateChange($event)"></app-hub-sidebar>
+  <div class="p-10" [ngStyle]="{'margin-left': !isSidebarExpanded ? '80px' : '330px'}">
+    <router-outlet></router-outlet>
+  </div>
+</section>

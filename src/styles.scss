@@ -39,6 +39,11 @@ app-pipps {
   min-height: 90vh;
 }
 
+app-footer {
+  flex-shrink: 0;
+  z-index: 9999;
+}
+
 .item-center-n-relative {
   top: 50%;
   left: 50%;

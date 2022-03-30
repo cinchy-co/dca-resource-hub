@@ -10,6 +10,7 @@ import {ChipModule} from "primeng/chip";
 import {RouterModule} from "@angular/router";
 import { EllipsisModule } from 'ngx-ellipsis';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {ComponentsModule} from "../components.module";
 
 
 const routes = [
@@ -34,7 +35,8 @@ const routes = [
     ChipModule,
     EllipsisModule,
     ProgressSpinnerModule,
-    DcaCommonModule
+    DcaCommonModule,
+    ComponentsModule
   ]
 })
 export class NewsPodcastModule { }

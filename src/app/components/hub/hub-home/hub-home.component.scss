@@ -1,0 +1,27 @@
+.hub-home-container {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  flex: 0 1 70%;
+  min-width: 0;
+
+
+  .vertical-bar {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    border-left: 2px solid rgba(0, 0, 0, 0.06);
+    height: 100%;
+  }
+
+  .home-content {
+    display: flex;
+    flex: 1 1 0%;
+    flex-direction: column;
+    background: rgb(255, 255, 255);
+    border-radius: 4px;
+    border: 1px solid rgb(222, 223, 224);
+    margin-top: 24px;
+    min-width: 0;
+  }
+}
