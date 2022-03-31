@@ -1,5 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output, PLATFORM_ID} from '@angular/core';
 import {IWebsiteDetails} from "../../models/common.model";
+import {isPlatformBrowser} from "@angular/common";
+import {WindowRefService} from "../../services/window-ref.service";
 
 @Component({
   selector: 'app-hero-banner',
@@ -10,7 +12,8 @@ export class HeroBannerComponent implements OnInit {
   @Input() webSiteDetails: IWebsiteDetails;
   @Output() sidebarToggled: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {
+  constructor(@Inject(PLATFORM_ID) private platformId: any,
+              private windowRef: WindowRefService) {
   }
 
   ngOnInit(): void {
@@ -18,6 +21,13 @@ export class HeroBannerComponent implements OnInit {
 
   toggleSidebar() {
     this.sidebarToggled.emit();
+  }
+
+  goToFeedback() {
+    const url = 'https://docs.google.com/forms/d/e/1FAIpQLScqqzHjk2BSiDu4_7O-d8L8f31Gze72Wkb7UK4POLsECXiqkw/viewform?usp=sf_link';
+    if (isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
   }
 
 }
