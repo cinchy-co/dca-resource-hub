@@ -1,6 +1,6 @@
 <section>
   <app-hub-sidebar (toggleSidebarClicked)="sidebarStateChange($event)"></app-hub-sidebar>
-  <div class="p-20" [ngStyle]="{'margin-left': !isSidebarExpanded ? '100px' : '330px'}">
+  <div class="p-[100px] hub-content" [ngStyle]="{'margin-left': !isSidebarExpanded ? '50px' : '250px'}">
     <router-outlet></router-outlet>
   </div>
 </section>
