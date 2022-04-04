@@ -1,0 +1,17 @@
+<div [ngStyle]="{'width': isExpanded ? '250px' : '60px'}" class="hub-sidebar">
+  <div class="flex items-center justify-left p-5 mb-10 mt-5 gap-4 h-[42px]">
+    <i class="pi pi-bars cursor-pointer" style="font-size: 1.2rem" (click)="toggleSidebar()"></i>
+    <img @fadeSlideInOut *ngIf="isExpanded" src="assets/node-zero-black.png" alt="logo" style="height:35px">
+  </div>
+
+  <div class="flex flex-col">
+    <div *ngFor="let option of sidebarOptions">
+      <div class="flex items-center justify-left pr-5 pl-5 pt-4 pb-4 gap-5 cursor-pointer text-slate-600"
+           [ngClass]="{'border-r border-current bg-slate-100 text-slate-900': currentOptionSelected.sidebarRoute === option.sidebarRoute}"
+           (click)="goToAnotherPage(option)">
+        <i class="pi" [ngClass]="option.sidebarIcon" style="font-size: 1.2rem"></i>
+        <span *ngIf="isExpanded" class="">{{option.sidebarLabel}}</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {AppStateService} from "../../services/app-state.service";
 
 @Component({
   selector: 'app-hub',
@@ -8,14 +9,10 @@ import {Component, OnInit} from '@angular/core';
 export class HubComponent implements OnInit {
   isSidebarExpanded: boolean;
 
-  constructor() {
+  constructor(private appStateService: AppStateService) {
   }
 
   ngOnInit(): void {
-  }
-
-  sidebarStateChange(isExpanded: boolean) {
-    this.isSidebarExpanded = isExpanded;
   }
 
 }

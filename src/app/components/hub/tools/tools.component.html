@@ -2,14 +2,37 @@
 
   <div class="flex justify-between">
     <div class="basis-[40%]">
-      <h1 class="text-[3rem] font-bold">Tools</h1>
+      <h1 class="text-[3rem] font-bold" [innerHTML]="toolsHeaderDetails.header"></h1>
 
-      <p class="text-gray-700">
-        Grow your data science skills by competing in our exciting competitions. Find help in the documentation or learn
-        about Community Competitions.
+      <p class="text-gray-700" [innerHTML]="toolsHeaderDetails.description">
       </p>
     </div>
 
-    <img style="height: 220px" src="assets/mock.png" alt="Bookmarks">
+    <img style="height: 170px" [src]="toolsHeaderDetails.image" alt="Tools">
+  </div>
+
+  <p-divider></p-divider>
+
+  <div class="flex flex-wrap gap-10">
+    <div class="cursor-pointer default-border w-[350px] h-[380px] rounded-[20px]" *ngFor="let item of tools"
+    (click)="goToSelection(item)">
+      <div class="relative mb-4 responsive-image-container rounded-t-[20px]">
+        <img class="rounded-t-[20px] responsive-image" alt="tool-image" [src]="item.toolImage">
+        <img class="p-[3px] left-[15px] bottom-[15px] absolute rounded-[50%] border-[3px] border-white"
+             alt="tool-logo-image" style="height: 50px" [src]="item.toolLogo">
+      </div>
+
+      <div class="flex flex-col pt-1 pb-3 pl-4 pr-4 h-[180px]">
+        <span class="line-clamp-2 text-[20px] font-semibold mb-2" [title]="item.toolName" [innerHTML]="item.toolName"></span>
+
+        <span class="line-clamp-6 text-sm-12 text-gray-800" [title]="item.toolDesc" [innerHTML]="item.toolDesc"></span>
+      </div>
+
+      <hr>
+
+      <div class="pt-3 pb-3 pl-4 pr-4">
+        <span class="font-bold" [innerHTML]="item.toolTags"></span>
+      </div>
+    </div>
   </div>
 </section>

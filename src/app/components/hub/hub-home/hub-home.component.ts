@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {ApiCallsService} from "../../../services/api-calls.service";
+import {INewsFeed} from "../model/hub.model";
 
 @Component({
   selector: 'app-hub-home',
@@ -6,10 +8,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hub-home.component.scss']
 })
 export class HubHomeComponent implements OnInit {
+  newsFeed: INewsFeed[];
 
-  constructor() { }
+  constructor(private appApiService: ApiCallsService) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.newsFeed = (await this.appApiService.getHubNewsfeed().toPromise()) as INewsFeed[];
   }
 
 }

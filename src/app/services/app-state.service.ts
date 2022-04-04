@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
 import {IDropdownClick, IOption} from "../models/common.model";
-import {MappedCombinedCountryKey} from "../models/general-values.model";
+import {ICommunityDetails, MappedCombinedCountryKey} from "../models/general-values.model";
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +10,19 @@ export class AppStateService {
   search$: Subject<string> = new Subject<string>();
   reset$: Subject<boolean> = new Subject<boolean>();
   dropdownOptionClicked$: BehaviorSubject<IDropdownClick> = new BehaviorSubject<IDropdownClick>({dropdownStr: '', countrySelected: ''});
+  sidebarToggled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   avatars: any;
+  communityDetails: ICommunityDetails[];
 
   constructor() {
+  }
+
+  setSidebarToggled(val: boolean) {
+    this.sidebarToggled$.next(val);
+  }
+
+  getSidebarToggled() {
+    return this.sidebarToggled$.asObservable();
   }
 
   setSearch(val: string) {

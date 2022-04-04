@@ -39,7 +39,7 @@ import {PipesModule} from "../pipes/pipes.module";
     FooterComponent,
     RegulatorsComponent,
     NewsFeedComponent,
-    PodcastsComponent
+    PodcastsComponent,
   ],
     imports: [
         CommonModule,

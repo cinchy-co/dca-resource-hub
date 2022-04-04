@@ -17,3 +17,13 @@ export const SearchByLaw = [
   {name: 'Class', code: 'Class'},
   {name: 'Subject Area', code: 'Tags'}
 ]
+
+export interface ICommunityDetails {
+  sidebarLabel: string;
+  id: string;
+  sidebarIcon: string;
+  sidebarRoute: string;
+  header: string;
+  description: string;
+  image: string;
+}

@@ -12,7 +12,7 @@ const routes: Routes = [
     loadChildren: () => import('./components/hub/hub.module').then(m => m.HubModule),
   },
   {
-    path: 'legislation',
+    path: 'privacy-law-navigator',
     loadChildren: () => import('./components/pipps/pipps.module').then(m => m.PippsModule),
   },
   {

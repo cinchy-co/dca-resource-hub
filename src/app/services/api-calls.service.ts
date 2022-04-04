@@ -67,6 +67,28 @@ export class ApiCallsService {
     }
   }
 
+
+  // HUB
+  getCommunityPageDetails(): Observable<any> {
+    const url = `https://datacollaboration.net/API/Node%20Zero%20Website/Get%20Community%20Page%20Details`;
+    return this.getResponse(url);
+  }
+
+  getHubNewsfeed(): Observable<any> {
+    const url = `https://datacollaboration.net/API/Node%20Zero%20Website/Get%20Community%20Newsfeed`;
+    return this.getResponse(url);
+  }
+
+  getHubTools(): Observable<any> {
+    const url = `https://datacollaboration.net/API/Node%20Zero%20Website/Get%20Tool%20Page%20Tools`;
+    return this.getResponse(url);
+  }
+
+  getHubTables(): Observable<any> {
+    const url = `https://datacollaboration.net/API/Node%20Zero%20Website/Get%20Table%20Page%20Tables`;
+    return this.getResponse(url);
+  }
+
   getResponse(url: string): Observable<any> {
     return this.http.get(url, {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),

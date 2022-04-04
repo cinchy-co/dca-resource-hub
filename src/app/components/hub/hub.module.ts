@@ -2,7 +2,6 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HubComponent } from './hub.component';
 import {RouterModule} from "@angular/router";
-import { HubSidebarComponent } from './hub-sidebar/hub-sidebar.component';
 import { ToolsComponent } from './tools/tools.component';
 import { TablesComponent } from './tables/tables.component';
 import { SuggestionsComponent } from './suggestions/suggestions.component';
@@ -44,7 +43,6 @@ const routes = [
 @NgModule({
   declarations: [
     HubComponent,
-    HubSidebarComponent,
     ToolsComponent,
     TablesComponent,
     SuggestionsComponent,

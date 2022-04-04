@@ -72,6 +72,26 @@ app-footer {
   background: #555;
 }
 
+.default-border {
+  border: 1px solid rgb(222, 223, 224);
+}
+
+.responsive-image-container {
+  overflow: hidden;
+  padding-bottom: 36.25%;
+  position: relative;
+  padding-right: 5px;
+  cursor: pointer;
+  background: black;
+
+  .responsive-image {
+    left: 0;
+    top: 0;
+    height: auto;
+    width: 100%;
+    position: absolute;
+  }
+}
 
 .text-sm-12 {
   font-size: 0.83rem;
