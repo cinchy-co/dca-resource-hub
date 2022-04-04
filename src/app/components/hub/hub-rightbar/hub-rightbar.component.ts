@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {IUser} from "../../../models/common.model";
 
 @Component({
   selector: 'app-hub-rightbar',
@@ -6,10 +7,13 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./hub-rightbar.component.scss']
 })
 export class HubRightbarComponent implements OnInit {
+  @Input() userDetails: IUser;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
+    console.log('pppp USE DFERT', this.userDetails);
   }
 
 }

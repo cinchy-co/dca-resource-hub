@@ -1,6 +1,7 @@
 <div class="page-wrapper" *ngIf="loginDone">
   <app-hub-sidebar (toggleSidebarClicked)="sidebarStateChange($event)"></app-hub-sidebar>
 
+  <app-profile></app-profile>
   <div class="p-[100px] hub-content" [ngStyle]="{'margin-left': !isSidebarExpanded ? '50px' : '250px'}">
     <router-outlet></router-outlet>
   </div>

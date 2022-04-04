@@ -120,7 +120,7 @@ p-autocomplete, .p-autocomplete {
 
 .inherit-width {
   .p-autocomplete {
-    width: 35vw;
+    width: 25vw;
 
     @media (max-width: 697px) {
       width: 80vw;
@@ -196,17 +196,23 @@ p-button.btn-color {
   line-height: 1;
 }
 
-.pipps-container {
+.pipps-container, .key-issues-container {
   .p-sidebar .p-sidebar-header + .p-sidebar-content {
     transition: all 0.5s ease;
     padding-top: 20px;
-    padding-bottom: 150px;
+  //  padding-bottom: 150px;
+  }
+
+  .p-sidebar, p-sidebar {
+    position: sticky;
+    height: 100vh;
+    overflow: auto;
   }
 
   &.pd-top-scroll {
     transition: all 0.5s ease;
     .p-sidebar .p-sidebar-header + .p-sidebar-content {
-      padding-top: 185px;
+      // padding-top: 185px;
     }
   }
 

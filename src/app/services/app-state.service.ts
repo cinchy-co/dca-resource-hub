@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
-import {IDropdownClick, IOption} from "../models/common.model";
+import {IDropdownClick, IOption, IUser} from "../models/common.model";
 import {ICommunityDetails, MappedCombinedCountryKey} from "../models/general-values.model";
 
 @Injectable({
@@ -13,6 +13,7 @@ export class AppStateService {
   sidebarToggled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   avatars: any;
   communityDetails: ICommunityDetails[];
+  userDetails: IUser;
 
   constructor() {
   }

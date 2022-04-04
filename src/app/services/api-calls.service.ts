@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {map, Observable, of, tap} from "rxjs";
+import {IUser} from "../models/common.model";
 
 @Injectable({
   providedIn: 'root'
@@ -87,6 +88,33 @@ export class ApiCallsService {
   getHubTables(): Observable<any> {
     const url = `https://datacollaboration.net/API/Node%20Zero%20Website/Get%20Table%20Page%20Tables`;
     return this.getResponse(url);
+  }
+
+  async setUserDetails(): Promise<any> {
+    return new Promise(async(resolve, reject) => {
+      const userObjectFromStorageStr = sessionStorage.getItem('id_token_claims_obj');
+      if (userObjectFromStorageStr) {
+        const userObjectFromStorage = JSON.parse(userObjectFromStorageStr);
+        const userDetails = await this.getLoggedInUserDetails(userObjectFromStorage.id).toPromise() as IUser[];
+        resolve(userDetails[0]);
+      } else {
+        reject('No user details');
+      }
+    })
+
+    // Below getUserIdentity has some bug and doesn't always emit a value
+    /*    this.cinchyService.getUserIdentity().subscribe(async (user: any) => {
+          if (user?.id) {
+            const userDetails = await this.getLoggedInUserDetails(user.id).toPromise();
+            this.userDetails = userDetails;
+            this.loggedInUser$.next(userDetails);
+          }
+        });*/
+  }
+
+  getLoggedInUserDetails(userName: string): Observable<IUser[]> {
+   const url = `https://datacollaboration.net/API/Node%20Zero%20Website/Get%20User%20Details?%40userName=${userName}`;
+   return this.getResponse(url);
   }
 
   getResponse(url: string): Observable<any> {

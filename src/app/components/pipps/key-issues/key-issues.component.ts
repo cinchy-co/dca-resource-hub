@@ -13,6 +13,7 @@ import {ApiCallsService} from "../../../services/api-calls.service";
 import {IKeyIssues} from "../models/ppips.model";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../../services/window-ref.service";
+import {IWebsiteDetails} from "../../../models/common.model";
 
 @Component({
   selector: 'app-key-issues',
@@ -28,6 +29,7 @@ export class KeyIssuesComponent implements OnInit, OnDestroy {
   defaultView: boolean;
   currentKeyIssue: IKeyIssues | undefined;
   display = true;
+  webSiteDetails: IWebsiteDetails;
 
   constructor(private router: Router, private route: ActivatedRoute, private apiCallService: ApiCallsService,
               private changeDetectorRef: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
@@ -35,6 +37,7 @@ export class KeyIssuesComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.webSiteDetails = (await this.apiCallService.getWebsiteDetails('legislation-navigator').toPromise())[0];
     this.route.paramMap.pipe(takeUntil(this.destroyed$)).subscribe(async (params: any) => {
       this.selectedId = params.get('keyIssueId') === 'all' ? 0 : +(params.get('keyIssueId'));
       this.currentLegislation = params.get('legislation');
@@ -64,17 +67,17 @@ export class KeyIssuesComponent implements OnInit, OnDestroy {
   navigateToKeyIssues(issue: IKeyIssues) {
     const issueId = issue.id;
     const urlParams = {legislation: this.currentLegislation};
-    this.router.navigate([`/legislation/keyIssues/${issueId}`, urlParams]);
+    this.router.navigate([`tools/privacy-legislation-navigator/keyIssues/${issueId}`, urlParams]);
   }
 
   navigateToLegislation() {
     const urlParams = {legislation: this.currentLegislation};
-    this.router.navigate([`/legislation`, urlParams]);
+    this.router.navigate([`tools/privacy-legislation-navigator`, urlParams]);
   }
 
   goToAllIssues() {
     const urlParams = {legislation: this.currentLegislation};
-    this.router.navigate([`/legislation/keyIssues/all`, urlParams]);
+    this.router.navigate([`tools/privacy-legislation-navigator/keyIssues/all`, urlParams]);
   }
 
   ngOnDestroy() {

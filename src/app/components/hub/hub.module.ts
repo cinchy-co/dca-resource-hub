@@ -10,6 +10,7 @@ import { HubHomeComponent } from './hub-home/hub-home.component';
 import { HubRightbarComponent } from './hub-rightbar/hub-rightbar.component';
 import {DividerModule} from "primeng/divider";
 import {CardModule} from "primeng/card";
+import {HomeComponent} from "../home/home.component";
 
 const routes = [
   {
@@ -35,6 +36,18 @@ const routes = [
       {
         path: 'bookmarks',
         component: BookmarksComponent
+      },
+      {
+        path: 'tools/privacy-legislation-navigator',
+        loadChildren: () => import('../pipps/pipps.module').then(m => m.PippsModule),
+      },
+      {
+        path: 'tools/privacy-newsfeed',
+        loadChildren: () => import('../news-podcast/news-podcast.module').then(m => m.NewsPodcastModule),
+      },
+      {
+        path: 'tools/privacy-law-navigator',
+        component: HomeComponent
       }
     ]
   }

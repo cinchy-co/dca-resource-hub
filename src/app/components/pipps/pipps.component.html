@@ -1,17 +1,23 @@
 <!--<app-header></app-header>-->
-<div class="pipps-container bg-sky-100 h-[100%] flex flex-col" [ngClass]="{'pd-top-scroll': !fixed}" #ppips>
+<div class="default-border pipps-container h-[100%] flex flex-col" [ngClass]="{'pd-top-scroll': !fixed}" #ppips>
 
-  <div #promoDiv class="banner-container mt-[70px] w-full">
+  <div #promoDiv class="banner-container w-full">
     <app-hero-banner [webSiteDetails]="webSiteDetails" (sidebarToggled)="toggleSidebar()"></app-hero-banner>
   </div>
 
-  <div class="pipps-container-content flex flex-row">
+  <div class="relative pipps-container-content flex flex-row">
 
     <p-progressSpinner class="item-center-n-relative"
                        *ngIf="!(currentLegislationData?.length && (currentLegislationData?.length))">
     </p-progressSpinner>
 
     <div class="show-in-medium-large z-0">
+      <div class="cursor-pointer absolute left-2 top-2">
+        <button pButton type="button" icon="pi pi-bars" iconPos="left"
+                (click)="toggleSidebar()">
+        </button>
+      </div>
+
       <p-sidebar #snav *ngIf="currentLegislationData" [(visible)]="display"
                  [modal]="false" [style]="{width:'450px'}">
         <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
@@ -19,13 +25,19 @@
     </div>
 
     <div class="show-in-small z-0">
+      <div class="cursor-pointer absolute left-2 top-2">
+        <button pButton type="button" icon="pi pi-bars" iconPos="left"
+                (click)="toggleSidebar()">
+        </button>
+      </div>
+
       <p-sidebar *ngIf="currentLegislationData" [modal]="false"
                  [(visible)]="display" [style]="{width:'100%'}">
         <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
       </p-sidebar>
     </div>
 
-    <div #snavContent class="ml-[450px] mr-4 pl-4 pb-8 w-full mt-10 show-in-medium-large">
+    <div #snavContent class="mr-4 pl-4 pb-8 w-full mt-10 show-in-medium-large">
       <ng-container *ngTemplateOutlet="mainContent"></ng-container>
     </div>
 
@@ -81,7 +93,7 @@
 
 <ng-template #mainContent>
   <div *ngIf="showIndexPage && selectedLegislation" class="flex flex-col">
-    <p-card class="w-[80%] m-auto">
+    <p-card class="w-[90%] m-auto">
       <div class="pl-[50px] p-5">
         <h1 class="text-[32px] font-semibold mb-1 text-center">{{selectedLegislation.name}}</h1>
         <h1 class="text-[32px] mb-10 text-center">{{selectedLegislation.code}}</h1>
@@ -152,7 +164,7 @@
     </p-card>
   </div>
 
-  <div *ngIf="currentArticle && !showIndexPage" class="w-[80%] m-auto flex flex-col">
+  <div *ngIf="currentArticle && !showIndexPage" class="w-[90%] m-auto flex flex-col">
     <p class="text-sm text-sky-500 mb-4 pl-4 self-end cursor-pointer"
        (click)="legislationChanged({value: {code: selectedLegislation.code}})">Table of Content</p>
     <p-card>

@@ -2,12 +2,12 @@
 
   <div class="flex p-4 justify-between">
     <div class="flex flex-col">
-      <span>Imroz Khan</span>
-      <span class="text-sm-12 text-gray-400">Joined a day ago</span>
+      <span>{{userDetails.name}}</span>
+      <span class="text-sm-12 text-gray-400">Joined on {{userDetails.joinedDate | date}}</span>
     </div>
 
     <div>
-      <img class="w-[50px] h-[50px] cursor-pointer block" src="assets/bg.png" alt="profile">
+      <img class="w-[50px] h-[50px] cursor-pointer block" [src]="'data:image/png;base64,' + userDetails.photo" alt="profile">
     </div>
   </div>
 

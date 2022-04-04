@@ -1,18 +1,26 @@
-<div class="flex flex-col pt-[70px] w-100% sm-[90%] lg:w-[80%] md:w-[80%] m-auto">
-  <div class="show-in-medium-large mr-4 pl-4 pb-8 w-full mt-10">
-    <p-sidebar *ngIf="keyIssues" [(visible)]="display"
-               [modal]="false" [style]="{width:'450px'}">
-      <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
-    </p-sidebar>
+<div class="default-border">
+  <div #promoDiv class="banner-container w-full">
+    <app-hero-banner [webSiteDetails]="webSiteDetails"></app-hero-banner>
   </div>
 
-  <div class="ml-[450px] mr-4 pl-4 pb-8 show-in-medium-large">
-    <ng-container *ngTemplateOutlet="mainContent"></ng-container>
+  <div class="key-issues-container flex w-100% m-auto">
+
+    <div class="show-in-medium-large mr-4 pl-4 pb-8 w-full mt-10">
+      <p-sidebar *ngIf="keyIssues" [(visible)]="display"
+                 [modal]="false" [style]="{width:'450px'}">
+        <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+      </p-sidebar>
+    </div>
+
+    <div class="mr-4 p-10 show-in-medium-large">
+      <ng-container *ngTemplateOutlet="mainContent"></ng-container>
+    </div>
+
+    <div class="mr-1 p-10 w-full show-in-small">
+      <ng-container *ngTemplateOutlet="mainContent"></ng-container>
+    </div>
   </div>
 
-  <div class="mr-1 pl-1 pb-8 w-full show-in-small">
-    <ng-container *ngTemplateOutlet="mainContent"></ng-container>
-  </div>
 </div>
 
 <ng-template #sidebarContent>

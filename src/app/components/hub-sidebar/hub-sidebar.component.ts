@@ -23,7 +23,7 @@ import {AppStateService} from "../../services/app-state.service";
   ]
 })
 export class HubSidebarComponent implements OnInit {
-  isExpanded: boolean;
+  isExpanded = true;
   sidebarOptions: ICommunityDetails[];
   currentOptionSelected: ICommunityDetails;
   @Output() toggleSidebarClicked: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -48,7 +48,7 @@ export class HubSidebarComponent implements OnInit {
 
   goToAnotherPage(option: ICommunityDetails) {
     this.currentOptionSelected = option;
-    this.router.navigate([`hub/${option.sidebarRoute}`]);
+    this.router.navigate([`${option.sidebarRoute}`]);
 
   }
 

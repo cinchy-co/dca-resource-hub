@@ -47,7 +47,7 @@ export class PippsComponent implements OnInit, OnDestroy {
   webSiteDetails: IWebsiteDetails;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
-  @HostListener('window:scroll', [])
+ /* @HostListener('window:scroll', [])
   onWindowScroll() {
     if (isPlatformBrowser(this.platformId) && this.promoDiv) {
       let number2 = this.promoDiv.nativeElement.getBoundingClientRect().top;
@@ -58,7 +58,7 @@ export class PippsComponent implements OnInit, OnDestroy {
         this.fixed = false;
       }
     }
-  }
+  }*/
 
   constructor(private apiCallService: ApiCallsService, private changeDetectorRef: ChangeDetectorRef, private router: Router,
               private route: ActivatedRoute, @Inject(PLATFORM_ID) private platformId: any,
@@ -128,7 +128,7 @@ export class PippsComponent implements OnInit, OnDestroy {
     this.showIndexPage = true;
     this.showSectionDetails = false;
     const legislation = event.value;
-    this.router.navigate(['/legislation', {legislation: legislation.code}], {relativeTo: this.route});
+    this.router.navigate(['tools/privacy-legislation-navigator', {legislation: legislation.code}]);
   }
 
   getSections() {
@@ -171,7 +171,6 @@ export class PippsComponent implements OnInit, OnDestroy {
   }
 
   sectionClicked(section: any, index: number) {
-    console.log('ppp section', section, index)
     this.currentOpenSection = index;
     this.showSectionDetails = true;
     this.showIndexPage = false;
@@ -186,7 +185,7 @@ export class PippsComponent implements OnInit, OnDestroy {
       urlParams = {legislation: this.currentLegislation, ...urlParams};
     }
     this.updatePrevAndBackArticles(article);
-    this.router.navigate(['/legislation', urlParams], {relativeTo: this.route});
+    this.router.navigate(['tools/privacy-legislation-navigator', urlParams]);
   }
 
   updatePrevAndBackArticles(currentArticle: ILaw) {
@@ -199,11 +198,11 @@ export class PippsComponent implements OnInit, OnDestroy {
   navigateToKeyIssues(issue?: IKeyIssues) {
     const urlParams = {legislation: this.currentLegislation};
     if (!issue) {
-      this.router.navigate([`/legislation/keyIssues/all`, urlParams]);
+      this.router.navigate([`tools/privacy-legislation-navigator/keyIssues/all`, urlParams]);
       return ;
     }
     const issueId = issue.id;
-    this.router.navigate([`/legislation/keyIssues/${issueId}`, urlParams]);
+    this.router.navigate([`tools/privacy-legislation-navigator/keyIssues/${issueId}`, urlParams]);
   }
 
   asIsOrder(a: any, b: any) {

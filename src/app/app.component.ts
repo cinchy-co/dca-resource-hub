@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AppStateService} from "./services/app-state.service";
 import {CinchyService} from "@cinchy-co/angular-sdk";
 import {ApiCallsService} from "./services/api-calls.service";
-import {ICommunityDetails} from "./models/general-values.model";
+import {IUser} from "./models/common.model";
 
 @Component({
   selector: 'app-root',
@@ -11,8 +11,9 @@ import {ICommunityDetails} from "./models/general-values.model";
 })
 export class AppComponent implements OnInit {
   title = 'dca-privacy-leg';
-  isSidebarExpanded: boolean;
+  isSidebarExpanded = true;
   loginDone: boolean;
+  userDetails: IUser;
 
   constructor(private appStateService: AppStateService, private cinchyService: CinchyService,
               private apiCallsService: ApiCallsService) {
@@ -21,11 +22,11 @@ export class AppComponent implements OnInit {
   async ngOnInit() {
     this.cinchyService.checkIfSessionValid().toPromise().then((response: any) => {
       if (response.accessTokenIsValid) {
-        this.getCommunityPageDetails();
+        this.setDetails();
       } else {
         this.cinchyService.login().then(success => {
           if (success) {
-            this.getCommunityPageDetails();
+            this.setDetails();
           }
         }, error => {
           console.error('Could not login: ', error)
@@ -34,10 +35,14 @@ export class AppComponent implements OnInit {
     })
   }
 
-  async getCommunityPageDetails() {
-    const communityDetails = await this.apiCallsService.getCommunityPageDetails().toPromise();
-    console.log('COMMUNITY DETAILS', communityDetails);
-    this.appStateService.communityDetails = communityDetails;
+  async setDetails() {
+    try {
+      this.userDetails = await this.apiCallsService.setUserDetails();
+      this.appStateService.userDetails = this.userDetails;
+    } catch {
+      console.error('No user details');
+    }
+    this.appStateService.communityDetails = await this.apiCallsService.getCommunityPageDetails().toPromise();
     this.loginDone = true;
   }
 

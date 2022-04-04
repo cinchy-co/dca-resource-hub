@@ -28,6 +28,7 @@ import {RegulatorsComponent} from './regulators/regulators.component';
 import {NewsFeedComponent} from './news-feed/news-feed.component';
 import {PodcastsComponent} from './podcasts/podcasts.component';
 import {PipesModule} from "../pipes/pipes.module";
+import { ProfileComponent } from './profile/profile.component';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import {PipesModule} from "../pipes/pipes.module";
     RegulatorsComponent,
     NewsFeedComponent,
     PodcastsComponent,
+    ProfileComponent,
   ],
     imports: [
         CommonModule,
@@ -64,11 +66,12 @@ import {PipesModule} from "../pipes/pipes.module";
         EllipsisModule,
         PipesModule
     ],
-  exports: [
-    HomeComponent,
-    HeaderComponent,
-    FooterComponent
-  ]
+    exports: [
+        HomeComponent,
+        HeaderComponent,
+        FooterComponent,
+        ProfileComponent
+    ]
 })
 export class ComponentsModule {
 }

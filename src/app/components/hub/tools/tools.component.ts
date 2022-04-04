@@ -26,7 +26,7 @@ export class ToolsComponent implements OnInit {
   }
 
   goToSelection(item: ITools) {
-    this.router.navigate([`${item.toolRoute}`]);
+    this.router.navigate([`tools/${item.toolRoute}`]);
   }
 
 }
