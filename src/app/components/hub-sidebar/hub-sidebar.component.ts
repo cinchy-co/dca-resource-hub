@@ -5,6 +5,7 @@ import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
 import {ICommunityDetails} from "../../models/general-values.model";
 import {AppStateService} from "../../services/app-state.service";
+import {IFooter} from "../../models/common.model";
 
 @Component({
   selector: 'app-hub-sidebar',
@@ -26,6 +27,7 @@ export class HubSidebarComponent implements OnInit {
   isExpanded = true;
   sidebarOptions: ICommunityDetails[];
   currentOptionSelected: ICommunityDetails;
+  footerDetails: IFooter[];
   @Output() toggleSidebarClicked: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private windowRef: WindowRefService,
@@ -34,6 +36,7 @@ export class HubSidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.sidebarOptions = this.appStateService.communityDetails;
+    this.footerDetails = this.appStateService.footerDetails;
     if(isPlatformBrowser(this.platformId)) {
       const url = this.windowRef.nativeWindow.location.href;
       const currentOption = this.sidebarOptions.find(option => url.includes(option.sidebarRoute) && option.sidebarRoute !== '/');

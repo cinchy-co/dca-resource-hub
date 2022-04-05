@@ -8,6 +8,8 @@ import {IUser} from "../models/common.model";
 })
 export class ApiCallsService {
   cachedKeyIssues = {} as any;
+  cachedSocialMedia: any[];
+  cachedFooterDetails: any[];
 
   constructor(private http: HttpClient) {
   }
@@ -73,6 +75,28 @@ export class ApiCallsService {
   getCommunityPageDetails(): Observable<any> {
     const url = `https://datacollaboration.net/API/Node%20Zero%20Website/Get%20Community%20Page%20Details`;
     return this.getResponse(url);
+  }
+
+  getFooterDetails(): Observable<any> {
+    const url = `https://datacollaboration.net/API/Node%20Zero%20Website/Get%20Footer%20Details`;
+    if (this.cachedFooterDetails) {
+      return of(this.cachedFooterDetails);
+    } else {
+      return this.getResponse(url).pipe(
+        tap(resp => this.cachedFooterDetails = resp)
+      );
+    }
+  }
+
+  getSocialMediaDetails(): Observable<any> {
+    const url = `https://datacollaboration.net/API/Node%20Zero%20Website/Get%20Social%20Media%20Details`;
+    if (this.cachedSocialMedia) {
+      return of(this.cachedSocialMedia);
+    } else {
+      return this.getResponse(url).pipe(
+        tap(resp => this.cachedSocialMedia = resp)
+      );
+    }
   }
 
   getHubNewsfeed(): Observable<any> {

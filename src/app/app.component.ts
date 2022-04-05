@@ -43,6 +43,7 @@ export class AppComponent implements OnInit {
       console.error('No user details');
     }
     this.appStateService.communityDetails = await this.apiCallsService.getCommunityPageDetails().toPromise();
+    this.appStateService.footerDetails = await this.apiCallsService.getFooterDetails().toPromise();
     this.loginDone = true;
   }
 

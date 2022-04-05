@@ -68,3 +68,17 @@ export interface IUser {
   photo: string;
   joinedDate: string;
 }
+
+export interface IFooter {
+  sequence: number;
+  footerTitle: string;
+  footerLink: string;
+}
+
+
+export interface ISocialMedia {
+  socialSequence: number;
+  socialTitle: string;
+  socialIcon: string;
+  socialLink: string;
+}

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
-import {IDropdownClick, IOption, IUser} from "../models/common.model";
+import {IDropdownClick, IFooter, IOption, IUser} from "../models/common.model";
 import {ICommunityDetails, MappedCombinedCountryKey} from "../models/general-values.model";
 
 @Injectable({
@@ -14,6 +14,7 @@ export class AppStateService {
   avatars: any;
   communityDetails: ICommunityDetails[];
   userDetails: IUser;
+  footerDetails: IFooter[];
 
   constructor() {
   }
