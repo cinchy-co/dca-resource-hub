@@ -1,10 +1,10 @@
 import {Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
-import {IDropdownClick, ILegislation, IOption, ITag} from "../../models/common.model";
-import {AppStateService} from "../../services/app-state.service";
+import {IDropdownClick, ILegislation, IOption, ITag} from "../../../models/common.model";
+import {AppStateService} from "../../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
-import {PAGE_SIZE, SearchByLaw} from "../../models/general-values.model";
+import {PAGE_SIZE, SearchByLaw} from "../../../models/general-values.model";
 import {isPlatformBrowser} from "@angular/common";
-import {WindowRefService} from "../../services/window-ref.service";
+import {WindowRefService} from "../../../services/window-ref.service";
 
 @Component({
   selector: 'app-laws',

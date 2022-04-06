@@ -10,7 +10,6 @@ import { HubHomeComponent } from './hub-home/hub-home.component';
 import { HubRightbarComponent } from './hub-rightbar/hub-rightbar.component';
 import {DividerModule} from "primeng/divider";
 import {CardModule} from "primeng/card";
-import {HomeComponent} from "../home/home.component";
 
 const routes = [
   {
@@ -47,7 +46,11 @@ const routes = [
       },
       {
         path: 'tools/privacy-law-navigator',
-        component: HomeComponent
+        loadChildren: () => import('../laws/laws.module').then(m => m.LawsModule)
+      },
+      {
+        path: 'tools/privacy-regulator-navigator',
+        loadChildren: () => import('../regulators/regulators.module').then(m => m.RegulatorsModule)
       }
     ]
   }

@@ -1,8 +1,8 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {IOption} from "../../models/common.model";
-import {AppStateService} from "../../services/app-state.service";
+import {IOption} from "../../../models/common.model";
+import {AppStateService} from "../../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
-import {PAGE_SIZE} from "../../models/general-values.model";
+import {PAGE_SIZE} from "../../../models/general-values.model";
 
 @Component({
   selector: 'app-regulators',

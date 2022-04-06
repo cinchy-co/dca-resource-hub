@@ -1,9 +1,9 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
-import {ApiCallsService} from "../../services/api-calls.service";
+import {Component, Input, OnInit} from '@angular/core';
 import {IAvatar, IDropdownClick, ILegislation, IOption, ITag, IWebsiteDetails} from "../../models/common.model";
-import {SearchBy} from "../../models/general-values.model";
+import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
-import {Router} from "@angular/router";
+import {SearchBy} from "../../models/general-values.model";
+
 
 @Component({
   selector: 'app-home',
@@ -31,8 +31,7 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit() {
     this.getLegislationData();
-    this.getRegulatorData();
-    this.getNewsAndPodcasts();
+    this.getTags();
     this.getWebsiteDetails();
     this.getBannerDetailsPerRoute();
     this.avatars = await this.apiCallsService.getDataStewards().toPromise();
@@ -42,18 +41,8 @@ export class HomeComponent implements OnInit {
     this.legislationData = await this.apiCallsService.getLegislation().toPromise();
   }
 
-  async getRegulatorData() {
-    this.regulatorData = await this.apiCallsService.getPrivacyRegulators().toPromise();
-  }
-
-  async getNewsAndPodcasts() {
-    try {
-      this.tags = await this.apiCallsService.getTags().toPromise();
-      this.newsAndPodcastsData = await this.apiCallsService.getNewsFeedAndPodcasts().toPromise();
-      this.showError = false;
-    } catch (e) {
-      this.showError = true;
-    }
+  async getTags() {
+    this.tags = await this.apiCallsService.getTags().toPromise();
   }
 
   async getWebsiteDetails() {

@@ -1,0 +1,42 @@
+<!--<app-header></app-header>-->
+<section class="default-border flex w-full justify-center flex-col home-container">
+
+  <div class="video">
+    <app-video-banner *ngIf="bannerDetailsPerRoute" [bannerDetails]="bannerDetailsPerRoute" class="basis-[50%]"></app-video-banner>
+  </div>
+
+  <div class="flex flex-row p-3 flex-wrap items-center justify-center bg-cyan-200 shadow-normal" *ngIf="false">
+    <app-avatars *ngIf="bannerDetails" [bannerDetails]="bannerDetails[0]" [avatars]="avatars" [size]="'large'" class="w-[100%]"></app-avatars>
+  </div>
+
+  <div class="p-4 relative flex flex-row justify-center">
+    <app-search-by-autocomplete *ngIf="legislationData?.length" [searchByOptions]="searchByOptions"
+                                class="inherit-width"
+                                [allDataForOptions]="legislationData"
+                                [global]="true"
+                                [showSearchButton]="true"
+                                [preSelectedSearchBy]="searchByOptions[0]"
+                                [placeholderOverride]="'Search by Country or Region'"
+                                [hideSearchByOptions]="true"
+                                (optionClicked)="itemSelectedInDropdown($event)"
+                                (searchBySelected)="searchBySelected($event)"
+                                (itemSearched)="itemSearched($event)"
+                                (resetAll)="reset()">
+    </app-search-by-autocomplete>
+
+    <p-progressSpinner class="item-center-n-relative"
+                       *ngIf="!(legislationData?.length || showError)">
+    </p-progressSpinner>
+  </div>
+
+
+  <div *ngIf="legislationData?.length" class="">
+    <p-panel header="Laws">
+      <app-laws [selectedOption]="selectedOption" [legislationData]="legislationData"
+                [isCountrySelected]="!!countrySelected"
+                [bannerDetails]="bannerDetails"
+                [tags]="tags">
+      </app-laws>
+    </p-panel>
+  </div>
+</section>

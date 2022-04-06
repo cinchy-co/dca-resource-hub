@@ -19,12 +19,9 @@ import {DcaCommonModule} from "../dca-common/dca-common.module";
 import {RadioButtonModule} from 'primeng/radiobutton';
 import { EllipsisModule } from 'ngx-ellipsis';
 
-import {HomeComponent} from './home/home.component';
 import {HeaderComponent} from './header/header.component';
 import {AvatarsComponent} from "./avatars/avatars.component";
-import {LawsComponent} from './laws/laws.component';
 import {FooterComponent} from './footer/footer.component';
-import {RegulatorsComponent} from './regulators/regulators.component';
 import {NewsFeedComponent} from './news-feed/news-feed.component';
 import {PodcastsComponent} from './podcasts/podcasts.component';
 import {PipesModule} from "../pipes/pipes.module";
@@ -33,12 +30,9 @@ import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
-    HomeComponent,
     HeaderComponent,
     AvatarsComponent,
-    LawsComponent,
     FooterComponent,
-    RegulatorsComponent,
     NewsFeedComponent,
     PodcastsComponent,
     ProfileComponent,
@@ -67,10 +61,10 @@ import { ProfileComponent } from './profile/profile.component';
         PipesModule
     ],
     exports: [
-        HomeComponent,
         HeaderComponent,
         FooterComponent,
-        ProfileComponent
+        ProfileComponent,
+        AvatarsComponent
     ]
 })
 export class ComponentsModule {
