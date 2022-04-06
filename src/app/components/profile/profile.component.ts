@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {AppStateService} from "../../services/app-state.service";
 import {IUser} from "../../models/common.model";
 
@@ -8,12 +8,12 @@ import {IUser} from "../../models/common.model";
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  userDetails: IUser;
+  @Input() userDetails: IUser;
 
   constructor( private appStateService: AppStateService) { }
 
   ngOnInit(): void {
-    this.userDetails = this.appStateService.userDetails;
+    this.userDetails = this.userDetails ? this.userDetails : this.appStateService.userDetails;
   }
 
 }

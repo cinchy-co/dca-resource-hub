@@ -36,12 +36,12 @@ export class AppComponent implements OnInit {
   }
 
   async setDetails() {
-    try {
-      this.userDetails = await this.apiCallsService.setUserDetails();
+    this.apiCallsService.setUserDetails().then(val => {
+      this.userDetails = val;
       this.appStateService.userDetails = this.userDetails;
-    } catch {
-      console.error('No user details');
-    }
+    }).catch((e: any) => {
+      console.error(e);
+    });
     this.appStateService.communityDetails = await this.apiCallsService.getCommunityPageDetails().toPromise();
     this.appStateService.footerDetails = await this.apiCallsService.getFooterDetails().toPromise();
     this.loginDone = true;

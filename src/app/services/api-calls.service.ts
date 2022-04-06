@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {map, Observable, of, tap} from "rxjs";
 import {IUser} from "../models/common.model";
+import {CinchyService} from "@cinchy-co/angular-sdk";
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class ApiCallsService {
   cachedSocialMedia: any[];
   cachedFooterDetails: any[];
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private cinchyService: CinchyService) {
   }
 
   getHeaderBannerDetails(): Observable<any> {
@@ -122,18 +123,24 @@ export class ApiCallsService {
         const userDetails = await this.getLoggedInUserDetails(userObjectFromStorage.id).toPromise() as IUser[];
         resolve(userDetails[0]);
       } else {
-        reject('No user details');
+        console.log('IN USER ELSE')
+        this.cinchyService.getUserIdentity().subscribe(async (user: any) => {
+          console.log('IN USER ELSE INSIDE', user)
+          if (user?.id) {
+            const userDetailsIdentity = await this.getLoggedInUserDetails(user.id).toPromise() as IUser[];
+            resolve(userDetailsIdentity[0]);
+          } else {
+            reject('No user details');
+          }
+        }, error => {
+          console.log('IN REJECT')
+          reject('No user details');
+        });
       }
     })
 
     // Below getUserIdentity has some bug and doesn't always emit a value
-    /*    this.cinchyService.getUserIdentity().subscribe(async (user: any) => {
-          if (user?.id) {
-            const userDetails = await this.getLoggedInUserDetails(user.id).toPromise();
-            this.userDetails = userDetails;
-            this.loggedInUser$.next(userDetails);
-          }
-        });*/
+
   }
 
   getLoggedInUserDetails(userName: string): Observable<IUser[]> {
