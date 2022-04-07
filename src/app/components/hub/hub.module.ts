@@ -10,6 +10,8 @@ import { HubHomeComponent } from './hub-home/hub-home.component';
 import { HubRightbarComponent } from './hub-rightbar/hub-rightbar.component';
 import {DividerModule} from "primeng/divider";
 import {CardModule} from "primeng/card";
+import { MarketplaceComponent } from './marketplace/marketplace.component';
+import {ButtonModule} from "primeng/button";
 
 const routes = [
   {
@@ -35,6 +37,10 @@ const routes = [
       {
         path: 'bookmarks',
         component: BookmarksComponent
+      },
+      {
+        path: 'marketplace',
+        component: MarketplaceComponent
       },
       {
         path: 'tools/privacy-legislation-navigator',
@@ -64,14 +70,16 @@ const routes = [
     SuggestionsComponent,
     BookmarksComponent,
     HubHomeComponent,
-    HubRightbarComponent
+    HubRightbarComponent,
+    MarketplaceComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        DividerModule,
-        CardModule,
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    DividerModule,
+    CardModule,
+    ButtonModule,
+  ],
   exports: [RouterModule]
 })
 export class HubModule { }

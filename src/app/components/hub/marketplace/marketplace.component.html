@@ -1,0 +1,19 @@
+<section>
+
+  <div class="flex justify-between items-center">
+    <div class="basis-[40%]">
+      <h1 class="text-[3rem] font-bold" [innerHTML]="marketPlaceDetails.header"></h1>
+
+      <p class="text-gray-700" [innerHTML]="marketPlaceDetails.description">
+      </p>
+    </div>
+
+    <img style="height: 250px" [src]="marketPlaceDetails.image" alt="Tools">
+  </div>
+
+  <div class="">
+    <p-button icon="pi pi-sign-in" iconPos="right" class="btn-color-green p-button-raised p-button-rounded"
+              [label]="marketPlaceDetails.buttonText"
+    (click)="goToMarketPlace()"></p-button>
+  </div>
+</section>

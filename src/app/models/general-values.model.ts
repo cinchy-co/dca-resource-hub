@@ -26,4 +26,7 @@ export interface ICommunityDetails {
   header: string;
   description: string;
   image: string;
+  buttonText: string;
+  buttonLink: string;
+  sidebarIconDesc: string;
 }

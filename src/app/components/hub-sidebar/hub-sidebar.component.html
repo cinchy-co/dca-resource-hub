@@ -9,7 +9,8 @@
       <div class="flex items-center justify-left pr-5 pl-5 pt-4 pb-4 gap-5 cursor-pointer text-slate-600"
            [ngClass]="{'border-r border-current bg-slate-100 text-slate-900': currentOptionSelected.sidebarRoute === option.sidebarRoute}"
            (click)="goToAnotherPage(option)">
-        <i class="pi" [ngClass]="option.sidebarIcon" style="font-size: 1.2rem"></i>
+        <i *ngIf="option.sidebarIconDesc === 'Icon'" class="pi" [ngClass]="option.sidebarIcon" style="font-size: 1.2rem; width:25px"></i>
+        <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon" alt="side-bar-icon">
         <span *ngIf="isExpanded" class="">{{option.sidebarLabel}}</span>
       </div>
     </div>

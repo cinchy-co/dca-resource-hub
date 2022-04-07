@@ -1,8 +1,10 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {map, Observable, of, tap} from "rxjs";
 import {IUser} from "../models/common.model";
 import {CinchyService} from "@cinchy-co/angular-sdk";
+import {WindowRefService} from "./window-ref.service";
+import {isPlatformBrowser} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,8 @@ export class ApiCallsService {
   cachedSocialMedia: any[];
   cachedFooterDetails: any[];
 
-  constructor(private http: HttpClient, private cinchyService: CinchyService) {
+  constructor(private http: HttpClient, private cinchyService: CinchyService, @Inject(PLATFORM_ID) private platformId: any,
+              private windowRef: WindowRefService) {
   }
 
   getHeaderBannerDetails(): Observable<any> {
@@ -116,8 +119,11 @@ export class ApiCallsService {
   }
 
   async setUserDetails(): Promise<any> {
-    return new Promise(async(resolve, reject) => {
-      const userObjectFromStorageStr = sessionStorage.getItem('id_token_claims_obj');
+    return new Promise(async (resolve, reject) => {
+      let userObjectFromStorageStr;
+      if (isPlatformBrowser(this.platformId)) {
+        userObjectFromStorageStr = sessionStorage.getItem('id_token_claims_obj');
+      }
       if (userObjectFromStorageStr) {
         const userObjectFromStorage = JSON.parse(userObjectFromStorageStr);
         const userDetails = await this.getLoggedInUserDetails(userObjectFromStorage.id).toPromise() as IUser[];
@@ -144,8 +150,8 @@ export class ApiCallsService {
   }
 
   getLoggedInUserDetails(userName: string): Observable<IUser[]> {
-   const url = `https://datacollaboration.net/API/Node%20Zero%20Website/Get%20User%20Details?%40userName=${userName}`;
-   return this.getResponse(url);
+    const url = `https://datacollaboration.net/API/Node%20Zero%20Website/Get%20User%20Details?%40userName=${userName}`;
+    return this.getResponse(url);
   }
 
   getResponse(url: string): Observable<any> {

@@ -1,8 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {AppStateService} from "./services/app-state.service";
 import {CinchyService} from "@cinchy-co/angular-sdk";
 import {ApiCallsService} from "./services/api-calls.service";
 import {IUser} from "./models/common.model";
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
   userDetails: IUser;
 
   constructor(private appStateService: AppStateService, private cinchyService: CinchyService,
-              private apiCallsService: ApiCallsService) {
+              private apiCallsService: ApiCallsService, @Inject(PLATFORM_ID) private platformId: any) {
   }
 
   async ngOnInit() {
@@ -39,8 +40,16 @@ export class AppComponent implements OnInit {
     this.apiCallsService.setUserDetails().then(val => {
       this.userDetails = val;
       this.appStateService.userDetails = this.userDetails;
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem('hub-user-details', JSON.stringify(val));
+      }
     }).catch((e: any) => {
-      console.error(e);
+      if (isPlatformBrowser(this.platformId)) {
+        const userDetail = localStorage.getItem('hub-user-details') || '';
+        this.userDetails = userDetail ? JSON.parse(userDetail) : null;
+        this.appStateService.userDetails = this.userDetails;
+        console.error(e);
+      }
     });
     this.appStateService.communityDetails = await this.apiCallsService.getCommunityPageDetails().toPromise();
     this.appStateService.footerDetails = await this.apiCallsService.getFooterDetails().toPromise();
