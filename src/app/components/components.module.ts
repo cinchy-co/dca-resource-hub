@@ -23,7 +23,6 @@ import {HeaderComponent} from './header/header.component';
 import {AvatarsComponent} from "./avatars/avatars.component";
 import {FooterComponent} from './footer/footer.component';
 import {NewsFeedComponent} from './news-feed/news-feed.component';
-import {PodcastsComponent} from './podcasts/podcasts.component';
 import {PipesModule} from "../pipes/pipes.module";
 import { ProfileComponent } from './profile/profile.component';
 
@@ -34,7 +33,6 @@ import { ProfileComponent } from './profile/profile.component';
     AvatarsComponent,
     FooterComponent,
     NewsFeedComponent,
-    PodcastsComponent,
     ProfileComponent,
   ],
     imports: [
