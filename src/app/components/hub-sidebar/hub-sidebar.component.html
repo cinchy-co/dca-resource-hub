@@ -6,8 +6,8 @@
 
   <div class="flex flex-col">
     <div *ngFor="let option of sidebarOptions">
-      <div class="flex items-center justify-left pr-5 pl-5 pt-4 pb-4 gap-5 cursor-pointer text-slate-600"
-           [ngClass]="{'border-r border-current bg-slate-100 text-slate-900': currentOptionSelected.sidebarRoute === option.sidebarRoute}"
+      <div class="flex items-center justify-left pr-5 pl-5 pt-4 pb-4 gap-5 cursor-pointer text-slate-600 hover:bg-slate-100"
+           [ngClass]="{'border-r border-current bg-slate-200 text-slate-900': currentOptionSelected.sidebarRoute === option.sidebarRoute}"
            (click)="goToAnotherPage(option)">
         <i *ngIf="option.sidebarIconDesc === 'Icon'" class="pi" [ngClass]="option.sidebarIcon" style="font-size: 1.2rem; width:25px"></i>
         <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon" alt="side-bar-icon">

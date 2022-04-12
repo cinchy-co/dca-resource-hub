@@ -26,6 +26,8 @@ import {NewsFeedComponent} from './news-feed/news-feed.component';
 import {PodcastsComponent} from './podcasts/podcasts.component';
 import {PipesModule} from "../pipes/pipes.module";
 import { ProfileComponent } from './profile/profile.component';
+import {SidebarModule} from "primeng/sidebar";
+import {DividerModule} from "primeng/divider";
 
 
 @NgModule({
@@ -37,29 +39,31 @@ import { ProfileComponent } from './profile/profile.component';
     PodcastsComponent,
     ProfileComponent,
   ],
-    imports: [
-        CommonModule,
-        AutoCompleteModule,
-        FormsModule,
-        ReactiveFormsModule,
-        PaginatorModule,
-        CardModule,
-        SelectButtonModule,
-        AvatarModule,
-        AvatarGroupModule,
-        ButtonModule,
-        AccordionModule,
-        ProgressSpinnerModule,
-        CarouselModule,
-        ChipModule,
-        ShareModule,
-        ShareIconsModule,
-        ShareButtonsModule,
-        DcaCommonModule,
-        RadioButtonModule,
-        EllipsisModule,
-        PipesModule
-    ],
+  imports: [
+    CommonModule,
+    AutoCompleteModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PaginatorModule,
+    CardModule,
+    SelectButtonModule,
+    AvatarModule,
+    AvatarGroupModule,
+    ButtonModule,
+    AccordionModule,
+    ProgressSpinnerModule,
+    CarouselModule,
+    ChipModule,
+    ShareModule,
+    ShareIconsModule,
+    ShareButtonsModule,
+    DcaCommonModule,
+    RadioButtonModule,
+    EllipsisModule,
+    PipesModule,
+    SidebarModule,
+    DividerModule
+  ],
     exports: [
         HeaderComponent,
         FooterComponent,

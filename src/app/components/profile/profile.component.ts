@@ -9,11 +9,24 @@ import {IUser} from "../../models/common.model";
 })
 export class ProfileComponent implements OnInit {
   @Input() userDetails: IUser;
+  display: boolean
 
   constructor( private appStateService: AppStateService) { }
 
   ngOnInit(): void {
     this.userDetails = this.userDetails ? this.userDetails : this.appStateService.userDetails;
+  }
+
+  profileClicked() {
+    this.display = true;
+  }
+
+  goToProfile() {
+
+  }
+
+  signOut() {
+
   }
 
 }

@@ -1,5 +1,28 @@
 <div class="">
-  <div class="drop-shadow-sm w-[100%] fixed right-5 flex bg-white z-10 justify-end">
+  <div class="drop-shadow-sm w-[100%] fixed right-5 flex bg-white z-10 justify-end" (click)="profileClicked()">
     <img class="mt-3 mb-3 rounded-[50%] w-[50px] h-[50px] cursor-pointer block" [src]="'data:image/png;base64,' + userDetails.photo" alt="profile">
   </div>
+
+  <p-sidebar [(visible)]="display" position="right">
+    <div class="flex items-center gap-5">
+      <img class="mt-3 mb-3 rounded-[50%] w-[30px] h-[30px] cursor-pointer block" [src]="'data:image/png;base64,' + userDetails.photo" alt="profile">
+      <h1 class="text-[20px] text-slate-700">{{userDetails.name}}</h1>
+    </div>
+
+    <p-divider></p-divider>
+
+    <div class="flex flex-col gap-5 pt-5 pb-5">
+      <div class="p-3 hover:bg-slate-200 flex items-center gap-5 cursor-pointer">
+        <i class="pi pi-user cursor-pointer" style="font-size: 1.2rem" (click)="goToProfile()"></i>
+        <p>Your Profile</p>
+      </div>
+
+      <div class="p-3 hover:bg-slate-200 flex items-center gap-5 cursor-pointer">
+        <i class="pi pi-lock-open cursor-pointer" style="font-size: 1.2rem" (click)="signOut()"></i>
+        <p>Sign Out</p>
+      </div>
+    </div>
+
+    <p-divider></p-divider>
+  </p-sidebar>
 </div>
