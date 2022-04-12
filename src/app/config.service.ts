@@ -3,12 +3,13 @@ import {Inject, Injectable} from '@angular/core';
 import {forkJoin} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import { CinchyConfig } from '@cinchy-co/angular-sdk';
+import {IEnv} from "./models/common.model";
 
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigService {
-  private enviornmentConfig: any;
+  enviornmentConfig: IEnv;
   fullScreenHeight: any;
 
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {

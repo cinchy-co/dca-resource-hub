@@ -1,3 +1,11 @@
+export interface IEnv {
+  "authority": string;
+  "cinchyRootUrl": string;
+  "clientId": string;
+  "redirectUri": string;
+  "version": string;
+}
+
 export interface ILegislation {
   Law: string;
   Passed: string;
@@ -82,3 +90,6 @@ export interface ISocialMedia {
   socialIcon: string;
   socialLink: string;
 }
+
+
+export type FieldTypes = 'input' | 'link';

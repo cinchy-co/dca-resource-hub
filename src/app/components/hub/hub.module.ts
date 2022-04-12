@@ -12,6 +12,9 @@ import {DividerModule} from "primeng/divider";
 import {CardModule} from "primeng/card";
 import { MarketplaceComponent } from './marketplace/marketplace.component';
 import {ButtonModule} from "primeng/button";
+import {InputTextModule} from "primeng/inputtext";
+import {ReactiveFormsModule} from "@angular/forms";
+import {DropdownModule} from "primeng/dropdown";
 
 const routes = [
   {
@@ -79,6 +82,9 @@ const routes = [
     DividerModule,
     CardModule,
     ButtonModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    DropdownModule,
   ],
   exports: [RouterModule]
 })

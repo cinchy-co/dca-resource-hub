@@ -1,4 +1,4 @@
-<section>
+<section class="suggestions-container">
 
   <div class="flex justify-between items-center">
     <div class="basis-[40%]">
@@ -9,5 +9,27 @@
     </div>
 
     <img style="height: 250px" [src]="toolsHeaderDetails.image" alt="Tools">
+  </div>
+
+  <div class="flex flex-col items-start gap-10" *ngIf="allFields?.length">
+    <form [formGroup]="suggestionForm" class="flex flex-wrap gap-5">
+      <div *ngFor="let field of allFields" class="flex flex-col items-start basis-[45%] w-[320px]">
+        <label class="w-16">{{field.label}}</label>
+        <ng-container *ngIf="field.options">
+          <p-dropdown class="w-[100%]" placeholder="Select..." [options]="field.options"
+                      [formControlName]="field.label" optionLabel="option" optionValue="option"></p-dropdown>
+        </ng-container>
+
+        <ng-container *ngIf="!field.options">
+          <input type="text" pInputText class="p-inputtext-sm w-[100%]" placeholder=""
+                 [formControlName]="field.label">
+        </ng-container>
+      </div>
+    </form>
+
+    <p-button icon="pi pi-sign-in" iconPos="right" class="btn-color-green p-button-raised p-button-rounded"
+              [label]="'Submit'"
+              [ngClass]="{'disabled': !suggestionForm.valid}"
+              (click)="submit()"></p-button>
   </div>
 </section>
