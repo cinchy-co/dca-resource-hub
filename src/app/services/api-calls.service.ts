@@ -124,6 +124,16 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getHubEvents(): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Upcoming%20Events`;
+    return this.getResponse(url);
+  }
+
+  getHubBookmarks(): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20My%20Bookmarks`;
+    return this.getResponse(url);
+  }
+
   executeCinchyQueries(name: string, domain: string, options?: any): Observable<any> {
    return this.cinchyService.executeQuery(domain, name, options).pipe(
      map(resp => resp.queryResult.toObjectArray())
@@ -141,7 +151,6 @@ export class ApiCallsService {
         const userDetails = await this.getLoggedInUserDetails(userObjectFromStorage.id).toPromise() as IUser[];
         resolve(userDetails[0]);
       } else {
-        console.log('IN USER ELSE')
         this.cinchyService.getUserIdentity().subscribe(async (user: any) => {
           console.log('IN USER ELSE INSIDE', user)
           if (user?.id) {

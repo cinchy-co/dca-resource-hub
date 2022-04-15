@@ -15,6 +15,7 @@ import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {ReactiveFormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
+import { EventsComponent } from './events/events.component';
 
 const routes = [
   {
@@ -46,6 +47,10 @@ const routes = [
         component: MarketplaceComponent
       },
       {
+        path: 'events',
+        component: EventsComponent
+      },
+      {
         path: 'tools/privacy-legislation-navigator',
         loadChildren: () => import('../pipps/pipps.module').then(m => m.PippsModule),
       },
@@ -74,7 +79,8 @@ const routes = [
     BookmarksComponent,
     HubHomeComponent,
     HubRightbarComponent,
-    MarketplaceComponent
+    MarketplaceComponent,
+    EventsComponent
   ],
   imports: [
     CommonModule,

@@ -18,6 +18,26 @@ export interface ITools {
   toolTags:  string;
 }
 
+export interface IEvents {
+  title: string;
+  date: string;
+  time: string;
+  timezone: string;
+  image:  string;
+  logo:  string;
+  description:  string;
+  rsvpLink:  string;
+  zoomLink:  string;
+}
+
+export interface IBookmark {
+  link: string;
+  fullLink: string;
+  title: string;
+  desc: string;
+  table: string;
+  domain: string;
+}
 
 export interface ITables {
   tableName: string;

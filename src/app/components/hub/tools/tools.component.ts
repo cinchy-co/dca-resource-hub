@@ -22,7 +22,6 @@ export class ToolsComponent implements OnInit {
     const communityDetails = this.appStateService.communityDetails;
     this.toolsHeaderDetails = communityDetails.find(item => item.id === 'tools') as ICommunityDetails;
     this.tools = await this.appApiService.getHubTools().toPromise();
-    console.log('ppp this.tools', this.tools);
   }
 
   goToSelection(item: ITools) {

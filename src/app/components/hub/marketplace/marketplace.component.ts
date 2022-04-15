@@ -18,7 +18,6 @@ export class MarketplaceComponent implements OnInit {
   ngOnInit(): void {
     const communityDetails = this.appStateService.communityDetails;
     this.marketPlaceDetails = communityDetails.find(item => item.id === 'marketplace') as ICommunityDetails;
-    console.log('pppp this.communityDetails', this.marketPlaceDetails)
   }
 
   goToMarketPlace() {

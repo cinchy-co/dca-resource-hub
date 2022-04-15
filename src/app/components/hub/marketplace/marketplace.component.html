@@ -6,14 +6,14 @@
 
       <p class="text-gray-700" [innerHTML]="marketPlaceDetails.description">
       </p>
+
+      <div class="mt-4">
+        <p-button icon="pi pi-sign-in" iconPos="right" class="btn-color-green p-button-raised p-button-rounded"
+                  [label]="marketPlaceDetails.buttonText"
+                  (click)="goToMarketPlace()"></p-button>
+      </div>
     </div>
 
     <img style="height: 250px" [src]="marketPlaceDetails.image" alt="Tools">
-  </div>
-
-  <div class="">
-    <p-button icon="pi pi-sign-in" iconPos="right" class="btn-color-green p-button-raised p-button-rounded"
-              [label]="marketPlaceDetails.buttonText"
-    (click)="goToMarketPlace()"></p-button>
   </div>
 </section>

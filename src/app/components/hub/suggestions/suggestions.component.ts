@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {ICommunityDetails} from "../../../models/general-values.model";
 import {ApiCallsService} from "../../../services/api-calls.service";
 import {AppStateService} from "../../../services/app-state.service";
 import {FieldTypes} from "../../../models/common.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {isPlatformBrowser} from "@angular/common";
+import {WindowRefService} from "../../../services/window-ref.service";
 
 @Component({
   selector: 'app-suggestions',
@@ -11,19 +13,20 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
   styleUrls: ['./suggestions.component.scss']
 })
 export class SuggestionsComponent implements OnInit {
-  toolsHeaderDetails: ICommunityDetails;
+  suggestionHeaderDetails: ICommunityDetails;
   allFields: { label: string, type?: FieldTypes, options?: any[] }[] = [];
   optionsForFields: any = {};
   suggestionForm: FormGroup;
   suggestionFormQueries: any;
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
-              private fb: FormBuilder) {
+              private fb: FormBuilder, @Inject(PLATFORM_ID) private platformId: any,
+              private windowRef: WindowRefService) {
   }
 
   async ngOnInit() {
     const communityDetails = this.appStateService.communityDetails;
-    this.toolsHeaderDetails = communityDetails.find(item => item.id === 'suggestions') as ICommunityDetails;
+    this.suggestionHeaderDetails = communityDetails.find(item => item.id === 'suggestions') as ICommunityDetails;
     this.suggestionFormQueries = (await this.appApiService.getSuggestionFormQueries().toPromise())[0];
     this.setFieldAndOptions(this.suggestionFormQueries);
   }
@@ -73,6 +76,13 @@ export class SuggestionsComponent implements OnInit {
       params[`@${key}`] = formValues[key];
     });
     await this.appApiService.executeCinchyQueries(insertQueryName, insertQueryDomain, params).toPromise();
+  }
+
+  goToSuggestions() {
+    const url = this.suggestionHeaderDetails.buttonLink;
+    if(isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
   }
 
 }
