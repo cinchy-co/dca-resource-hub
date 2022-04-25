@@ -12,13 +12,13 @@
     <p-divider></p-divider>
 
     <div class="flex flex-col gap-5 pt-5 pb-5">
-      <div class="p-3 hover:bg-slate-200 flex items-center gap-5 cursor-pointer">
-        <i class="pi pi-user cursor-pointer" style="font-size: 1.2rem" (click)="goToProfile()"></i>
+      <div class="p-3 hover:bg-slate-200 flex items-center gap-5 cursor-pointer" (click)="goToProfile()">
+        <i class="pi pi-user cursor-pointer" style="font-size: 1.2rem"></i>
         <p>Your Profile</p>
       </div>
 
-      <div class="p-3 hover:bg-slate-200 flex items-center gap-5 cursor-pointer">
-        <i class="pi pi-lock-open cursor-pointer" style="font-size: 1.2rem" (click)="signOut()"></i>
+      <div class="p-3 hover:bg-slate-200 flex items-center gap-5 cursor-pointer" (click)="signOut()">
+        <i class="pi pi-lock-open cursor-pointer" style="font-size: 1.2rem"></i>
         <p>Sign Out</p>
       </div>
     </div>

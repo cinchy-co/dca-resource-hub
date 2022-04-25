@@ -29,4 +29,7 @@ export interface ICommunityDetails {
   buttonText: string;
   buttonLink: string;
   sidebarIconDesc: string;
+  navigation: string;
+  redirectLink: string;
+  collapseIcon: string;
 }

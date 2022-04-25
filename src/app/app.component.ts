@@ -4,6 +4,7 @@ import {CinchyService} from "@cinchy-co/angular-sdk";
 import {ApiCallsService} from "./services/api-calls.service";
 import {IUser} from "./models/common.model";
 import {isPlatformBrowser} from "@angular/common";
+import {WindowRefService} from "./services/window-ref.service";
 
 @Component({
   selector: 'app-root',
@@ -15,9 +16,11 @@ export class AppComponent implements OnInit {
   isSidebarExpanded = true;
   loginDone: boolean;
   userDetails: IUser;
+  isMobileOrTab: boolean;
 
   constructor(private appStateService: AppStateService, private cinchyService: CinchyService,
-              private apiCallsService: ApiCallsService, @Inject(PLATFORM_ID) private platformId: any) {
+              private apiCallsService: ApiCallsService, @Inject(PLATFORM_ID) private platformId: any,
+              private windowRefService: WindowRefService) {
   }
 
   async ngOnInit() {
@@ -54,6 +57,12 @@ export class AppComponent implements OnInit {
     this.appStateService.communityDetails = await this.apiCallsService.getCommunityPageDetails().toPromise();
     this.appStateService.footerDetails = await this.apiCallsService.getFooterDetails().toPromise();
     this.loginDone = true;
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.isMobileOrTab = this.windowRefService.nativeWindow.innerWidth < 1040;
+      this.isSidebarExpanded = !this.isMobileOrTab;
+      this.sidebarStateChange(this.isSidebarExpanded);
+    }
   }
 
   sidebarStateChange(isExpanded: boolean) {

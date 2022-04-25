@@ -1,18 +1,41 @@
-<div [ngStyle]="{'width': isExpanded ? '250px' : '60px'}" class="hub-sidebar">
+<div [ngStyle]="{'width': isExpanded ? '250px' : '60px'}" class="hub-sidebar overflow-y-auto">
   <div class="flex items-center justify-left p-5 mb-10 mt-5 gap-4 h-[42px]">
     <i class="pi pi-bars cursor-pointer" style="font-size: 1.2rem" (click)="toggleSidebar()"></i>
-    <img @fadeSlideInOut *ngIf="isExpanded" src="assets/node-zero-black.png" alt="logo" style="height:35px">
+    <img @fadeSlideInOut *ngIf="isExpanded" src="assets/dcalogo.png" alt="logo" style="height:50px"
+    class="cursor-pointer" (click)="goToHome()">
   </div>
 
   <div class="flex flex-col">
-    <div *ngFor="let option of sidebarOptions">
-      <div class="flex items-center justify-left pr-5 pl-5 pt-4 pb-4 gap-5 cursor-pointer text-slate-600 hover:bg-slate-100"
-           [ngClass]="{'border-r border-current bg-slate-200 text-slate-900': currentOptionSelected.sidebarRoute === option.sidebarRoute}"
-           (click)="goToAnotherPage(option)">
-        <i *ngIf="option.sidebarIconDesc === 'Icon'" class="pi" [ngClass]="option.sidebarIcon" style="font-size: 1.2rem; width:25px"></i>
-        <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon" alt="side-bar-icon">
+    <div *ngFor="let option of mainSectionOptions">
+      <div
+        class="flex items-center justify-left pr-5 pl-5 pt-4 pb-4 gap-5 cursor-pointer text-slate-600 hover:bg-slate-100"
+        [ngClass]="{'border-r border-current bg-slate-200 text-slate-900': currentOptionSelected.sidebarRoute === option.sidebarRoute}"
+        (click)="optionClicked(option)">
+        <i *ngIf="option.sidebarIconDesc === 'Icon' && (option.id !== 'more')"
+           class="pi" [ngClass]="option.sidebarIcon" style="font-size: 1.2rem; width:25px"></i>
+        <i *ngIf="option.id === 'more' && !showMore" class="pi" [ngClass]="option.sidebarIcon"
+           style="font-size: 1.2rem; width:25px"></i>
+        <i *ngIf="option.id === 'more' && showMore" class="pi" [ngClass]="option.collapseIcon"
+           style="font-size: 1.2rem; width:25px"></i>
+        <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon"
+             alt="side-bar-icon">
         <span *ngIf="isExpanded" class="">{{option.sidebarLabel}}</span>
       </div>
     </div>
+
+    <ng-container *ngIf="showMore">
+      <div *ngFor="let option of moreSectionOptions">
+        <div
+          class="flex items-center justify-left pr-5 pl-8 pt-2 pb-2 gap-5 cursor-pointer text-slate-600 hover:bg-slate-100"
+          [ngClass]="{'border-r border-current bg-slate-200 text-slate-900': currentOptionSelected.sidebarRoute === option.sidebarRoute}"
+          (click)="optionClicked(option)">
+          <i *ngIf="option.sidebarIconDesc === 'Icon'" class="pi" [ngClass]="option.sidebarIcon"
+             style="font-size: 1.2rem; width:25px"></i>
+          <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon"
+               alt="side-bar-icon">
+          <span *ngIf="isExpanded" class="text-sm-12">{{option.sidebarLabel}}</span>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>

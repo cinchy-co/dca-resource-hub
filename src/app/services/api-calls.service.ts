@@ -129,6 +129,11 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getLearningEvents(): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Upcoming%20Learning%20Events`;
+    return this.getResponse(url);
+  }
+
   getHubBookmarks(): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20My%20Bookmarks`;
     return this.getResponse(url);

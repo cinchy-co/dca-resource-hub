@@ -28,19 +28,28 @@ export class HubSidebarComponent implements OnInit {
   sidebarOptions: ICommunityDetails[];
   currentOptionSelected: ICommunityDetails;
   footerDetails: IFooter[];
+  isMobileOrTab: boolean;
+  showMore: boolean;
+  moreSectionOptions: ICommunityDetails[];
+  mainSectionOptions: ICommunityDetails[];
+
   @Output() toggleSidebarClicked: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private windowRef: WindowRefService,
-              @Inject(PLATFORM_ID) private platformId: any, private appStateService :AppStateService) {
+              @Inject(PLATFORM_ID) private platformId: any, private appStateService: AppStateService) {
   }
 
   ngOnInit(): void {
     this.sidebarOptions = this.appStateService.communityDetails;
+    this.mainSectionOptions = this.sidebarOptions.filter(item => item.navigation === 'Main');
+    this.moreSectionOptions = this.sidebarOptions.filter(item => item.navigation === 'More');
     this.footerDetails = this.appStateService.footerDetails;
-    if(isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId)) {
       const url = this.windowRef.nativeWindow.location.href;
       const currentOption = this.sidebarOptions.find(option => url.includes(option.sidebarRoute) && option.sidebarRoute !== '/');
       this.currentOptionSelected = currentOption ? currentOption : this.sidebarOptions[0];
+      this.isMobileOrTab = this.windowRef.nativeWindow.innerWidth < 1040;
+      this.isExpanded = !this.isMobileOrTab;
     }
   }
 
@@ -49,10 +58,22 @@ export class HubSidebarComponent implements OnInit {
     this.toggleSidebarClicked.emit(this.isExpanded);
   }
 
-  goToAnotherPage(option: ICommunityDetails) {
-    this.currentOptionSelected = option;
-    this.router.navigate([`${option.sidebarRoute}`]);
+  optionClicked(option: ICommunityDetails) {
+    if (option.id === 'more') {
+      this.showMore = !this.showMore;
+    } else if (option.redirectLink) {
+      if (isPlatformBrowser(this.platformId)) {
+        const url = option.redirectLink;
+        this.windowRef.nativeWindow.open(url, '_blank');
+      }
+    } else {
+      this.currentOptionSelected = option;
+      this.router.navigate([`${option.sidebarRoute}`]);
+    }
+  }
 
+  goToHome() {
+    this.router.navigate([`/`]);
   }
 
 }

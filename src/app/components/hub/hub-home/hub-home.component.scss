@@ -4,7 +4,9 @@
   position: relative;
   flex: 0 1 70%;
   min-width: 0;
-
+  @media (max-width: 1040px) {
+    flex: 0 1 100%;
+  }
 
   .vertical-bar {
     position: absolute;
