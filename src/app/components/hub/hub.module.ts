@@ -17,6 +17,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
 import { EventsComponent } from './events/events.component';
 import { LearningComponent } from './learning/learning.component';
+import { CollabsComponent } from './collabs/collabs.component';
 
 const routes = [
   {
@@ -56,6 +57,10 @@ const routes = [
         component: LearningComponent
       },
       {
+        path: 'collaboration',
+        component: CollabsComponent
+      },
+      {
         path: 'tools/privacy-legislation-navigator',
         loadChildren: () => import('../pipps/pipps.module').then(m => m.PippsModule),
       },
@@ -86,7 +91,8 @@ const routes = [
     HubRightbarComponent,
     MarketplaceComponent,
     EventsComponent,
-    LearningComponent
+    LearningComponent,
+    CollabsComponent
   ],
   imports: [
     CommonModule,

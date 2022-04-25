@@ -46,3 +46,13 @@ export interface ITables {
   tableImage: string;
   tableTags: string;
 }
+
+
+export interface ICollab {
+  link: string;
+  resourceLink: string;
+  title: string;
+  desc: string;
+  image: string;
+  tags: string;
+}

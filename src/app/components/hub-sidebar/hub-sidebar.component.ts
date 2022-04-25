@@ -32,6 +32,7 @@ export class HubSidebarComponent implements OnInit {
   showMore: boolean;
   moreSectionOptions: ICommunityDetails[];
   mainSectionOptions: ICommunityDetails[];
+  collaborationBtn: ICommunityDetails;
 
   @Output() toggleSidebarClicked: EventEmitter<boolean> = new EventEmitter<boolean>();
 
@@ -43,6 +44,7 @@ export class HubSidebarComponent implements OnInit {
     this.sidebarOptions = this.appStateService.communityDetails;
     this.mainSectionOptions = this.sidebarOptions.filter(item => item.navigation === 'Main');
     this.moreSectionOptions = this.sidebarOptions.filter(item => item.navigation === 'More');
+    this.collaborationBtn = this.sidebarOptions.find(item => item.id === 'collaboration') as ICommunityDetails;
     this.footerDetails = this.appStateService.footerDetails;
     if (isPlatformBrowser(this.platformId)) {
       const url = this.windowRef.nativeWindow.location.href;
@@ -74,6 +76,11 @@ export class HubSidebarComponent implements OnInit {
 
   goToHome() {
     this.router.navigate([`/`]);
+  }
+
+  goToCollabs() {
+    const url = this.collaborationBtn.sidebarRoute;
+    this.router.navigate([`${url}`]);
   }
 
 }

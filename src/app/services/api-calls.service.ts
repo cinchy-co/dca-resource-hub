@@ -109,6 +109,11 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getHubCollabs(): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Collabs`;
+    return this.getResponse(url);
+  }
+
   getHubTools(): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Tool%20Page%20Tools`;
     return this.getResponse(url);

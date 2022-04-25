@@ -5,6 +5,11 @@
     class="cursor-pointer" (click)="goToHome()">
   </div>
 
+  <div class="flex justify-center mb-5">
+    <button pButton pRipple type="button" [label]="collaborationBtn.sidebarLabel"
+            class="p-button-outlined p-button-success p-button-rounded" (click)="goToCollabs()"></button>
+  </div>
+
   <div class="flex flex-col">
     <div *ngFor="let option of mainSectionOptions">
       <div

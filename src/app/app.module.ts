@@ -11,6 +11,8 @@ import {FaIconLibrary} from "@fortawesome/angular-fontawesome";
 import {HubSidebarComponent} from "./components/hub-sidebar/hub-sidebar.component";
 import {ConfigService} from "./config.service";
 import {CinchyConfig, CinchyModule, CinchyService} from "@cinchy-co/angular-sdk";
+import {ButtonModule} from "primeng/button";
+import {RippleModule} from "primeng/ripple";
 
 const icons = [
   // ... other icons
@@ -36,7 +38,9 @@ export function getBaseUrl() {
     BrowserAnimationsModule,
     ComponentsModule,
     HttpClientModule,
-    CinchyModule.forRoot()
+    CinchyModule.forRoot(),
+    ButtonModule,
+    RippleModule
   ],
   providers: [
     {
