@@ -1,5 +1,8 @@
-<section>
+<p-progressSpinner class="item-center-n-relative"
+                   *ngIf="!events">
+</p-progressSpinner>
 
+<section>
   <div class="flex justify-between items-center">
     <div class="basis-[40%]">
       <h1 class="text-[3rem] font-bold" [innerHTML]="eventsHeaderDetails.header"></h1>

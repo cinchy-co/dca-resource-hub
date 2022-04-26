@@ -5,6 +5,7 @@ import {ConfigService} from "../../config.service";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
 import {CinchyService} from "@cinchy-co/angular-sdk";
+import {ApiCallsService} from "../../services/api-calls.service";
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +18,7 @@ export class ProfileComponent implements OnInit {
 
   constructor(private appStateService: AppStateService, private configService: ConfigService,
               private windowRef: WindowRefService, @Inject(PLATFORM_ID) private platformId: any,
-              private cinchyService: CinchyService) {
+              private cinchyService: CinchyService, private apiService: ApiCallsService) {
   }
 
   ngOnInit(): void {
@@ -37,6 +38,7 @@ export class ProfileComponent implements OnInit {
 
   signOut() {
     this.cinchyService.logout();
+    this.apiService.logOut();
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('hub-user-details');
     }

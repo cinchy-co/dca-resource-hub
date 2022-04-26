@@ -32,4 +32,11 @@ export class TablesComponent implements OnInit {
     }
   }
 
+  goToMarketPlace() {
+    const url = this.toolsHeaderDetails.buttonLink;
+    if(isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
+  }
+
 }

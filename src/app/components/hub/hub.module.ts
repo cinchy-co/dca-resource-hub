@@ -18,6 +18,7 @@ import {DropdownModule} from "primeng/dropdown";
 import { EventsComponent } from './events/events.component';
 import { LearningComponent } from './learning/learning.component';
 import { CollabsComponent } from './collabs/collabs.component';
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 const routes = [
   {
@@ -37,7 +38,7 @@ const routes = [
         component: TablesComponent
       },
       {
-        path: 'suggestions',
+        path: 'ideas',
         component: SuggestionsComponent
       },
       {
@@ -103,6 +104,7 @@ const routes = [
     InputTextModule,
     ReactiveFormsModule,
     DropdownModule,
+    ProgressSpinnerModule,
   ],
   exports: [RouterModule]
 })

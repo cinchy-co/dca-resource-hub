@@ -13,6 +13,7 @@ import {ConfigService} from "./config.service";
 import {CinchyConfig, CinchyModule, CinchyService} from "@cinchy-co/angular-sdk";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 const icons = [
   // ... other icons
@@ -40,7 +41,8 @@ export function getBaseUrl() {
     HttpClientModule,
     CinchyModule.forRoot(),
     ButtonModule,
-    RippleModule
+    RippleModule,
+    ProgressSpinnerModule
   ],
   providers: [
     {

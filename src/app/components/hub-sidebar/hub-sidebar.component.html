@@ -1,14 +1,22 @@
 <div [ngStyle]="{'width': isExpanded ? '250px' : '60px'}" class="hub-sidebar overflow-y-auto">
   <div class="flex items-center justify-left p-5 mb-10 mt-5 gap-4 h-[42px]">
     <i class="pi pi-bars cursor-pointer" style="font-size: 1.2rem" (click)="toggleSidebar()"></i>
-    <img @fadeSlideInOut *ngIf="isExpanded" src="assets/dcalogo.png" alt="logo" style="height:50px"
-    class="cursor-pointer" (click)="goToHome()">
+    <img @fadeSlideInOut *ngIf="isExpanded" src="assets/dcalogo.png" alt="logo" style="height:35px"
+         class="cursor-pointer" (click)="goToHome()">
   </div>
 
-  <div class="flex justify-center mb-5">
+  <div *ngIf="isExpanded" class="flex justify-start mb-5 pl-5">
     <button pButton pRipple type="button" [label]="collaborationBtn.sidebarLabel"
-            class="p-button-outlined p-button-success p-button-rounded" (click)="goToCollabs()"></button>
+            class="p-button-outlined p-button-success p-button-rounded" (click)="goToCollabs()">
+      <img class="mr-1" (click)="goToCollabs()" [src]="collaborationBtn.sidebarIcon" alt="logo" style="height: 20px">
+    </button>
+
   </div>
+
+  <div *ngIf="!isExpanded" class="flex justify-start mb-5 pl-5 cursor-pointer">
+    <img (click)="goToCollabs()" [src]="collaborationBtn.sidebarIcon" alt="logo" style="height: 23px">
+  </div>
+
 
   <div class="flex flex-col">
     <div *ngFor="let option of mainSectionOptions">

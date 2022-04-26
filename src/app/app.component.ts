@@ -43,11 +43,19 @@ export class AppComponent implements OnInit {
     this.apiCallsService.setUserDetails().then(val => {
       this.userDetails = val;
       this.appStateService.userDetails = this.userDetails;
+      const userDetail = localStorage.getItem('hub-user-details') || '';
+      console.log('In user details', val);
+      if(!val && userDetail) {
+        console.log('In no user details if', userDetail);
+        this.userDetails = userDetail ? JSON.parse(userDetail) : null;
+        this.appStateService.userDetails = this.userDetails;
+      }
       if (isPlatformBrowser(this.platformId)) {
         localStorage.setItem('hub-user-details', JSON.stringify(val));
       }
     }).catch((e: any) => {
       if (isPlatformBrowser(this.platformId)) {
+        console.error(e);
         const userDetail = localStorage.getItem('hub-user-details') || '';
         this.userDetails = userDetail ? JSON.parse(userDetail) : null;
         this.appStateService.userDetails = this.userDetails;

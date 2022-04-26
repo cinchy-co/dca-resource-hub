@@ -1,5 +1,8 @@
-<section class="suggestions-container">
+<p-progressSpinner class="item-center-n-relative"
+                   *ngIf="!allFields?.length">
+</p-progressSpinner>
 
+<section class="suggestions-container">
   <div class="flex justify-between items-center">
     <div class="basis-[40%]">
       <h1 class="text-[3rem] font-bold" [innerHTML]="suggestionHeaderDetails.header"></h1>

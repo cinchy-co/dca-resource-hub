@@ -1,3 +1,7 @@
+<p-progressSpinner class="item-center-n-relative"
+                   *ngIf="!loginDone">
+</p-progressSpinner>
+
 <div class="page-wrapper" *ngIf="loginDone">
   <app-hub-sidebar (toggleSidebarClicked)="sidebarStateChange($event)"></app-hub-sidebar>
 
