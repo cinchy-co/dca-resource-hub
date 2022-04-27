@@ -63,7 +63,9 @@ export class AppComponent implements OnInit {
       }
     });
     this.appStateService.communityDetails = await this.apiCallsService.getCommunityPageDetails().toPromise();
-    this.appStateService.footerDetails = await this.apiCallsService.getFooterDetails().toPromise();
+    this.apiCallsService.getFooterDetails().subscribe(footer => {
+      this.appStateService.footerDetails = footer;
+    });
     this.loginDone = true;
 
     if (isPlatformBrowser(this.platformId)) {

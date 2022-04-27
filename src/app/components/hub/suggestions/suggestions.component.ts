@@ -6,6 +6,7 @@ import {FieldTypes} from "../../../models/common.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../../services/window-ref.service";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-suggestions',
@@ -18,10 +19,11 @@ export class SuggestionsComponent implements OnInit {
   optionsForFields: any = {};
   suggestionForm: FormGroup;
   suggestionFormQueries: any;
+  showLoader: boolean;
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
               private fb: FormBuilder, @Inject(PLATFORM_ID) private platformId: any,
-              private windowRef: WindowRefService) {
+              private windowRef: WindowRefService, private messageService: MessageService) {
   }
 
   async ngOnInit() {
@@ -75,7 +77,24 @@ export class SuggestionsComponent implements OnInit {
     allFormKeys.forEach(key => {
       params[`@${key}`] = formValues[key];
     });
-    await this.appApiService.executeCinchyQueries(insertQueryName, insertQueryDomain, params).toPromise();
+    try {
+      this.showLoader = true;
+      await this.appApiService.executeCinchyQueries(insertQueryName, insertQueryDomain, params, true).toPromise();
+      this.suggestionForm.reset();
+      this.suggestionForm.reset(this.suggestionForm.value);
+      this.showLoader = false;
+      this.messageService.add({severity:'success', summary:'Submit Successful', detail:'Your idea has been submitted'});
+    } catch (e: any) {
+      if (e?.cinchyException?.data?.status === 200) {
+        this.showLoader = false;
+        this.suggestionForm.reset(this.suggestionForm.value);
+        this.suggestionForm.reset();
+        this.messageService.add({severity:'success', summary:'Submit Successful', detail:'Your idea has been submitted'});
+      } else {
+        this.showLoader = false;
+        this.messageService.add({severity:'error', summary:'Network error', detail:'Please try again after other time'});
+      }
+    }
   }
 
   goToSuggestions() {

@@ -1,5 +1,5 @@
 <p-progressSpinner class="item-center-n-relative"
-                   *ngIf="!allFields?.length">
+                   *ngIf="!allFields?.length || showLoader">
 </p-progressSpinner>
 
 <section class="suggestions-container">
@@ -43,3 +43,6 @@
               (click)="submit()"></p-button>
   </div>
 </section>
+
+
+<p-toast position="bottom-right"></p-toast>

@@ -19,6 +19,8 @@ import { EventsComponent } from './events/events.component';
 import { LearningComponent } from './learning/learning.component';
 import { CollabsComponent } from './collabs/collabs.component';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
 
 const routes = [
   {
@@ -105,7 +107,9 @@ const routes = [
     ReactiveFormsModule,
     DropdownModule,
     ProgressSpinnerModule,
+    ToastModule,
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [MessageService]
 })
 export class HubModule { }

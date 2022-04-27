@@ -144,9 +144,9 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
-  executeCinchyQueries(name: string, domain: string, options?: any): Observable<any> {
+  executeCinchyQueries(name: string, domain: string, options?: any, isInsert?: boolean): Observable<any> {
     return this.cinchyService.executeQuery(domain, name, options).pipe(
-      map(resp => resp.queryResult.toObjectArray())
+      map(resp => isInsert ? resp : resp?.queryResult?.toObjectArray())
     );
   }
 

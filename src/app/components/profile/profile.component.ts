@@ -6,6 +6,7 @@ import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
 import {CinchyService} from "@cinchy-co/angular-sdk";
 import {ApiCallsService} from "../../services/api-calls.service";
+import {window} from "rxjs";
 
 @Component({
   selector: 'app-profile',
@@ -41,6 +42,12 @@ export class ProfileComponent implements OnInit {
     this.apiService.logOut();
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('hub-user-details');
+      const url = `${this.configService.enviornmentConfig.cinchyRootUrl}/Account/Logoff`;
+      const windowRef = this.windowRef.nativeWindow.open(url, '_blank');
+      setTimeout(() => {
+        windowRef.close();
+        location.reload();
+      }, 5000)
     }
   }
 
