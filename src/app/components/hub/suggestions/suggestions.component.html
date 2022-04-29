@@ -3,23 +3,8 @@
 </p-progressSpinner>
 
 <section class="suggestions-container">
-  <div class="flex justify-between items-center">
-    <div class="basis-[40%]">
-      <h1 class="text-[3rem] font-bold" [innerHTML]="suggestionHeaderDetails.header"></h1>
+  <app-common-header [headerDetails]="suggestionHeaderDetails"></app-common-header>
 
-      <p class="text-gray-700" [innerHTML]="suggestionHeaderDetails.description">
-      </p>
-
-      <div class="mt-4">
-        <p-button icon="pi pi-sign-in" iconPos="right" class="btn-color-green p-button-raised p-button-rounded"
-                  [label]="suggestionHeaderDetails.buttonText"
-                  (click)="goToSuggestions()">
-        </p-button>
-      </div>
-    </div>
-
-    <img class="h-[100px] lg:h-[250px]" [src]="suggestionHeaderDetails.image" alt="Tools">
-  </div>
 
   <div class="flex flex-col items-start gap-10" *ngIf="allFields?.length">
     <form [formGroup]="suggestionForm" class="flex flex-wrap gap-5">

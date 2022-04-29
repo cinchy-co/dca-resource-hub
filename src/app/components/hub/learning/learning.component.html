@@ -3,17 +3,7 @@
 </p-progressSpinner>
 
 <section>
-  <div class="flex justify-between items-center">
-    <div class="basis-[40%]">
-      <h1 class="text-[3rem] font-bold" [innerHTML]="learningDetails.header"></h1>
-
-      <p class="text-gray-700" [innerHTML]="learningDetails.description">
-      </p>
-
-    </div>
-
-    <img class="h-[100px] lg:h-[250px]" [src]="learningDetails.image" alt="Tools">
-  </div>
+  <app-common-header [headerDetails]="learningDetails"></app-common-header>
 
   <p-divider></p-divider>
 

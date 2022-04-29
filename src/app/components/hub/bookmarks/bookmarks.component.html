@@ -3,30 +3,24 @@
 </p-progressSpinner>
 
 <section>
-  <div class="flex justify-between items-center">
-    <div class="basis-[40%]">
-      <h1 class="text-[3rem] font-bold" [innerHTML]="toolsHeaderDetails.header"></h1>
-
-      <p class="text-gray-700" [innerHTML]="toolsHeaderDetails.description">
-      </p>
-    </div>
-
-    <img class="h-[100px] lg:h-[250px]" [src]="toolsHeaderDetails.image" alt="Tools">
-  </div>
+  <app-common-header [headerDetails]="toolsHeaderDetails"></app-common-header>
 
   <div class="flex flex-col gap-5">
     <div class="default-border pt-2 pb-2 pr-4 pl-4 flex flex-wrap justify-between items-center"
          *ngFor="let bookmark of bookmarks">
       <div class="flex gap-5 items-center sm:basis-[100%] md:basis-[100%] lg:basis-[65%] mr-5">
-        <i class="pi pi-bookmark-fill" style="font-size: 2rem"></i>
+        <span class="sm:hidden md:hidden lg:block hidden">
+          <i class="pi pi-bookmark-fill" style="font-size: 2rem"></i>
+        </span>
 
         <div class="flex flex-col gap-1 mr-5 m-5">
-          <p class="text-[24px] font-semibold" [title]="bookmark.title" [innerHTML]="bookmark.title"></p>
+          <p class="lg:text-[24px] text-[14px] sm:text-[14px] md:text-[14px] font-semibold" [title]="bookmark.title"
+             [innerHTML]="bookmark.title"></p>
           <p class="text-slate-600 line-clamp-2" [title]="bookmark.desc" [innerHTML]="bookmark.desc"></p>
         </div>
       </div>
 
-      <div class="flex gap-5">
+      <div class="flex flex-wrap gap-5">
         <div class="flex flex-col w-[180px] gap-1 mr-5">
           <p class="">{{bookmark.table}}</p>
           <p class="text-slate-600">{{bookmark.domain}}</p>

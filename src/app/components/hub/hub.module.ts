@@ -21,6 +21,7 @@ import { CollabsComponent } from './collabs/collabs.component';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
+import { CommonHeaderComponent } from './common-header/common-header.component';
 
 const routes = [
   {
@@ -95,7 +96,8 @@ const routes = [
     MarketplaceComponent,
     EventsComponent,
     LearningComponent,
-    CollabsComponent
+    CollabsComponent,
+    CommonHeaderComponent
   ],
   imports: [
     CommonModule,

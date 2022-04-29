@@ -1,0 +1,17 @@
+<div class="flex justify-between items-center mb-2">
+  <div class="lg:basis-[40%] md:basis-[100%] sm:basis-[100%]">
+    <h1 class="text-[3rem] font-bold" [innerHTML]="headerDetails.header"></h1>
+
+    <p class="text-gray-700" [innerHTML]="headerDetails.description">
+    </p>
+
+    <div class="mt-4" *ngIf="headerDetails.buttonText">
+      <p-button icon="pi pi-sign-in" iconPos="right" class="btn-color-green p-button-raised p-button-rounded"
+                [label]="headerDetails.buttonText"
+                (click)="goToDetails()">
+      </p-button>
+    </div>
+  </div>
+
+  <img class="sm:hidden md:hidden lg:block hidden h-[100px] lg:h-[250px]" [src]="headerDetails.image" alt="Tools">
+</div>
