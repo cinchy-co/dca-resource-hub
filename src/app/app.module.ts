@@ -7,13 +7,17 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ComponentsModule} from "./components/components.module";
 import {HttpClientModule} from "@angular/common/http";
 import {faFacebookSquare, faLinkedinIn, faTwitterSquare} from '@fortawesome/free-brands-svg-icons';
-import {FaIconLibrary} from "@fortawesome/angular-fontawesome";
+import {FaIconLibrary, FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {HubSidebarComponent} from "./components/hub-sidebar/hub-sidebar.component";
 import {ConfigService} from "./config.service";
 import {CinchyConfig, CinchyModule, CinchyService} from "@cinchy-co/angular-sdk";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+
+import {fas} from '@fortawesome/free-solid-svg-icons';
+import {far} from "@fortawesome/free-regular-svg-icons";
+
 
 const icons = [
   // ... other icons
@@ -42,7 +46,8 @@ export function getBaseUrl() {
     CinchyModule.forRoot(),
     ButtonModule,
     RippleModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    FontAwesomeModule
   ],
   providers: [
     {
@@ -67,6 +72,8 @@ export function getBaseUrl() {
 export class AppModule {
 
   constructor(iconLibrary: FaIconLibrary) {
+    // @ts-ignore
     iconLibrary.addIcons(...icons);
+    iconLibrary.addIconPacks(far, fas);
   }
 }

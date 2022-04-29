@@ -3,6 +3,7 @@ import {ICommunityDetails} from "../../../models/general-values.model";
 import {isPlatformBrowser} from "@angular/common";
 import {AppStateService} from "../../../services/app-state.service";
 import {WindowRefService} from "../../../services/window-ref.service";
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
 
 @Component({
   selector: 'app-common-header',
@@ -17,6 +18,11 @@ export class CommonHeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  getIcon(option: ICommunityDetails, isCollapsed?: boolean): IconProp {
+    const iconToTake = isCollapsed ? option.collapseIcon : option.faIcon;
+    return iconToTake.split(',') as IconProp;
   }
 
   goToDetails() {

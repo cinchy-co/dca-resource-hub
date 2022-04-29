@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
   showError: boolean
   bannerDetails: any;
   bannerDetailsPerRoute: IWebsiteDetails;
+  items: any;
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService) {
   }
@@ -34,7 +35,10 @@ export class HomeComponent implements OnInit {
     this.getTags();
     this.getWebsiteDetails();
     this.getBannerDetailsPerRoute();
-    this.avatars = await this.apiCallsService.getDataStewards().toPromise();
+    this.items = [
+      {label: 'Overview', icon: 'pi pi-fw pi-home'},
+      {label: 'Tool', icon: 'pi pi-fw pi-cog'}
+    ];
   }
 
   async getLegislationData() {

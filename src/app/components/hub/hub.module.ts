@@ -22,6 +22,7 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
 import { CommonHeaderComponent } from './common-header/common-header.component';
+import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 
 const routes = [
   {
@@ -110,6 +111,7 @@ const routes = [
     DropdownModule,
     ProgressSpinnerModule,
     ToastModule,
+    FontAwesomeModule,
   ],
   exports: [RouterModule],
   providers: [MessageService]

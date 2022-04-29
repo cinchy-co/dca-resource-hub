@@ -14,6 +14,7 @@ import {ComponentsModule} from "../components.module";
 import {HomeComponent} from "./home.component";
 import {AccordionModule} from "primeng/accordion";
 import {PanelModule} from "primeng/panel";
+import {TabMenuModule} from "primeng/tabmenu";
 
 const routes = [
   {
@@ -27,21 +28,22 @@ const routes = [
     LawsComponent,
     HomeComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    PaginatorModule,
-    CardModule,
-    ButtonModule,
-    DcaCommonModule,
-    RadioButtonModule,
-    ChipModule,
-    EllipsisModule,
-    ProgressSpinnerModule,
-    DcaCommonModule,
-    ComponentsModule,
-    AccordionModule,
-    PanelModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        PaginatorModule,
+        CardModule,
+        ButtonModule,
+        DcaCommonModule,
+        RadioButtonModule,
+        ChipModule,
+        EllipsisModule,
+        ProgressSpinnerModule,
+        DcaCommonModule,
+        ComponentsModule,
+        AccordionModule,
+        PanelModule,
+        TabMenuModule
+    ]
 })
 export class LawsModule { }

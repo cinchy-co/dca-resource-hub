@@ -22,6 +22,7 @@ export interface ICommunityDetails {
   sidebarLabel: string;
   id: string;
   sidebarIcon: string;
+  faIcon: string;
   sidebarRoute: string;
   header: string;
   description: string;

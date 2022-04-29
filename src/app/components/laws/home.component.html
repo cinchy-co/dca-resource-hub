@@ -2,8 +2,15 @@
 <section class="default-border flex w-full justify-center flex-col home-container">
 
   <div class="video">
+<!--
     <app-video-banner *ngIf="bannerDetailsPerRoute" [bannerDetails]="bannerDetailsPerRoute" class="basis-[50%]"></app-video-banner>
+-->
+
+    <app-hero-banner *ngIf="bannerDetailsPerRoute" [webSiteDetails]="bannerDetailsPerRoute"></app-hero-banner>
+
   </div>
+
+  <p-tabMenu [model]="items"></p-tabMenu>
 
   <div class="flex flex-row p-3 flex-wrap items-center justify-center bg-cyan-200 shadow-normal" *ngIf="false">
     <app-avatars *ngIf="bannerDetails" [bannerDetails]="bannerDetails[0]" [avatars]="avatars" [size]="'large'" class="w-[100%]"></app-avatars>

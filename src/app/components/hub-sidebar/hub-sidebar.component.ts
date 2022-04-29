@@ -6,6 +6,8 @@ import {WindowRefService} from "../../services/window-ref.service";
 import {ICommunityDetails} from "../../models/general-values.model";
 import {AppStateService} from "../../services/app-state.service";
 import {IFooter} from "../../models/common.model";
+import {IconProp} from "@fortawesome/fontawesome-svg-core";
+
 
 @Component({
   selector: 'app-hub-sidebar',
@@ -72,6 +74,11 @@ export class HubSidebarComponent implements OnInit {
       this.currentOptionSelected = option;
       this.router.navigate([`${option.sidebarRoute}`]);
     }
+  }
+
+  getIcon(option: ICommunityDetails, isCollapsed?: boolean): IconProp {
+    const iconToTake = isCollapsed ? option.collapseIcon : option.faIcon;
+    return iconToTake.split(',') as IconProp;
   }
 
   goToHome() {

@@ -1,4 +1,4 @@
-<div class="flex justify-between items-center mb-2">
+<div class="flex justify-between items-center mb-4">
   <div class="lg:basis-[40%] md:basis-[100%] sm:basis-[100%]">
     <h1 class="text-[3rem] font-bold" [innerHTML]="headerDetails.header"></h1>
 
@@ -13,5 +13,10 @@
     </div>
   </div>
 
+<!--
   <img class="sm:hidden md:hidden lg:block hidden h-[100px] lg:h-[250px]" [src]="headerDetails.image" alt="Tools">
+-->
+  <div class="sm:hidden md:hidden lg:block hidden" style="color: #4a0cd9;">
+    <fa-icon class="fa-7x" [icon]="getIcon(headerDetails)"></fa-icon>
+  </div>
 </div>
