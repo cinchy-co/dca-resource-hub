@@ -124,8 +124,8 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
-  getSuggestionFormQueries(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Suggestion%20Form%20Queries`;
+  getSuggestionFormQueries(formId: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Suggestion%20Form%20Queries?%40formId=${formId}`;
     return this.getResponse(url);
   }
 
@@ -141,6 +141,18 @@ export class ApiCallsService {
 
   getHubBookmarks(): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20My%20Bookmarks`;
+    return this.getResponse(url);
+  }
+
+
+  // /API/Node%20Zero%20Website/Get%20Member%20Profile%20Details?%40userName=imrozkhangre%40gmail.com
+  getProfileFormLabels(): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Member%20Profile%20Page%20Labels`;
+    return this.getResponse(url);
+  }
+
+  getProfileDetails(userName: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Member%20Profile%20Details?%40userName=${userName}`;
     return this.getResponse(url);
   }
 

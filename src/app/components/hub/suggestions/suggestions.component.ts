@@ -2,7 +2,7 @@ import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {ICommunityDetails} from "../../../models/general-values.model";
 import {ApiCallsService} from "../../../services/api-calls.service";
 import {AppStateService} from "../../../services/app-state.service";
-import {FieldTypes} from "../../../models/common.model";
+import {FieldTypes, IField, IFormField} from "../../../models/common.model";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../../services/window-ref.service";
@@ -15,7 +15,7 @@ import {MessageService} from "primeng/api";
 })
 export class SuggestionsComponent implements OnInit {
   suggestionHeaderDetails: ICommunityDetails;
-  allFields: { label: string, type?: FieldTypes, options?: any[] }[] = [];
+  allFields: IFormField[] = [];
   optionsForFields: any = {};
   suggestionForm: FormGroup;
   suggestionFormQueries: any;
@@ -29,14 +29,13 @@ export class SuggestionsComponent implements OnInit {
   async ngOnInit() {
     const communityDetails = this.appStateService.communityDetails;
     this.suggestionHeaderDetails = communityDetails.find(item => item.id === 'suggestions') as ICommunityDetails;
-    this.suggestionFormQueries = (await this.appApiService.getSuggestionFormQueries().toPromise())[0];
+    this.suggestionFormQueries = (await this.appApiService.getSuggestionFormQueries('suggestion').toPromise())[0];
     this.setFieldAndOptions(this.suggestionFormQueries);
   }
 
   async setFieldAndOptions(suggestionFormQueries: any) {
     const {getQueryName, getQueryDomain, totalQueries} = suggestionFormQueries;
-    const fields = (await this.appApiService.executeCinchyQueries(getQueryName, getQueryDomain).toPromise())[0];
-    const allKeys = Object.keys(fields);
+    const fields: IField[] = (await this.appApiService.executeCinchyQueries(getQueryName, getQueryDomain).toPromise());
     let startIndex = 1;
     while (startIndex <= totalQueries) {
       const linkQueryName = suggestionFormQueries[`optionQuery-${startIndex}`];
@@ -46,9 +45,18 @@ export class SuggestionsComponent implements OnInit {
       this.optionsForFields[`${linkQueryLabel}-Label`] = optionsList;
       startIndex++;
     }
-    allKeys.forEach(key => {
-      if (key.includes('Label')) {
-        const item = {label: fields[key], options: this.optionsForFields[key]};
+    fields.forEach(field => {
+      if (field.label.includes('Label') || field.label.includes('label')) {
+        const item = {
+          label: field.title,
+          id: field.label.split('-')[0],
+          options: this.optionsForFields[field.label],
+          isMultiple: field.isMultiple === 'Yes',
+          isCheckbox: field.isCheckbox === 'Yes',
+          isDisabled: field.isDisabled === 'Yes',
+          isTextArea: field.isTextArea === 'Yes',
+          width: field.width
+        };
         this.allFields.push(item)
       }
     });
@@ -62,7 +70,7 @@ export class SuggestionsComponent implements OnInit {
   getControls() {
     const controls: any = {};
     this.allFields.forEach(field => {
-      controls[field.label] = ['', [Validators.required]];
+      controls[field.id] = ['', [Validators.required]];
     })
     return controls;
   }

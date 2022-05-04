@@ -77,6 +77,28 @@ export interface IUser {
   joinedDate: string;
 }
 
+export interface IField {
+  title: string;
+  label: string;
+  isMultiple: string;
+  isCheckbox: string;
+  isDisabled: string;
+  width: number;
+  isTextArea: string;
+}
+
+export interface IFormField {
+  label: string;
+  type?: FieldTypes;
+  options?: any[];
+  isMultiple: boolean;
+  isCheckbox: boolean;
+  isDisabled: boolean;
+  id: string;
+  width?: number;
+  isTextArea?: boolean;
+}
+
 export interface IFooter {
   sequence: number;
   footerTitle: string;

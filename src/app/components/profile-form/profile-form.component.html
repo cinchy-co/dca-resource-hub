@@ -1,15 +1,25 @@
 <p-progressSpinner class="item-center-n-relative"
-                   *ngIf="!allFields?.length || showLoader">
+                   *ngIf="!allFields?.length">
 </p-progressSpinner>
 
 <section class="suggestions-container">
-  <app-common-header [headerDetails]="suggestionHeaderDetails"></app-common-header>
 
+  <div class="flex justify-between" *ngIf="existingProfileDetails">
+    <h1 class="text-[3rem] font-bold" [innerHTML]="'Profile'"></h1>
+
+    <div>
+      <img class="w-[100px] cursor-pointer block" [src]="'data:image/png;base64,' + existingProfileDetails.photo"
+           alt="profile">
+    </div>
+  </div>
+
+  <p-divider></p-divider>
 
   <div class="mb-10 flex flex-col items-start gap-10" *ngIf="allFields?.length">
-    <form [formGroup]="suggestionForm" class="flex flex-wrap gap-5 justify-between w-[100%]">
-      <div *ngFor="let field of allFields" class="form-item flex flex-col items-start"
-           [ngStyle]="{'width': field.width+'%', 'flex-basis': field.width+'%'}">
+    <form [formGroup]="profileForm" class="flex flex-wrap gap-5 justify-between w-[100%]">
+      <div *ngFor="let field of allFields" class="form-item flex flex-col items-start sm:w-[100%] sm:basis-[100%]
+      md:w-[100%] md:basis-[100%]"
+      [ngStyle]="{'width': field.width+'%', 'flex-basis': field.width+'%'}">
         <label *ngIf="!field.isCheckbox">{{field.label}}</label>
         <ng-container *ngIf="field.options">
           <ng-container *ngIf="!field.isMultiple">
@@ -44,11 +54,10 @@
     </form>
 
     <p-button class="btn-color-green p-button-raised p-button-rounded"
-              [label]="'Submit'"
-              [ngClass]="{'disabled': !suggestionForm.valid}"
+              [label]="'Update'"
+              [ngClass]="{'disabled': !profileForm.valid}"
               (click)="submit()"></p-button>
   </div>
-
 </section>
 
 

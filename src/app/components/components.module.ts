@@ -27,6 +27,12 @@ import {PipesModule} from "../pipes/pipes.module";
 import { ProfileComponent } from './profile/profile.component';
 import {SidebarModule} from "primeng/sidebar";
 import {DividerModule} from "primeng/divider";
+import { ProfileFormComponent } from './profile-form/profile-form.component';
+import {ToastModule} from "primeng/toast";
+import {InputTextModule} from "primeng/inputtext";
+import {CheckboxModule} from "primeng/checkbox";
+import {MultiSelectModule} from "primeng/multiselect";
+import {InputTextareaModule} from "primeng/inputtextarea";
 
 
 @NgModule({
@@ -36,32 +42,38 @@ import {DividerModule} from "primeng/divider";
     FooterComponent,
     NewsFeedComponent,
     ProfileComponent,
+    ProfileFormComponent,
   ],
-  imports: [
-    CommonModule,
-    AutoCompleteModule,
-    FormsModule,
-    ReactiveFormsModule,
-    PaginatorModule,
-    CardModule,
-    SelectButtonModule,
-    AvatarModule,
-    AvatarGroupModule,
-    ButtonModule,
-    AccordionModule,
-    ProgressSpinnerModule,
-    CarouselModule,
-    ChipModule,
-    ShareModule,
-    ShareIconsModule,
-    ShareButtonsModule,
-    DcaCommonModule,
-    RadioButtonModule,
-    EllipsisModule,
-    PipesModule,
-    SidebarModule,
-    DividerModule
-  ],
+    imports: [
+        CommonModule,
+        AutoCompleteModule,
+        FormsModule,
+        ReactiveFormsModule,
+        PaginatorModule,
+        CardModule,
+        SelectButtonModule,
+        AvatarModule,
+        AvatarGroupModule,
+        ButtonModule,
+        AccordionModule,
+        ProgressSpinnerModule,
+        CarouselModule,
+        ChipModule,
+        ShareModule,
+        ShareIconsModule,
+        ShareButtonsModule,
+        DcaCommonModule,
+        RadioButtonModule,
+        EllipsisModule,
+        PipesModule,
+        SidebarModule,
+        DividerModule,
+        ToastModule,
+        InputTextModule,
+        CheckboxModule,
+        MultiSelectModule,
+        InputTextareaModule
+    ],
     exports: [
         HeaderComponent,
         FooterComponent,

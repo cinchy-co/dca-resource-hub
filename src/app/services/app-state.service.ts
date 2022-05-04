@@ -11,6 +11,7 @@ export class AppStateService {
   reset$: Subject<boolean> = new Subject<boolean>();
   dropdownOptionClicked$: BehaviorSubject<IDropdownClick> = new BehaviorSubject<IDropdownClick>({dropdownStr: '', countrySelected: ''});
   sidebarToggled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  userDetails$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(({} as IUser));
   avatars: any;
   communityDetails: ICommunityDetails[];
   userDetails: IUser;
@@ -25,6 +26,14 @@ export class AppStateService {
 
   getSidebarToggled() {
     return this.sidebarToggled$.asObservable();
+  }
+
+  setUserDetailsSub(val: IUser) {
+    this.userDetails$.next(val);
+  }
+
+  getUserDetailsSub() {
+    return this.userDetails$.asObservable();
   }
 
   setSearch(val: string) {

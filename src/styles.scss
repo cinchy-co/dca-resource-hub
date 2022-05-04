@@ -113,6 +113,14 @@ app-footer {
   }
 }
 
+.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+  cursor: not-allowed;
+  background-color: gray;
+}
+
+
 // Override styles
 p-autocomplete, .p-autocomplete {
   width: 100%;
@@ -274,7 +282,7 @@ app-footer {
 }
 
 .suggestions-container {
-  .p-dropdown {
+  .p-dropdown, .p-multiselect {
     width: 100%;
   }
 }

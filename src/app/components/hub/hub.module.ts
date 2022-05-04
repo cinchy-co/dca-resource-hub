@@ -23,6 +23,9 @@ import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
 import { CommonHeaderComponent } from './common-header/common-header.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
+import {ProfileFormComponent} from "../profile-form/profile-form.component";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {MultiSelectModule} from "primeng/multiselect";
 
 const routes = [
   {
@@ -32,6 +35,10 @@ const routes = [
       {
         path: '',
         component: HubHomeComponent
+      },
+      {
+        path: 'profile',
+        component: ProfileFormComponent
       },
       {
         path: 'tools',
@@ -112,6 +119,8 @@ const routes = [
     ProgressSpinnerModule,
     ToastModule,
     FontAwesomeModule,
+    InputTextareaModule,
+    MultiSelectModule,
   ],
   exports: [RouterModule],
   providers: [MessageService]

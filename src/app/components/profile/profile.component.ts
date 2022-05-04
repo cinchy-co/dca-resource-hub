@@ -6,7 +6,8 @@ import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
 import {CinchyService} from "@cinchy-co/angular-sdk";
 import {ApiCallsService} from "../../services/api-calls.service";
-import {window} from "rxjs";
+import {FormBuilder} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -19,10 +20,11 @@ export class ProfileComponent implements OnInit {
 
   constructor(private appStateService: AppStateService, private configService: ConfigService,
               private windowRef: WindowRefService, @Inject(PLATFORM_ID) private platformId: any,
-              private cinchyService: CinchyService, private apiService: ApiCallsService) {
+              private cinchyService: CinchyService, private apiService: ApiCallsService,
+              private router: Router) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.userDetails = this.userDetails ? this.userDetails : this.appStateService.userDetails;
   }
 
@@ -31,10 +33,8 @@ export class ProfileComponent implements OnInit {
   }
 
   goToProfile() {
-    if (isPlatformBrowser(this.platformId)) {
-      const url = `${this.configService.enviornmentConfig.cinchyRootUrl}/Account/Settings`;
-      this.windowRef.nativeWindow.open(url, '_blank');
-    }
+    this.display = false;
+    this.router.navigate([`/profile`]);
   }
 
   signOut() {

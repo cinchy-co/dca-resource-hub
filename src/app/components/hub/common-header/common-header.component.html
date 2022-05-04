@@ -17,6 +17,6 @@
   <img class="sm:hidden md:hidden lg:block hidden h-[100px] lg:h-[250px]" [src]="headerDetails.image" alt="Tools">
 -->
   <div class="sm:hidden md:hidden lg:block hidden" style="color: #4a0cd9;">
-    <fa-icon class="fa-7x" [icon]="getIcon(headerDetails)"></fa-icon>
+    <fa-icon *ngIf="headerDetails.faIcon" class="fa-7x" [icon]="getIcon(headerDetails)"></fa-icon>
   </div>
 </div>

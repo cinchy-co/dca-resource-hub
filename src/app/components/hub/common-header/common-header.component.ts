@@ -22,7 +22,7 @@ export class CommonHeaderComponent implements OnInit {
 
   getIcon(option: ICommunityDetails, isCollapsed?: boolean): IconProp {
     const iconToTake = isCollapsed ? option.collapseIcon : option.faIcon;
-    return iconToTake.split(',') as IconProp;
+    return iconToTake?.split(',') as IconProp;
   }
 
   goToDetails() {
