@@ -2,50 +2,59 @@
 <div class="default-border pipps-container h-[100%] flex flex-col" [ngClass]="{'pd-top-scroll': !fixed}" #ppips>
 
   <div #promoDiv class="banner-container w-full">
-    <app-hero-banner [webSiteDetails]="webSiteDetails" (sidebarToggled)="toggleSidebar()"></app-hero-banner>
+    <app-hero-banner *ngIf="toolDetails" [toolDetails]="toolDetails"></app-hero-banner>
   </div>
 
-  <div class="relative pipps-container-content flex flex-row">
+  <p-tabMenu [model]="items"></p-tabMenu>
 
-    <p-progressSpinner class="item-center-n-relative"
-                       *ngIf="!(currentLegislationData?.length && (currentLegislationData?.length))">
-    </p-progressSpinner>
+  <ng-container *ngIf="currentTab === 'overview'">
+    <app-video-overview class="mt-5" [toolDetails]="toolDetails"></app-video-overview>
+  </ng-container>
 
-    <div class="show-in-medium-large z-0">
-      <div class="cursor-pointer absolute left-2 top-2">
-        <button pButton type="button" icon="pi pi-bars" iconPos="left"
-                (click)="toggleSidebar()">
-        </button>
+  <ng-container *ngIf="currentTab === 'tool'">
+    <div class="relative pipps-container-content flex flex-row">
+
+      <p-progressSpinner class="item-center-n-relative"
+                         *ngIf="!(currentLegislationData?.length && (currentLegislationData?.length))">
+      </p-progressSpinner>
+
+      <div class="show-in-medium-large z-0">
+        <div class="cursor-pointer absolute left-2 top-2">
+          <button pButton type="button" icon="pi pi-bars" iconPos="left"
+                  (click)="toggleSidebar()">
+          </button>
+        </div>
+
+        <p-sidebar #snav *ngIf="currentLegislationData" [(visible)]="display"
+                   [modal]="false" [style]="{width:'450px'}">
+          <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+        </p-sidebar>
       </div>
 
-      <p-sidebar #snav *ngIf="currentLegislationData" [(visible)]="display"
-                 [modal]="false" [style]="{width:'450px'}">
-        <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
-      </p-sidebar>
-    </div>
+      <div class="show-in-small z-0">
+        <div class="cursor-pointer absolute left-2 top-2">
+          <button pButton type="button" icon="pi pi-bars" iconPos="left"
+                  (click)="toggleSidebar()">
+          </button>
+        </div>
 
-    <div class="show-in-small z-0">
-      <div class="cursor-pointer absolute left-2 top-2">
-        <button pButton type="button" icon="pi pi-bars" iconPos="left"
-                (click)="toggleSidebar()">
-        </button>
+        <p-sidebar *ngIf="currentLegislationData" [modal]="false"
+                   [(visible)]="display" [style]="{width:'100%'}">
+          <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
+        </p-sidebar>
       </div>
 
-      <p-sidebar *ngIf="currentLegislationData" [modal]="false"
-                 [(visible)]="display" [style]="{width:'100%'}">
-        <ng-container *ngTemplateOutlet="sidebarContent"></ng-container>
-      </p-sidebar>
-    </div>
+      <div #snavContent class="mr-4 pl-4 pb-8 w-full mt-10 show-in-medium-large">
+        <ng-container *ngTemplateOutlet="mainContent"></ng-container>
+      </div>
 
-    <div #snavContent class="mr-4 pl-4 pb-8 w-full mt-10 show-in-medium-large">
-      <ng-container *ngTemplateOutlet="mainContent"></ng-container>
-    </div>
+      <div class="mr-1 pl-1 pb-8 w-full mt-10 show-in-small">
+        <ng-container *ngTemplateOutlet="mainContent"></ng-container>
+      </div>
 
-    <div class="mr-1 pl-1 pb-8 w-full mt-10 show-in-small">
-      <ng-container *ngTemplateOutlet="mainContent"></ng-container>
     </div>
+  </ng-container>
 
-  </div>
 </div>
 
 

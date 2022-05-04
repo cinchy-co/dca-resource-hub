@@ -14,6 +14,9 @@ import {ReplaySubject, takeUntil} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
 import {IWebsiteDetails} from "../../models/common.model";
+import {ITools} from "../hub/model/hub.model";
+import {AppStateService} from "../../services/app-state.service";
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'app-pipps',
@@ -46,6 +49,9 @@ export class PippsComponent implements OnInit, OnDestroy {
   allLawsKeyIssues: { [K: string]: IKeyIssues[] } = {};
   webSiteDetails: IWebsiteDetails;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  toolDetails: ITools;
+  items: MenuItem[];
+  currentTab: string = 'overview';
 
  /* @HostListener('window:scroll', [])
   onWindowScroll() {
@@ -62,16 +68,41 @@ export class PippsComponent implements OnInit, OnDestroy {
 
   constructor(private apiCallService: ApiCallsService, private changeDetectorRef: ChangeDetectorRef, private router: Router,
               private route: ActivatedRoute, @Inject(PLATFORM_ID) private platformId: any,
-              private windowRef: WindowRefService) {
+              private windowRef: WindowRefService, private appStateService: AppStateService) {
   }
 
   async ngOnInit() {
+    this.toolDetails = (await this.apiCallService.getToolDetails('privacy-legislation-navigator').toPromise())[0];
+    this.appStateService.tool['privacy-legislation-navigator'] = this.toolDetails;
     this.allLaws = await this.apiCallService.getAllLegislationLaws().toPromise();
     this.webSiteDetails = (await this.apiCallService.getWebsiteDetails('legislation-navigator').toPromise())[0];
     this.legislation = this.allLaws.map(law => ({...law, code: law.law}));
     this.selectedLegislation = this.legislation[0];
-    this.routeSub()
+    this.routeSub();
+    this.setTabItems();
   }
+
+  setTabItems() {
+    this.items = [
+      {
+        label: 'Overview', id: 'overview', icon: 'pi pi-fw pi-home',
+        command: () => {
+          this.tabClicked('overview');
+        }
+      },
+      {
+        label: 'Tool', id: 'tool', icon: 'pi pi-fw pi-cog',
+        command: () => {
+          this.tabClicked('tool');
+        }
+      }
+    ];
+  }
+
+  tabClicked(tabId: string) {
+    this.currentTab = tabId;
+  }
+
 
   toggleSidebar() {
     this.display = !this.display;

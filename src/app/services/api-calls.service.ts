@@ -6,6 +6,8 @@ import {CinchyService} from "@cinchy-co/angular-sdk";
 import {WindowRefService} from "./window-ref.service";
 import {isPlatformBrowser} from "@angular/common";
 import {ConfigService} from "../config.service";
+import {AppStateService} from "./app-state.service";
+import {ToolIds} from "../components/hub/model/hub.model";
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +18,7 @@ export class ApiCallsService {
   cachedFooterDetails: any[];
 
   constructor(private http: HttpClient, private cinchyService: CinchyService, @Inject(PLATFORM_ID) private platformId: any,
-              private configService: ConfigService) {
+              private configService: ConfigService, private appStateService: AppStateService) {
   }
 
   getHeaderBannerDetails(): Observable<any> {
@@ -116,6 +118,14 @@ export class ApiCallsService {
 
   getHubTools(): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Tool%20Page%20Tools`;
+    return this.getResponse(url);
+  }
+
+  getToolDetails(toolId: ToolIds): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Tool%20Overview%20Details?%40toolsId=${toolId}`;
+    if (this.appStateService.tool[toolId]) {
+      return of(this.appStateService.tool[toolId]);
+    }
     return this.getResponse(url);
   }
 

@@ -6,7 +6,9 @@
   <app-hub-sidebar (toggleSidebarClicked)="sidebarStateChange($event)"></app-hub-sidebar>
 
   <app-profile *ngIf="userDetails" [userDetails]="userDetails"></app-profile>
-  <div class="p-[20px] pt-[100px] lg:p-[100px] hub-content" [ngStyle]="{'margin-left': !isSidebarExpanded ? '50px' : '250px'}">
+  <div class="p-[20px] pt-[100px] lg:p-[100px] hub-content"
+       [ngStyle]="{'margin-left': !isSidebarExpanded ? '50px' : '250px',
+       'display': isSidebarExpanded && isMobileOrTab ? 'none': 'block'}">
     <router-outlet></router-outlet>
   </div>
 </div>

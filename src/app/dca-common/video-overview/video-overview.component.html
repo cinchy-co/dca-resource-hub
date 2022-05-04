@@ -1,0 +1,22 @@
+<section class="p-4 flex flex-col">
+
+  <div class="w-[100%] m-auto">
+    <div class="m-auto" id="player">
+      <iframe class="m-auto w-[100%] sm:w-[100%] md:w-[70%] lg:w-[50%] lg:h-[400px] md:h-[300px] sm:h-[200px] h-[200px]"
+              title="Node Zero video"
+              loading="lazy"
+              [src]="toolDetails.videoLink | urlSanitizer: 'resourceUrl'"
+              allowfullscreen
+              allowtransparency
+              allow="autoplay"
+      ></iframe>
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+
+  <div>
+    <h1 class="text-[20px] font-semibold mb-2">{{toolDetails.toolName}}</h1>
+    <p class="text-sm-12 text-gray-800">{{toolDetails.toolDesc}}</p>
+  </div>
+</section>

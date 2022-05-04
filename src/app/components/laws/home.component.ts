@@ -3,6 +3,8 @@ import {IAvatar, IDropdownClick, ILegislation, IOption, ITag, IWebsiteDetails} f
 import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
 import {SearchBy} from "../../models/general-values.model";
+import {ITools} from "../hub/model/hub.model";
+import {MenuItem} from "primeng/api";
 
 
 @Component({
@@ -25,20 +27,40 @@ export class HomeComponent implements OnInit {
   showError: boolean
   bannerDetails: any;
   bannerDetailsPerRoute: IWebsiteDetails;
-  items: any;
+  items: MenuItem[];
+  toolDetails: ITools;
+  currentTab: string = 'overview';
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService) {
   }
 
   async ngOnInit() {
+    this.toolDetails = (await this.apiCallsService.getToolDetails('privacy-law-navigator').toPromise())[0];
+    this.appStateService.tool['privacy-law-navigator'] = this.toolDetails;
     this.getLegislationData();
     this.getTags();
-    this.getWebsiteDetails();
-    this.getBannerDetailsPerRoute();
+    this.setTabItems();
+  }
+
+  setTabItems() {
     this.items = [
-      {label: 'Overview', icon: 'pi pi-fw pi-home'},
-      {label: 'Tool', icon: 'pi pi-fw pi-cog'}
+      {
+        label: 'Overview', id: 'overview', icon: 'pi pi-fw pi-home',
+        command: () => {
+          this.tabClicked('overview');
+        }
+      },
+      {
+        label: 'Tool', id: 'tool', icon: 'pi pi-fw pi-cog',
+        command: () => {
+          this.tabClicked('tool');
+        }
+      }
     ];
+  }
+
+  tabClicked(tabId: string) {
+    this.currentTab = tabId;
   }
 
   async getLegislationData() {

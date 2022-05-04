@@ -2,6 +2,7 @@ import {Component, EventEmitter, Inject, Input, OnInit, Output, PLATFORM_ID} fro
 import {IWebsiteDetails} from "../../models/common.model";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
+import {ITools} from "../../components/hub/model/hub.model";
 
 @Component({
   selector: 'app-hero-banner',
@@ -9,7 +10,7 @@ import {WindowRefService} from "../../services/window-ref.service";
   styleUrls: ['./hero-banner.component.scss']
 })
 export class HeroBannerComponent implements OnInit {
-  @Input() webSiteDetails: IWebsiteDetails;
+  @Input() toolDetails: ITools;
   @Output() sidebarToggled: EventEmitter<any> = new EventEmitter<any>();
 
   constructor(@Inject(PLATFORM_ID) private platformId: any,

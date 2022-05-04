@@ -72,6 +72,8 @@ export class HubSidebarComponent implements OnInit {
       }
     } else {
       this.currentOptionSelected = option;
+      this.isExpanded = this.isMobileOrTab ? false : this.isExpanded;
+      this.toggleSidebarClicked.emit(this.isExpanded);
       this.router.navigate([`${option.sidebarRoute}`]);
     }
   }

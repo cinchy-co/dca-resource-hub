@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
 import {IDropdownClick, IFooter, IOption, IUser} from "../models/common.model";
 import {ICommunityDetails, MappedCombinedCountryKey} from "../models/general-values.model";
+import {IToolDetails, ITools} from "../components/hub/model/hub.model";
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ export class AppStateService {
   communityDetails: ICommunityDetails[];
   userDetails: IUser;
   footerDetails: IFooter[];
+  currentToolSelected: ITools;
+  tool: IToolDetails = {} as IToolDetails;
 
   constructor() {
   }

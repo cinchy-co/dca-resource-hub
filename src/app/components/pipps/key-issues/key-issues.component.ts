@@ -14,6 +14,8 @@ import {IKeyIssues} from "../models/ppips.model";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../../services/window-ref.service";
 import {IWebsiteDetails} from "../../../models/common.model";
+import {AppStateService} from "../../../services/app-state.service";
+import {ITools} from "../../hub/model/hub.model";
 
 @Component({
   selector: 'app-key-issues',
@@ -30,13 +32,16 @@ export class KeyIssuesComponent implements OnInit, OnDestroy {
   currentKeyIssue: IKeyIssues | undefined;
   display = true;
   webSiteDetails: IWebsiteDetails;
+  toolDetails: ITools;
 
   constructor(private router: Router, private route: ActivatedRoute, private apiCallService: ApiCallsService,
               private changeDetectorRef: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
-              private windowRef: WindowRefService) {
+              private windowRef: WindowRefService, private appStateService: AppStateService) {
   }
 
   async ngOnInit() {
+    this.toolDetails = (await this.apiCallService.getToolDetails('privacy-legislation-navigator').toPromise())[0];
+    this.appStateService.tool['privacy-legislation-navigator'] = this.toolDetails;
     this.webSiteDetails = (await this.apiCallService.getWebsiteDetails('legislation-navigator').toPromise())[0];
     this.route.paramMap.pipe(takeUntil(this.destroyed$)).subscribe(async (params: any) => {
       this.selectedId = params.get('keyIssueId') === 'all' ? 0 : +(params.get('keyIssueId'));

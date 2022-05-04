@@ -12,6 +12,7 @@ import { EllipsisModule } from 'ngx-ellipsis';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {ComponentsModule} from "../components.module";
 import {PanelModule} from "primeng/panel";
+import {TabMenuModule} from "primeng/tabmenu";
 
 
 const routes = [
@@ -25,20 +26,21 @@ const routes = [
   declarations: [
     NewsPodcastComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    PaginatorModule,
-    CardModule,
-    ButtonModule,
-    DcaCommonModule,
-    RadioButtonModule,
-    ChipModule,
-    EllipsisModule,
-    ProgressSpinnerModule,
-    DcaCommonModule,
-    ComponentsModule,
-    PanelModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        PaginatorModule,
+        CardModule,
+        ButtonModule,
+        DcaCommonModule,
+        RadioButtonModule,
+        ChipModule,
+        EllipsisModule,
+        ProgressSpinnerModule,
+        DcaCommonModule,
+        ComponentsModule,
+        PanelModule,
+        TabMenuModule
+    ]
 })
 export class NewsPodcastModule { }

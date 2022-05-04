@@ -12,22 +12,37 @@ export interface ITools {
   toolImage: string;
   toolLink: string;
   toolLogo: string;
-  toolLogoLink:  string;
-  toolName:  string;
-  toolRoute:  string;
-  toolTags:  string;
+  toolLogoLink: string;
+  toolName: string;
+  toolRoute: string;
+  toolTags: string;
+  videoLink: string;
+  toolSequence?: number;
 }
+
+export interface IToolDetails {
+  'privacy-law-navigator': ITools;
+  'privacy-legislation-navigator': ITools;
+  'privacy-newsfeed': ITools;
+  'privacy-regulator-navigator': ITools;
+}
+
+export type ToolIds =
+  'privacy-law-navigator'
+  | 'privacy-legislation-navigator'
+  | 'privacy-newsfeed'
+  | 'privacy-regulator-navigator';
 
 export interface IEvents {
   title: string;
   date: string;
   time: string;
   timezone: string;
-  image:  string;
-  logo:  string;
-  description:  string;
-  rsvpLink:  string;
-  zoomLink:  string;
+  image: string;
+  logo: string;
+  description: string;
+  rsvpLink: string;
+  zoomLink: string;
 }
 
 export interface IBookmark {

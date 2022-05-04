@@ -8,6 +8,9 @@ import {ButtonModule} from "primeng/button";
 import {VideoBannerComponent} from "./video-banner/video-banner.component";
 import {PipesModule} from "../pipes/pipes.module";
 import { HeroBannerComponent } from './hero-banner/hero-banner.component';
+import { VideoOverviewComponent } from './video-overview/video-overview.component';
+import {CardModule} from "primeng/card";
+import {DividerModule} from "primeng/divider";
 
 
 
@@ -15,7 +18,8 @@ import { HeroBannerComponent } from './hero-banner/hero-banner.component';
   declarations: [
     SearchByAutocompleteComponent,
     VideoBannerComponent,
-    HeroBannerComponent
+    HeroBannerComponent,
+    VideoOverviewComponent
   ],
   imports: [
     CommonModule,
@@ -24,12 +28,15 @@ import { HeroBannerComponent } from './hero-banner/hero-banner.component';
     ReactiveFormsModule,
     SelectButtonModule,
     ButtonModule,
-    PipesModule
+    PipesModule,
+    CardModule,
+    DividerModule
   ],
   exports: [
     SearchByAutocompleteComponent,
     VideoBannerComponent,
-    HeroBannerComponent
+    HeroBannerComponent,
+    VideoOverviewComponent
   ]
 })
 export class DcaCommonModule { }

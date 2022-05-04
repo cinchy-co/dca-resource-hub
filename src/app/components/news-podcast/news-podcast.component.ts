@@ -14,6 +14,8 @@ import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
 import {SearchBy, SEPARATE_PAGE_SIZE} from "../../models/general-values.model";
 import {WindowRefService} from "../../services/window-ref.service";
+import {ITools} from "../hub/model/hub.model";
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'app-news-podcast',
@@ -43,16 +45,43 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   newsAndPodcastsData: any;
   showError = false;
   websiteDetails: IWebsiteDetails;
+  toolDetails: ITools;
+  items: MenuItem[];
+  currentTab: string = 'overview';
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private apiCallsService: ApiCallsService,
               private changeDetectorRef: ChangeDetectorRef) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.toolDetails = (await this.apiCallsService.getToolDetails('privacy-newsfeed').toPromise())[0];
+    this.appStateService.tool['privacy-newsfeed'] = this.toolDetails;
     this.getLegislationData();
     this.getNewsAndPodcasts();
     this.getBannerDetailsPerRoute();
+    this.setTabItems();
+  }
+
+  setTabItems() {
+    this.items = [
+      {
+        label: 'Overview', id: 'overview', icon: 'pi pi-fw pi-home',
+        command: () => {
+          this.tabClicked('overview');
+        }
+      },
+      {
+        label: 'Tool', id: 'tool', icon: 'pi pi-fw pi-cog',
+        command: () => {
+          this.tabClicked('tool');
+        }
+      }
+    ];
+  }
+
+  tabClicked(tabId: string) {
+    this.currentTab = tabId;
   }
 
   async getLegislationData() {
