@@ -3,8 +3,9 @@ import {IAvatar, IDropdownClick, ILegislation, IOption, ITag, IWebsiteDetails} f
 import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
 import {SearchBy} from "../../models/general-values.model";
-import {ITools} from "../hub/model/hub.model";
+import {ITools, IToolSection} from "../hub/model/hub.model";
 import {MenuItem} from "primeng/api";
+import {combineLatest, Observable, of, take} from "rxjs";
 
 
 @Component({
@@ -35,7 +36,11 @@ export class HomeComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.toolDetails = (await this.apiCallsService.getToolDetails('privacy-law-navigator').toPromise())[0];
+    this.apiCallsService.getToolDetails('privacy-law-navigator').pipe(take(1))
+      .subscribe(tool => {
+      this.toolDetails = tool[0];
+    });
+
     this.appStateService.tool['privacy-law-navigator'] = this.toolDetails;
     this.getLegislationData();
     this.getTags();
@@ -60,6 +65,9 @@ export class HomeComponent implements OnInit {
   }
 
   tabClicked(tabId: string) {
+    if (tabId === 'overview') {
+      this.reset();
+    }
     this.currentTab = tabId;
   }
 

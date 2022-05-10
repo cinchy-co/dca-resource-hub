@@ -121,6 +121,11 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getToolsOverview(toolId: ToolIds): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Tools%20Overview%20Sections?%40toolId=${toolId}`;
+    return this.getResponse(url);
+  }
+
   getToolDetails(toolId: ToolIds): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Tool%20Overview%20Details?%40toolsId=${toolId}`;
     if (this.appStateService.tool[toolId]) {
@@ -178,31 +183,31 @@ export class ApiCallsService {
       if (isPlatformBrowser(this.platformId)) {
         userObjectFromStorageStr = sessionStorage.getItem('id_token_claims_obj');
       }
-      console.log('IN IF SESSION USER', userObjectFromStorageStr);
+   //   console.log('IN IF SESSION USER', userObjectFromStorageStr);
       if (userObjectFromStorageStr) {
         const userObjectFromStorage = JSON.parse(userObjectFromStorageStr);
-        console.log('IN IF 2 SESSION USER', userObjectFromStorageStr);
+     //   console.log('IN IF 2 SESSION USER', userObjectFromStorageStr);
         const userDetails = await this.getLoggedInUserDetails(userObjectFromStorage.id).toPromise() as IUser[];
-        console.log('IN IF 2 SESSION userDetails', userDetails)
+     //   console.log('IN IF 2 SESSION userDetails', userDetails)
         resolve(userDetails[0]);
       } else {
-        console.log('IN USER ELSE INSIDE 1', this.cinchyService.getUserIdentity);
+       // console.log('IN USER ELSE INSIDE 1', this.cinchyService.getUserIdentity);
         let userDetail = localStorage.getItem('hub-user-details') || '';
         if (isPlatformBrowser(this.platformId)) {
-          console.log('IN USER ELSE LOCAL');
+     //     console.log('IN USER ELSE LOCAL');
           userDetail = userDetail ? JSON.parse(userDetail) : null;
           resolve(userDetail);
         }
         if (!userDetail) {
           this.cinchyService.getUserIdentity().subscribe(async (user: any) => {
-            console.log('IN USER ELSE INSIDE', user);
+         //   console.log('IN USER ELSE INSIDE', user);
             if (user?.id) {
-              console.log('IN USER ELSE INSIDE ID', user);
+           //   console.log('IN USER ELSE INSIDE ID', user);
               const userDetailsIdentity = await this.getLoggedInUserDetails(user.id).toPromise() as IUser[];
-              console.log('IN USER ELSE INSIDE ID userDetailsIdentity', userDetailsIdentity);
+             // console.log('IN USER ELSE INSIDE ID userDetailsIdentity', userDetailsIdentity);
               resolve(userDetailsIdentity[0]);
             } else {
-              console.log('IN USER ELSE INSIDE ID userDetailsIdentity REJECT');
+             // console.log('IN USER ELSE INSIDE ID userDetailsIdentity REJECT');
               reject('No user details');
             }
           }, error => {

@@ -70,6 +70,7 @@ export class SearchByAutocompleteComponent implements OnInit {
   selectedSearchBy: IOption;
   selectedOption: IOption;
   selectedRegionSearchBy!: IOption | null;
+  oldSelectedOption: IOption;
   placeholderForSearch: string;
   showRegion: boolean;
   regionSearchBy = [RegionSearch];
@@ -87,7 +88,7 @@ export class SearchByAutocompleteComponent implements OnInit {
     this.selectedOption = optionObj.option ? optionObj.option : this.selectedOption;
     const key = this.selectedOption.code;
     this.placeholderForSearch = this.selectedOption.name;
-    if (!this.filteredAutoCompleteOptions) {
+    if (!this.filteredAutoCompleteOptions || (this.oldSelectedOption.code !== this.selectedOption.code)) {
       if (this.selectedOption.code === 'Tags' && this.tagsData) {
         this.autoCompleteOptions = this.tagsData;
         this.filteredAutoCompleteOptions = this.tagsData;
@@ -95,11 +96,12 @@ export class SearchByAutocompleteComponent implements OnInit {
         const legislationData = this.getFilteredOptions(this.selectedOption);
         this.autoCompleteOptions = this.appStateService.getUniqueOptions(legislationData, this.selectedOption, this.global);
         this.filteredAutoCompleteOptions = this.autoCompleteOptions;
-        this.filteredAutoCompleteOptions?.sort((a: any, b: any) => {
+        this.selectedOption.code !== 'Tags' && this.filteredAutoCompleteOptions?.sort((a: any, b: any) => {
           return  a[key].localeCompare(b[key]);
         });
       }
     }
+    this.oldSelectedOption = optionObj.option ? optionObj.option : this.selectedOption;
 
     this.searchBySelected.emit(this.selectedOption);
     if (preselectedDropdownStr) {
@@ -127,7 +129,7 @@ export class SearchByAutocompleteComponent implements OnInit {
     this.filteredAutoCompleteOptions = this.autoCompleteOptions.filter((item: any) => {
       const key = this.selectedRegionSearchBy ? (this.selectedRegionSearchBy.code)
         : this.selectedSearchBy.code;
-      return item[key].toLowerCase().indexOf(query.toLowerCase()) == 0;
+      return item[key]?.toLowerCase().indexOf(query.toLowerCase()) == 0;
     });
   }
 

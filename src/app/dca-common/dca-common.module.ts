@@ -11,6 +11,8 @@ import { HeroBannerComponent } from './hero-banner/hero-banner.component';
 import { VideoOverviewComponent } from './video-overview/video-overview.component';
 import {CardModule} from "primeng/card";
 import {DividerModule} from "primeng/divider";
+import {ChipModule} from "primeng/chip";
+import {TableModule} from "primeng/table";
 
 
 
@@ -30,7 +32,9 @@ import {DividerModule} from "primeng/divider";
     ButtonModule,
     PipesModule,
     CardModule,
-    DividerModule
+    DividerModule,
+    ChipModule,
+    TableModule
   ],
   exports: [
     SearchByAutocompleteComponent,

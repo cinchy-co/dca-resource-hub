@@ -7,7 +7,7 @@
   <p-tabMenu [model]="items"></p-tabMenu>
 
   <ng-container *ngIf="currentTab === 'overview'">
-    <app-video-overview class="mt-5" [toolDetails]="toolDetails"></app-video-overview>
+    <app-video-overview *ngIf="toolDetails" class="mt-5" [toolDetails]="toolDetails"></app-video-overview>
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'tool'">

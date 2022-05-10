@@ -9,10 +9,10 @@
 
   </div>
 
-  <p-tabMenu [model]="items"></p-tabMenu>
+  <p-tabMenu [model]="items" [activeItem]="items[0]">></p-tabMenu>
 
 <ng-container *ngIf="currentTab === 'overview'">
-  <app-video-overview class="mt-5" [toolDetails]="toolDetails"></app-video-overview>
+  <app-video-overview class="mt-5" [toolId]="'privacy-law-navigator'"></app-video-overview>
 </ng-container>
 
   <ng-container *ngIf="currentTab === 'tool'">

@@ -34,7 +34,9 @@ export class RegHomeComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.toolDetails = (await this.apiCallsService.getToolDetails('privacy-regulator-navigator').toPromise())[0];
+    this.apiCallsService.getToolDetails('privacy-regulator-navigator').subscribe(tool => {
+      this.toolDetails = tool[0];
+    });
     this.appStateService.tool['privacy-regulator-navigator'] = this.toolDetails;
     this.getLegislationData();
     this.getRegulatorData();

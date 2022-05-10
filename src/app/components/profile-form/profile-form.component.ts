@@ -86,7 +86,8 @@ export class ProfileFormComponent implements OnInit {
     if (!field.options) {
       return this.existingProfileDetails[field.id];
     }
-    let selectedOptions = field.options.filter(optionItem => this.existingProfileDetails[field.id].includes(optionItem.option));
+
+    let selectedOptions = field.options.filter(optionItem => this.existingProfileDetails[field.id]?.includes(optionItem.option));
     selectedOptions = selectedOptions?.length ? selectedOptions.map(item => item.cinchyId) : [];
     return selectedOptions;
   }
@@ -99,7 +100,7 @@ export class ProfileFormComponent implements OnInit {
     const allFormKeys = Object.keys(formValues);
     const params: any = {};
     allFormKeys.forEach(key => {
-      params[`@${key}`] = Array.isArray(formValues[key]) ? `1,${formValues[key].join(',1,')}` : formValues[key]
+      params[`@${key}`] = Array.isArray(formValues[key]) ? `${formValues[key].join(',1,')},1` : formValues[key]
     });
     params['@username'] = this.userDetails.username;
     try {

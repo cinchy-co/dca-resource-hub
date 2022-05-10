@@ -53,7 +53,7 @@
       </div>
     </form>
 
-    <p-button class="btn-color-green p-button-raised p-button-rounded"
+    <p-button *ngIf="profileForm" class="btn-color-green p-button-raised p-button-rounded"
               [label]="'Update'"
               [ngClass]="{'disabled': !profileForm.valid}"
               (click)="submit()"></p-button>

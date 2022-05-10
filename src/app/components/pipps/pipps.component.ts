@@ -53,18 +53,18 @@ export class PippsComponent implements OnInit, OnDestroy {
   items: MenuItem[];
   currentTab: string = 'overview';
 
- /* @HostListener('window:scroll', [])
-  onWindowScroll() {
-    if (isPlatformBrowser(this.platformId) && this.promoDiv) {
-      let number2 = this.promoDiv.nativeElement.getBoundingClientRect().top;
-      let offSetHeight = this.promoDiv.nativeElement.offsetHeight - 80;
-      if (Math.abs(number2) > offSetHeight) {
-        this.fixed = true;
-      } else if (this.fixed && Math.abs(number2) * -1 < offSetHeight) {
-        this.fixed = false;
-      }
-    }
-  }*/
+  /* @HostListener('window:scroll', [])
+   onWindowScroll() {
+     if (isPlatformBrowser(this.platformId) && this.promoDiv) {
+       let number2 = this.promoDiv.nativeElement.getBoundingClientRect().top;
+       let offSetHeight = this.promoDiv.nativeElement.offsetHeight - 80;
+       if (Math.abs(number2) > offSetHeight) {
+         this.fixed = true;
+       } else if (this.fixed && Math.abs(number2) * -1 < offSetHeight) {
+         this.fixed = false;
+       }
+     }
+   }*/
 
   constructor(private apiCallService: ApiCallsService, private changeDetectorRef: ChangeDetectorRef, private router: Router,
               private route: ActivatedRoute, @Inject(PLATFORM_ID) private platformId: any,
@@ -72,6 +72,9 @@ export class PippsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.apiCallService.getToolDetails('privacy-law-navigator').subscribe(tool => {
+      this.toolDetails = tool[0];
+    });
     this.toolDetails = (await this.apiCallService.getToolDetails('privacy-legislation-navigator').toPromise())[0];
     this.appStateService.tool['privacy-legislation-navigator'] = this.toolDetails;
     this.allLaws = await this.apiCallService.getAllLegislationLaws().toPromise();
@@ -230,7 +233,7 @@ export class PippsComponent implements OnInit, OnDestroy {
     const urlParams = {legislation: this.currentLegislation};
     if (!issue) {
       this.router.navigate([`tools/privacy-legislation-navigator/keyIssues/all`, urlParams]);
-      return ;
+      return;
     }
     const issueId = issue.id;
     this.router.navigate([`tools/privacy-legislation-navigator/keyIssues/${issueId}`, urlParams]);

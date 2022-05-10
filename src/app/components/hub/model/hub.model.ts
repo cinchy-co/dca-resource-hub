@@ -20,6 +20,28 @@ export interface ITools {
   toolSequence?: number;
 }
 
+export interface IToolSection {
+  sectionName: string;
+  format: string;
+  queryDomain: string;
+  queryName: string;
+  sectionValue: string;
+  details?: any;
+}
+
+export const FormatAndToolOverviewMap = {
+  'No Header Video': {keyName: 'videoLink'},
+  'No Header Text': {keyName: 'sectionValue', keyText: 'sectionText'},
+  'Image and Title': {keyName: 'name', imageKey: 'logoImage', imageLinkKey: 'logoLink'},
+  'Paragraph': {keyName: 'toolDesc'},
+  'Table Query': {keyName: ''},
+  'Paragraph and Cards': {
+    keyName: 'sectionDesc', tableDescKey: 'tableDesc',
+    tableImageKey: 'tableImage', tableLinkKey: 'tableLink', tableNameKey: 'tableName'
+  },
+  'Tags': {keyName: 'toolTags'},
+}
+
 export interface IToolDetails {
   'privacy-law-navigator': ITools;
   'privacy-legislation-navigator': ITools;

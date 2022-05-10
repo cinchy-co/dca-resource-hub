@@ -45,9 +45,9 @@ export class AppComponent implements OnInit {
       this.appStateService.userDetails = this.userDetails;
       this.appStateService.setUserDetailsSub(this.userDetails);
       const userDetail = localStorage.getItem('hub-user-details') || '';
-      console.log('In user details', val);
+    //  console.log('In user details', val);
       if(!val && userDetail) {
-        console.log('In no user details if', userDetail);
+      //  console.log('In no user details if', userDetail);
         this.userDetails = userDetail ? JSON.parse(userDetail) : null;
         this.appStateService.userDetails = this.userDetails;
         this.appStateService.setUserDetailsSub(this.userDetails);
