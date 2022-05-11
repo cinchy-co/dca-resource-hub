@@ -51,7 +51,7 @@ export class PippsComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   toolDetails: ITools;
   items: MenuItem[];
-  currentTab: string = 'overview';
+  currentTab: string = 'tool';
 
   /* @HostListener('window:scroll', [])
    onWindowScroll() {
@@ -72,6 +72,7 @@ export class PippsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.setTabItems();
     this.apiCallService.getToolDetails('privacy-law-navigator').subscribe(tool => {
       this.toolDetails = tool[0];
     });
@@ -82,7 +83,6 @@ export class PippsComponent implements OnInit, OnDestroy {
     this.legislation = this.allLaws.map(law => ({...law, code: law.law}));
     this.selectedLegislation = this.legislation[0];
     this.routeSub();
-    this.setTabItems();
   }
 
   setTabItems() {

@@ -30,12 +30,13 @@ export class HomeComponent implements OnInit {
   bannerDetailsPerRoute: IWebsiteDetails;
   items: MenuItem[];
   toolDetails: ITools;
-  currentTab: string = 'overview';
+  currentTab: string = 'tool';
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService) {
   }
 
   async ngOnInit() {
+    this.setTabItems();
     this.apiCallsService.getToolDetails('privacy-law-navigator').pipe(take(1))
       .subscribe(tool => {
       this.toolDetails = tool[0];
@@ -44,7 +45,6 @@ export class HomeComponent implements OnInit {
     this.appStateService.tool['privacy-law-navigator'] = this.toolDetails;
     this.getLegislationData();
     this.getTags();
-    this.setTabItems();
   }
 
   setTabItems() {

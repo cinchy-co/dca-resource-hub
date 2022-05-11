@@ -47,7 +47,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   websiteDetails: IWebsiteDetails;
   toolDetails: ITools;
   items: MenuItem[];
-  currentTab: string = 'overview';
+  currentTab: string = 'tool';
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private apiCallsService: ApiCallsService,
@@ -88,6 +88,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
 
   async getLegislationData() {
     this.legislationData = await this.apiCallsService.getLegislation().toPromise();
+    this.changeDetectorRef.detectChanges();
   }
 
   itemSelectedInDropdown(data: IDropdownClick) {

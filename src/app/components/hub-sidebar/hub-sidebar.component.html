@@ -2,10 +2,9 @@
      class="hub-sidebar overflow-y-auto">
   <div class="flex items-center justify-left p-5 mb-10 mt-5 gap-4 h-[42px]">
     <i class="pi pi-bars cursor-pointer" style="font-size: 1.2rem" (click)="toggleSidebar()"></i>
-    <img @fadeSlideInOut *ngIf="isExpanded" src="assets/logoBeta.png" alt="logo" style="height:70px"
+    <img @fadeSlideInOut *ngIf="isExpanded" src="assets/logoBeta.png" alt="logo" style="height:80px"
          class="cursor-pointer" (click)="goToHome()">
   </div>
-
   <div *ngIf="isExpanded" class="flex justify-start mb-5 pl-5">
     <button pButton pRipple type="button" [label]="collaborationBtn.sidebarLabel"
             class="p-button-outlined p-button-success p-button-rounded" (click)="goToCollabs()">

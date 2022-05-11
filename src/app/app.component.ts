@@ -28,13 +28,16 @@ export class AppComponent implements OnInit {
       if (response.accessTokenIsValid) {
         this.setDetails();
       } else {
-        this.cinchyService.login().then(success => {
-          if (success) {
-            this.setDetails();
-          }
-        }, error => {
-          console.error('Could not login: ', error)
-        });
+        if (isPlatformBrowser(this.platformId)) {
+          const url = this.windowRefService.nativeWindow.location.href;
+          this.cinchyService.login(url).then(success => {
+            if (success) {
+              this.setDetails();
+            }
+          }, error => {
+            console.error('Could not login: ', error)
+          });
+        }
       }
     })
   }

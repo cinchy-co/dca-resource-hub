@@ -28,12 +28,13 @@ export class RegHomeComponent implements OnInit {
   bannerDetailsPerRoute: IWebsiteDetails;
   toolDetails: ITools;
   items: MenuItem[];
-  currentTab: string = 'overview';
+  currentTab: string = 'tool';
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService) {
   }
 
   async ngOnInit() {
+    this.setTabItems();
     this.apiCallsService.getToolDetails('privacy-regulator-navigator').subscribe(tool => {
       this.toolDetails = tool[0];
     });
@@ -41,7 +42,6 @@ export class RegHomeComponent implements OnInit {
     this.getLegislationData();
     this.getRegulatorData();
     this.getTags();
-    this.setTabItems();
   }
 
   setTabItems() {

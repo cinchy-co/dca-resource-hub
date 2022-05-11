@@ -1,99 +1,115 @@
-<section class="p-4 pl-8 flex flex-col" *ngIf="toolsOverviewSectionsDetails">
+<section class="relative">
+  <p-progressSpinner class="item-center-n-relative" *ngIf="!(toolsOverviewSectionsDetails?.length)">
+  </p-progressSpinner>
 
-  <div class="flex flex-col gap-5 mb-[20px]" *ngFor="let toolSection of toolsOverviewSectionsDetails">
+  <section class="p-4 pl-8 flex flex-col" *ngIf="toolsOverviewSectionsDetails">
 
-    <!--VIDEO SECTION-->
-    <div *ngIf="toolSection.format === 'No Header Video'" class="w-[100%] m-auto">
-      <div class="m-auto" id="player">
-        <iframe
-          class="m-auto w-[100%] sm:w-[100%] md:w-[70%] lg:w-[60%] lg:h-[400px] md:h-[300px] sm:h-[200px] h-[200px]"
-          title="Node Zero video"
-          loading="lazy"
-          [src]="toolSection.details[0].videoLink | urlSanitizer: 'resourceUrl'"
-          allowfullscreen
-          allowtransparency
-          allow="autoplay"
-        ></iframe>
-      </div>
-    </div>
-
-    <!--NO HEADER TEXT-->
-    <div *ngIf="toolSection.format === 'No Header Text'" class="flex gap-2 w-[100%]">
-     <p [innerHTML]="toolSection.details[0].sectionText"></p>
-     <p [innerHTML]="toolSection.details[0].sectionValue"></p>
-    </div>
-
-    <!--Image and Title-->
-    <div *ngIf="toolSection.format === 'Image and Title'" class="w-[100%]">
-      <h1 class="text-[24px]" [innerHTML]="toolSection.sectionName"></h1>
-
-      <div class="flex flex-wrap gap-5">
-        <div class="flex flex-col items-center cursor-pointer" (click)="goToDetails(item)"
-             *ngFor="let item of toolSection.details">
-          <img class="h-[80px] gap-5" [src]="item.logoImage" alt="Tool Logo">
-          <p [innerHTML]="item.name"></p>
+    <div class="flex flex-col gap-5 mb-[20px]" *ngFor="let toolSection of toolsOverviewSectionsDetails">
+      <!--VIDEO SECTION-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'No Header Video'"
+           class="w-[100%] m-auto">
+        <div class="m-auto" id="player">
+          <iframe
+            class="m-auto w-[100%] sm:w-[100%] md:w-[70%] lg:w-[60%] lg:h-[400px] md:h-[300px] sm:h-[200px] h-[200px]"
+            title="Node Zero video"
+            loading="lazy"
+            [src]="toolSection.details[0].videoLink | urlSanitizer: 'resourceUrl'"
+            allowfullscreen
+            allowtransparency
+            allow="autoplay"
+          ></iframe>
         </div>
       </div>
-    </div>
 
-    <!--Paragraph-->
-    <div *ngIf="toolSection.format === 'Paragraph'" class="w-[100%]">
-      <h1 class="text-[24px]" [innerHTML]="toolSection.sectionName"></h1>
-      <p *ngIf="toolSection.sectionValue" [innerHTML]="toolSection.sectionValue"></p>
-      <p *ngIf="!toolSection.sectionValue" [innerHTML]="toolSection.details[0].toolDesc"></p>
-    </div>
+      <!--NO HEADER TEXT-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'No Header Text'"
+           class="flex gap-2 w-[100%]">
+        <p class="whitespace-pre-wrap" class="font-semibold" [innerHTML]="toolSection.details[0].sectionText"></p>
+        <p class="whitespace-pre-wrap" [innerHTML]="toolSection.details[0].sectionValue"></p>
+      </div>
 
-    <!--Table Query-->
-    <div *ngIf="toolSection.format === 'Table Query'" class="w-[100%]">
-      <h1 class="text-[24px]" [innerHTML]="toolSection.sectionName"></h1>
-      <p-table [value]="toolSection.details">
-        <ng-template pTemplate="header">
-          <tr>
-            <th *ngFor="let col of getCols(toolSection.details[0])">
-              {{col}}
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-tableRow>
-          <tr>
-            <td *ngFor="let col of getCols(toolSection.details[0])">
-              {{tableRow[col]}}
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
+      <!--Image and Title-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Image and Title'"
+           class="w-[100%]">
+        <h1 class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
 
-    <!--Paragraph and Cards-->
-    <div *ngIf="toolSection.format === 'Paragraph and Cards'" class="w-[100%]">
-      <h1 class="text-[24px]" [innerHTML]="toolSection.sectionName"></h1>
-      <p [innerHTML]="toolSection.details[0].sectionDesc"></p>
-
-      <div class="flex flex-wrap gap-10 mt-2" *ngIf="toolSection.details[0].tableName">
-        <div class="cursor-pointer default-border w-[300px] h-[300px] rounded-[20px]" *ngFor="let item of toolSection.details"
-             (click)="goToSelection(item)">
-          <div class="relative mb-4 responsive-image-container rounded-t-[20px]">
-            <img class="rounded-t-[20px] responsive-image" alt="tool-image" [src]="item.tableImage">
-          </div>
-
-          <div class="flex flex-col pt-1 pb-3 pl-4 pr-4 h-[180px]">
-            <span class="line-clamp-2 text-[20px] font-semibold mb-2" [title]="item.tableName" [innerHTML]="item.tableName"></span>
-
-            <span class="line-clamp-6 text-sm-12 text-gray-800" [title]="item.tableDesc" [innerHTML]="item.tableDesc"></span>
+        <div class="flex flex-wrap gap-5">
+          <div class="flex flex-col items-center cursor-pointer border-[1px] border-solid border-slate-400"
+               (click)="goToDetails(item)" *ngFor="let item of toolSection.details">
+            <img class="h-[200px] w-[200px] gap-5" [src]="item.logoImage" [alt]="item.name">
+           <!-- <p [innerHTML]="item.name"></p>-->
           </div>
         </div>
       </div>
-    </div>
 
-    <!--Tags-->
-    <div *ngIf="toolSection.format === 'Tags'" class="w-[100%]">
-      <h1 class="text-[24px]" [innerHTML]="toolSection.sectionName"></h1>
-      <div class="flex flex-row flex-wrap gap-1 pt-1 text-sm-12 text-gray-700">
-        <ng-container *ngFor="let tag of toolSection.details">
-          <p-chip class="mr-2" [label]="tag.toolTags"></p-chip>
-        </ng-container>
+      <!--Paragraph-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Paragraph'"
+           class="w-[100%]">
+        <h1 class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
+        <p class="whitespace-pre-wrap" *ngIf="toolSection.sectionValue" [innerHTML]="toolSection.sectionValue"></p>
+        <p class="whitespace-pre-wrap" *ngIf="!toolSection.sectionValue" [innerHTML]="toolSection.details[0].toolDesc"></p>
       </div>
-    </div>
 
-  </div>
+      <!--Table Query-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Table Query'"
+           class="w-[100%]">
+        <h1 class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
+        <p-table [value]="toolSection.details">
+          <ng-template pTemplate="header">
+            <tr>
+              <th *ngFor="let col of getCols(toolSection.details[0])">
+                {{col}}
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-tableRow>
+            <tr>
+              <td *ngFor="let col of getCols(toolSection.details[0])">
+                {{tableRow[col]}}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+
+      <!--Paragraph and Cards-->
+      <div
+        *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Paragraph and Cards'"
+        class="w-[100%]">
+        <h1 class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
+        <p class="whitespace-pre-wrap" [innerHTML]="toolSection.details[0].sectionDesc"></p>
+
+        <div class="flex flex-wrap gap-10 mt-2" *ngIf="toolSection.details[0].cardName">
+          <div class="cursor-pointer default-border w-[300px] h-[300px] rounded-[20px]"
+               *ngFor="let item of toolSection.details"
+               (click)="goToSelection(item)">
+            <div class="relative mb-4 responsive-image-container rounded-t-[20px]">
+              <img class="rounded-t-[20px] responsive-image" alt="tool-image" [src]="item.cardImage">
+            </div>
+
+            <div class="flex flex-col pt-1 pb-3 pl-4 pr-4 h-[180px]">
+              <span class="line-clamp-2 text-[20px] font-semibold mb-2" [title]="item.cardName"
+                    [innerHTML]="item.cardName"></span>
+
+              <span class="line-clamp-6 text-sm-12 text-gray-800" [title]="item.cardDesc"
+                    [innerHTML]="item.cardDesc"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--Tags-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Tags'"
+           class="w-[100%]">
+        <h1 class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
+        <div class="flex flex-row flex-wrap gap-1 pt-1 text-sm-12 text-gray-700">
+          <ng-container *ngFor="let tag of toolSection.details">
+            <p-chip class="mr-2" [label]="tag.toolTags"></p-chip>
+          </ng-container>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
 </section>

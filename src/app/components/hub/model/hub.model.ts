@@ -5,6 +5,11 @@ export interface INewsFeed {
   photo: string;
   title: string;
   type: string;
+  link1: string;
+  link1AnchorText: string;
+  link2: string;
+  link2AnchorText: string;
+  tags: string
 }
 
 export interface ITools {
@@ -48,6 +53,11 @@ export interface IToolDetails {
   'privacy-newsfeed': ITools;
   'privacy-regulator-navigator': ITools;
 }
+
+export type IToolsOverview = {
+  [key in ToolIds]: any;
+};
+
 
 export type ToolIds =
   'privacy-law-navigator'

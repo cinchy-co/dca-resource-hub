@@ -13,6 +13,7 @@ import {CardModule} from "primeng/card";
 import {DividerModule} from "primeng/divider";
 import {ChipModule} from "primeng/chip";
 import {TableModule} from "primeng/table";
+import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 
 
@@ -34,7 +35,8 @@ import {TableModule} from "primeng/table";
     CardModule,
     DividerModule,
     ChipModule,
-    TableModule
+    TableModule,
+    ProgressSpinnerModule
   ],
   exports: [
     SearchByAutocompleteComponent,

@@ -1,14 +1,16 @@
-import {Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
 import {ITools, IToolSection, ToolIds} from "../../components/hub/model/hub.model";
 import {combineLatest, Observable, of, take} from "rxjs";
 import {ApiCallsService} from "../../services/api-calls.service";
 import {WindowRefService} from "../../services/window-ref.service";
 import {isPlatformBrowser} from "@angular/common";
+import {AppStateService} from "../../services/app-state.service";
 
 @Component({
   selector: 'app-video-overview',
   templateUrl: './video-overview.component.html',
-  styleUrls: ['./video-overview.component.scss']
+  styleUrls: ['./video-overview.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VideoOverviewComponent implements OnInit {
   @Input() toolId: ToolIds;
@@ -18,16 +20,22 @@ export class VideoOverviewComponent implements OnInit {
   allQueriesObs: any;
 
   constructor(private apiCallsService: ApiCallsService, private windowRef: WindowRefService,
+              private appStateService: AppStateService, private changeDetectorRef: ChangeDetectorRef,
               @Inject(PLATFORM_ID) private platformId: any) {
   }
 
   ngOnInit(): void {
     if (this.toolId) {
-      this.apiCallsService.getToolsOverview(this.toolId).pipe(take(1))
-        .subscribe(toolSections => {
-          this.toolsOverviewSections = toolSections;
-          this.setToolSectionsAndGetDetails();
-        });
+      if (this.appStateService.toolsOverview[this.toolId]) {
+        this.toolsOverviewSectionsDetails = this.appStateService.toolsOverview[this.toolId];
+        this.changeDetectorRef.detectChanges();
+      } else {
+        this.apiCallsService.getToolsOverview(this.toolId).pipe(take(1))
+          .subscribe(toolSections => {
+            this.toolsOverviewSections = toolSections;
+            this.setToolSectionsAndGetDetails();
+          });
+      }
     }
   }
 
@@ -38,7 +46,7 @@ export class VideoOverviewComponent implements OnInit {
         allObs.push(of(section.sectionValue));
       } else {
         const params = {
-          '@toolsId': 'privacy-law-navigator'
+          '@toolsId': this.toolId
         }
         const obs = this.apiCallsService.executeCinchyQueries(section.queryName, section.queryDomain, params);
         allObs.push(obs);
@@ -48,7 +56,8 @@ export class VideoOverviewComponent implements OnInit {
       this.toolsOverviewSectionsDetails = this.toolsOverviewSections.map((section, i) => {
         return {...section, details: values[i]};
       });
-      console.log('qqqqqqqqqqqqqq', this.toolsOverviewSectionsDetails);
+      this.appStateService.toolsOverview[this.toolId] = this.toolsOverviewSectionsDetails;
+      this.changeDetectorRef.detectChanges();
     });
   }
 
@@ -57,8 +66,12 @@ export class VideoOverviewComponent implements OnInit {
   }
 
   goToSelection(item: any) {
-
+    if (isPlatformBrowser(this.platformId)) {
+      const url = item.cardLink;
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
   }
+
   goToDetails(item: any) {
     if (isPlatformBrowser(this.platformId)) {
       const url = item.logoLink;

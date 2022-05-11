@@ -26,6 +26,7 @@ import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {ProfileFormComponent} from "../profile-form/profile-form.component";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {MultiSelectModule} from "primeng/multiselect";
+import {ChipModule} from "primeng/chip";
 
 const routes = [
   {
@@ -107,21 +108,22 @@ const routes = [
     CollabsComponent,
     CommonHeaderComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    DividerModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    ProgressSpinnerModule,
-    ToastModule,
-    FontAwesomeModule,
-    InputTextareaModule,
-    MultiSelectModule,
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        DividerModule,
+        CardModule,
+        ButtonModule,
+        InputTextModule,
+        ReactiveFormsModule,
+        DropdownModule,
+        ProgressSpinnerModule,
+        ToastModule,
+        FontAwesomeModule,
+        InputTextareaModule,
+        MultiSelectModule,
+        ChipModule,
+    ],
   exports: [RouterModule],
   providers: [MessageService]
 })
