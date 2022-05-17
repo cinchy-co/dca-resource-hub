@@ -2,18 +2,18 @@
 <section class="default-border flex w-full justify-center flex-col home-container">
 
   <div class="video">
-<!--
-    <app-video-banner *ngIf="bannerDetailsPerRoute" [bannerDetails]="bannerDetailsPerRoute" class="basis-[50%]"></app-video-banner>
--->
+    <!--
+        <app-video-banner *ngIf="bannerDetailsPerRoute" [bannerDetails]="bannerDetailsPerRoute" class="basis-[50%]"></app-video-banner>
+    -->
     <app-hero-banner *ngIf="toolDetails" [toolDetails]="toolDetails"></app-hero-banner>
 
   </div>
 
   <p-tabMenu [model]="items" [activeItem]="items[1]">></p-tabMenu>
 
-<ng-container *ngIf="currentTab === 'overview'">
-  <app-video-overview class="mt-5" [toolId]="'privacy-law-navigator'"></app-video-overview>
-</ng-container>
+  <ng-container *ngIf="currentTab === 'overview'">
+    <app-video-overview class="mt-5" [toolId]="'privacy-law-navigator'"></app-video-overview>
+  </ng-container>
 
   <ng-container *ngIf="currentTab === 'tool'">
     <div class="p-4 relative flex flex-row justify-center">
@@ -46,5 +46,12 @@
         </app-laws>
       </p-panel>
     </div>
+  </ng-container>
+
+  <ng-container *ngIf="currentTab === 'feedback'">
+    <app-hub-form class="p-4" [formId]="'tool'" [buttonLabel]="'Submit'"
+                  [existingDetails]="{'tool': 'privacy-law-navigator'}"
+                  [haveDisabledValuesInQuery]="true"
+                  [successMessage]="'Your feedback has been submitted'"></app-hub-form>
   </ng-container>
 </section>

@@ -60,6 +60,12 @@ export class HomeComponent implements OnInit {
         command: () => {
           this.tabClicked('tool');
         }
+      },
+      {
+        label: 'Feedback', id: 'feedback', icon: 'pi pi-comment',
+        command: () => {
+          this.tabClicked('feedback');
+        }
       }
     ];
   }

@@ -24,10 +24,14 @@
     <div class="mb-3 basis-[49%] mr-2 font-light" *ngFor="let item of paginatedLegislationData">
       <p-card>
         <ng-template pTemplate="header">
-          <div class="pl-4">
-            <div class="flex flex-row justify-between items-center">
+          <div class="pl-4 filter-overlay">
+            <div class="flex pr-4 flex-row justify-between items-center">
               <a rel="noopener" role="link" [href]="item['Law Url']" target="_blank"
                  class="pt-2 text-lg font-bold text-cyan-700">{{item.Law}}
+              </a>
+
+              <a role="link" [href]="item['Edit']" target="_blank" class="pt-2 text-sm-12 text-sky-500">
+                Edit
               </a>
             </div>
             <p class="text-sm-12 text-gray-700 font-semibold">{{item['Full Citation']}}</p>
@@ -36,7 +40,7 @@
 
           <div class="flex flex-row flex-wrap gap-1 pt-1 pl-4 text-sm-12 text-gray-700">
             <ng-container *ngFor="let tag of item['tags']">
-              <p-chip class="mr-2" [label]="tag"></p-chip>
+              <p-chip class="mr-2" [label]="tag" styleClass="p-1 custom-chip"></p-chip>
             </ng-container>
           </div>
         </ng-template>
@@ -59,10 +63,6 @@
           <div class="flex flex-row flex-wrap gap-3">
             <a role="link" [href]="item['Law Url']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
               Legislation
-            </a>
-
-            <a role="link" [href]="item['Edit']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
-              Edit
             </a>
           </div>
         </div>

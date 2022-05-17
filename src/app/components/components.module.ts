@@ -17,17 +17,17 @@ import {ShareIconsModule} from "ngx-sharebuttons/icons";
 import {ShareButtonsModule} from "ngx-sharebuttons/buttons";
 import {DcaCommonModule} from "../dca-common/dca-common.module";
 import {RadioButtonModule} from 'primeng/radiobutton';
-import { EllipsisModule } from 'ngx-ellipsis';
+import {EllipsisModule} from 'ngx-ellipsis';
 
 import {HeaderComponent} from './header/header.component';
 import {AvatarsComponent} from "./avatars/avatars.component";
 import {FooterComponent} from './footer/footer.component';
 import {NewsFeedComponent} from './news-feed/news-feed.component';
 import {PipesModule} from "../pipes/pipes.module";
-import { ProfileComponent } from './profile/profile.component';
+import {ProfileComponent} from './profile/profile.component';
 import {SidebarModule} from "primeng/sidebar";
 import {DividerModule} from "primeng/divider";
-import { ProfileFormComponent } from './profile-form/profile-form.component';
+import {ProfileFormComponent} from './profile-form/profile-form.component';
 import {ToastModule} from "primeng/toast";
 import {InputTextModule} from "primeng/inputtext";
 import {CheckboxModule} from "primeng/checkbox";
@@ -44,42 +44,42 @@ import {InputTextareaModule} from "primeng/inputtextarea";
     ProfileComponent,
     ProfileFormComponent,
   ],
-    imports: [
-        CommonModule,
-        AutoCompleteModule,
-        FormsModule,
-        ReactiveFormsModule,
-        PaginatorModule,
-        CardModule,
-        SelectButtonModule,
-        AvatarModule,
-        AvatarGroupModule,
-        ButtonModule,
-        AccordionModule,
-        ProgressSpinnerModule,
-        CarouselModule,
-        ChipModule,
-        ShareModule,
-        ShareIconsModule,
-        ShareButtonsModule,
-        DcaCommonModule,
-        RadioButtonModule,
-        EllipsisModule,
-        PipesModule,
-        SidebarModule,
-        DividerModule,
-        ToastModule,
-        InputTextModule,
-        CheckboxModule,
-        MultiSelectModule,
-        InputTextareaModule
-    ],
-    exports: [
-        HeaderComponent,
-        FooterComponent,
-        ProfileComponent,
-        AvatarsComponent
-    ]
+  imports: [
+    CommonModule,
+    AutoCompleteModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PaginatorModule,
+    CardModule,
+    SelectButtonModule,
+    AvatarModule,
+    AvatarGroupModule,
+    ButtonModule,
+    AccordionModule,
+    ProgressSpinnerModule,
+    CarouselModule,
+    ChipModule,
+    ShareModule,
+    ShareIconsModule,
+    ShareButtonsModule,
+    DcaCommonModule,
+    RadioButtonModule,
+    EllipsisModule,
+    PipesModule,
+    SidebarModule,
+    DividerModule,
+    ToastModule,
+    InputTextModule,
+    CheckboxModule,
+    MultiSelectModule,
+    InputTextareaModule
+  ],
+  exports: [
+    HeaderComponent,
+    FooterComponent,
+    ProfileComponent,
+    AvatarsComponent
+  ]
 })
 export class ComponentsModule {
 }

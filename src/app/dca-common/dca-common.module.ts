@@ -14,6 +14,12 @@ import {DividerModule} from "primeng/divider";
 import {ChipModule} from "primeng/chip";
 import {TableModule} from "primeng/table";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import { HubFormComponent } from './hub-form/hub-form.component';
+import {DropdownModule} from "primeng/dropdown";
+import {MultiSelectModule} from "primeng/multiselect";
+import {InputTextareaModule} from "primeng/inputtextarea";
+import {InputTextModule} from "primeng/inputtext";
+import {ToastModule} from "primeng/toast";
 
 
 
@@ -22,7 +28,8 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
     SearchByAutocompleteComponent,
     VideoBannerComponent,
     HeroBannerComponent,
-    VideoOverviewComponent
+    VideoOverviewComponent,
+    HubFormComponent
   ],
   imports: [
     CommonModule,
@@ -36,13 +43,19 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
     DividerModule,
     ChipModule,
     TableModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    DropdownModule,
+    MultiSelectModule,
+    InputTextareaModule,
+    InputTextModule,
+    ToastModule
   ],
   exports: [
     SearchByAutocompleteComponent,
     VideoBannerComponent,
     HeroBannerComponent,
-    VideoOverviewComponent
+    VideoOverviewComponent,
+    HubFormComponent
   ]
 })
 export class DcaCommonModule { }

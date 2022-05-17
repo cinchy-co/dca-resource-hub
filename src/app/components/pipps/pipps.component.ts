@@ -98,6 +98,12 @@ export class PippsComponent implements OnInit, OnDestroy {
         command: () => {
           this.tabClicked('tool');
         }
+      },
+      {
+        label: 'Feedback', id: 'feedback', icon: 'pi pi-comment',
+        command: () => {
+          this.tabClicked('feedback');
+        }
       }
     ];
   }

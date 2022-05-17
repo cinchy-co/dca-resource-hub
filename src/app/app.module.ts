@@ -17,6 +17,8 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
 
 import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from "@fortawesome/free-regular-svg-icons";
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
 
 
 const icons = [
@@ -37,18 +39,19 @@ export function getBaseUrl() {
     AppComponent,
     HubSidebarComponent
   ],
-  imports: [
-    BrowserModule.withServerTransition({appId: 'serverApp'}),
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    ComponentsModule,
-    HttpClientModule,
-    CinchyModule.forRoot(),
-    ButtonModule,
-    RippleModule,
-    ProgressSpinnerModule,
-    FontAwesomeModule
-  ],
+    imports: [
+        BrowserModule.withServerTransition({appId: 'serverApp'}),
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        ComponentsModule,
+        HttpClientModule,
+        CinchyModule.forRoot(),
+        ButtonModule,
+        RippleModule,
+        ProgressSpinnerModule,
+        FontAwesomeModule,
+        ToastModule
+    ],
   providers: [
     {
       provide: APP_INITIALIZER,
@@ -65,7 +68,8 @@ export function getBaseUrl() {
       },
       deps: [ConfigService]
     },
-    {provide: 'BASE_URL', useFactory: getBaseUrl}
+    {provide: 'BASE_URL', useFactory: getBaseUrl},
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,52 @@
+<p-progressSpinner class="item-center-n-relative"
+                   *ngIf="!allFields?.length">
+</p-progressSpinner>
+
+
+<div class="p-4">
+  <form *ngIf="allFields?.length" [formGroup]="customForm" class="flex flex-wrap gap-5 justify-between w-[100%]">
+    <div *ngFor="let field of allFields" class="form-item flex flex-col items-start sm:w-[100%] sm:basis-[100%]
+      md:w-[100%] md:basis-[100%]" [ngStyle]="{'width': field.width+'%', 'flex-basis': field.width+'%'}">
+
+      <label *ngIf="!field.isCheckbox">{{field.label}}</label>
+
+      <ng-container *ngIf="field.options">
+        <ng-container *ngIf="!field.isMultiple">
+          <p-dropdown class="w-[100%]" placeholder="Select..." [options]="field.options"
+                      [formControlName]="field.id" optionLabel="option" optionValue="option">
+          </p-dropdown>
+        </ng-container>
+
+        <ng-container *ngIf="field.isMultiple">
+          <p-multiSelect class="w-[100%]" placeholder="Select..." [options]="field.options" [filter]="false"
+                         [formControlName]="field.id" optionLabel="option" optionValue="cinchyId">
+          </p-multiSelect>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="field.isCheckbox">
+        <div class="flex gap-5 items-center justify-between">
+          <label [for]="field.id" class="w-[250px]">{{field.label}}</label>
+          <input [id]="field.id" type="checkbox" [formControlName]="field.id">
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!field.options && !field.isCheckbox">
+        <input *ngIf="!field.isTextArea" type="text" pInputText class="p-inputtext-sm w-[100%]" placeholder=""
+               [formControlName]="field.id">
+
+        <textarea class="p-inputtext-sm w-[100%]" *ngIf="field.isTextArea" [rows]="5" pInputTextarea [autoResize]=true
+                  [formControlName]="field.id"></textarea>
+
+      </ng-container>
+    </div>
+  </form>
+
+  <div class="mt-4">
+    <p-button *ngIf="customForm" class="btn-color-green p-button-raised p-button-rounded"
+              [label]="buttonLabel"
+              [ngClass]="{'disabled': !customForm.valid}"
+              (click)="submit()">
+    </p-button>
+  </div>
+</div>

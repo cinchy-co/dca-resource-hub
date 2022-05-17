@@ -1,38 +1,39 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { HubComponent } from './hub.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {HubComponent} from './hub.component';
 import {RouterModule} from "@angular/router";
-import { ToolsComponent } from './tools/tools.component';
-import { TablesComponent } from './tables/tables.component';
-import { SuggestionsComponent } from './suggestions/suggestions.component';
-import { BookmarksComponent } from './bookmarks/bookmarks.component';
-import { HubHomeComponent } from './hub-home/hub-home.component';
-import { HubRightbarComponent } from './hub-rightbar/hub-rightbar.component';
+import {ToolsComponent} from './tools/tools.component';
+import {TablesComponent} from './tables/tables.component';
+import {SuggestionsComponent} from './suggestions/suggestions.component';
+import {BookmarksComponent} from './bookmarks/bookmarks.component';
+import {HubHomeComponent} from './hub-home/hub-home.component';
+import {HubRightbarComponent} from './hub-rightbar/hub-rightbar.component';
 import {DividerModule} from "primeng/divider";
 import {CardModule} from "primeng/card";
-import { MarketplaceComponent } from './marketplace/marketplace.component';
+import {MarketplaceComponent} from './marketplace/marketplace.component';
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {ReactiveFormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
-import { EventsComponent } from './events/events.component';
-import { LearningComponent } from './learning/learning.component';
-import { CollabsComponent } from './collabs/collabs.component';
+import {EventsComponent} from './events/events.component';
+import {LearningComponent} from './learning/learning.component';
+import {CollabsComponent} from './collabs/collabs.component';
 import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
-import { CommonHeaderComponent } from './common-header/common-header.component';
+import {CommonHeaderComponent} from './common-header/common-header.component';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {ProfileFormComponent} from "../profile-form/profile-form.component";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {MultiSelectModule} from "primeng/multiselect";
 import {ChipModule} from "primeng/chip";
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 const routes = [
   {
     path: '',
     component: HubComponent,
-    children : [
+    children: [
       {
         path: '',
         component: HubHomeComponent
@@ -108,23 +109,24 @@ const routes = [
     CollabsComponent,
     CommonHeaderComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        DividerModule,
-        CardModule,
-        ButtonModule,
-        InputTextModule,
-        ReactiveFormsModule,
-        DropdownModule,
-        ProgressSpinnerModule,
-        ToastModule,
-        FontAwesomeModule,
-        InputTextareaModule,
-        MultiSelectModule,
-        ChipModule,
-    ],
-  exports: [RouterModule],
-  providers: [MessageService]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    DividerModule,
+    CardModule,
+    ButtonModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    ProgressSpinnerModule,
+    ToastModule,
+    FontAwesomeModule,
+    InputTextareaModule,
+    MultiSelectModule,
+    ChipModule,
+    OverlayPanelModule,
+  ],
+  exports: [RouterModule]
 })
-export class HubModule { }
+export class HubModule {
+}

@@ -7,17 +7,54 @@
     <div class="ml-[11px] flex gap-5 items-center z-10 bg-white">
       <i class="pi pi-book z-10 bg-white text-gray-400" style="font-size: 1.2rem"></i>
 
-      <div>
+      <div class="w-full flex justify-between">
         <p [innerHTML]="headerDetails.header"></p>
+
+        <div class="flex items-center gap-2 cursor-pointer" (click)="op.toggle($event)">
+         <!-- <fa-icon [icon]="['fas', 'filter']"></fa-icon>-->
+          <i *ngIf="!selectedFilters?.length" class="pi pi-filter" style="font-size: 1rem; color:lightslategray"></i>
+          <i *ngIf="selectedFilters?.length" class="pi pi-filter-fill" style="font-size: 1rem; color:lightslategray"></i>
+          <span>Filters
+          </span>
+
+          <p-overlayPanel #op [dismissable]="true" [showCloseIcon]="false">
+            <ng-template pTemplate>
+              <div class="w-[400px] flex flex-col gap-5 pt-4 pl-2 pr-2 pb-4">
+                <div *ngFor="let group of groupNames">
+                  <p class="mb-1" [innerHTML]="group"></p>
+                  <div class="flex flex-wrap gap-2.5">
+                    <div (click)="filterToggled(filter)" class="cursor-pointer" *ngFor="let filter of mappedFilters[group]">
+                      <p-chip [ngClass]="{'selected-chip': isSelectedFilter(filter)}" [label]="filter"></p-chip>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+                <div class="flex gap-5 mt-1 justify-end">
+                  <button pButton type="button" class="p-button-text btn-color-green" [label]="'Clear'" (click)="clearFilters()">
+                  </button>
+
+                  <p-button class="btn-color-green p-button-raised p-button-rounded" [label]="'Done'" (click)="op.hide()">
+                  </p-button>
+                </div>
+              </div>
+            </ng-template>
+          </p-overlayPanel>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="selectedFilters?.length" class="ml-[50px] mt-5 flex flex-wrap gap-2.5">
+      <div class="cursor-pointer" *ngFor="let filter of selectedFilters">
+        <p-chip [label]="filter" [removable]="true" (onRemove)="filterToggled(filter)"></p-chip>
       </div>
     </div>
 
     <div class="vertical-bar"></div>
 
-    <div class="ml-[11px] flex gap-5 items-center" *ngFor="let item of newsFeed">
+    <div class="ml-[11px] flex gap-5 items-center" *ngFor="let item of filteredNewsFeed">
       <fa-icon class="mt-[25px] z-10 bg-white text-gray-400" style="font-size: 1.2rem"
                [icon]="getIcon(item)"></fa-icon>
-
 
       <div class="home-content p-5">
         <div class="creator-details flex gap-4 mb-5 pb-4">
@@ -56,3 +93,10 @@
     [userDetails]="userDetails" [footerDetails]="footerDetails"
                     [socialMediaDetails]="socialMediaDetails"></app-hub-rightbar>
 </div>
+
+
+<p-overlayPanel #op>
+  <ng-template pTemplate>
+    Content
+  </ng-template>
+</p-overlayPanel>

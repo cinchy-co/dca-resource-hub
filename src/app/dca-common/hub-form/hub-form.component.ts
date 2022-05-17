@@ -1,0 +1,144 @@
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit} from '@angular/core';
+import {IField, IFormField, IUser} from "../../models/common.model";
+import {FormBuilder, FormGroup} from "@angular/forms";
+import {ReplaySubject} from "rxjs";
+import {ApiCallsService} from "../../services/api-calls.service";
+import {AppStateService} from "../../services/app-state.service";
+import {MessageService} from "primeng/api";
+
+@Component({
+  selector: 'app-hub-form',
+  templateUrl: './hub-form.component.html',
+  styleUrls: ['./hub-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class HubFormComponent implements OnInit {
+  @Input() userDetails: IUser;
+  @Input() formId: string;
+  @Input() buttonLabel: string;
+  @Input() successMessage = 'Your changes has been done';
+  @Input() existingDetails: any;
+  @Input() haveDisabledValuesInQuery: boolean;
+  allFields: IFormField[] = [];
+  optionsForFields: any = {};
+  customForm: FormGroup;
+  customFormQueries: any;
+  showLoader: boolean;
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+
+  constructor(private apiService: ApiCallsService, private fb: FormBuilder, private appStateService: AppStateService,
+              private messageService: MessageService, private changeDetectionRef: ChangeDetectorRef) {
+  }
+
+  async ngOnInit() {
+    this.customFormQueries = (await this.apiService.getSuggestionFormQueries(this.formId).toPromise())[0];
+    this.setFieldAndOptions(this.customFormQueries);
+  }
+
+  async setFieldAndOptions(customFormQueries: any) {
+    const {getQueryName, getQueryDomain, totalQueries} = customFormQueries;
+    const fields: IField[] = (await this.apiService.executeCinchyQueries(getQueryName, getQueryDomain).toPromise());
+
+    let startIndex = 1;
+    while (startIndex <= totalQueries) {
+      const linkQueryName = customFormQueries[`optionQuery-${startIndex}`];
+      const linkQueryDomain = customFormQueries[`optionQueryDomain-${startIndex}`];
+      const linkQueryLabel = customFormQueries[`optionQueryLabel-${startIndex}`];
+      const optionsList = (await this.apiService.executeCinchyQueries(linkQueryName, linkQueryDomain).toPromise());
+      this.optionsForFields[`${linkQueryLabel}-Label`] = optionsList;
+      startIndex++;
+    }
+    fields.forEach(field => {
+      if (field.label.includes('Label') || field.label.includes('label')) {
+        const item = {
+          label: field.title,
+          id: field.label.split('-')[0],
+          options: this.optionsForFields[field.label],
+          isMultiple: field.isMultiple === 'Yes',
+          isCheckbox: field.isCheckbox === 'Yes',
+          isDisabled: field.isDisabled === 'Yes',
+          isTextArea: field.isTextArea === 'Yes',
+          width: field.width
+        };
+        this.allFields.push(item)
+      }
+    });
+    this.createForm();
+  }
+
+  createForm() {
+    this.customForm = this.fb.group(this.getControls());
+    this.changeDetectionRef.detectChanges();
+  }
+
+  getControls() {
+    const controls: any = {};
+    this.allFields.forEach(field => {
+      controls[field.id] = [{
+        value: this.existingDetails ? this.getPreSelectedValue(field) : '',
+        disabled: field.isDisabled
+      }];
+    });
+    return controls;
+  }
+
+  getPreSelectedValue(field: IFormField) {
+    if (!field.options) {
+      return this.existingDetails[field.id];
+    }
+
+    let selectedOptions = field.options.filter(optionItem => this.existingDetails[field.id]?.includes(optionItem.option));
+    selectedOptions = selectedOptions?.length ? selectedOptions.map(item => item.cinchyId) : [];
+    return selectedOptions;
+  }
+
+  async submit() {
+    if (!this.customForm.valid) {
+      return;
+    }
+
+    const {insertQueryName, insertQueryDomain} = this.customFormQueries;
+    const formValues = this.haveDisabledValuesInQuery ? this.customForm.getRawValue() : this.customForm.value;
+    const allFormKeys = Object.keys(formValues);
+    const params: any = {};
+    allFormKeys.forEach(key => {
+      params[`@${key}`] = Array.isArray(formValues[key]) ? `${formValues[key].join(',1,')},1` : formValues[key]
+    });
+    if (this.userDetails) {
+      params['@username'] = this.userDetails.username;
+    }
+    try {
+      this.showLoader = true;
+      await this.apiService.executeCinchyQueries(insertQueryName, insertQueryDomain, params, true).toPromise();
+      this.showLoader = false;
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Submit Successful',
+        detail: this.successMessage
+      });
+    } catch (e: any) {
+      if (e?.cinchyException?.data?.status === 200) {
+        this.showLoader = false;
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Submit Successful',
+          detail: this.successMessage
+        });
+      } else {
+        this.showLoader = false;
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Network error',
+          detail: 'Please try again after other time'
+        });
+      }
+    }
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
+  }
+
+
+}

@@ -160,7 +160,7 @@ export class ApiCallsService {
   }
 
 
-  // /API/Node%20Zero%20Website/Get%20Member%20Profile%20Details?%40userName=imrozkhangre%40gmail.com
+  // /API/Node%20Zero%20Website/Get%20Newsfeed%20Filters
   getProfileFormLabels(): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Member%20Profile%20Page%20Labels`;
     return this.getResponse(url);
@@ -168,6 +168,11 @@ export class ApiCallsService {
 
   getProfileDetails(userName: string): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Member%20Profile%20Details?%40userName=${userName}`;
+    return this.getResponse(url);
+  }
+
+  getHubNewsFilter(): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Newsfeed%20Filters`;
     return this.getResponse(url);
   }
 

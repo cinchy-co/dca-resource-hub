@@ -40,5 +40,12 @@
       </p-panel>
     </div>
   </ng-container>
+
+  <ng-container *ngIf="currentTab === 'feedback'">
+    <app-hub-form class="p-4" [formId]="'tool'" [buttonLabel]="'Submit'"
+                  [existingDetails]="{'tool': 'privacy-regulator-navigator'}"
+                  [haveDisabledValuesInQuery]="true"
+                  [successMessage]="'Your feedback has been submitted'"></app-hub-form>
+  </ng-container>
 </section>
 <!--<app-footer></app-footer>-->
