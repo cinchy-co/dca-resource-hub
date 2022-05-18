@@ -8,7 +8,7 @@
     <div *ngFor="let field of allFields" class="form-item flex flex-col items-start sm:w-[100%] sm:basis-[100%]
       md:w-[100%] md:basis-[100%]" [ngStyle]="{'width': field.width+'%', 'flex-basis': field.width+'%'}">
 
-      <label *ngIf="!field.isCheckbox">{{field.label}}</label>
+      <label *ngIf="!field.isCheckbox && !field.isHidden">{{field.label}}</label>
 
       <ng-container *ngIf="field.options">
         <ng-container *ngIf="!field.isMultiple">
@@ -32,7 +32,7 @@
       </ng-container>
 
       <ng-container *ngIf="!field.options && !field.isCheckbox">
-        <input *ngIf="!field.isTextArea" type="text" pInputText class="p-inputtext-sm w-[100%]" placeholder=""
+        <input *ngIf="!field.isTextArea" [type]="field.isHidden ? 'hidden' : 'text'" pInputText class="p-inputtext-sm w-[100%]" placeholder=""
                [formControlName]="field.id">
 
         <textarea class="p-inputtext-sm w-[100%]" *ngIf="field.isTextArea" [rows]="5" pInputTextarea [autoResize]=true

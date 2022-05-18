@@ -128,10 +128,13 @@ export class ApiCallsService {
 
   getToolDetails(toolId: ToolIds): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Tool%20Overview%20Details?%40toolsId=${toolId}`;
+    console.log('pppp this.appStateService.tool[toolId]', this.appStateService.tool[toolId]);
     if (this.appStateService.tool[toolId]) {
       return of(this.appStateService.tool[toolId]);
     }
-    return this.getResponse(url);
+    return this.getResponse(url).pipe(
+      tap(resp => this.appStateService.tool[toolId] = resp)
+    );
   }
 
   getHubTables(): Observable<any> {

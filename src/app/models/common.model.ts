@@ -85,6 +85,7 @@ export interface IField {
   isDisabled: string;
   width: number;
   isTextArea: string;
+  isHidden?: string;
 }
 
 export interface IFormField {
@@ -97,6 +98,7 @@ export interface IFormField {
   id: string;
   width?: number;
   isTextArea?: boolean;
+  isHidden?: boolean;
 }
 
 export interface IFooter {

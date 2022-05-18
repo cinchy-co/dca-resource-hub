@@ -18,7 +18,7 @@ export class HubFormComponent implements OnInit {
   @Input() buttonLabel: string;
   @Input() successMessage = 'Your changes has been done';
   @Input() existingDetails: any;
-  @Input() haveDisabledValuesInQuery: boolean;
+  @Input() updateWithHiddenOrDisabledFields: boolean;
   allFields: IFormField[] = [];
   optionsForFields: any = {};
   customForm: FormGroup;
@@ -58,7 +58,8 @@ export class HubFormComponent implements OnInit {
           isCheckbox: field.isCheckbox === 'Yes',
           isDisabled: field.isDisabled === 'Yes',
           isTextArea: field.isTextArea === 'Yes',
-          width: field.width
+          width: field.width,
+          isHidden: field.isHidden === 'Yes',
         };
         this.allFields.push(item)
       }
@@ -98,7 +99,7 @@ export class HubFormComponent implements OnInit {
     }
 
     const {insertQueryName, insertQueryDomain} = this.customFormQueries;
-    const formValues = this.haveDisabledValuesInQuery ? this.customForm.getRawValue() : this.customForm.value;
+    const formValues = this.updateWithHiddenOrDisabledFields ? this.customForm.getRawValue() : this.customForm.value;
     const allFormKeys = Object.keys(formValues);
     const params: any = {};
     allFormKeys.forEach(key => {

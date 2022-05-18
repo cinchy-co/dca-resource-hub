@@ -58,7 +58,7 @@
   <ng-container *ngIf="currentTab === 'feedback'">
     <app-hub-form [formId]="'tool'" [buttonLabel]="'Submit'"
                   [existingDetails]="{'tool': 'privacy-legislation-navigator'}"
-                  [haveDisabledValuesInQuery]="true"
+                  [updateWithHiddenOrDisabledFields]="true"
                   [successMessage]="'Your feedback has been submitted'">
     </app-hub-form>
   </ng-container>

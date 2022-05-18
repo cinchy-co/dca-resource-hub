@@ -8,15 +8,14 @@
   <p-divider></p-divider>
 
   <div class="flex flex-wrap gap-10">
-    <div class="cursor-pointer default-border w-[350px] h-[380px] rounded-[20px]" *ngFor="let item of events"
-         (click)="goToSelection(item)">
-      <div class="relative mb-4 responsive-image-container rounded-t-[20px]">
+    <div class="cursor-pointer default-border w-[350px] h-[380px] rounded-[20px]" *ngFor="let item of events">
+      <div class="relative mb-4 responsive-image-container rounded-t-[20px]" (click)="goToSelection(item)">
         <img class="rounded-t-[20px] responsive-image" alt="tool-image" [src]="item.image">
         <img class="p-[3px] left-[15px] bottom-[15px] absolute rounded-[50%] border-[3px] border-white"
              alt="tool-logo-image" style="height: 50px" [src]="item.logo">
       </div>
 
-      <div class="flex flex-col pt-1 pb-3 pl-4 pr-4 h-[180px]">
+      <div class="flex flex-col pt-1 pb-3 pl-4 pr-4 h-[180px]" (click)="goToSelection(item)">
         <span class="line-clamp-2 text-[20px] font-semibold mb-2" [title]="item.title" [innerHTML]="item.title"></span>
 
         <span class="line-clamp-6 text-sm-12 text-gray-800" [title]="item.description" [innerHTML]="item.description"></span>
