@@ -12,12 +12,14 @@ import {IconProp} from "@fortawesome/fontawesome-svg-core";
 })
 export class CommonHeaderComponent implements OnInit {
   @Input() headerDetails: ICommunityDetails;
+  totalButtonsArray: number[];
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService) {
   }
 
   ngOnInit(): void {
+    this.setButtonsCountArray(this.headerDetails.numberOfButtons);
   }
 
   getIcon(option: ICommunityDetails, isCollapsed?: boolean): IconProp {
@@ -25,11 +27,14 @@ export class CommonHeaderComponent implements OnInit {
     return iconToTake?.split(',') as IconProp;
   }
 
-  goToDetails() {
-    const url = this.headerDetails.buttonLink;
-    if(isPlatformBrowser(this.platformId)) {
+  goToDetails(url: string) {
+    if (isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.open(url, '_blank');
     }
+  }
+
+  setButtonsCountArray(totalButtons: number) {
+    this.totalButtonsArray = new Array(totalButtons);
   }
 
 }

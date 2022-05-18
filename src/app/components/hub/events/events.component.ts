@@ -24,6 +24,7 @@ export class EventsComponent implements OnInit {
     const communityDetails = this.appStateService.communityDetails;
     this.eventsHeaderDetails = communityDetails.find(item => item.id === 'events') as ICommunityDetails;
     this.events = await this.appApiService.getHubEvents().toPromise();
+    console.log('ppp events', this.events)
   }
 
   goToSelection(option: IEvents) {

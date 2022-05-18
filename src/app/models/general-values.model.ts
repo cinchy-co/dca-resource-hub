@@ -27,10 +27,12 @@ export interface ICommunityDetails {
   header: string;
   description: string;
   image: string;
-  buttonText: string;
-  buttonLink: string;
   sidebarIconDesc: string;
   navigation: string;
   redirectLink: string;
   collapseIcon: string;
+  numberOfButtons: number;
+  buttonText?: string; // it is buttonText-1, buttonText-2 and so on
+  buttonLink?: string;
+  [key: string|number]: any;
 }

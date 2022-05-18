@@ -4,9 +4,13 @@
     <p-card>
       <ng-template pTemplate="header">
         <div class="pl-4">
-          <div class="flex flex-row justify-between items-center">
+          <div class="flex pr-4 flex-row justify-between items-center">
             <a rel="noopener" role="link" [href]="item['Entity Url']" target="_blank"
                class="pt-2 text-lg font-bold text-cyan-700">{{item.Entity}}
+            </a>
+
+            <a role="link" [href]="item['Edit']" target="_blank" class="pt-2 text-sm-12 text-sky-500">
+              Edit
             </a>
           </div>
           <p class="text-sm-12 text-gray-700 font-semibold">{{item['Foreign Name']}}</p>
@@ -40,10 +44,6 @@
 
           <a role="link" [href]="item['Entity Url']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
             Website
-          </a>
-
-          <a role="link" *ngIf="item['Edit']" [href]="item['Edit']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
-            Edit
           </a>
         </div>
       </div>
