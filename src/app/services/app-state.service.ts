@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
 import {IDropdownClick, IFooter, IOption, IUser} from "../models/common.model";
 import {ICommunityDetails, MappedCombinedCountryKey} from "../models/general-values.model";
-import {IToolDetails, ITools, IToolsOverview, ToolIds} from "../components/hub/model/hub.model";
+import {INewsSelectedFilter, IToolDetails, ITools, IToolsOverview, ToolIds} from "../components/hub/model/hub.model";
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +20,7 @@ export class AppStateService {
   currentToolSelected: ITools;
   tool: IToolDetails = {} as IToolDetails;
   toolsOverview: IToolsOverview = {} as IToolsOverview;
+  newsFeedHomeFilters: INewsSelectedFilter[];
 
   constructor() {
   }

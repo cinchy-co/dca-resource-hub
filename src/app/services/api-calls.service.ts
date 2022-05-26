@@ -179,6 +179,16 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  saveHubNewsFilter(params: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Update%20Filter%20For%20User?%40filters=${params}`;
+    return this.getResponse(url);
+  }
+
+  getSavedHubNewsFilter(currentUser: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Saved%20Filters?%40currentUser=${currentUser}`;
+    return this.getResponse(url);
+  }
+
   executeCinchyQueries(name: string, domain: string, options?: any, isInsert?: boolean): Observable<any> {
     return this.cinchyService.executeQuery(domain, name, options).pipe(
       map(resp => isInsert ? resp : resp?.queryResult?.toObjectArray())
@@ -246,7 +256,7 @@ export class ApiCallsService {
 
   toObjectArray(data: any, schema: any): Array<Object> {
     let result: any = [];
-    data.forEach((row: any) => {
+    data?.forEach((row: any) => {
       let rowObject: any = {};
       for (let i = 0; i < row.length; i++) {
         rowObject[schema[i].columnName] = row[i];

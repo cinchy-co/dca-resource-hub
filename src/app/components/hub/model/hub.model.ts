@@ -9,8 +9,27 @@ export interface INewsFeed {
   link1AnchorText: string;
   link2: string;
   link2AnchorText: string;
-  tags: string
+  tags: string;
+  category: string;
 }
+
+export interface INewsFeedFilter {
+  filterTag: string;
+  filterGroup: string;
+  labelKey: string;
+  id: string
+}
+
+export interface INewsSelectedFilter {
+  filter: ISelectedFilter;
+  labelKey: string
+}
+
+export interface ISelectedFilter {
+  name: string;
+  id: string;
+}
+
 
 export interface ITools {
   toolDesc: string;

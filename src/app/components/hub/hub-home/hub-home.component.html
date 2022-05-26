@@ -8,14 +8,13 @@
       <i class="pi pi-book z-10 bg-white text-gray-400" style="font-size: 1.2rem"></i>
 
       <div class="w-full flex justify-between">
-        <p [innerHTML]="headerDetails.header"></p>
+        <p [innerHTML]="headerDetails?.header"></p>
 
         <div class="flex items-center gap-2 cursor-pointer" (click)="op.toggle($event)">
          <!-- <fa-icon [icon]="['fas', 'filter']"></fa-icon>-->
           <i *ngIf="!selectedFilters?.length" class="pi pi-filter" style="font-size: 1rem; color:lightslategray"></i>
           <i *ngIf="selectedFilters?.length" class="pi pi-filter-fill" style="font-size: 1rem; color:lightslategray"></i>
-          <span>Filters
-          </span>
+          <span class="text-sky-500">Filters</span>
 
           <p-overlayPanel #op [dismissable]="true" [showCloseIcon]="false">
             <ng-template pTemplate>
@@ -23,8 +22,8 @@
                 <div *ngFor="let group of groupNames">
                   <p class="mb-1" [innerHTML]="group"></p>
                   <div class="flex flex-wrap gap-2.5">
-                    <div (click)="filterToggled(filter)" class="cursor-pointer" *ngFor="let filter of mappedFilters[group]">
-                      <p-chip [ngClass]="{'selected-chip': isSelectedFilter(filter)}" [label]="filter"></p-chip>
+                    <div (click)="filterToggled(filter, mappedFilters[group].labelKey)" class="cursor-pointer" *ngFor="let filter of mappedFilters[group].filters">
+                      <p-chip [ngClass]="{'selected-chip': isSelectedFilter(filter)}" [label]="filter.name"></p-chip>
                     </div>
                   </div>
                 </div>
@@ -33,6 +32,9 @@
                 <div class="flex gap-5 mt-1 justify-end">
                   <button pButton type="button" class="p-button-text btn-color-green" [label]="'Clear'" (click)="clearFilters()">
                   </button>
+
+                  <p-button class="btn-color-green p-button-raised p-button-rounded" [label]="'Save'" (click)="saveFilters()">
+                  </p-button>
 
                   <p-button class="btn-color-green p-button-raised p-button-rounded" [label]="'Done'" (click)="op.hide()">
                   </p-button>
@@ -46,7 +48,7 @@
 
     <div *ngIf="selectedFilters?.length" class="ml-[50px] mt-5 flex flex-wrap gap-2.5">
       <div class="cursor-pointer" *ngFor="let filter of selectedFilters">
-        <p-chip [label]="filter" [removable]="true" (onRemove)="filterToggled(filter)"></p-chip>
+        <p-chip [label]="filter.filter.name" [removable]="true" (onRemove)="filterToggled(filter.filter, filter.labelKey)"></p-chip>
       </div>
     </div>
 
