@@ -11,23 +11,37 @@ export interface INewsFeed {
   link2AnchorText: string;
   tags: string;
   category: string;
+  linksCount: number;
+  [key: string|number]: any;
 }
 
 export interface INewsFeedFilter {
   filterTag: string;
   filterGroup: string;
   labelKey: string;
-  id: string
+  id: string;
+  isFeatured?: number;
 }
 
 export interface INewsSelectedFilter {
   filter: ISelectedFilter;
-  labelKey: string
+  labelKey: string;
 }
 
 export interface ISelectedFilter {
   name: string;
   id: string;
+  isFeatured?: number;
+}
+
+export type IFeatures = {
+  sequence: number;
+  title: string;
+  description: string;
+  action: string;
+  redirectRoute: string;
+  image: string;
+  logo: string;
 }
 
 

@@ -12,6 +12,7 @@ export class AppStateService {
   reset$: Subject<boolean> = new Subject<boolean>();
   dropdownOptionClicked$: BehaviorSubject<IDropdownClick> = new BehaviorSubject<IDropdownClick>({dropdownStr: '', countrySelected: ''});
   sidebarToggled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  currentSidebarOption$: Subject<string> = new Subject<string>();
   userDetails$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(({} as IUser));
   avatars: any;
   communityDetails: ICommunityDetails[];
@@ -21,6 +22,7 @@ export class AppStateService {
   tool: IToolDetails = {} as IToolDetails;
   toolsOverview: IToolsOverview = {} as IToolsOverview;
   newsFeedHomeFilters: INewsSelectedFilter[];
+  showFeatures = true;
 
   constructor() {
   }
@@ -31,6 +33,14 @@ export class AppStateService {
 
   getSidebarToggled() {
     return this.sidebarToggled$.asObservable();
+  }
+
+  setSidebarOption(val: string) {
+    this.currentSidebarOption$.next(val);
+  }
+
+  getSidebarOption() {
+    return this.currentSidebarOption$.asObservable();
   }
 
   setUserDetailsSub(val: IUser) {

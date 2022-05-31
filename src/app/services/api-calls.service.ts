@@ -189,6 +189,11 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getHubFeatures(): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Featured%20Cards`;
+    return this.getResponse(url);
+  }
+
   executeCinchyQueries(name: string, domain: string, options?: any, isInsert?: boolean): Observable<any> {
     return this.cinchyService.executeQuery(domain, name, options).pipe(
       map(resp => isInsert ? resp : resp?.queryResult?.toObjectArray())

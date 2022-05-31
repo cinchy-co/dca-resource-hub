@@ -1,6 +1,14 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID
+} from '@angular/core';
 import {ApiCallsService} from "../../../services/api-calls.service";
-import {INewsFeed, INewsFeedFilter, INewsSelectedFilter, ISelectedFilter} from "../model/hub.model";
+import {IFeatures, INewsFeed, INewsFeedFilter, INewsSelectedFilter, ISelectedFilter} from "../model/hub.model";
 import {AppStateService} from "../../../services/app-state.service";
 import {IFooter, ISocialMedia, IUser} from "../../../models/common.model";
 import {ICommunityDetails} from "../../../models/general-values.model";
@@ -8,6 +16,8 @@ import {IconProp} from "@fortawesome/fontawesome-svg-core";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ReplaySubject, take, takeUntil} from "rxjs";
 import {MessageService} from "primeng/api";
+import {isPlatformBrowser} from "@angular/common";
+import {WindowRefService} from "../../../services/window-ref.service";
 
 @Component({
   selector: 'app-hub-home',
@@ -23,55 +33,85 @@ export class HubHomeComponent implements OnInit, OnDestroy {
   socialMediaDetails: ISocialMedia[];
   headerDetails: ICommunityDetails;
   filters: INewsFeedFilter[];
+  featuredFilters: INewsFeedFilter[];
   groupNames: string[];
   selectedFilters: INewsSelectedFilter[] = [];
   mappedFilters: any;
+  homeDetails: ICommunityDetails;
+  hubFeatures: IFeatures[];
+  showFeatures = true;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
               private changeDetectionRef: ChangeDetectorRef, private activatedRoute: ActivatedRoute,
-              private router: Router, private messageService: MessageService) {
+              private router: Router, private messageService: MessageService,
+              @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService) {
   }
 
   async ngOnInit() {
     const communityDetails = this.appStateService.communityDetails;
+    this.homeDetails = communityDetails.find(item => item.id === 'home') as ICommunityDetails;
     this.newsFeed = (await this.appApiService.getHubNewsfeed().toPromise()) as INewsFeed[];
     this.filters = await this.appApiService.getHubNewsFilter().toPromise();
+    this.appApiService.getHubFeatures().pipe(take(1)).subscribe(val => {
+      this.hubFeatures = val;
+      this.changeDetectionRef.markForCheck();
+    });
+    this.featuredFilters = this.filters.filter(filter => filter.isFeatured);
     this.setFiltersAsPerGroup();
     this.userDetails = this.appStateService.userDetails;
     if (this.appStateService.newsFeedHomeFilters?.length) {
       this.selectedFilters = this.appStateService.newsFeedHomeFilters;
       this.filterNewsFeed();
     } else {
-      this.appStateService.getUserDetailsSub().subscribe(userDetails => {
-        this.userDetails = userDetails;
-        this.appApiService.getSavedHubNewsFilter(this.userDetails.displayName).pipe(take(1)).subscribe(savedFilters => {
-          if (savedFilters?.length && savedFilters[0].id) {
-            const filterNames = savedFilters[0].filter.split(', ');
-            const filterIds = savedFilters[0].id.split(', ');
-            this.selectedFilters = filterNames.map((name: string, i: string) => ({
-              filter: {
-                name: name, id: filterIds[i]
-              }
-            }));
-            this.appStateService.newsFeedHomeFilters = this.selectedFilters;
-            this.filterNewsFeed();
-          } else {
-            this.activatedRoute.queryParams.pipe(takeUntil(this.destroyed$)).subscribe(params => {
-              this.updateFilters(params);
-            });
-          }
-        });
-      })
+      this.updateFiltersBasedOnSaveState();
     }
 
     this.headerDetails = communityDetails.find(item => item.id === 'home') as ICommunityDetails;
     this.socialMediaDetails = (await this.appApiService.getSocialMediaDetails().toPromise());
     this.footerDetails = this.appStateService.footerDetails;
+    this.showFeatures = this.appStateService.showFeatures;
     this.changeDetectionRef.detectChanges();
   }
 
-  updateFilters(params: any) {
+  goToSelection(feature: IFeatures) {
+    const url = feature.redirectRoute;
+    this.appStateService.setSidebarOption(url);
+    this.router.navigate([`/${url}`]);
+  }
+
+  closeFeatures() {
+    this.showFeatures = false;
+    this.appStateService.showFeatures = this.showFeatures;
+  }
+
+  updateFiltersBasedOnSaveState() {
+    this.appStateService.getUserDetailsSub().subscribe(userDetails => {
+      this.userDetails = userDetails;
+      this.appApiService.getSavedHubNewsFilter(this.userDetails.displayName).pipe(take(1)).subscribe(savedFilters => {
+        if (savedFilters?.length && savedFilters[0].id) {
+          const filterNames = savedFilters[0].filter.split(', ');
+          const filterIds = savedFilters[0].id.split(', ');
+          this.selectedFilters = filterNames.map((name: string, i: string) => {
+            const filterInAllFilters = this.filters.find(item => item.id === filterIds[i]);
+            return {
+              filter: {
+                name: name, id: filterIds[i], isFeatured: filterInAllFilters?.isFeatured
+              }
+            }
+          });
+          this.appStateService.newsFeedHomeFilters = this.selectedFilters;
+          this.filterNewsFeed();
+        } else {
+          this.activatedRoute.queryParams.pipe(takeUntil(this.destroyed$)).subscribe(params => {
+            this.updateFiltersBasedOnQuery(params);
+          });
+        }
+      });
+    })
+  }
+
+  updateFiltersBasedOnQuery(params: any) {
     const paramKeys = Object.keys(params);
     const quickFiltersArr: any = [];
     paramKeys.forEach((key: string) => {
@@ -94,9 +134,12 @@ export class HubHomeComponent implements OnInit, OnDestroy {
     this.filters.forEach(item => {
       const currentGroup = mappedFilters[item.filterGroup];
       if (currentGroup) {
-        currentGroup.filters.push({name: item.filterTag, id: item.id});
+        currentGroup.filters.push({name: item.filterTag, id: item.id, isFeatured: item.isFeatured});
       } else {
-        mappedFilters[item.filterGroup] = {filters: [{name: item.filterTag, id: item.id}], labelKey: item.labelKey};
+        mappedFilters[item.filterGroup] = {
+          filters: [{name: item.filterTag, id: item.id, isFeatured: item.isFeatured}],
+          labelKey: item.labelKey
+        };
       }
     });
     this.groupNames = Object.keys(mappedFilters);
@@ -115,7 +158,7 @@ export class HubHomeComponent implements OnInit, OnDestroy {
   filterToggled(filter: ISelectedFilter, labelKey: string) {
     const isInSelectedFilters = this.selectedFilters.find(item => item.filter.name === filter.name);
     if (isInSelectedFilters) {
-      this.selectedFilters = this.selectedFilters.filter(item => item.filter !== filter);
+      this.selectedFilters = this.selectedFilters.filter(item => item.filter.id !== filter.id);
     } else {
       this.selectedFilters.push({filter, labelKey});
     }
@@ -147,7 +190,15 @@ export class HubHomeComponent implements OnInit, OnDestroy {
   async saveFilters() {
     const allFilterIdParam = this.selectedFilters.map(filter => filter.filter.id).join();
     await this.appApiService.saveHubNewsFilter(allFilterIdParam).toPromise();
-    this.messageService.add({severity:'success', summary:'Filters Saved', detail:'Your filter selection has been saved'});
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Filters Saved',
+      detail: 'Your filter selection has been saved'
+    });
+  }
+
+  getArrayForCount(count: number) {
+    return new Array(count);
   }
 
   clearQueryParam() {

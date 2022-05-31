@@ -50,11 +50,18 @@ export class HubSidebarComponent implements OnInit {
     this.footerDetails = this.appStateService.footerDetails;
     if (isPlatformBrowser(this.platformId)) {
       const url = this.windowRef.nativeWindow.location.href;
-      const currentOption = this.sidebarOptions.find(option => url.includes(option.sidebarRoute) && option.sidebarRoute !== '/');
-      this.currentOptionSelected = currentOption ? currentOption : this.sidebarOptions[0];
+      this.setCurrentOption(url);
       this.isMobileOrTab = this.windowRef.nativeWindow.innerWidth < 1040;
       this.isExpanded = !this.isMobileOrTab;
     }
+    this.appStateService.getSidebarOption().subscribe(sidebarRoute => {
+      this.setCurrentOption(sidebarRoute);
+    })
+  }
+
+  setCurrentOption(routeOrUrl: string) {
+    const currentOption = this.sidebarOptions.find(option => routeOrUrl.includes(option.sidebarRoute) && option.sidebarRoute !== '/');
+    this.currentOptionSelected = currentOption ? currentOption : this.sidebarOptions[0];
   }
 
   toggleSidebar() {

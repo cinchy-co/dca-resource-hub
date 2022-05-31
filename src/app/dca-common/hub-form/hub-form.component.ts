@@ -103,7 +103,9 @@ export class HubFormComponent implements OnInit {
     const allFormKeys = Object.keys(formValues);
     const params: any = {};
     allFormKeys.forEach(key => {
-      params[`@${key}`] = Array.isArray(formValues[key]) ? `${formValues[key].join(',1,')},1` : formValues[key]
+      console.log('111 formValues[key]', formValues[key])
+      params[`@${key}`] = Array.isArray(formValues[key]) ?
+        formValues[key].length ? `${formValues[key].join(',1,')},1` : '' : formValues[key]
     });
     if (this.userDetails) {
       params['@username'] = this.userDetails.username;
