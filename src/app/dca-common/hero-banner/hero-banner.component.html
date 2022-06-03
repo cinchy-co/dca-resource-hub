@@ -7,7 +7,7 @@
     <div class="banner-content" *ngIf="toolDetails">
       <div class="banner-content__inner">
         <div class="banner-content--text flex items-center gap-4">
-          <h1 class="text-3xl font-bold">{{toolDetails.toolName}}</h1>
+          <h1 class="text-3xl font-bold">{{toolDetails.toolName || toolDetails.title}}</h1>
           <div
             class="text-white bg-[#00b529] h-[58px] w-[58px] border-[3px] p-2 rounded-[50%]
            border-[#00b529] flex flex-col items-center justify-start cursor-pointer" (click)="goToFeedback()">

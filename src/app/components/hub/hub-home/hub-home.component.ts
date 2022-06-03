@@ -51,6 +51,7 @@ export class HubHomeComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     const communityDetails = this.appStateService.communityDetails;
     this.homeDetails = communityDetails.find(item => item.id === 'home') as ICommunityDetails;
+    console.log('1111 homeDetails', this.homeDetails);
     this.newsFeed = (await this.appApiService.getHubNewsfeed().toPromise()) as INewsFeed[];
     this.filters = await this.appApiService.getHubNewsFilter().toPromise();
     this.appApiService.getHubFeatures().pipe(take(1)).subscribe(val => {

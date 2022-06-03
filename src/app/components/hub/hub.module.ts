@@ -28,6 +28,9 @@ import {InputTextareaModule} from "primeng/inputtextarea";
 import {MultiSelectModule} from "primeng/multiselect";
 import {ChipModule} from "primeng/chip";
 import {OverlayPanelModule} from "primeng/overlaypanel";
+import {CollabDetailsComponent} from './collab-details/collab-details.component';
+import {DcaCommonModule} from "../../dca-common/dca-common.module";
+import {TabMenuModule} from "primeng/tabmenu";
 
 const routes = [
   {
@@ -75,6 +78,14 @@ const routes = [
         component: CollabsComponent
       },
       {
+        path: 'collab-privacy-laws',
+        component: CollabDetailsComponent
+      },
+      {
+        path: 'collab-privacy-regulators',
+        component: CollabDetailsComponent
+      },
+      {
         path: 'tools/privacy-legislation-navigator',
         loadChildren: () => import('../pipps/pipps.module').then(m => m.PippsModule),
       },
@@ -107,7 +118,8 @@ const routes = [
     EventsComponent,
     LearningComponent,
     CollabsComponent,
-    CommonHeaderComponent
+    CommonHeaderComponent,
+    CollabDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -125,6 +137,8 @@ const routes = [
     MultiSelectModule,
     ChipModule,
     OverlayPanelModule,
+    DcaCommonModule,
+    TabMenuModule,
   ],
   exports: [RouterModule]
 })

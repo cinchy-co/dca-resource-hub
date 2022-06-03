@@ -1,0 +1,10 @@
+<section *ngIf="collabDetails">
+  <app-hero-banner [toolDetails]="collabDetails"></app-hero-banner>
+
+  <p-tabMenu [model]="items" [activeItem]="items[0]">></p-tabMenu>
+
+
+  <ng-container *ngIf="currentTab === 'overview'">
+    <app-video-overview class="mt-5" [toolId]="collabDetails.collabId"></app-video-overview>
+  </ng-container>
+</section>

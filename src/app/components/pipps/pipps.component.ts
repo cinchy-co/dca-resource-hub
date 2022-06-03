@@ -73,11 +73,10 @@ export class PippsComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.setTabItems();
-    this.apiCallService.getToolDetails('privacy-law-navigator').subscribe(tool => {
+    this.apiCallService.getToolDetails('tool-privacy-law-navigator').subscribe(tool => {
       this.toolDetails = tool[0];
+      this.appStateService.tool['tool-privacy-legislation-navigator'] = this.toolDetails;
     });
-    this.toolDetails = (await this.apiCallService.getToolDetails('privacy-legislation-navigator').toPromise())[0];
-    this.appStateService.tool['privacy-legislation-navigator'] = this.toolDetails;
     this.allLaws = await this.apiCallService.getAllLegislationLaws().toPromise();
     this.webSiteDetails = (await this.apiCallService.getWebsiteDetails('legislation-navigator').toPromise())[0];
     this.legislation = this.allLaws.map(law => ({...law, code: law.law}));

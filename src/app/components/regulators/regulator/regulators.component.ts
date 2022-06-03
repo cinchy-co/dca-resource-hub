@@ -52,10 +52,11 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
     );
   }
 
-  filterRegulator(currentSearchByKeyVal: string) {
-    const key = this.selectedOption.code; // NOt used as it is static now and only 'Country' and 'Combined Country' search can happen at global
+  filterRegulator(currentSearchByKeyVal: any) {
+   // const key = this.selectedOption.code; // NOt used as it is static now and only 'Country' and 'Combined Country' search can happen at global
+    const currentVal = currentSearchByKeyVal?.Country ? currentSearchByKeyVal?.Country : currentSearchByKeyVal;
     this.filteredRegulatorData = this.regulatorData.filter((regulator: any) => {
-      return this.appStateService.globalSearchItem(regulator, currentSearchByKeyVal);
+      return this.appStateService.globalSearchItem(regulator, currentVal);
     //  return regulator[key]?.toLowerCase()?.indexOf(currentSearchByKeyVal.toLowerCase()) == 0;
     });
     this.setRegulatorPaginateData();

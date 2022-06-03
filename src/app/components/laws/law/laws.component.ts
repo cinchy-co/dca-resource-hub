@@ -42,10 +42,12 @@ export class LawsComponent implements OnInit, OnDestroy {
 
   subscribeToStateChanges() {
     this.appStateService.getSearchEnteredVal().pipe(takeUntil(this.destroyed$)).subscribe(searchVal => {
+      console.log('1111 searchVal', searchVal)
       this.updateValues(searchVal);
     });
 
     this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$)).subscribe(({dropdownStr, countrySelected}) => {
+      console.log('1111 dropdownStr', dropdownStr)
         this.updateValues(dropdownStr);
       });
 

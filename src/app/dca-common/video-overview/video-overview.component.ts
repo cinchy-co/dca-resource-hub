@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
-import {ITools, IToolSection, ToolIds} from "../../components/hub/model/hub.model";
+import {IdTypes, ITools, IToolSection, ToolIds} from "../../components/hub/model/hub.model";
 import {combineLatest, Observable, of, take} from "rxjs";
 import {ApiCallsService} from "../../services/api-calls.service";
 import {WindowRefService} from "../../services/window-ref.service";
@@ -13,7 +13,7 @@ import {AppStateService} from "../../services/app-state.service";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VideoOverviewComponent implements OnInit {
-  @Input() toolId: ToolIds;
+  @Input() toolId: ToolIds | string;
   @Input() toolDetails: ITools; // need to remove
   toolsOverviewSections: IToolSection[];
   toolsOverviewSectionsDetails: IToolSection[];
@@ -46,7 +46,7 @@ export class VideoOverviewComponent implements OnInit {
         allObs.push(of(section.sectionValue));
       } else {
         const params = {
-          '@toolsId': this.toolId
+          '@id': this.toolId
         }
         const obs = this.apiCallsService.executeCinchyQueries(section.queryName, section.queryDomain, params);
         allObs.push(obs);

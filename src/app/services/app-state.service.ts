@@ -2,7 +2,14 @@ import {Injectable} from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
 import {IDropdownClick, IFooter, IOption, IUser} from "../models/common.model";
 import {ICommunityDetails, MappedCombinedCountryKey} from "../models/general-values.model";
-import {INewsSelectedFilter, IToolDetails, ITools, IToolsOverview, ToolIds} from "../components/hub/model/hub.model";
+import {
+  ICollab,
+  INewsSelectedFilter,
+  IToolDetails,
+  ITools,
+  IToolsOverview,
+  ToolIds
+} from "../components/hub/model/hub.model";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +17,7 @@ import {INewsSelectedFilter, IToolDetails, ITools, IToolsOverview, ToolIds} from
 export class AppStateService {
   search$: Subject<string> = new Subject<string>();
   reset$: Subject<boolean> = new Subject<boolean>();
-  dropdownOptionClicked$: BehaviorSubject<IDropdownClick> = new BehaviorSubject<IDropdownClick>({dropdownStr: '', countrySelected: ''});
+  dropdownOptionClicked$: Subject<IDropdownClick> = new Subject<IDropdownClick>();
   sidebarToggled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   currentSidebarOption$: Subject<string> = new Subject<string>();
   userDetails$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(({} as IUser));
@@ -19,10 +26,11 @@ export class AppStateService {
   userDetails: IUser;
   footerDetails: IFooter[];
   currentToolSelected: ITools;
-  tool: IToolDetails = {} as IToolDetails;
-  toolsOverview: IToolsOverview = {} as IToolsOverview;
+  tool: any = {};
+  toolsOverview: any = {};
   newsFeedHomeFilters: INewsSelectedFilter[];
   showFeatures = true;
+  currentCollab: ICollab;
 
   constructor() {
   }

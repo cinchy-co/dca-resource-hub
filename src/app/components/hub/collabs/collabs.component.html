@@ -8,7 +8,7 @@
   <p-divider></p-divider>
 
   <div class="flex flex-wrap gap-10">
-    <div class="cursor-pointer default-border w-[350px] h-[380px] rounded-[20px]" *ngFor="let item of collabs"
+    <div class="cursor-pointer default-border w-[350px] h-[320px] rounded-[20px]" *ngFor="let item of collabs"
     (click)="goToCollab(item)">
       <div class="relative mb-4 responsive-image-container rounded-t-[20px]">
         <img class="rounded-t-[20px] responsive-image" alt="tool-image" [src]="item.image">
@@ -20,11 +20,11 @@
         <span class="line-clamp-6 text-sm-12 text-gray-800" [title]="item.desc" [innerHTML]="item.desc"></span>
       </div>
 
-      <hr>
+   <!--   <hr>
 
-      <div class="pt-3 pb-3 pl-4 pr-4">
+      <div class="pt-3 pb-3 pl-4 pr-4" *ngIf="item.tags">
         <span class="font-bold" [innerHTML]="item.tags"></span>
-      </div>
+      </div>-->
     </div>
   </div>
 </section>

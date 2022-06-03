@@ -56,6 +56,7 @@ export interface ITools {
   toolTags: string;
   videoLink: string;
   toolSequence?: number;
+  title?: string;
 }
 
 export interface IToolSection {
@@ -96,7 +97,9 @@ export type ToolIds =
   'privacy-law-navigator'
   | 'privacy-legislation-navigator'
   | 'privacy-newsfeed'
-  | 'privacy-regulator-navigator';
+  | 'privacy-regulator-navigator' | 'collab-privacy-laws';
+
+export type IdTypes = 'tool' | 'collab';
 
 export interface IEvents {
   title: string;
@@ -135,4 +138,7 @@ export interface ICollab {
   desc: string;
   image: string;
   tags: string;
+  collabRoute: string;
+  collabId: string;
+  toolName?: string; // only for hero anner
 }

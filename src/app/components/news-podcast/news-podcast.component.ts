@@ -55,10 +55,10 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.apiCallsService.getToolDetails('privacy-newsfeed').subscribe(tool => {
+    this.apiCallsService.getToolDetails('tool-privacy-newsfeed').subscribe(tool => {
       this.toolDetails = tool[0];
     });
-    this.appStateService.tool['privacy-newsfeed'] = this.toolDetails;
+    this.appStateService.tool['tool-privacy-newsfeed'] = this.toolDetails;
     this.getLegislationData();
     this.getNewsAndPodcasts();
     this.getBannerDetailsPerRoute();

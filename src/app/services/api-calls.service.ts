@@ -116,17 +116,29 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getHubCollabOverview(collabId: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Collab%20Overview%20Sections?%40collabId=${collabId}`;
+    return this.getResponse(url);
+  }
+
+  getHubCollabActivities(collabId: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Collab%20Activities?%40collabId=${collabId}`;
+    return this.getResponse(url);
+  }
+
+  // /API/Node%20Zero%20Website/Get%20Collab%20Activities?%40collabId=as%0A
+
   getHubTools(): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Tool%20Page%20Tools`;
     return this.getResponse(url);
   }
 
-  getToolsOverview(toolId: ToolIds): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Tools%20Overview%20Sections?%40toolId=${toolId}`;
+  getToolsOverview(toolId: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Overview%20Sections?%40toolId=${toolId}`;
     return this.getResponse(url);
   }
 
-  getToolDetails(toolId: ToolIds): Observable<any> {
+  getToolDetails(toolId: string): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Tool%20Overview%20Details?%40toolsId=${toolId}`;
     console.log('pppp this.appStateService.tool[toolId]', this.appStateService.tool[toolId]);
     if (this.appStateService.tool[toolId]) {

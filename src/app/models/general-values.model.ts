@@ -34,7 +34,9 @@ export interface ICommunityDetails {
   numberOfButtons: number;
   buttonText?: string; // it is buttonText-1, buttonText-2 and so on
   buttonLink?: string;
-  featuredHeader: string;
-  featuredDescription: string;
+  featuredHeader?: string;
+  featuredDescription?: string;
+  filterHeader?: string;
+  filterDescription?: string;
   [key: string|number]: any;
 }

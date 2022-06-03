@@ -5,6 +5,7 @@ import {ApiCallsService} from "../../../services/api-calls.service";
 import {ICollab} from "../model/hub.model";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../../services/window-ref.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-collabs',
@@ -16,7 +17,8 @@ export class CollabsComponent implements OnInit {
   collabs: ICollab[];
 
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
-              @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService) { }
+              @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService,
+              private router: Router) { }
 
   async ngOnInit() {
     const communityDetails = this.appStateService.communityDetails;
@@ -26,8 +28,12 @@ export class CollabsComponent implements OnInit {
 
   goToCollab(collab: ICollab) {
     const url = collab.link;
-    if(isPlatformBrowser(this.platformId)) {
+    this.appStateService.currentCollab = collab;
+    if (isPlatformBrowser(this.platformId) && url) {
       this.windowRef.nativeWindow.open(url, '_blank');
+    } else {
+      const route = collab.collabRoute;
+      this.router.navigate([`${route}`]);
     }
   }
 
