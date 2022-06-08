@@ -5,6 +5,7 @@ import {AppStateService} from "../../services/app-state.service";
 import {SearchBy} from "../../models/general-values.model";
 import {ITools} from "../hub/model/hub.model";
 import {MenuItem} from "primeng/api";
+import {take} from "rxjs";
 
 
 @Component({
@@ -35,10 +36,9 @@ export class RegHomeComponent implements OnInit {
 
   async ngOnInit() {
     this.setTabItems();
-    this.apiCallsService.getToolDetails('tool-privacy-regulator-navigator').subscribe(tool => {
+    this.apiCallsService.getToolDetails('tool-privacy-regulator-navigator').pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
     });
-    this.appStateService.tool['tool-privacy-regulator-navigator'] = this.toolDetails;
     this.getLegislationData();
     this.getRegulatorData();
     this.getTags();

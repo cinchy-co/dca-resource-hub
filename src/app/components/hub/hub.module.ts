@@ -31,6 +31,7 @@ import {OverlayPanelModule} from "primeng/overlaypanel";
 import {CollabDetailsComponent} from './collab-details/collab-details.component';
 import {DcaCommonModule} from "../../dca-common/dca-common.module";
 import {TabMenuModule} from "primeng/tabmenu";
+import {PipesModule} from "../../pipes/pipes.module";
 
 const routes = [
   {
@@ -139,6 +140,7 @@ const routes = [
     OverlayPanelModule,
     DcaCommonModule,
     TabMenuModule,
+    PipesModule,
   ],
   exports: [RouterModule]
 })

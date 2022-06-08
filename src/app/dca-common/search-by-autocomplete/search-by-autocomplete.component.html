@@ -17,7 +17,7 @@
   <label *ngIf="label" class="text-slate-600">{{label}}</label>
 
   <div *ngIf="selectedSearchBy?.code && autoCompleteOptions?.length" [@fadeSlideInOut]
-       class="w-full flex-row gap-3 lg:mt-0 flex items-start">
+       class="flex-row gap-3 lg:mt-0 flex items-start">
     <p-autoComplete
       [(ngModel)]="autoSearchVal" [suggestions]="filteredAutoCompleteOptions"
       (completeMethod)="filterAutoCompleteOptions($event)" [field]="selectedOption.code"

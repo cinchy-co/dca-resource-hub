@@ -24,6 +24,7 @@ export class CollabsComponent implements OnInit {
     const communityDetails = this.appStateService.communityDetails;
     this.collabsDetails = communityDetails.find(item => item.id === 'collaboration') as ICommunityDetails;
     this.collabs = await this.appApiService.getHubCollabs().toPromise();
+    this.appStateService.currentCollab = {} as ICollab;
   }
 
   goToCollab(collab: ICollab) {

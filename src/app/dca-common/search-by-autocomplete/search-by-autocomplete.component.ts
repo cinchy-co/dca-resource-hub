@@ -111,7 +111,7 @@ export class SearchByAutocompleteComponent implements OnInit {
     }
   }
 
-  getFilteredOptions(option: IOption): ILegislation[] {
+  getFilteredOptions(option: IOption) {
     let dataPerCountry = this.allDataForOptions.filter((item: any) => item.Country === this.dropdownOptionStr);
     if (option.code === 'Region') {
       this.selectedRegionSearchBy = this.selectedOption;
@@ -133,10 +133,10 @@ export class SearchByAutocompleteComponent implements OnInit {
     });
   }
 
-  itemSelected(event: ILegislation) {
-    const key = this.selectedOption.code as keyof ILegislation;
+  itemSelected(event: any) {
+    const key = this.selectedOption.code;
     this.dropdownOptionStr = event[key];
-    let dataPerCountry: ILegislation[] = this.allDataForOptions.filter((item: any) =>
+    let dataPerCountry = this.allDataForOptions.filter((item: any) =>
       item.Country === this.dropdownOptionStr && item.Region);
     this.showRegion = (this.selectedOption.code === 'Country' && !!dataPerCountry?.length)
       || this.selectedOption.code === 'Region';

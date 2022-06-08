@@ -1,8 +1,8 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {IOption} from "../../../models/common.model";
+import {IDropdownClick, ILegislation, IOption} from "../../../models/common.model";
 import {AppStateService} from "../../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
-import {PAGE_SIZE} from "../../../models/general-values.model";
+import {PAGE_SIZE, SearchByLaw, SearchByRegulator} from "../../../models/general-values.model";
 
 @Component({
   selector: 'app-regulators',
@@ -13,10 +13,15 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   @Input() regulatorData: any[];
   @Input() selectedOption: IOption;
   filteredRegulatorData: any[];
+  childFilteredData: any[];
   paginatedRegulatorData: any;
   regulatorCurrentPage = 0;
   pageSize = PAGE_SIZE - 2;
   allKeys: any;
+  childSelectedOption: IOption;
+  searchByOptions: IOption[] = SearchByRegulator;
+
+
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private appStateService: AppStateService) {
@@ -25,6 +30,7 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.regulatorData = this.regulatorData.map((item: any) => ({...item, tags: item['Tags'] ? item['Tags'].split(',') : []}));
     this.filteredRegulatorData = [...this.regulatorData];
+    this.childFilteredData = [...this.regulatorData];
     this.setRegulatorKeys();
     this.setRegulatorPaginateData();
     this.subscribeToStateChanges();
@@ -48,17 +54,19 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
     this.allKeys = (Object.keys(this.regulatorData[0])).filter(
       keyItem => keyItem !== 'Entity' && keyItem !== 'Short Name' && keyItem !== 'Entity Url'
       && keyItem !== 'Foreign Name' && keyItem !== 'Twitter' && keyItem !== 'Combine Country' && keyItem !== 'Edit'
-        && keyItem !== 'Tags' && keyItem !== 'tags'
+        && keyItem !== 'Tags' && keyItem !== 'tags' &&  keyItem !== 'RegulatorInfo'
     );
   }
 
-  filterRegulator(currentSearchByKeyVal: any) {
-   // const key = this.selectedOption.code; // NOt used as it is static now and only 'Country' and 'Combined Country' search can happen at global
-    const currentVal = currentSearchByKeyVal?.Country ? currentSearchByKeyVal?.Country : currentSearchByKeyVal;
-    this.filteredRegulatorData = this.regulatorData.filter((regulator: any) => {
-      return this.appStateService.globalSearchItem(regulator, currentVal);
-    //  return regulator[key]?.toLowerCase()?.indexOf(currentSearchByKeyVal.toLowerCase()) == 0;
+  filterRegulator(currentSearchByKeyVal: string, option?: IOption, filteredData?: ILegislation[]) {
+    const dataToFilterFrom = filteredData ? [...filteredData] : this.regulatorData;
+    const key = option ? option.code : this.selectedOption.code;
+    const isGlobal = !option?.code;
+    this.filteredRegulatorData = dataToFilterFrom.filter(regulator => {
+      return isGlobal ? this.appStateService.globalSearchItem(regulator, currentSearchByKeyVal)
+        : regulator[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim());
     });
+    this.childFilteredData = option ? this.childFilteredData : this.filteredRegulatorData;
     this.setRegulatorPaginateData();
   }
 
@@ -75,6 +83,25 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
 
   reset() {
     this.filteredRegulatorData = [...this.regulatorData];
+    this.childFilteredData = [...this.regulatorData];
+    this.setRegulatorPaginateData();
+  }
+
+  resetChild() {
+    this.filteredRegulatorData = this.childFilteredData;
+    this.setRegulatorPaginateData();
+  }
+
+  searchBySelected(option: IOption) {
+    this.childSelectedOption = option;
+  }
+
+  itemSelectedInDropdown(data: IDropdownClick) {
+    this.filterRegulator(data.dropdownStr, this.childSelectedOption, this.childFilteredData);
+  }
+
+  itemSearched(searchVal: string) {
+    this.filterRegulator(searchVal, this.childSelectedOption, this.childFilteredData);
     this.setRegulatorPaginateData();
   }
 

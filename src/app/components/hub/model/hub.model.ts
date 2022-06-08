@@ -142,3 +142,15 @@ export interface ICollab {
   collabId: string;
   toolName?: string; // only for hero anner
 }
+
+export type IActivity = {
+  collabId: string;
+  desc: string;
+  image: string;
+  link: string;
+  steps: string;
+  tags: string;
+  title: string;
+  videoLink: string;
+  cinchyId: number;
+}

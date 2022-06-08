@@ -13,9 +13,14 @@ export const SEPARATE_PAGE_SIZE = 12;
 
 export const SearchByLaw = [
   {name: 'Law', code: 'Law'},
+  {name: 'Full Citation', code: 'Full Citation'},
   {name: 'Sector', code: 'Sector'},
   {name: 'Class', code: 'Class'},
   {name: 'Subject Area', code: 'Tags'}
+]
+
+export const SearchByRegulator = [
+  {name: 'Regulator Details', code: 'RegulatorInfo'}
 ]
 
 export interface ICommunityDetails {

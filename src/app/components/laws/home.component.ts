@@ -40,11 +40,9 @@ export class HomeComponent implements OnInit {
     this.setTabItems();
     this.apiCallsService.getToolDetails('tool-privacy-law-navigator').pipe(take(1))
       .subscribe(tool => {
-      this.toolDetails = tool[0];
-      console.log('1111 TOOL', tool);
-    });
+        this.toolDetails = tool[0];
+      });
 
-    this.appStateService.tool['tool-privacy-law-navigator'] = this.toolDetails;
     this.getLegislationData();
     this.getTags();
   }

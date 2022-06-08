@@ -130,6 +130,10 @@ app-footer {
   // font-weight: 500 !important;
 }
 
+.bold-text {
+  font-weight: 600 !important;;
+}
+
 // Override styles
 p-autocomplete, .p-autocomplete {
   width: 100%;
@@ -309,4 +313,9 @@ app-footer {
       border: 1px solid whitesmoke;
     }
   }
+}
+
+
+.p-autocomplete .p-autocomplete-panel {
+  max-width: 500px !important;
 }

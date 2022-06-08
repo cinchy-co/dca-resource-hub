@@ -10,7 +10,7 @@ import {
 import {ApiCallsService} from "../../services/api-calls.service";
 import {IOption, ILaw, ILawOption, IKeyIssues} from "./models/ppips.model";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ReplaySubject, takeUntil} from "rxjs";
+import {ReplaySubject, take, takeUntil} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
 import {IWebsiteDetails} from "../../models/common.model";
@@ -73,9 +73,9 @@ export class PippsComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.setTabItems();
-    this.apiCallService.getToolDetails('tool-privacy-law-navigator').subscribe(tool => {
+    this.apiCallService.getToolDetails('tool-privacy-legislation-navigator').pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
-      this.appStateService.tool['tool-privacy-legislation-navigator'] = this.toolDetails;
+      console.log('111 TOOLS', this.toolDetails);
     });
     this.allLaws = await this.apiCallService.getAllLegislationLaws().toPromise();
     this.webSiteDetails = (await this.apiCallService.getWebsiteDetails('legislation-navigator').toPromise())[0];

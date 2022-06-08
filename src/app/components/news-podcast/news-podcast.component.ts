@@ -7,7 +7,7 @@ import {
   OnInit,
   PLATFORM_ID
 } from '@angular/core';
-import {ReplaySubject, takeUntil} from "rxjs";
+import {ReplaySubject, take, takeUntil} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 import {IDropdownClick, ILegislation, IOption, ITag, IWebsiteDetails} from "../../models/common.model";
 import {ApiCallsService} from "../../services/api-calls.service";
@@ -55,10 +55,9 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.apiCallsService.getToolDetails('tool-privacy-newsfeed').subscribe(tool => {
+    this.apiCallsService.getToolDetails('tool-privacy-newsfeed').pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
     });
-    this.appStateService.tool['tool-privacy-newsfeed'] = this.toolDetails;
     this.getLegislationData();
     this.getNewsAndPodcasts();
     this.getBannerDetailsPerRoute();
