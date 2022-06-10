@@ -6,6 +6,7 @@ import {SearchBy} from "../../models/general-values.model";
 import {ITools} from "../hub/model/hub.model";
 import {MenuItem} from "primeng/api";
 import {take} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
@@ -30,11 +31,14 @@ export class RegHomeComponent implements OnInit {
   toolDetails: ITools;
   items: MenuItem[];
   currentTab: string = 'tool';
+  currentRegulator: string;
 
-  constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService) {
+  constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
+              private activatedRoute: ActivatedRoute, private router: Router) {
   }
 
   async ngOnInit() {
+    this.currentRegulator = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.setTabItems();
     this.apiCallsService.getToolDetails('tool-privacy-regulator-navigator').pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
@@ -105,6 +109,14 @@ export class RegHomeComponent implements OnInit {
   itemSearched(val: string) {
     this.searchVal = val;
     this.appStateService.setSearch(val);
+  }
+
+  showAllRegulators() {
+    this.router.navigate([`tools/privacy-regulator-navigator`]);
+  }
+
+  goToLaws() {
+    this.router.navigate([`tools/privacy-law-navigator`]);
   }
 
   reset() {

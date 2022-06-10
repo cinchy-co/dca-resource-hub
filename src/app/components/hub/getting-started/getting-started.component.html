@@ -1,0 +1,35 @@
+<p-progressSpinner class="item-center-n-relative"
+                   *ngIf="!pageDetails">
+</p-progressSpinner>
+
+<div class="default-border" *ngIf="mappedPageDetails">
+  <h1 class="p-4 page-header text-center" [innerHTML]="mappedPageDetails[0].page"></h1>
+  <div class="p-4 pl-8" *ngFor="let page of mappedPageDetails">
+    <h2 class="whitespace-pre-wrap font-semibold header-dca mt-2" [innerHTML]="page.sectionName"></h2>
+    <p class="whitespace-pre-wrap" [innerHTML]="page.details"></p>
+
+
+    <img *ngIf="page.image" [src]="page.image" alt="page details">
+
+    <!--Table Query-->
+    <div class="w-[100%]" *ngIf="page.tableDetails">
+      <p-table [value]="page.tableDetails">
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let col of getCols(page.tableDetails[0])">
+              {{col}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-tableRow>
+          <tr>
+            <td *ngFor="let col of getCols(page.tableDetails.details[0])">
+              {{tableRow[col]}}
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <p-divider></p-divider>
+  </div>
+</div>

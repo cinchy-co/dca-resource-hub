@@ -1,5 +1,5 @@
 <section>
-  <div class="flex flex-row flex-wrap items-start justify-between gap-4 pl-4 pr-4">
+  <div class="flex flex-row flex-wrap items-center justify-between gap-4 pl-4 pr-4">
     <app-search-by-autocomplete *ngIf="childFilteredData?.length && tags && selectedOption" class="inherit-width "
                                 [searchByOptions]="searchByOptions"
                                 [allDataForOptions]="childFilteredData"
@@ -10,6 +10,22 @@
                                 (resetAll)="resetChild()"
                                 (itemSearched)="itemSearched($event)">
     </app-search-by-autocomplete>
+
+    <div class="flex flex-row flex-wrap gap-3 items-center">
+      <div class="flex flex-row flex-wrap gap-2 items-center">
+        <p-radioButton inputId="all" name="groupname" value="" [(ngModel)]="selectedType"
+                       (onClick)="radioOptionClicked()"></p-radioButton>
+        <label for="all">All</label>
+
+        <p-radioButton inputId="active" name="groupname" value="Active" [(ngModel)]="selectedType"
+                       (onClick)="radioOptionClicked()"></p-radioButton>
+        <label for="active">Active</label>
+
+        <p-radioButton inputId="pending" name="groupname" value="Pending" [(ngModel)]="selectedType"
+                       (onClick)="radioOptionClicked()"></p-radioButton>
+        <label for="pending">Pending</label>
+      </div>
+    </div>
 
     <div *ngIf="bannerDetails?.length && bannerDetails[0]['LawsContributeLabel']" class="flex flex-row items-center gap-2">
       <span class="text-sm-12 font-semibold" [innerHTML]="bannerDetails[0]['LawsContributeLabel']"></span>
@@ -29,10 +45,6 @@
               <a rel="noopener" role="link" [href]="item['Law Url']" target="_blank"
                  class="pt-2 text-lg font-bold text-cyan-700">{{item.Law}}
               </a>
-
-              <a role="link" [href]="item['Edit']" target="_blank" class="pt-2 text-sm-12 text-sky-500">
-                Edit
-              </a>
             </div>
             <p class="text-sm-12 text-gray-700 font-semibold">{{item['Full Citation']}}</p>
             <p class="text-sm-12 text-gray-700">{{item['Summary']}}</p>
@@ -50,19 +62,26 @@
                *ngFor="let key of allKeys">
             <ng-container>
               <span class="font-sans mr-1 text-sm-12 text-black">{{key}}: </span>
-              <span class="font-sans text-sm-12 mb-2 text-gray-500"
+              <span class="font-sans text-sm-12 mb-2 text-gray-500" *ngIf="key !== 'Enforcers'"
                     [ngClass]="{'text-blue-600' : key === 'Law'}"
                     [innerHTML]="key === 'Passed' ? (item[key] | date: 'yyyy') : item[key] || '-'">
           </span>
+              <span class="cursor-pointer font-sans text-sky-500 text-sm-12 mb-2" *ngIf="key === 'Enforcers'"
+                    [innerHTML]="item[key]" (click)="goToRegulator(item['Enforcers-Id'])">
+              </span>
             </ng-container>
           </div>
         </div>
 
         <div class="pl-4 pb-2">
-          <p class="text-sm font-semibold">Quick links</p>
+          <p class="text-sm font-semibold">Actions</p>
           <div class="flex flex-row flex-wrap gap-3">
+            <a role="link" [href]="item['Edit']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
+              Contribute
+            </a>
+
             <a role="link" [href]="item['Law Url']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
-              Legislation
+              Website
             </a>
           </div>
         </div>

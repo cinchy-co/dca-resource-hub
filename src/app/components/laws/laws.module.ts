@@ -20,6 +20,10 @@ const routes = [
   {
     path: '',
     component: HomeComponent,
+  },
+  {
+    path: '/:id',
+    component: HomeComponent,
   }
 ];
 

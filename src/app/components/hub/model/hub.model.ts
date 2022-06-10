@@ -15,6 +15,19 @@ export interface INewsFeed {
   [key: string|number]: any;
 }
 
+export interface IGettingStarted {
+  page: string;
+  sectionName: string;
+  sequence: number;
+  details: string;
+  image: string;
+  tableQueryDomain: string;
+  tableQueryName: string;
+  sidebarRoute: string;
+  id: string;
+  tableDetails?: any
+}
+
 export interface INewsFeedFilter {
   filterTag: string;
   filterGroup: string;

@@ -11,6 +11,7 @@ import {PAGE_SIZE, SearchByLaw, SearchByRegulator} from "../../../models/general
 })
 export class RegulatorsComponent implements OnInit, OnDestroy {
   @Input() regulatorData: any[];
+  @Input() currentRegulator: string;
   @Input() selectedOption: IOption;
   filteredRegulatorData: any[];
   childFilteredData: any[];
@@ -28,8 +29,11 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.regulatorData = this.regulatorData.map((item: any) => ({...item, tags: item['Tags'] ? item['Tags'].split(',') : []}));
-    this.filteredRegulatorData = [...this.regulatorData];
+    this.regulatorData = this.regulatorData.map((item: any) => ({...item,
+      tags: item['Tags'] ? item['Tags'].split(',') : []
+    }));
+    this.filteredRegulatorData = this.currentRegulator ? [this.regulatorData.find(item => item['Short Name'] === this.currentRegulator)]
+      : [...this.regulatorData];
     this.childFilteredData = [...this.regulatorData];
     this.setRegulatorKeys();
     this.setRegulatorPaginateData();
@@ -41,8 +45,11 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
       this.filterRegulator(searchVal);
     });
 
-    this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$)).subscribe(({dropdownStr, countrySelected}) => {
-        this.filterRegulator(dropdownStr); // Only ONE OPTIONS IS PRESENT AT GLOBAL Search (COuntry and combine country and region)
+    this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$)).subscribe(({
+                                                                                           dropdownStr,
+                                                                                           countrySelected
+                                                                                         }) => {
+      this.filterRegulator(dropdownStr); // Only ONE OPTIONS IS PRESENT AT GLOBAL Search (COuntry and combine country and region)
     });
 
     this.appStateService.getReset().pipe(takeUntil(this.destroyed$)).subscribe(isReset => {
@@ -53,8 +60,8 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   setRegulatorKeys() {
     this.allKeys = (Object.keys(this.regulatorData[0])).filter(
       keyItem => keyItem !== 'Entity' && keyItem !== 'Short Name' && keyItem !== 'Entity Url'
-      && keyItem !== 'Foreign Name' && keyItem !== 'Twitter' && keyItem !== 'Combine Country' && keyItem !== 'Edit'
-        && keyItem !== 'Tags' && keyItem !== 'tags' &&  keyItem !== 'RegulatorInfo'
+        && keyItem !== 'Foreign Name' && keyItem !== 'Twitter' && keyItem !== 'Combine Country' && keyItem !== 'Edit'
+        && keyItem !== 'Tags' && keyItem !== 'tags' && keyItem !== 'RegulatorInfo'
     );
   }
 

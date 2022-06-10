@@ -12,9 +12,19 @@
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'tool'">
-    <div class="p-4 relative flex flex-row justify-center">
-      <app-search-by-autocomplete *ngIf="legislationData?.length" [searchByOptions]="searchByOptions"
-                                  class="inherit-width"
+    <div class="flex justify-end">
+      <span class="pl-4 pr-4 pt-2 font-sans text-sky-500 cursor-pointer text-sm-12 mb-2" *ngIf="currentRegulator"
+            (click)="showAllRegulators()">See all Regulators
+     </span>
+
+      <span class="pl-4 pr-4 pt-2 font-sans text-sky-500 cursor-pointer text-sm-12 mb-2" *ngIf="currentRegulator"
+            (click)="goToLaws()">Go to Laws
+     </span>
+    </div>
+
+    <div class="p-4 relative flex flex-row justify-center" *ngIf="legislationData?.length && !currentRegulator">
+      <app-search-by-autocomplete class="inherit-width"
+                                  [searchByOptions]="searchByOptions"
                                   [allDataForOptions]="legislationData"
                                   [global]="true"
                                   [showSearchButton]="true"
@@ -35,7 +45,8 @@
 
     <div *ngIf="regulatorData?.length" class="">
       <p-panel header="Regulators">
-        <app-regulators [selectedOption]="selectedOption" [regulatorData]="regulatorData">
+        <app-regulators [selectedOption]="selectedOption" [regulatorData]="regulatorData"
+                        [currentRegulator]="currentRegulator">
         </app-regulators>
       </p-panel>
     </div>

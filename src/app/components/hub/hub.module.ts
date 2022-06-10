@@ -32,6 +32,8 @@ import {CollabDetailsComponent} from './collab-details/collab-details.component'
 import {DcaCommonModule} from "../../dca-common/dca-common.module";
 import {TabMenuModule} from "primeng/tabmenu";
 import {PipesModule} from "../../pipes/pipes.module";
+import { GettingStartedComponent } from './getting-started/getting-started.component';
+import {TableModule} from "primeng/table";
 
 const routes = [
   {
@@ -101,7 +103,15 @@ const routes = [
       {
         path: 'tools/privacy-regulator-navigator',
         loadChildren: () => import('../regulators/regulators.module').then(m => m.RegulatorsModule)
-      }
+      },
+      {
+        path: 'tools/privacy-regulator-navigator/:id',
+        loadChildren: () => import('../regulators/regulators.module').then(m => m.RegulatorsModule)
+      },
+      {
+        path: ':route',
+        component: GettingStartedComponent
+      },
     ]
   }
 ];
@@ -120,7 +130,8 @@ const routes = [
     LearningComponent,
     CollabsComponent,
     CommonHeaderComponent,
-    CollabDetailsComponent
+    CollabDetailsComponent,
+    GettingStartedComponent
   ],
   imports: [
     CommonModule,
@@ -141,6 +152,7 @@ const routes = [
     DcaCommonModule,
     TabMenuModule,
     PipesModule,
+    TableModule,
   ],
   exports: [RouterModule]
 })

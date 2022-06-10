@@ -18,26 +18,30 @@ export class HubRightbarComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private windowRef: WindowRefService, private appStateService: AppStateService,
-              @Inject(PLATFORM_ID) private platformId: any,  private router: Router) {
+              @Inject(PLATFORM_ID) private platformId: any, private router: Router) {
   }
 
   ngOnInit(): void {
     this.appStateService.getUserDetailsSub().pipe(takeUntil(this.destroyed$))
       .subscribe(async (userDetails: IUser) => {
-      this.userDetails = userDetails;
-    })
+        this.userDetails = userDetails;
+      })
   }
 
   footerClicked(footer: IFooter) {
     const url = footer.footerLink;
-    if(isPlatformBrowser(this.platformId)) {
-      this.windowRef.nativeWindow.open(url, '_blank');
+    if (url) {
+      if (isPlatformBrowser(this.platformId)) {
+        this.windowRef.nativeWindow.open(url, '_blank');
+      }
+    } else {
+      this.router.navigate([`${footer.footerRoute}`]);
     }
   }
 
   socialMediaClicked(socialMedia: ISocialMedia) {
     const url = socialMedia.socialLink;
-    if(isPlatformBrowser(this.platformId)) {
+    if (isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.open(url, '_blank');
     }
   }

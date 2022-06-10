@@ -1,4 +1,12 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID
+} from '@angular/core';
 import {AppStateService} from "../../../services/app-state.service";
 import {IActivity, ICollab} from "../model/hub.model";
 import {ApiCallsService} from "../../../services/api-calls.service";
@@ -38,7 +46,7 @@ import {animate, style, transition, trigger} from '@angular/animations';
     )
   ]
 })
-export class CollabDetailsComponent implements OnInit {
+export class CollabDetailsComponent implements OnInit, OnDestroy {
   collabDetails: ICollab;
   collabs: ICollab[];
   items: MenuItem[];
@@ -57,7 +65,7 @@ export class CollabDetailsComponent implements OnInit {
     this.collabDetails = this.appStateService.currentCollab;
     this.setTabItems();
     this.activatedRoute.queryParams.pipe(takeUntil(this.destroyed$)).subscribe(params => {
-      this.currentTab = params['tab'].toLowerCase();
+      this.currentTab = params['tab'] ? params['tab'].toLowerCase() : 'overview';
       this.currentMenuItem = this.items.find(item => item.id === this.currentTab) || this.items[0];
     });
 

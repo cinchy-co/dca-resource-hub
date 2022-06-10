@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   searchVal: any; //
   selectedOption: IOption; //
   dropdownOptionStr: string; //
-  countrySelected: string | undefined;//
+  countrySelected: string;//
   tags: ITag[];
   showError: boolean
   bannerDetails: any;
@@ -100,7 +100,7 @@ export class HomeComponent implements OnInit {
   itemSelectedInDropdown(data: IDropdownClick) {
     this.searchVal = data.dropdownStr;
     this.dropdownOptionStr = data.dropdownStr;
-    this.countrySelected = data.countrySelected;
+    this.countrySelected = data.countrySelected as string;
     this.appStateService.setDropdownOption(data);
   }
 
@@ -111,6 +111,7 @@ export class HomeComponent implements OnInit {
 
   reset() {
     this.searchVal = '';
+    this.countrySelected = '';
     this.appStateService.setReset(true);
   }
 

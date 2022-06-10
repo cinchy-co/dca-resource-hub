@@ -16,6 +16,9 @@ export class ApiCallsService {
   cachedKeyIssues = {} as any;
   cachedSocialMedia: any[];
   cachedFooterDetails: any[];
+  cachedRegulators: any;
+  cachedLaws: any;
+  cachedFooterPagesDetails: any = {};
 
   constructor(private http: HttpClient, private cinchyService: CinchyService, @Inject(PLATFORM_ID) private platformId: any,
               private configService: ConfigService, private appStateService: AppStateService) {
@@ -28,7 +31,13 @@ export class ApiCallsService {
 
   getLegislation(): Observable<any> {
     const url = '/API/Collaborative%20Privacy/Get%20Privacy%20Legislation%20Grid'
-    return this.getResponse(url);
+    if (this.cachedLaws) {
+      return of(this.cachedLaws);
+    } else {
+      return this.getResponse(url).pipe(
+        tap(resp => this.cachedLaws = resp)
+      );
+    }
   }
 
   getDataStewards(): Observable<any> {
@@ -38,7 +47,13 @@ export class ApiCallsService {
 
   getPrivacyRegulators(): Observable<any> {
     const url = '/API/Collaborative%20Privacy/Get%20Privacy%20Regulators';
-    return this.getResponse(url);
+    if (this.cachedRegulators) {
+      return of(this.cachedRegulators);
+    } else {
+      return this.getResponse(url).pipe(
+        tap(resp => this.cachedRegulators = resp)
+      );
+    }
   }
 
   getNewsFeedAndPodcasts(): Observable<any> {
@@ -91,6 +106,17 @@ export class ApiCallsService {
     } else {
       return this.getResponse(url).pipe(
         tap(resp => this.cachedFooterDetails = resp)
+      );
+    }
+  }
+
+  getFooterPageDetails(route: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Document%20Page%20Details?%40route=${route}`;
+    if (this.cachedFooterPagesDetails[route]) {
+      return of(this.cachedFooterPagesDetails[route]);
+    } else {
+      return this.getResponse(url).pipe(
+        tap(resp => this.cachedFooterPagesDetails[route] = resp)
       );
     }
   }

@@ -18,6 +18,7 @@ export interface ILegislation {
   'Regulates': string;
   'Summary': string;
   'Enforcers': string;
+  'Enforcers-Id': string;
   'City': string;
   'Country': string;
   'Combine Country': string;
@@ -27,6 +28,7 @@ export interface ILegislation {
   'Edit': string;
   'Tags': string;
   'Full Citation': string;
+  Pending: string;
   tags: any;
 }
 
@@ -105,6 +107,7 @@ export interface IFooter {
   sequence: number;
   footerTitle: string;
   footerLink: string;
+  footerRoute: string;
 }
 
 
