@@ -149,6 +149,27 @@ app-footer {
   font-weight: 600 !important;
 }
 
+ul.bullet {
+  margin-left: 25px;
+  list-style-type: bullet;
+  display: flex;
+  flex-direction: column;
+}
+
+ul.disc {
+  margin-left: 25px;
+  list-style-type: disc;
+  display: flex;
+  flex-direction: column;
+}
+
+ul.square {
+  margin-left: 25px;
+  list-style-type: square;
+  display: flex;
+  flex-direction: column;
+}
+
 // Override styles
 p-autocomplete, .p-autocomplete {
   width: 100%;

@@ -37,7 +37,10 @@ export class HubFormComponent implements OnInit {
 
   async setFieldAndOptions(customFormQueries: any) {
     const {getQueryName, getQueryDomain, totalQueries} = customFormQueries;
-    const fields: IField[] = (await this.apiService.executeCinchyQueries(getQueryName, getQueryDomain).toPromise());
+    const params = {
+      '@pageId': this.formId
+    }
+    const fields: IField[] = (await this.apiService.executeCinchyQueries(getQueryName, getQueryDomain, params).toPromise());
 
     let startIndex = 1;
     while (startIndex <= totalQueries) {

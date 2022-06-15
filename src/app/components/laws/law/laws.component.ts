@@ -42,7 +42,6 @@ export class LawsComponent implements OnInit, OnDestroy {
     }));
     this.filteredLegislationData = [...this.legislationData];
     this.childFilteredData = [...this.legislationData];
-    console.log('1111 LAWS', this.legislationData);
     this.setPaginateData();
     this.setKeys();
     this.subscribeToStateChanges();

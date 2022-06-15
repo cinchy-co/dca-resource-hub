@@ -24,8 +24,19 @@
       <!--NO HEADER TEXT-->
       <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'No Header Text'"
            class="flex gap-2 w-[100%]">
-        <p class="whitespace-pre-wrap" class="font-semibold" [innerHTML]="toolSection.details[0].sectionText"></p>
+        <p class="whitespace-pre-wrap font-semibold" [innerHTML]="toolSection.details[0].sectionText"></p>
         <p class="whitespace-pre-wrap" [innerHTML]="toolSection.details[0].sectionValue"></p>
+      </div>
+
+      <!--LIST-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'List'"
+           class="flex flex-col gap-2 w-[100%]">
+        <p class="whitespace-pre-wrap font-semibold" [innerHTML]="toolSection.details[0].sectionText"></p>
+        <div class="flex flex-wrap gap-3">
+          <ng-container *ngFor="let item of toolSection.details">
+            <p class="whitespace-pre-wrap" [innerHTML]="item.sectionValue"></p>
+          </ng-container>
+        </div>
       </div>
 
       <!--Image and Title-->
@@ -37,7 +48,7 @@
           <div class="flex flex-col items-center cursor-pointer border-[1px] border-solid border-slate-400"
                (click)="goToDetails(item)" *ngFor="let item of toolSection.details">
             <img class="h-[200px] w-[200px] gap-5" [src]="item.logoImage" [alt]="item.name">
-           <!-- <p [innerHTML]="item.name"></p>-->
+            <!-- <p [innerHTML]="item.name"></p>-->
           </div>
         </div>
       </div>
@@ -47,7 +58,8 @@
            class="w-[100%]">
         <h1 class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
         <p class="whitespace-pre-wrap" *ngIf="toolSection.sectionValue" [innerHTML]="toolSection.sectionValue"></p>
-        <p class="whitespace-pre-wrap" *ngIf="!toolSection.sectionValue" [innerHTML]="toolSection.details[0].toolDesc"></p>
+        <p class="whitespace-pre-wrap" *ngIf="!toolSection.sectionValue"
+           [innerHTML]="toolSection.details[0].toolDesc"></p>
       </div>
 
       <!--Table Query-->

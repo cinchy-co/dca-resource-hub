@@ -184,6 +184,11 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getFormPageLabels(pageId: string) {
+    const url = `/API/Node%20Zero%20Website/Get%20Form%20Labels?%40pageId=${pageId}`;
+    return this.getResponse(url);
+  }
+
   getHubEvents(): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Upcoming%20Events`;
     return this.getResponse(url);
@@ -208,6 +213,11 @@ export class ApiCallsService {
 
   getProfileDetails(userName: string): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Member%20Profile%20Details?%40userName=${userName}`;
+    return this.getResponse(url);
+  }
+
+  getCinchyProfileDetails(userName: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Cinchy%20Profile?%40userName=${userName}`;
     return this.getResponse(url);
   }
 

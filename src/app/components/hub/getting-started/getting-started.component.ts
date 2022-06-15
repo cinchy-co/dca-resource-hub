@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ApiCallsService} from "../../../services/api-calls.service";
 import {IGettingStarted} from "../model/hub.model";
@@ -7,7 +7,8 @@ import {combineLatest, Observable, ObservableInput, of, ReplaySubject, take, tak
 @Component({
   selector: 'app-getting-started',
   templateUrl: './getting-started.component.html',
-  styleUrls: ['./getting-started.component.scss']
+  styleUrls: ['./getting-started.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class GettingStartedComponent implements OnInit, OnDestroy {
   currentPage: string;
@@ -45,6 +46,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
   }
 
   getCols(tableFirstRow: any): string[] {
+    console.log('1111 tableFirstRow', tableFirstRow)
     return Object.keys(tableFirstRow);
   }
 

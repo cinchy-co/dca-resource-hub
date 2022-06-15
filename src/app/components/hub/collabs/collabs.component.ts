@@ -21,6 +21,7 @@ export class CollabsComponent implements OnInit {
               private router: Router) { }
 
   async ngOnInit() {
+    this.appStateService.setSidebarOption('');
     const communityDetails = this.appStateService.communityDetails;
     this.collabsDetails = communityDetails.find(item => item.id === 'collaboration') as ICommunityDetails;
     this.collabs = await this.appApiService.getHubCollabs().toPromise();

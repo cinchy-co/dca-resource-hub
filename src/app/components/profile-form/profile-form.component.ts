@@ -14,6 +14,7 @@ import {ReplaySubject, takeUntil} from "rxjs";
 export class ProfileFormComponent implements OnInit {
   userDetails: IUser;
   existingProfileDetails: any;
+  cinchyProfileDetails: any;
   allFields: IFormField[] = [];
   optionsForFields: any = {};
   profileHeaderDetails: ICommunityDetails;
@@ -29,6 +30,7 @@ export class ProfileFormComponent implements OnInit {
         this.userDetails = userDetails;
         if (userDetails?.username) {
           this.existingProfileDetails = (await this.apiService.getProfileDetails(this.userDetails?.username).toPromise())[0];
+          this.cinchyProfileDetails = (await this.apiService.getCinchyProfileDetails(this.userDetails?.username).toPromise())[0];
           const communityDetails = this.appStateService.communityDetails;
           this.profileHeaderDetails = communityDetails.find(item => item.id === 'suggestions') as ICommunityDetails;
         }

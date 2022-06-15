@@ -29,13 +29,16 @@ export class SuggestionsComponent implements OnInit {
   async ngOnInit() {
     const communityDetails = this.appStateService.communityDetails;
     this.suggestionHeaderDetails = communityDetails.find(item => item.id === 'suggestions') as ICommunityDetails;
-    this.suggestionFormQueries = (await this.appApiService.getSuggestionFormQueries('suggestion').toPromise())[0];
+    this.suggestionFormQueries = (await this.appApiService.getSuggestionFormQueries('suggestions').toPromise())[0];
     this.setFieldAndOptions(this.suggestionFormQueries);
   }
 
   async setFieldAndOptions(suggestionFormQueries: any) {
     const {getQueryName, getQueryDomain, totalQueries} = suggestionFormQueries;
-    const fields: IField[] = (await this.appApiService.executeCinchyQueries(getQueryName, getQueryDomain).toPromise());
+    const params = {
+      '@pageId': 'suggestions'
+    }
+    const fields: IField[] = (await this.appApiService.executeCinchyQueries(getQueryName, getQueryDomain, params).toPromise());
     let startIndex = 1;
     while (startIndex <= totalQueries) {
       const linkQueryName = suggestionFormQueries[`optionQuery-${startIndex}`];
