@@ -46,7 +46,6 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
   }
 
   getCols(tableFirstRow: any): string[] {
-    console.log('1111 tableFirstRow', tableFirstRow)
     return Object.keys(tableFirstRow);
   }
 

@@ -34,6 +34,7 @@ import {TabMenuModule} from "primeng/tabmenu";
 import {PipesModule} from "../../pipes/pipes.module";
 import { GettingStartedComponent } from './getting-started/getting-started.component';
 import {TableModule} from "primeng/table";
+import {ProfilePreferencesComponent} from "../profile-preferences/profile-preferences.component";
 
 const routes = [
   {
@@ -87,6 +88,10 @@ const routes = [
       {
         path: 'collab-privacy-regulators',
         component: CollabDetailsComponent
+      },
+      {
+        path: 'preferences',
+        component: ProfilePreferencesComponent
       },
       {
         path: 'tools/privacy-legislation-navigator',

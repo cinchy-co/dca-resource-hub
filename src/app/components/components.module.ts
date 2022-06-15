@@ -32,6 +32,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {CheckboxModule} from "primeng/checkbox";
 import {MultiSelectModule} from "primeng/multiselect";
 import {InputTextareaModule} from "primeng/inputtextarea";
+import { ProfilePreferencesComponent } from './profile-preferences/profile-preferences.component';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import {InputTextareaModule} from "primeng/inputtextarea";
     FooterComponent,
     ProfileComponent,
     ProfileFormComponent,
+    ProfilePreferencesComponent,
   ],
   imports: [
     CommonModule,
