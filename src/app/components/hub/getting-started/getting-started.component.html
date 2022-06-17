@@ -9,7 +9,7 @@
     <p class="whitespace-pre-wrap" [innerHTML]="page.details"></p>
 
 
-    <img class="mt-4" *ngIf="page.image" [src]="page.image" alt="page details">
+    <img class="mt-4 max-w-[850px]" *ngIf="page.image" [src]="page.image" alt="page details">
 
     <!--Table Query-->
     <div class="w-[100%] mt-4" *ngIf="page.tableDetails">

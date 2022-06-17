@@ -90,6 +90,10 @@ const routes = [
         component: CollabDetailsComponent
       },
       {
+        path: 'sensitive-personal-info-taxonomy',
+        component: CollabDetailsComponent
+      },
+      {
         path: 'preferences',
         component: ProfilePreferencesComponent
       },

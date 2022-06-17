@@ -61,6 +61,7 @@ export class HubFormComponent implements OnInit {
           isCheckbox: field.isCheckbox === 'Yes',
           isDisabled: field.isDisabled === 'Yes',
           isTextArea: field.isTextArea === 'Yes',
+          isTextOnly: field.isTextOnly === 'Yes',
           width: field.width,
           isHidden: field.isHidden === 'Yes',
         };
@@ -78,10 +79,12 @@ export class HubFormComponent implements OnInit {
   getControls() {
     const controls: any = {};
     this.allFields.forEach(field => {
-      controls[field.id] = [{
-        value: this.existingDetails ? this.getPreSelectedValue(field) : '',
-        disabled: field.isDisabled
-      }];
+      if (!field.isTextOnly) {
+        controls[field.id] = [{
+          value: this.existingDetails ? this.getPreSelectedValue(field) : '',
+          disabled: field.isDisabled
+        }];
+      }
     });
     return controls;
   }
@@ -123,21 +126,25 @@ export class HubFormComponent implements OnInit {
         detail: this.successMessage
       });
     } catch (e: any) {
-      if (e?.cinchyException?.data?.status === 200) {
-        this.showLoader = false;
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Submit Successful',
-          detail: this.successMessage
-        });
-      } else {
-        this.showLoader = false;
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Network error',
-          detail: 'Please try again after other time'
-        });
-      }
+      this.handleError(e);
+    }
+  }
+
+  handleError(e: any) {
+    if (e?.cinchyException?.data?.status === 200) {
+      this.showLoader = false;
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Submit Successful',
+        detail: this.successMessage
+      });
+    } else {
+      this.showLoader = false;
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Network error',
+        detail: 'Please try again after other time'
+      });
     }
   }
 

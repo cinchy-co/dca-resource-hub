@@ -133,6 +133,7 @@ export interface IBookmark {
   desc: string;
   table: string;
   domain: string;
+  buttonLabel: string;
 }
 
 export interface ITables {
@@ -166,4 +167,5 @@ export type IActivity = {
   title: string;
   videoLink: string;
   cinchyId: number;
+  buttonLabel: string;
 }

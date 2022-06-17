@@ -30,6 +30,8 @@ export interface ILegislation {
   'Full Citation': string;
   Pending: string;
   tags: any;
+  Bookmark: string;
+  Share: string;
 }
 
 export interface IOption {
@@ -88,6 +90,7 @@ export interface IField {
   width: number;
   isTextArea: string;
   isHidden?: string;
+  isTextOnly: string;
 }
 
 export interface IFormField {
@@ -101,6 +104,7 @@ export interface IFormField {
   width?: number;
   isTextArea?: boolean;
   isHidden?: boolean;
+  isTextOnly?: boolean;
 }
 
 export interface IFooter {

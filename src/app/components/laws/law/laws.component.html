@@ -83,6 +83,16 @@
             <a role="link" [href]="item['Law Url']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
               Website
             </a>
+
+            <a *ngIf="item['Share']" [href]="item['Share'] + ' ' + item['Edit']" target="_blank"
+               class="pt-0 text-sm-12 text-sky-500">
+              Share
+            </a>
+
+            <a *ngIf="item['Bookmark']" role="link" [href]="item['Bookmark']" target="_blank"
+               class="pt-0 text-sm-12 text-sky-500">
+              Bookmark
+            </a>
           </div>
         </div>
       </p-card>
