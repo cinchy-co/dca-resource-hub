@@ -8,6 +8,7 @@ import {CinchyService} from "@cinchy-co/angular-sdk";
 import {ApiCallsService} from "../../services/api-calls.service";
 import {FormBuilder} from "@angular/forms";
 import {Router} from "@angular/router";
+import {environment} from "../../../environments/environment";
 
 @Component({
   selector: 'app-profile',
@@ -18,8 +19,8 @@ export class ProfileComponent implements OnInit {
   @Input() userDetails: IUser;
   display: boolean;
 
-  constructor(private appStateService: AppStateService, private configService: ConfigService,
-              private windowRef: WindowRefService, @Inject(PLATFORM_ID) private platformId: any,
+  constructor(private appStateService: AppStateService, private windowRef: WindowRefService,
+              @Inject(PLATFORM_ID) private platformId: any,
               private cinchyService: CinchyService, private apiService: ApiCallsService,
               private router: Router) {
   }
@@ -42,7 +43,7 @@ export class ProfileComponent implements OnInit {
     this.apiService.logOut();
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem('hub-user-details');
-      const url = `${this.configService.enviornmentConfig.cinchyRootUrl}/Account/Logoff`;
+      const url = `${environment.cinchyConfig.cinchyRootUrl}/Account/Logoff`;
       const windowRef = this.windowRef.nativeWindow.open(url, '_blank');
       setTimeout(() => {
         windowRef.close();

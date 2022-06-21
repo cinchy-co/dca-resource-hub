@@ -5,9 +5,9 @@ import {IUser} from "../models/common.model";
 import {CinchyService} from "@cinchy-co/angular-sdk";
 import {WindowRefService} from "./window-ref.service";
 import {isPlatformBrowser} from "@angular/common";
-import {ConfigService} from "../config.service";
 import {AppStateService} from "./app-state.service";
 import {ToolIds} from "../components/hub/model/hub.model";
+import {environment} from "../../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +20,7 @@ export class ApiCallsService {
   cachedLaws: any;
   cachedFooterPagesDetails: any = {};
 
-  constructor(private http: HttpClient, private cinchyService: CinchyService, @Inject(PLATFORM_ID) private platformId: any,
-              private configService: ConfigService, private appStateService: AppStateService) {
+  constructor(private http: HttpClient, private cinchyService: CinchyService, @Inject(PLATFORM_ID) private platformId: any, private appStateService: AppStateService) {
   }
 
   getHeaderBannerDetails(): Observable<any> {
@@ -295,7 +294,7 @@ export class ApiCallsService {
   }
 
   getResponse(url: string): Observable<any> {
-    const fullUrl = `${this.configService.enviornmentConfig.cinchyRootUrl}${url}`
+    const fullUrl = `${environment.cinchyConfig.cinchyRootUrl}${url}`
     return this.http.get(fullUrl, {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
       responseType: 'text'

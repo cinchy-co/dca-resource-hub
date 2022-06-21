@@ -19,6 +19,7 @@ import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from "@fortawesome/free-regular-svg-icons";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
+import {environment} from 'src/environments/environment';
 
 
 const icons = [
@@ -39,36 +40,25 @@ export function getBaseUrl() {
     AppComponent,
     HubSidebarComponent
   ],
-    imports: [
-        BrowserModule.withServerTransition({appId: 'serverApp'}),
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        ComponentsModule,
-        HttpClientModule,
-        CinchyModule.forRoot(),
-        ButtonModule,
-        RippleModule,
-        ProgressSpinnerModule,
-        FontAwesomeModule,
-        ToastModule
-    ],
+  imports: [
+    BrowserModule.withServerTransition({appId: 'serverApp'}),
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ComponentsModule,
+    HttpClientModule,
+    CinchyModule.forRoot(),
+    ButtonModule,
+    RippleModule,
+    ProgressSpinnerModule,
+    FontAwesomeModule,
+    ToastModule
+  ],
   providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: appLoadFactory,
-      deps: [ConfigService],
-      multi: true
-    },
     CinchyModule,
     CinchyService,
     {
-      provide: CinchyConfig,
-      useFactory: (config: ConfigService) => {
-        return config.envConfig;
-      },
-      deps: [ConfigService]
+      provide: CinchyConfig, useValue: environment.cinchyConfig
     },
-    {provide: 'BASE_URL', useFactory: getBaseUrl},
     MessageService
   ],
   bootstrap: [AppComponent]

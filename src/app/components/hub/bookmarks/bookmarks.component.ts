@@ -6,6 +6,7 @@ import {IBookmark} from "../model/hub.model";
 import {isPlatformBrowser} from "@angular/common";
 import {ConfigService} from "../../../config.service";
 import {WindowRefService} from "../../../services/window-ref.service";
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-bookmarks',
@@ -17,8 +18,7 @@ export class BookmarksComponent implements OnInit {
   bookmarks: IBookmark[];
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
-              private configService: ConfigService, @Inject(PLATFORM_ID) private platformId: any,
-              private windowRef: WindowRefService) {
+              @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService) {
   }
 
   async ngOnInit() {
@@ -28,7 +28,7 @@ export class BookmarksComponent implements OnInit {
   }
 
   goToBookmark(option: IBookmark) {
-    const url = `${this.configService.enviornmentConfig.cinchyRootUrl}${option.fullLink}`;
+    const url = `${environment.cinchyConfig.cinchyRootUrl}${option.fullLink}`;
     if (isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.open(url, '_blank');
     }
