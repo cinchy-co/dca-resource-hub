@@ -31,7 +31,7 @@
         </div>
 
         <div *ngIf="expansionState[activity.cinchyId]" class="mt-2 transition-custom pr-4 pl-4 m-5" [@inOutAnimation]>
-          <div class="flex flex-col gap-5 mb-[20px]">
+          <div class="flex flex-col gap-5 mb-[20px]" *ngIf="activity.videoLink">
             <!--VIDEO SECTION-->
             <div class="w-[100%] m-auto">
               <div class="m-auto" id="player">
