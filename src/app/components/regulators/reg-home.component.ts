@@ -32,6 +32,7 @@ export class RegHomeComponent implements OnInit {
   items: MenuItem[];
   currentTab: string = 'tool';
   currentRegulator: string;
+  toolId = 'tool-privacy-regulator-navigator';
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
               private activatedRoute: ActivatedRoute, private router: Router) {
@@ -40,7 +41,7 @@ export class RegHomeComponent implements OnInit {
   async ngOnInit() {
     this.currentRegulator = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.setTabItems();
-    this.apiCallsService.getToolDetails('tool-privacy-regulator-navigator').pipe(take(1)).subscribe(tool => {
+    this.apiCallsService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
     });
     this.getLegislationData();

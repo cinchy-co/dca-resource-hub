@@ -52,6 +52,7 @@ export class PippsComponent implements OnInit, OnDestroy {
   toolDetails: ITools;
   items: MenuItem[];
   currentTab: string = 'tool';
+  toolId = 'tool-privacy-legislation-navigator';
 
   /* @HostListener('window:scroll', [])
    onWindowScroll() {
@@ -73,7 +74,7 @@ export class PippsComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.setTabItems();
-    this.apiCallService.getToolDetails('tool-privacy-legislation-navigator').pipe(take(1)).subscribe(tool => {
+    this.apiCallService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
       console.log('111 TOOLS', this.toolDetails);
     });

@@ -41,7 +41,6 @@ export class HubFormComponent implements OnInit {
       '@pageId': this.formId
     }
     const fields: IField[] = (await this.apiService.executeCinchyQueries(getQueryName, getQueryDomain, params).toPromise());
-
     let startIndex = 1;
     while (startIndex <= totalQueries) {
       const linkQueryName = customFormQueries[`optionQuery-${startIndex}`];
@@ -109,7 +108,6 @@ export class HubFormComponent implements OnInit {
     const allFormKeys = Object.keys(formValues);
     const params: any = {};
     allFormKeys.forEach(key => {
-      console.log('111 formValues[key]', formValues[key])
       params[`@${key}`] = Array.isArray(formValues[key]) ?
         formValues[key].length ? `${formValues[key].join(',1,')},1` : '' : formValues[key]
     });

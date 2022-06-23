@@ -48,6 +48,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   toolDetails: ITools;
   items: MenuItem[];
   currentTab: string = 'tool';
+  toolId = 'tool-privacy-newsfeed';
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private apiCallsService: ApiCallsService,
@@ -55,7 +56,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.apiCallsService.getToolDetails('tool-privacy-newsfeed').pipe(take(1)).subscribe(tool => {
+    this.apiCallsService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
     });
     this.getLegislationData();

@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   items: MenuItem[];
   toolDetails: ITools;
   currentTab: string = 'tool';
+  toolId = 'tool-privacy-law-navigator';
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService) {
   }
@@ -38,7 +39,7 @@ export class HomeComponent implements OnInit {
   async ngOnInit() {
     this.reset();
     this.setTabItems();
-    this.apiCallsService.getToolDetails('tool-privacy-law-navigator').pipe(take(1))
+    this.apiCallsService.getToolDetails(this.toolId).pipe(take(1))
       .subscribe(tool => {
         this.toolDetails = tool[0];
       });

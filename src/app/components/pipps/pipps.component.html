@@ -8,7 +8,7 @@
   <p-tabMenu [model]="items" [activeItem]="items[1]"></p-tabMenu>
 
   <ng-container *ngIf="currentTab === 'overview'">
-    <app-video-overview class="mt-5" [toolId]="'tool-privacy-legislation-navigator'"></app-video-overview>
+    <app-video-overview class="mt-5" [toolId]="toolId"></app-video-overview>
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'tool'">
@@ -57,7 +57,7 @@
 
   <ng-container *ngIf="currentTab === 'feedback'">
     <app-hub-form [formId]="'tools'" [buttonLabel]="'Submit'"
-                  [existingDetails]="{'tool': 'privacy-legislation-navigator'}"
+                  [existingDetails]="{'tool': toolId}"
                   [updateWithHiddenOrDisabledFields]="true"
                   [successMessage]="'Your feedback has been submitted'">
     </app-hub-form>
