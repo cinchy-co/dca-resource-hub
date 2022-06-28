@@ -32,6 +32,7 @@ export interface ILegislation {
   tags: any;
   Bookmark: string;
   Share: string;
+  Id: string
 }
 
 export interface IOption {

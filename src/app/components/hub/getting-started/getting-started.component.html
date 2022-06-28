@@ -6,6 +6,22 @@
   <h1 class="p-4 page-header text-center" [innerHTML]="mappedPageDetails[0].page"></h1>
   <div class="p-4 pl-8" *ngFor="let page of mappedPageDetails">
     <h2 class="whitespace-pre-wrap font-semibold header-dca mt-2 mb-4" [innerHTML]="page.sectionName"></h2>
+
+    <!--VIDEO-->
+    <div *ngIf="page.video" class="w-[100%] m-auto">
+      <div class="m-auto" id="player">
+        <iframe
+          class="m-auto w-[100%] sm:w-[100%] md:w-[70%] lg:w-[60%] lg:h-[400px] md:h-[300px] sm:h-[200px] h-[200px]"
+          title="Node Zero video"
+          loading="lazy"
+          [src]="page.video | urlSanitizer: 'resourceUrl'"
+          allowfullscreen
+          allowtransparency
+          allow="autoplay"
+        ></iframe>
+      </div>
+    </div>
+
     <p class="whitespace-pre-wrap" [innerHTML]="page.details"></p>
 
 

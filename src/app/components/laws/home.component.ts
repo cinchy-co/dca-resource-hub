@@ -6,6 +6,7 @@ import {SearchBy} from "../../models/general-values.model";
 import {ITools, IToolSection} from "../hub/model/hub.model";
 import {MenuItem} from "primeng/api";
 import {combineLatest, Observable, of, take} from "rxjs";
+import {ActivatedRoute, Router} from "@angular/router";
 
 
 @Component({
@@ -32,11 +33,14 @@ export class HomeComponent implements OnInit {
   toolDetails: ITools;
   currentTab: string = 'tool';
   toolId = 'tool-privacy-law-navigator';
+  currentLaw: any;
 
-  constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService) {
+  constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
+              private activatedRoute: ActivatedRoute, private router: Router) {
   }
 
   async ngOnInit() {
+    this.currentLaw = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.reset();
     this.setTabItems();
     this.apiCallsService.getToolDetails(this.toolId).pipe(take(1))
@@ -115,5 +119,10 @@ export class HomeComponent implements OnInit {
     this.countrySelected = '';
     this.appStateService.setReset(true);
   }
+
+  showAllLaws() {
+    this.router.navigate([`tools/privacy-law-navigator`]);
+  }
+
 
 }

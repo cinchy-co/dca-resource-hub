@@ -26,6 +26,7 @@ export interface IGettingStarted {
   sidebarRoute: string;
   id: string;
   tableDetails?: any
+  video: string;
 }
 
 export interface INewsFeedFilter {

@@ -113,7 +113,7 @@ export class RegHomeComponent implements OnInit {
   }
 
   showAllRegulators() {
-    this.router.navigate([`tools/privacy-regulator-navigator`]);
+    this.router.navigate([`tools/privacy-regulators`]);
   }
 
   goToLaws() {

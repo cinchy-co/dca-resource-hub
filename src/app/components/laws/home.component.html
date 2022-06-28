@@ -16,7 +16,13 @@
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'tool'">
-    <div class="p-4 relative flex flex-row justify-center">
+    <div class="flex justify-end">
+      <span class="pl-4 pr-4 pt-2 font-sans text-sky-500 cursor-pointer text-sm-12 mb-2" *ngIf="currentLaw"
+            (click)="showAllLaws()">See all Laws
+     </span>
+    </div>
+
+    <div class="p-4 relative flex flex-row justify-center" *ngIf="legislationData?.length && !currentLaw">
       <app-search-by-autocomplete *ngIf="legislationData?.length" [searchByOptions]="searchByOptions"
                                   class="inherit-width"
                                   [allDataForOptions]="legislationData"
@@ -43,6 +49,7 @@
                   [isCountrySelected]="!!countrySelected"
                   [countrySearchVal]="countrySelected"
                   [bannerDetails]="bannerDetails"
+                  [currentLaw]="currentLaw"
                   [tags]="tags">
         </app-laws>
       </p-panel>

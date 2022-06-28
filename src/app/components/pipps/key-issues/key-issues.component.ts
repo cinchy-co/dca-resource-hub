@@ -33,6 +33,7 @@ export class KeyIssuesComponent implements OnInit, OnDestroy {
   display = true;
   webSiteDetails: IWebsiteDetails;
   toolDetails: ITools;
+  routePage = 'privacy-legislation-text';
 
   constructor(private router: Router, private route: ActivatedRoute, private apiCallService: ApiCallsService,
               private changeDetectorRef: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
@@ -72,17 +73,17 @@ export class KeyIssuesComponent implements OnInit, OnDestroy {
   navigateToKeyIssues(issue: IKeyIssues) {
     const issueId = issue.id;
     const urlParams = {legislation: this.currentLegislation};
-    this.router.navigate([`tools/privacy-legislation-navigator/keyIssues/${issueId}`, urlParams]);
+    this.router.navigate([`tools/${this.routePage}/keyIssues/${issueId}`, urlParams]);
   }
 
   navigateToLegislation() {
     const urlParams = {legislation: this.currentLegislation};
-    this.router.navigate([`tools/privacy-legislation-navigator`, urlParams]);
+    this.router.navigate([`tools/${this.routePage}`, urlParams]);
   }
 
   goToAllIssues() {
     const urlParams = {legislation: this.currentLegislation};
-    this.router.navigate([`tools/privacy-legislation-navigator/keyIssues/all`, urlParams]);
+    this.router.navigate([`tools/${this.routePage}/keyIssues/all`, urlParams]);
   }
 
   ngOnDestroy() {

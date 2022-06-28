@@ -98,7 +98,7 @@ const routes = [
         component: ProfilePreferencesComponent
       },
       {
-        path: 'tools/privacy-legislation-navigator',
+        path: 'tools/privacy-legislation-text',
         loadChildren: () => import('../pipps/pipps.module').then(m => m.PippsModule),
       },
       {
@@ -110,11 +110,15 @@ const routes = [
         loadChildren: () => import('../laws/laws.module').then(m => m.LawsModule)
       },
       {
-        path: 'tools/privacy-regulator-navigator',
+        path: 'tools/privacy-law-navigator/:id',
+        loadChildren: () => import('../laws/laws.module').then(m => m.LawsModule)
+      },
+      {
+        path: 'tools/privacy-regulators',
         loadChildren: () => import('../regulators/regulators.module').then(m => m.RegulatorsModule)
       },
       {
-        path: 'tools/privacy-regulator-navigator/:id',
+        path: 'tools/privacy-regulators/:id',
         loadChildren: () => import('../regulators/regulators.module').then(m => m.RegulatorsModule)
       },
       {

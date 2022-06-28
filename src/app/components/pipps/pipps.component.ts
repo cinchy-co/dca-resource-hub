@@ -53,6 +53,7 @@ export class PippsComponent implements OnInit, OnDestroy {
   items: MenuItem[];
   currentTab: string = 'tool';
   toolId = 'tool-privacy-legislation-navigator';
+  routePage = 'privacy-legislation-text';
 
   /* @HostListener('window:scroll', [])
    onWindowScroll() {
@@ -168,7 +169,7 @@ export class PippsComponent implements OnInit, OnDestroy {
     this.showIndexPage = true;
     this.showSectionDetails = false;
     const legislation = event.value;
-    this.router.navigate(['tools/privacy-legislation-navigator', {legislation: legislation.code}]);
+    this.router.navigate([`tools/${this.routePage}`, {legislation: legislation.code}]);
   }
 
   getSections() {
@@ -225,7 +226,7 @@ export class PippsComponent implements OnInit, OnDestroy {
       urlParams = {legislation: this.currentLegislation, ...urlParams};
     }
     this.updatePrevAndBackArticles(article);
-    this.router.navigate(['tools/privacy-legislation-navigator', urlParams]);
+    this.router.navigate([`tools/${this.routePage}`, urlParams]);
   }
 
   updatePrevAndBackArticles(currentArticle: ILaw) {
@@ -238,11 +239,11 @@ export class PippsComponent implements OnInit, OnDestroy {
   navigateToKeyIssues(issue?: IKeyIssues) {
     const urlParams = {legislation: this.currentLegislation};
     if (!issue) {
-      this.router.navigate([`tools/privacy-legislation-navigator/keyIssues/all`, urlParams]);
+      this.router.navigate([`tools/${this.routePage}/keyIssues/all`, urlParams]);
       return;
     }
     const issueId = issue.id;
-    this.router.navigate([`tools/privacy-legislation-navigator/keyIssues/${issueId}`, urlParams]);
+    this.router.navigate([`tools/${this.routePage}/keyIssues/${issueId}`, urlParams]);
   }
 
   asIsOrder(a: any, b: any) {

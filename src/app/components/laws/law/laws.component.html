@@ -1,6 +1,7 @@
 <section>
   <div class="flex flex-row flex-wrap items-center justify-between gap-4 pl-4 pr-4">
-    <app-search-by-autocomplete *ngIf="childFilteredData?.length && tags && selectedOption" class="inherit-width "
+    <app-search-by-autocomplete *ngIf="childFilteredData?.length && tags && selectedOption && !currentLaw"
+                                class="inherit-width "
                                 [searchByOptions]="searchByOptions"
                                 [allDataForOptions]="childFilteredData"
                                 [tagsData]="tags"
@@ -11,7 +12,7 @@
                                 (itemSearched)="itemSearched($event)">
     </app-search-by-autocomplete>
 
-    <div class="flex flex-row flex-wrap gap-3 items-center">
+    <div class="flex flex-row flex-wrap gap-3 items-center" *ngIf="!currentLaw">
       <div class="flex flex-row flex-wrap gap-2 items-center">
         <p-radioButton inputId="all" name="groupname" value="" [(ngModel)]="selectedType"
                        (onClick)="radioOptionClicked()"></p-radioButton>

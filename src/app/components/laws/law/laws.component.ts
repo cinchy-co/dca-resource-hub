@@ -19,6 +19,7 @@ export class LawsComponent implements OnInit, OnDestroy {
   @Input() countrySearchVal: string;
   @Input() tags: ITag[];
   @Input() bannerDetails: any;
+  @Input() currentLaw: any;
   childSelectedOption: IOption;
   filteredLegislationData: ILegislation[];
   paginatedLegislationData: ILegislation[];
@@ -40,7 +41,9 @@ export class LawsComponent implements OnInit, OnDestroy {
       ...item,
       tags: item['Tags'] ? item['Tags'].split(',') : []
     }));
-    this.filteredLegislationData = [...this.legislationData];
+    this.filteredLegislationData = this.currentLaw ?
+      [this.legislationData.find((item: ILegislation) => item['Id'] === this.currentLaw)] as ILegislation[]
+      : [...this.legislationData];
     this.childFilteredData = [...this.legislationData];
     this.setPaginateData();
     this.setKeys();
@@ -160,7 +163,7 @@ export class LawsComponent implements OnInit, OnDestroy {
   }
 
   goToRegulator(id: string) {
-    this.router.navigate([`tools/privacy-regulator-navigator/${id}`]);
+    this.router.navigate([`tools/privacy-regulators/${id}`]);
   }
 
   ngOnDestroy() {
