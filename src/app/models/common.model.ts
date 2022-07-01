@@ -54,8 +54,9 @@ export interface IDropdownClick {
 }
 
 export interface ITag {
-  label: string;
-  group: string;
+  Group?: string;
+  Tags: string;
+  TopTags?: string;
 }
 
 

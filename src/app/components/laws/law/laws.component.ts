@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnDestroy, OnInit, PLATFORM_ID} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID} from '@angular/core';
 import {IDropdownClick, ILegislation, IOption, ITag} from "../../../models/common.model";
 import {AppStateService} from "../../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
@@ -20,6 +20,8 @@ export class LawsComponent implements OnInit, OnDestroy {
   @Input() tags: ITag[];
   @Input() bannerDetails: any;
   @Input() currentLaw: any;
+  @Output() resetTags: EventEmitter<any> = new EventEmitter<any>();
+
   childSelectedOption: IOption;
   filteredLegislationData: ILegislation[];
   paginatedLegislationData: ILegislation[];
@@ -31,6 +33,8 @@ export class LawsComponent implements OnInit, OnDestroy {
   childFilteredData: ILegislation[];
   selectedType = '';
   searchVal: string;
+  countryValue: string;
+  tagsValue: ITag[];
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private router: Router) {
@@ -52,16 +56,23 @@ export class LawsComponent implements OnInit, OnDestroy {
 
   subscribeToStateChanges() {
     this.appStateService.getSearchEnteredVal().pipe(takeUntil(this.destroyed$)).subscribe(searchVal => {
+      this.countryValue = searchVal;
       this.updateValues(searchVal);
     });
 
     this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$))
       .subscribe(({dropdownStr, countrySelected}) => {
+        this.countryValue = dropdownStr;
         this.updateValues(dropdownStr);
       });
 
     this.appStateService.getReset().pipe(takeUntil(this.destroyed$)).subscribe(isReset => {
       this.reset();
+    });
+
+    this.appStateService.getTopTags().pipe(takeUntil(this.destroyed$)).subscribe(tags => {
+      this.tagsValue = tags;
+      this.filterLegislation('', {name: 'Subject Area', code: 'Tags'}, this.childFilteredData);
     });
   }
 
@@ -88,9 +99,9 @@ export class LawsComponent implements OnInit, OnDestroy {
   filterLegislation(currentSearchByKeyVal: string, option?: IOption, filteredData?: ILegislation[]) {
     const dataToFilterFrom = filteredData ? [...filteredData] : this.legislationData;
     const key = option ? (option.code as keyof ILegislation) : this.selectedOption.code as keyof ILegislation;
-    const isGlobal = !option?.code;
+    const isGlobal = !option?.code || option.code === 'Tags';
     this.filteredLegislationData = dataToFilterFrom.filter(legislation => {
-      return isGlobal ? this.appStateService.globalSearchItem(legislation, currentSearchByKeyVal)
+      return isGlobal ? this.appStateService.globalSearchItem(legislation, currentSearchByKeyVal, this.countryValue, this.tagsValue)
         : this.filterCriteria(key, legislation, currentSearchByKeyVal, isGlobal)
     });
     this.childFilteredData = option ? this.childFilteredData : this.filteredLegislationData;
@@ -100,7 +111,6 @@ export class LawsComponent implements OnInit, OnDestroy {
   filterCriteria(key: string, lawItem: any, currentSearchByKeyVal: string, isGlobalSearch: boolean) {
     // BELOW IS TO FILTER OTHER ITEMS ALSO,
     // EXAMPLE If user selects Tags search, and if existing country is selected then that also has to be filtered.
-    console.log('1111 lawItem', key, this.childSelectedOption, lawItem, 'currentSearchByKeyVal', currentSearchByKeyVal, 'selectedType', this.selectedType, this.searchVal)
     const ifCountry = this.countrySearchVal && key !== 'Country' ? this.appStateService.globalSearchItem(lawItem, this.countrySearchVal) : true;
 
     const ifChildFilterSearch = this.childSelectedOption && key !== this.childSelectedOption.code && this.searchVal
@@ -109,7 +119,7 @@ export class LawsComponent implements OnInit, OnDestroy {
     const ifPending = this.selectedType && key !== 'Pending' ? this.selectedType === 'Pending' ? lawItem.Pending
         : this.selectedType === 'Active' ? !lawItem.Pending : true : true;
 
-    return (key === 'Country' ? this.appStateService.globalSearchItem(lawItem, currentSearchByKeyVal)
+    return (key === 'Country' || key === 'Tags' ? this.appStateService.globalSearchItem(lawItem, currentSearchByKeyVal, this.countryValue, this.tagsValue)
           : key === 'Pending' ?
             currentSearchByKeyVal === 'Pending' ? lawItem.Pending
               : currentSearchByKeyVal === 'Active' ? !lawItem.Pending
@@ -125,6 +135,8 @@ export class LawsComponent implements OnInit, OnDestroy {
   }
 
   reset() {
+    this.countryValue = '';
+    this.resetTags.emit()
     this.filteredLegislationData = [...this.legislationData];
     this.childFilteredData = [...this.legislationData];
     this.setPaginateData();
@@ -153,6 +165,10 @@ export class LawsComponent implements OnInit, OnDestroy {
     this.searchVal = searchVal;
     this.filterLegislation(searchVal, this.childSelectedOption, this.childFilteredData);
     this.setPaginateData();
+  }
+
+  isSelectedFilter(tag: string, labelKey?: string): boolean {
+    return !!this.tagsValue?.find(item => item.Tags?.toLowerCase().trim() === tag.toLowerCase().trim());
   }
 
   joinFree() {

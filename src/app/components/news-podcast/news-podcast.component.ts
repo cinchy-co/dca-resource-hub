@@ -31,6 +31,8 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   countrySelected: string | undefined;//
   countrySearchVal: string;
   tags: ITag[];
+  top20Tags: ITag[];
+  selectedTags: ITag[] = [];
   selectedOption: IOption = {code: 'Country', name: 'Country'};
   currentPage = 0;
   pageSize = SEPARATE_PAGE_SIZE;
@@ -117,6 +119,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   async getNewsAndPodcasts() {
     try {
       this.tags = await this.apiCallsService.getTags().toPromise();
+      this.top20Tags = this.tags.filter(tag => tag.TopTags === 'Yes')
       this.newsAndPodcastsData = await this.apiCallsService.getNewsFeedAndPodcasts().toPromise();
       this.newsFeed = this.newsAndPodcastsData.map((item: any) => ({...item, tags: item['Tags'] ? item['Tags'].split(',') : []}));
       this.filteredNewsData = [...this.newsFeed];
@@ -129,13 +132,14 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
     this.changeDetectorRef.detectChanges();
   }
 
-  filterNews(currentSearchByKeyVal: string, keyOverride?: string, childFilteredData?: any, option?: IOption) {
+  filterNews(currentSearchByKeyVal: string, keyOverride?: string, childFilteredData?: any, option?: IOption, tagsValue?:ITag[]) {
     const dataToFilterFrom = this.newsFeed;
     let key = keyOverride ? keyOverride : this.selectedOption.code;
     key = option ? option.code : key;
-    const isGlobalSearch = !keyOverride && !option?.code;
+    const isGlobal = (!keyOverride && !option?.code) || option?.code === 'Tags';
+    console.log('111 SLECTED TAGS', this.selectedTags);
     this.filteredNewsData = dataToFilterFrom.filter((newsItem: any) => {
-      return this.filterCriteria(key, newsItem, currentSearchByKeyVal, isGlobalSearch);
+      return this.filterCriteria(key, newsItem, currentSearchByKeyVal, isGlobal);
     });
     this.childFilteredData = keyOverride || option || (!this.filteredNewsData?.length && option) ? this.childFilteredData : this.filteredNewsData;
     this.setPaginateData();
@@ -145,13 +149,12 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   filterCriteria(key: string, newsItem: any, currentSearchByKeyVal: string, isGlobalSearch: boolean) {
     // BELOW IS TO FILTER OTHER ITEMS ALSO,
     // EXAMPLE If user selects Tags search, and if existing country is selected then that also has to be filtered.
-    const ifCountry = this.countrySearchVal && key !== 'Country' ? this.appStateService.globalSearchItem(newsItem, this.countrySearchVal) : true;
-    const ifTagStr = this.searchVal && key !== 'Tags' ? newsItem['Tags']?.toLowerCase()?.includes(this.searchVal.toLowerCase().trim()) : true;
+    const ifCountryOrTag = (this.countrySearchVal && key !== 'Country') ||  (this.selectedTags && key !== 'Tags')
+      ? this.appStateService.globalSearchItem(newsItem, this.countrySearchVal, this.countrySearchVal, this.selectedTags) : true;
     const ifType = this.selectedType && key !== 'Type' ? newsItem['Type']?.toLowerCase()?.includes(this.selectedType.toLowerCase().trim()) : true;
-    return (key === 'Country' ? this.appStateService.globalSearchItem(newsItem, currentSearchByKeyVal)
+    return (key === 'Country' || key === 'Tags' ? this.appStateService.globalSearchItem(newsItem, currentSearchByKeyVal, this.countrySearchVal, this.selectedTags)
         : newsItem[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim())
-      )
-      && ifTagStr && ifType && ifCountry;
+      ) && ifType && ifCountryOrTag;
   }
 
   radioOptionClicked() {
@@ -162,6 +165,20 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
     this.filterNews(this.selectedType, 'Type', this.childFilteredData);
   }
 
+  topTagSelected(tag: ITag) {
+    const isAlreadyPresent = this.selectedTags.find(stag => stag.Tags === tag.Tags);
+    if (isAlreadyPresent) {
+      this.selectedTags = this.selectedTags.filter(stag => stag.Tags !== tag.Tags);
+    } else {
+      this.selectedTags.push(tag);
+    }
+    this.tagSelectedInDropdown(this.selectedTags);
+  }
+
+  isSelectedFilter(tag: ITag, labelKey?: string): boolean {
+    return !!this.selectedTags.find(item => item.Tags?.toLowerCase().trim() === tag.Tags?.toLowerCase().trim() );
+  }
+
   setPaginateData() {
     const startPoint = this.currentPage * this.pageSize;
     const endPoint = startPoint + this.pageSize;
@@ -170,6 +187,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
 
   reset() {
     this.countrySearchVal = '';
+    this.selectedTags = [];
     this.filterNews('');
   }
 
@@ -186,9 +204,8 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
     this.setPaginateData();
   }
 
-  tagSelectedInDropdown(data: IDropdownClick) {
-    this.searchVal = data.dropdownStr;
-    this.filterNews(data.dropdownStr, '', this.childFilteredData, this.searchByForTag);
+  tagSelectedInDropdown(tags: ITag[]) {
+    this.filterNews('', '', this.childFilteredData, this.searchByForTag, tags);
   }
 
   resetChild() {
@@ -209,8 +226,8 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
     }
   }
 
-  tagClicked(tag: any) {
-    this.tagSelectedInDropdown({dropdownStr: tag});
+  tagClicked(tag: string) {
+    this.topTagSelected({Tags: tag.trim()});
     this.searchVal = tag;
   }
 

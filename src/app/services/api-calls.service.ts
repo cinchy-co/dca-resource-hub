@@ -18,6 +18,7 @@ export class ApiCallsService {
   cachedFooterDetails: any[];
   cachedRegulators: any;
   cachedLaws: any;
+  cachedTags: any;
   cachedFooterPagesDetails: any = {};
 
   constructor(private http: HttpClient, private cinchyService: CinchyService, @Inject(PLATFORM_ID) private platformId: any,
@@ -63,7 +64,13 @@ export class ApiCallsService {
 
   getTags(): Observable<any> {
     const url = '/API/Collaborative%20Privacy/Get%20Tags';
-    return this.getResponse(url);
+    if (this.cachedTags) {
+      return of(this.cachedTags);
+    } else {
+      return this.getResponse(url).pipe(
+        tap(resp => this.cachedTags = resp)
+      );
+    }
   }
 
   getAllLegislationLaws(): Observable<any> {

@@ -11,13 +11,14 @@
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'tool'">
-    <div class="pt-10 p-4" *ngIf="tags && paginatedNewsData">
-      <div class="flex flex-wrap justify-start pb-5 gap-5">
-        <div class="relative flex flex-row justify-center">
+    <div class="pt-8 p-4" *ngIf="tags && paginatedNewsData">
+      <div class="flex flex-wrap justify-start pb-3 gap-5">
+        <div class="p-4 relative flex flex-col justify-center">
           <app-search-by-autocomplete *ngIf="legislationData?.length" [searchByOptions]="searchByCountry"
                                       class="inherit-width"
                                       [allDataForOptions]="legislationData"
                                       [global]="true"
+                                      [showSearchButton]="true"
                                       [preSelectedSearchBy]="searchByCountry[0]"
                                       [placeholderOverride]="'Search by Country or Region'"
                                       [hideSearchByOptions]="true"
@@ -26,12 +27,19 @@
                                       (resetAll)="reset()">
           </app-search-by-autocomplete>
 
+          <div class="flex flex-wrap gap-2.5 mt-3">
+            <div *ngFor="let tag of top20Tags" (click)="topTagSelected(tag)">
+              <p-chip class="cursor-pointer" [ngClass]="{'selected-chip': isSelectedFilter(tag)}"
+                      [label]="tag.Tags"></p-chip>
+            </div>
+          </div>
+
           <p-progressSpinner class="item-center-n-relative"
                              *ngIf="!(legislationData?.length && (newsAndPodcastsData?.length || showError))">
           </p-progressSpinner>
         </div>
 
-        <div class="relative flex flex-row justify-center">
+       <!-- <div class="relative flex flex-row justify-center">
           <app-search-by-autocomplete class="inherit-width"
                                       [searchByOptions]="[searchByForTag]"
                                       [allDataForOptions]="tags"
@@ -42,7 +50,7 @@
                                       [preSelectedDropdown]="searchVal"
                                       (itemSearched)="itemSearched($event)">
           </app-search-by-autocomplete>
-        </div>
+        </div>-->
       </div>
 
 
@@ -111,7 +119,7 @@
 
               <div class="flex flex-row flex-wrap gap-1 pt-1 pl-4 text-sm-12 text-gray-700">
                 <ng-container *ngFor="let tag of item['tags']">
-                  <p-chip [ngClass]="{'tag-selected': searchVal.trim() == tag.trim()}" class="mr-2 cursor-pointer"
+                  <p-chip [ngClass]="{'selected-chip': isSelectedFilter({Tags: tag})}" class="mr-2 cursor-pointer"
                           [label]="tag" (click)="tagClicked(tag)"></p-chip>
                 </ng-container>
               </div>

@@ -33,6 +33,9 @@ export class RegHomeComponent implements OnInit {
   currentTab: string = 'tool';
   currentRegulator: string;
   toolId = 'tool-privacy-regulator-navigator';
+  top20Tags: ITag[];
+  selectedTags: ITag[] = [];
+
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
               private activatedRoute: ActivatedRoute, private router: Router) {
@@ -86,6 +89,7 @@ export class RegHomeComponent implements OnInit {
 
   async getTags() {
     this.tags = await this.apiCallsService.getTags().toPromise();
+    this.top20Tags = this.tags.filter(tag => tag.TopTags === 'Yes')
   }
 
   async getWebsiteDetails() {
@@ -112,12 +116,31 @@ export class RegHomeComponent implements OnInit {
     this.appStateService.setSearch(val);
   }
 
+  topTagSelected(tag: ITag) {
+    const isAlreadyPresent = this.selectedTags.find(stag => stag.Tags === tag.Tags);
+    if (isAlreadyPresent) {
+      this.selectedTags = this.selectedTags.filter(stag => stag.Tags !== tag.Tags);
+    } else {
+      this.selectedTags.push(tag);
+    }
+    this.appStateService.setTopTags(this.selectedTags);
+  }
+
+  isSelectedFilter(tag: ITag, labelKey?: string): boolean {
+    return !!this.selectedTags.find(item => item.Tags === tag.Tags);
+  }
+
+
   showAllRegulators() {
     this.router.navigate([`tools/privacy-regulators`]);
   }
 
   goToLaws() {
     this.router.navigate([`tools/privacy-law-navigator`]);
+  }
+
+  resetTags() {
+    this.selectedTags = [];
   }
 
   reset() {

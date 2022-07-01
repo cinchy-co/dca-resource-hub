@@ -1,5 +1,5 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {IDropdownClick, ILegislation, IOption} from "../../../models/common.model";
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {IDropdownClick, ILegislation, IOption, ITag} from "../../../models/common.model";
 import {AppStateService} from "../../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {PAGE_SIZE, SearchByLaw, SearchByRegulator} from "../../../models/general-values.model";
@@ -13,6 +13,9 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   @Input() regulatorData: any[];
   @Input() currentRegulator: string;
   @Input() selectedOption: IOption;
+  @Input() tags: ITag[];
+  @Output() resetTags: EventEmitter<any> = new EventEmitter<any>();
+
   filteredRegulatorData: any[];
   childFilteredData: any[];
   paginatedRegulatorData: any;
@@ -21,6 +24,8 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   allKeys: any;
   childSelectedOption: IOption;
   searchByOptions: IOption[] = SearchByRegulator;
+  countryValue: string;
+  tagsValue: ITag[];
 
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -29,7 +34,8 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.regulatorData = this.regulatorData.map((item: any) => ({...item,
+    this.regulatorData = this.regulatorData.map((item: any) => ({
+      ...item,
       tags: item['Tags'] ? item['Tags'].split(',') : []
     }));
     this.filteredRegulatorData = this.currentRegulator ? [this.regulatorData.find(item => item['Short Name'] === this.currentRegulator)]
@@ -42,14 +48,19 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
 
   subscribeToStateChanges() {
     this.appStateService.getSearchEnteredVal().pipe(takeUntil(this.destroyed$)).subscribe(searchVal => {
+      this.countryValue = searchVal;
       this.filterRegulator(searchVal);
     });
 
-    this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$)).subscribe(({
-                                                                                           dropdownStr,
-                                                                                           countrySelected
-                                                                                         }) => {
-      this.filterRegulator(dropdownStr); // Only ONE OPTIONS IS PRESENT AT GLOBAL Search (COuntry and combine country and region)
+    this.appStateService.getDropdownOption().pipe(takeUntil(this.destroyed$))
+      .subscribe(({dropdownStr, countrySelected}) => {
+        this.countryValue = dropdownStr;
+        this.filterRegulator(dropdownStr); // Only ONE OPTIONS IS PRESENT AT GLOBAL Search (COuntry and combine country and region)
+      });
+
+    this.appStateService.getTopTags().pipe(takeUntil(this.destroyed$)).subscribe(tags => {
+      this.tagsValue = tags;
+      this.filterRegulator('', {name: 'Subject Area', code: 'Tags'}, this.childFilteredData);
     });
 
     this.appStateService.getReset().pipe(takeUntil(this.destroyed$)).subscribe(isReset => {
@@ -62,16 +73,17 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
       keyItem => keyItem !== 'Entity' && keyItem !== 'Short Name' && keyItem !== 'Entity Url'
         && keyItem !== 'Foreign Name' && keyItem !== 'Twitter' && keyItem !== 'Combine Country' && keyItem !== 'Edit'
         && keyItem !== 'Tags' && keyItem !== 'tags' && keyItem !== 'RegulatorInfo' && keyItem !== 'Bookmark'
-      && keyItem !== 'Share'
+        && keyItem !== 'Share'
     );
   }
 
   filterRegulator(currentSearchByKeyVal: string, option?: IOption, filteredData?: ILegislation[]) {
     const dataToFilterFrom = filteredData ? [...filteredData] : this.regulatorData;
     const key = option ? option.code : this.selectedOption.code;
-    const isGlobal = !option?.code;
+    const isGlobal = !option?.code || option.code === 'Tags';
+    console.log('1111 REG', this.tagsValue, this.countryValue);
     this.filteredRegulatorData = dataToFilterFrom.filter(regulator => {
-      return isGlobal ? this.appStateService.globalSearchItem(regulator, currentSearchByKeyVal)
+      return isGlobal ? this.appStateService.globalSearchItem(regulator, currentSearchByKeyVal, this.countryValue, this.tagsValue)
         : regulator[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim());
     });
     this.childFilteredData = option ? this.childFilteredData : this.filteredRegulatorData;
@@ -90,6 +102,8 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   }
 
   reset() {
+    this.countryValue = '';
+    this.resetTags.emit()
     this.filteredRegulatorData = [...this.regulatorData];
     this.childFilteredData = [...this.regulatorData];
     this.setRegulatorPaginateData();
@@ -111,6 +125,10 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   itemSearched(searchVal: string) {
     this.filterRegulator(searchVal, this.childSelectedOption, this.childFilteredData);
     this.setRegulatorPaginateData();
+  }
+
+  isSelectedFilter(tag: string, labelKey?: string): boolean {
+    return !!this.tagsValue?.find(item => item.Tags?.toLowerCase().trim() === tag.toLowerCase().trim());
   }
 
   ngOnDestroy() {

@@ -3,7 +3,7 @@ import {IAvatar, IDropdownClick, ILegislation, IOption, ITag, IWebsiteDetails} f
 import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
 import {SearchBy} from "../../models/general-values.model";
-import {ITools, IToolSection} from "../hub/model/hub.model";
+import {ISelectedFilter, ITools, IToolSection} from "../hub/model/hub.model";
 import {MenuItem} from "primeng/api";
 import {combineLatest, Observable, of, take} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -34,6 +34,8 @@ export class HomeComponent implements OnInit {
   currentTab: string = 'tool';
   toolId = 'tool-privacy-law-navigator';
   currentLaw: any;
+  top20Tags: ITag[];
+  selectedTags: ITag[] = [];
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
               private activatedRoute: ActivatedRoute, private router: Router) {
@@ -88,6 +90,7 @@ export class HomeComponent implements OnInit {
 
   async getTags() {
     this.tags = await this.apiCallsService.getTags().toPromise();
+    this.top20Tags = this.tags.filter(tag => tag.TopTags === 'Yes')
   }
 
   async getWebsiteDetails() {
@@ -100,6 +103,20 @@ export class HomeComponent implements OnInit {
 
   searchBySelected(option: IOption) {
     this.selectedOption = option;
+  }
+
+  topTagSelected(tag: ITag) {
+    const isAlreadyPresent = this.selectedTags.find(stag => stag.Tags === tag.Tags);
+    if (isAlreadyPresent) {
+      this.selectedTags = this.selectedTags.filter(stag => stag.Tags !== tag.Tags);
+    } else {
+      this.selectedTags.push(tag);
+    }
+    this.appStateService.setTopTags(this.selectedTags);
+  }
+
+  isSelectedFilter(tag: ITag, labelKey?: string): boolean {
+    return !!this.selectedTags.find(item => item.Tags === tag.Tags);
   }
 
   itemSelectedInDropdown(data: IDropdownClick) {
@@ -118,6 +135,10 @@ export class HomeComponent implements OnInit {
     this.searchVal = '';
     this.countrySelected = '';
     this.appStateService.setReset(true);
+  }
+
+  resetTags() {
+    this.selectedTags = [];
   }
 
   showAllLaws() {

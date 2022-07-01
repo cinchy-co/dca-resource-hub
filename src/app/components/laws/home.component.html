@@ -22,7 +22,7 @@
      </span>
     </div>
 
-    <div class="p-4 relative flex flex-row justify-center" *ngIf="legislationData?.length && !currentLaw">
+    <div class="p-4 relative flex flex-col justify-center" *ngIf="legislationData?.length && !currentLaw">
       <app-search-by-autocomplete *ngIf="legislationData?.length" [searchByOptions]="searchByOptions"
                                   class="inherit-width"
                                   [allDataForOptions]="legislationData"
@@ -37,6 +37,14 @@
                                   (resetAll)="reset()">
       </app-search-by-autocomplete>
 
+
+      <div class="flex flex-wrap gap-2.5 mt-3">
+        <div *ngFor="let tag of top20Tags" (click)="topTagSelected(tag)">
+          <p-chip class="cursor-pointer" [ngClass]="{'selected-chip': isSelectedFilter(tag)}"
+                  [label]="tag.Tags"></p-chip>
+        </div>
+      </div>
+
       <p-progressSpinner class="item-center-n-relative"
                          *ngIf="!(legislationData?.length || showError)">
       </p-progressSpinner>
@@ -50,7 +58,8 @@
                   [countrySearchVal]="countrySelected"
                   [bannerDetails]="bannerDetails"
                   [currentLaw]="currentLaw"
-                  [tags]="tags">
+                  [tags]="tags"
+                  (resetTags)="resetTags()">
         </app-laws>
       </p-panel>
     </div>

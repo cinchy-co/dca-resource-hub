@@ -15,8 +15,7 @@ export const SearchByLaw = [
   {name: 'Law', code: 'Law'},
   {name: 'Full Citation', code: 'Full Citation'},
   {name: 'Sector', code: 'Sector'},
-  {name: 'Class', code: 'Class'},
-  {name: 'Subject Area', code: 'Tags'}
+  {name: 'Class', code: 'Class'}
 ]
 
 export const SearchByRegulator = [
