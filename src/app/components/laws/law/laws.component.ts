@@ -35,6 +35,9 @@ export class LawsComponent implements OnInit, OnDestroy {
   searchVal: string;
   countryValue: string;
   tagsValue: ITag[];
+  displayShare: boolean;
+  currentLawUrl: string;
+  shareItem: ILegislation;
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private router: Router) {
@@ -129,7 +132,6 @@ export class LawsComponent implements OnInit, OnDestroy {
   }
 
   radioOptionClicked() {
-    console.log('1111 this.selectedType', this.selectedType);
     this.currentPage = 0;
     this.filterLegislation(this.selectedType, {code: 'Pending', name: 'Pending'}, this.childFilteredData);
   }
@@ -169,6 +171,14 @@ export class LawsComponent implements OnInit, OnDestroy {
 
   isSelectedFilter(tag: string, labelKey?: string): boolean {
     return !!this.tagsValue?.find(item => item.Tags?.toLowerCase().trim() === tag.toLowerCase().trim());
+  }
+
+  share(item: ILegislation) {
+    this.shareItem = item;
+    if (isPlatformBrowser(this.platformId)) {
+      this.currentLawUrl = `${this.windowRef.nativeWindow.location.href}/${item.Id}`;
+    }
+    this.displayShare = true;
   }
 
   joinFree() {

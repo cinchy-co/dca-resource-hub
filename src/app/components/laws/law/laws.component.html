@@ -87,13 +87,12 @@
               Bookmark
             </a>
 
-            <a *ngIf="item['Share']" [href]="item['Share'] + ' ' + item['Edit']" target="_blank"
-               class="pt-0 text-sm-12 text-sky-500">
-              Share
-            </a>
-
             <a role="link" [href]="item['Edit']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
               Edit
+            </a>
+
+            <a (click)="share(item)"  target="_blank" class="cursor-pointer pt-0 text-sm-12 text-sky-500">
+              Share
             </a>
           </div>
         </div>
@@ -116,3 +115,14 @@
   </p-paginator>
 
 </section>
+
+<p-dialog *ngIf="shareItem" [header]="'Share ' + shareItem.Law" appendTo="body" [(visible)]="displayShare">
+  <div class="bg-black">
+    <share-buttons [theme]="'modern-light'"
+                   [include]="['facebook','twitter','linkedin','email']"
+                   [show]="5"
+                   [showText]="false"
+                   [url]="currentLawUrl"
+    ></share-buttons>
+  </div>
+</p-dialog>

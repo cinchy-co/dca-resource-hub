@@ -106,6 +106,10 @@ const routes = [
         loadChildren: () => import('../news-podcast/news-podcast.module').then(m => m.NewsPodcastModule),
       },
       {
+        path: 'tools/privacy-newsfeed/:id',
+        loadChildren: () => import('../news-podcast/news-podcast.module').then(m => m.NewsPodcastModule),
+      },
+      {
         path: 'tools/privacy-law-navigator',
         loadChildren: () => import('../laws/laws.module').then(m => m.LawsModule)
       },

@@ -16,6 +16,7 @@ import {SearchBy, SEPARATE_PAGE_SIZE} from "../../models/general-values.model";
 import {WindowRefService} from "../../services/window-ref.service";
 import {ITools} from "../hub/model/hub.model";
 import {MenuItem} from "primeng/api";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-news-podcast',
@@ -51,13 +52,19 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   items: MenuItem[];
   currentTab: string = 'tool';
   toolId = 'tool-privacy-newsfeed';
+  displayShare: boolean;
+  currentNewsUrl: string;
+  shareItem: any;
+  currentItem: any;
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private apiCallsService: ApiCallsService,
-              private changeDetectorRef: ChangeDetectorRef) {
+              private changeDetectorRef: ChangeDetectorRef, private activatedRoute: ActivatedRoute,
+              private router: Router) {
   }
 
   async ngOnInit() {
+    this.currentItem = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.apiCallsService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
     });
@@ -123,6 +130,8 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
       this.newsAndPodcastsData = await this.apiCallsService.getNewsFeedAndPodcasts().toPromise();
       this.newsFeed = this.newsAndPodcastsData.map((item: any) => ({...item, tags: item['Tags'] ? item['Tags'].split(',') : []}));
       this.filteredNewsData = [...this.newsFeed];
+      this.filteredNewsData = this.currentItem ?
+        [this.newsFeed.find((item: any) => item['Id'] === this.currentItem)] : [...this.newsFeed];
       this.childFilteredData = [...this.newsFeed];
       this.setPaginateData();
       this.showError = false;
@@ -217,6 +226,19 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
     this.searchVal = searchVal;
     this.filterNews(searchVal, '', this.childFilteredData, this.searchByForTag);
     this.setPaginateData();
+  }
+
+  share(item: ILegislation) {
+    this.shareItem = item;
+    console.log('1111 share', item);
+    if (isPlatformBrowser(this.platformId)) {
+      this.currentNewsUrl = `${this.windowRef.nativeWindow.location.href}/${item.Id}`;
+    }
+    this.displayShare = true;
+  }
+
+  showAll() {
+    this.router.navigate([`tools/privacy-newsfeed`]);
   }
 
   joinFree() {

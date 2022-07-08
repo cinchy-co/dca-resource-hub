@@ -11,8 +11,14 @@
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'tool'">
+    <div class="flex justify-end">
+      <span class="pl-4 pr-4 pt-2 font-sans text-sky-500 cursor-pointer text-sm-12 mb-2" *ngIf="currentItem"
+            (click)="showAll()">See all News and Podcast
+     </span>
+    </div>
+
     <div class="pt-8 p-4" *ngIf="tags && paginatedNewsData">
-      <div class="flex flex-wrap justify-start pb-3 gap-5">
+      <div *ngIf="!currentItem" class="flex flex-wrap justify-start pb-3 gap-5">
         <div class="p-4 relative flex flex-col justify-center">
           <app-search-by-autocomplete *ngIf="legislationData?.length" [searchByOptions]="searchByCountry"
                                       class="inherit-width"
@@ -39,24 +45,24 @@
           </p-progressSpinner>
         </div>
 
-       <!-- <div class="relative flex flex-row justify-center">
-          <app-search-by-autocomplete class="inherit-width"
-                                      [searchByOptions]="[searchByForTag]"
-                                      [allDataForOptions]="tags"
-                                      [hideSearchByOptions]="true" [preSelectedSearchBy]="searchByForTag"
-                                      [placeholderOverride]="'Search by Subject Area'"
-                                      (optionClicked)="tagSelectedInDropdown($event)"
-                                      (resetAll)="resetChild()"
-                                      [preSelectedDropdown]="searchVal"
-                                      (itemSearched)="itemSearched($event)">
-          </app-search-by-autocomplete>
-        </div>-->
+        <!-- <div class="relative flex flex-row justify-center">
+           <app-search-by-autocomplete class="inherit-width"
+                                       [searchByOptions]="[searchByForTag]"
+                                       [allDataForOptions]="tags"
+                                       [hideSearchByOptions]="true" [preSelectedSearchBy]="searchByForTag"
+                                       [placeholderOverride]="'Search by Subject Area'"
+                                       (optionClicked)="tagSelectedInDropdown($event)"
+                                       (resetAll)="resetChild()"
+                                       [preSelectedDropdown]="searchVal"
+                                       (itemSearched)="itemSearched($event)">
+           </app-search-by-autocomplete>
+         </div>-->
       </div>
 
 
       <p-panel header="News and Podcasts">
         <div class="pb-5">
-          <div class="flex flex-row flex-wrap gap-3 items-center">
+          <div *ngIf="!currentItem" class="flex flex-row flex-wrap gap-3 items-center">
             <div class="flex flex-row flex-wrap gap-2 items-center">
               <p-radioButton inputId="all" name="groupname" value="" [(ngModel)]="selectedType"
                              (onClick)="radioOptionClicked()"></p-radioButton>
@@ -94,12 +100,14 @@
 
         <div class="mt-2 md:grid-cols-2 lg:grid-cols-3 grid-cols-1 auto-rows-fr grid gap-2"
              *ngIf="paginatedNewsData?.length; else noMessage">
-          <div class="mb-3 md:basis-[49%] lg:basis-[49%] basis-full mr-2 font-light" *ngFor="let item of paginatedNewsData">
+          <div class="mb-3 md:basis-[49%] lg:basis-[49%] basis-full mr-2 font-light"
+               *ngFor="let item of paginatedNewsData">
             <p-card>
               <ng-template pTemplate="header">
                 <div class="pl-4 pr-1">
                   <div class="flex flex-row justify-between items-center">
-                    <a rel="noopener" role="link" [href]="item['URL'] ? item['URL'] : 'javascript:void(0);'" target="_blank"
+                    <a rel="noopener" role="link" [href]="item['URL'] ? item['URL'] : 'javascript:void(0);'"
+                       target="_blank"
                        class="pt-2 text-lg font-bold text-cyan-700" style="height: 70px;" ellipsis
                        [title]="item.Headline">{{item.Headline}}
                     </a>
@@ -134,10 +142,15 @@
               </div>
 
               <div class="pl-4 pb-2">
-                <p class="text-sm font-semibold">Quick links</p>
+                <p class="text-sm font-semibold">Actions</p>
                 <div class="flex flex-row flex-wrap gap-3">
                   <a role="link" [href]="item['URL']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
-                    {{item['Type'] === 'News Story' ? 'Full story' : 'Podcast'}}
+                    {{item['Type'] === 'News Story' ? 'Website' : 'Website'}}
+                  </a>
+
+                  <a *ngIf="item['Bookmark']" role="link" [href]="item['Bookmark']" target="_blank"
+                     class="pt-0 text-sm-12 text-sky-500">
+                    Bookmark
                   </a>
 
                   <a role="link" *ngIf="item['Type'] === 'Podcast'" [href]="item['Episode']" target="_blank"
@@ -148,6 +161,10 @@
                   <a role="link" *ngIf="item['Edit']" [href]="item['Edit']" target="_blank"
                      class="pt-0 text-sm-12 text-sky-500">
                     Edit
+                  </a>
+
+                  <a (click)="share(item)" target="_blank" class="cursor-pointer pt-0 text-sm-12 text-sky-500">
+                    Share
                   </a>
                 </div>
               </div>
@@ -181,5 +198,17 @@
   <h1 class="mt-3 pl-4 text-red-700">No latest {{selectedType ? selectedType : 'News story/Podcast'}} found for this
     search criteria</h1>
 </ng-template>
+
+<p-dialog *ngIf="shareItem" [header]="'Share ' + shareItem.Type" appendTo="body" [(visible)]="displayShare">
+  <p class="pb-2 w-[250px]">{{shareItem.Headline}}</p>
+  <div class="bg-black">
+    <share-buttons [theme]="'modern-light'"
+                   [include]="['facebook','twitter','linkedin','email']"
+                   [show]="5"
+                   [showText]="false"
+                   [url]="currentNewsUrl"
+    ></share-buttons>
+  </div>
+</p-dialog>
 
 <!--<app-footer></app-footer>-->

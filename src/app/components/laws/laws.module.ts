@@ -15,6 +15,8 @@ import {HomeComponent} from "./home.component";
 import {AccordionModule} from "primeng/accordion";
 import {PanelModule} from "primeng/panel";
 import {TabMenuModule} from "primeng/tabmenu";
+import {DialogModule} from "primeng/dialog";
+import {ShareButtonsModule} from "ngx-sharebuttons/buttons";
 
 const routes = [
   {
@@ -32,22 +34,24 @@ const routes = [
     LawsComponent,
     HomeComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        PaginatorModule,
-        CardModule,
-        ButtonModule,
-        DcaCommonModule,
-        RadioButtonModule,
-        ChipModule,
-        EllipsisModule,
-        ProgressSpinnerModule,
-        DcaCommonModule,
-        ComponentsModule,
-        AccordionModule,
-        PanelModule,
-        TabMenuModule
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    PaginatorModule,
+    CardModule,
+    ButtonModule,
+    DcaCommonModule,
+    RadioButtonModule,
+    ChipModule,
+    EllipsisModule,
+    ProgressSpinnerModule,
+    DcaCommonModule,
+    ComponentsModule,
+    AccordionModule,
+    PanelModule,
+    TabMenuModule,
+    DialogModule,
+    ShareButtonsModule
+  ]
 })
 export class LawsModule { }

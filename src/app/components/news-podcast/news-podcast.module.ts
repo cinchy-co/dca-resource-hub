@@ -13,6 +13,8 @@ import {ProgressSpinnerModule} from "primeng/progressspinner";
 import {ComponentsModule} from "../components.module";
 import {PanelModule} from "primeng/panel";
 import {TabMenuModule} from "primeng/tabmenu";
+import {DialogModule} from "primeng/dialog";
+import {ShareButtonsModule} from "ngx-sharebuttons/buttons";
 
 
 const routes = [
@@ -26,21 +28,23 @@ const routes = [
   declarations: [
     NewsPodcastComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        PaginatorModule,
-        CardModule,
-        ButtonModule,
-        DcaCommonModule,
-        RadioButtonModule,
-        ChipModule,
-        EllipsisModule,
-        ProgressSpinnerModule,
-        DcaCommonModule,
-        ComponentsModule,
-        PanelModule,
-        TabMenuModule
-    ]
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    PaginatorModule,
+    CardModule,
+    ButtonModule,
+    DcaCommonModule,
+    RadioButtonModule,
+    ChipModule,
+    EllipsisModule,
+    ProgressSpinnerModule,
+    DcaCommonModule,
+    ComponentsModule,
+    PanelModule,
+    TabMenuModule,
+    DialogModule,
+    ShareButtonsModule
+  ]
 })
 export class NewsPodcastModule { }
