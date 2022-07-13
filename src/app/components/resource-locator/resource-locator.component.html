@@ -1,0 +1,42 @@
+<section class="default-border flex w-full justify-center flex-col home-container">
+
+  <div class="video">
+    <app-hero-banner *ngIf="toolDetails" [toolDetails]="toolDetails"></app-hero-banner>
+  </div>
+
+  <p-tabMenu [model]="items" [activeItem]="items[1]"></p-tabMenu>
+
+  <ng-container *ngIf="currentTab === 'overview'">
+    <app-video-overview class="mt-5" [toolId]="toolId"></app-video-overview>
+  </ng-container>
+
+  <ng-container *ngIf="currentTab === 'tool'">
+    <div class="p-4 relative flex flex-col justify-center" *ngIf="tags?.length">
+      <app-search-by-autocomplete class="inherit-width"
+                                  [searchByOptions]="searchByOptions"
+                                  [allDataForOptions]="tags"
+                                  [global]="true"
+                                  [showSearchButton]="true"
+                                  [preSelectedSearchBy]="searchByOptions[0]"
+                                  [placeholderOverride]="'Search by Subject Area'"
+                                  [hideSearchByOptions]="true"
+                                  (optionClicked)="itemSelectedInDropdown($event)"
+                                  (searchBySelected)="searchBySelected($event)"
+                                  (itemSearched)="itemSearched($event)"
+                                  (resetAll)="reset()">
+      </app-search-by-autocomplete>
+
+      <div *ngIf="tags?.length" class="flex flex-wrap gap-2.5 mt-3">
+        <div *ngFor="let tag of top20Tags" (click)="topTagSelected(tag)">
+          <p-chip class="cursor-pointer" [ngClass]="{'selected-chip': isSelectedFilter(tag)}"
+                  [label]="tag.Tags"></p-chip>
+        </div>
+      </div>
+
+      <p-progressSpinner class="item-center-n-relative"
+                         *ngIf="!(tags?.length)">
+      </p-progressSpinner>
+    </div>
+
+  </ng-container>
+</section>

@@ -5,6 +5,8 @@ import {ApiCallsService} from "./services/api-calls.service";
 import {IUser} from "./models/common.model";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "./services/window-ref.service";
+import {environment} from 'src/environments/environment';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -20,17 +22,22 @@ export class AppComponent implements OnInit {
 
   constructor(private appStateService: AppStateService, private cinchyService: CinchyService,
               private apiCallsService: ApiCallsService, @Inject(PLATFORM_ID) private platformId: any,
-              private windowRefService: WindowRefService) {
+              private windowRefService: WindowRefService, private router: Router) {
   }
 
   async ngOnInit() {
+    const url = this.windowRefService.nativeWindow.location.href;
+    if (isPlatformBrowser(this.platformId)) {
+      if (!sessionStorage.getItem('current-url-hub')) {
+        sessionStorage.setItem('current-url-hub', url);
+      }
+    }
     this.cinchyService.checkIfSessionValid().toPromise().then((response: any) => {
       if (response.accessTokenIsValid) {
         this.setDetails();
       } else {
         if (isPlatformBrowser(this.platformId)) {
-          const url = this.windowRefService.nativeWindow.location.href;
-          this.cinchyService.login(url).then(success => {
+          this.cinchyService.login().then(success => {
             if (success) {
               this.setDetails();
             }
@@ -48,9 +55,9 @@ export class AppComponent implements OnInit {
       this.appStateService.userDetails = this.userDetails;
       this.appStateService.setUserDetailsSub(this.userDetails);
       const userDetail = localStorage.getItem('hub-user-details') || '';
-    //  console.log('In user details', val);
-      if(!val && userDetail) {
-      //  console.log('In no user details if', userDetail);
+      //  console.log('In user details', val);
+      if (!val && userDetail) {
+        //  console.log('In no user details if', userDetail);
         this.userDetails = userDetail ? JSON.parse(userDetail) : null;
         this.appStateService.userDetails = this.userDetails;
         this.appStateService.setUserDetailsSub(this.userDetails);
@@ -78,6 +85,17 @@ export class AppComponent implements OnInit {
       this.isMobileOrTab = this.windowRefService.nativeWindow.innerWidth < 1040;
       this.isSidebarExpanded = !this.isMobileOrTab;
       this.sidebarStateChange(this.isSidebarExpanded);
+      const currentUrl = sessionStorage.getItem('current-url-hub');
+      let route: any = '/';
+      if (environment.production) {
+        route = currentUrl?.split('/hub')[1] || route;
+      } else {
+        route = currentUrl?.split(':3000')[1] || currentUrl?.split('/hub')[1] || route;
+      }
+      console.log('1111 ROUTE', route, environment.production, currentUrl);
+      this.router.navigate([`${route}`]);
+      sessionStorage.removeItem('current-url-hub')
+
     }
   }
 

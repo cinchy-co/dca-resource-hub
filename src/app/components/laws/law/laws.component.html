@@ -79,7 +79,7 @@
           <p class="text-sm font-semibold">Actions</p>
           <div class="flex flex-row flex-wrap gap-3">
             <a role="link" [href]="item['Law Url']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
-              Website
+              View
             </a>
 
             <a *ngIf="item['Bookmark']" role="link" [href]="item['Bookmark']" target="_blank"
@@ -123,6 +123,10 @@
                    [show]="5"
                    [showText]="false"
                    [url]="currentLawUrl"
+                   [title]="'Sharing this privacy-related information'"
+                   [description]="shareDesc"
+                   [autoSetMeta]="false"
+                   [image]="'https://static.wixstatic.com/media/9eeb4e_f333bd7780744b168d859e770815b561~mv2.png'"
     ></share-buttons>
   </div>
 </p-dialog>

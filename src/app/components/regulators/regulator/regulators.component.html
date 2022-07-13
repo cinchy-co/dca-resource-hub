@@ -51,7 +51,7 @@
           <p class="text-sm font-semibold">Actions</p>
           <div class="flex flex-row flex-wrap gap-3">
             <a role="link" [href]="item['Entity Url']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
-              Website
+              View
             </a>
 
             <a role="link" [href]="item['Twitter']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
@@ -64,13 +64,12 @@
               Bookmark
             </a>
 
-            <a *ngIf="item['Share']" [href]="item['Share'] + ' ' + item['Edit']" target="_blank"
-               class="pt-0 text-sm-12 text-sky-500">
-              Share
-            </a>
-
             <a role="link" [href]="item['Edit']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
               Edit
+            </a>
+
+            <a (click)="share(item)" target="_blank" class="cursor-pointer pt-0 text-sm-12 text-sky-500">
+              Share
             </a>
           </div>
         </div>
@@ -89,3 +88,18 @@
              [totalRecords]="filteredRegulatorData.length"
              (onPageChange)="regulatorPaginate($event)">
 </p-paginator>
+
+<p-dialog *ngIf="shareItem" [header]="'Share ' + shareItem['Short Name']" appendTo="body" [(visible)]="displayShare">
+  <div class="bg-black">
+    <share-buttons [theme]="'modern-light'"
+                   [include]="['facebook','twitter','linkedin','email']"
+                   [show]="5"
+                   [showText]="false"
+                   [url]="currentNewsUrl"
+                   [title]="'Sharing this privacy-related information'"
+                   [description]="shareDesc"
+                   [autoSetMeta]="false"
+                   [image]="'https://static.wixstatic.com/media/9eeb4e_f333bd7780744b168d859e770815b561~mv2.png'"
+    ></share-buttons>
+  </div>
+</p-dialog>

@@ -126,6 +126,10 @@ const routes = [
         loadChildren: () => import('../regulators/regulators.module').then(m => m.RegulatorsModule)
       },
       {
+        path: 'tools/privacy-resource-locator',
+        loadChildren: () => import('../resource-locator/resource-locator.module').then(m => m.ResourceLocatorModule)
+      },
+      {
         path: ':route',
         component: GettingStartedComponent
       },

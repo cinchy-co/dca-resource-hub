@@ -1,8 +1,10 @@
-import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output, PLATFORM_ID} from '@angular/core';
 import {IDropdownClick, ILegislation, IOption, ITag} from "../../../models/common.model";
 import {AppStateService} from "../../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {PAGE_SIZE, SearchByLaw, SearchByRegulator} from "../../../models/general-values.model";
+import {isPlatformBrowser} from "@angular/common";
+import {WindowRefService} from "../../../services/window-ref.service";
 
 @Component({
   selector: 'app-regulators',
@@ -26,11 +28,16 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   searchByOptions: IOption[] = SearchByRegulator;
   countryValue: string;
   tagsValue: ITag[];
-
+  displayShare: boolean;
+  currentNewsUrl: string;
+  shareItem: any;
+  currentItem: any;
+  shareDesc: string;
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
-  constructor(private appStateService: AppStateService) {
+  constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
+              private windowRef: WindowRefService) {
   }
 
   ngOnInit(): void {
@@ -73,7 +80,7 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
       keyItem => keyItem !== 'Entity' && keyItem !== 'Short Name' && keyItem !== 'Entity Url'
         && keyItem !== 'Foreign Name' && keyItem !== 'Twitter' && keyItem !== 'Combine Country' && keyItem !== 'Edit'
         && keyItem !== 'Tags' && keyItem !== 'tags' && keyItem !== 'RegulatorInfo' && keyItem !== 'Bookmark'
-        && keyItem !== 'Share'
+        && keyItem !== 'Share' && keyItem !== 'Id'
     );
   }
 
@@ -81,7 +88,6 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
     const dataToFilterFrom = filteredData ? [...filteredData] : this.regulatorData;
     const key = option ? option.code : this.selectedOption.code;
     const isGlobal = !option?.code || option.code === 'Tags';
-    console.log('1111 REG', this.tagsValue, this.countryValue);
     this.filteredRegulatorData = dataToFilterFrom.filter(regulator => {
       return isGlobal ? this.appStateService.globalSearchItem(regulator, currentSearchByKeyVal, this.countryValue, this.tagsValue)
         : regulator[key]?.toLowerCase()?.includes(currentSearchByKeyVal.toLowerCase().trim());
@@ -129,6 +135,16 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
 
   isSelectedFilter(tag: string, labelKey?: string): boolean {
     return !!this.tagsValue?.find(item => item.Tags?.toLowerCase().trim() === tag.toLowerCase().trim());
+  }
+
+  share(item: any) {
+    this.shareItem = item;
+    this.shareDesc = `Hey there; As a member of the Data Collaboration Community, I get access to open datasets and free apps related to data privacy and other domains. I wanted to share this privacy-related information from the Privacy Regulators App! If you're already a member, simply click the link below to view the data in the Collaboration Hub platform. If you have not yet joined, go to https://www.datacollaboration.org/community to learn more and sign-up in 3 seconds. All users of the Hub are protected by a pioneering Data Owner Bill of Rights.`
+    if (isPlatformBrowser(this.platformId)) {
+      const url = this.windowRef.nativeWindow.location.href;
+      this.currentNewsUrl = this.currentRegulator ? url : `${url}/${item['Short Name']}`;
+    }
+    this.displayShare = true;
   }
 
   ngOnDestroy() {

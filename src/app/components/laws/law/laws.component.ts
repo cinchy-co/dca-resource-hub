@@ -38,6 +38,7 @@ export class LawsComponent implements OnInit, OnDestroy {
   displayShare: boolean;
   currentLawUrl: string;
   shareItem: ILegislation;
+  shareDesc = `Hey there; As a member of the Data Collaboration Community, I get access to open datasets and free apps related to data privacy and other domains. I wanted to share this privacy-related information from the Privacy Law Navigator App! If you're already a member, simply click the link below to view the data in the Collaboration Hub platform. If you have not yet joined, go to https://www.datacollaboration.org/community to learn more and sign-up in 3 seconds. All users of the Hub are protected by a pioneering Data Owner Bill of Rights.`;
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private router: Router) {
@@ -95,7 +96,7 @@ export class LawsComponent implements OnInit, OnDestroy {
       keyItem => keyItem !== 'Summary' && keyItem !== 'Law' && keyItem !== 'Law Url'
         && keyItem !== 'Combine Country' && keyItem !== 'Edit' && keyItem !== 'Tags' && keyItem !== 'tags'
         && keyItem !== 'Full Citation' && keyItem !== 'Enforcers-Id' && keyItem !== 'Bookmark'
-        && keyItem !== 'Share'
+        && keyItem !== 'Share' && keyItem !== 'Id'
     );
   }
 
@@ -176,7 +177,8 @@ export class LawsComponent implements OnInit, OnDestroy {
   share(item: ILegislation) {
     this.shareItem = item;
     if (isPlatformBrowser(this.platformId)) {
-      this.currentLawUrl = `${this.windowRef.nativeWindow.location.href}/${item.Id}`;
+      const url = this.windowRef.nativeWindow.location.href;
+      this.currentLawUrl = this.currentLaw ? url : `${url}/${item.Id}`;
     }
     this.displayShare = true;
   }

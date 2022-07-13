@@ -56,6 +56,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   currentNewsUrl: string;
   shareItem: any;
   currentItem: any;
+  shareDesc = `Hey there; As a member of the Data Collaboration Community, I get access to open datasets and free apps related to data privacy and other domains. I wanted to share this privacy-related information from the Data Privacy Newsfeed App! If you're already a member, simply click the link below to view the data in the Collaboration Hub platform. If you have not yet joined, go to https://www.datacollaboration.org/community to learn more and sign-up in 3 seconds. All users of the Hub are protected by a pioneering Data Owner Bill of Rights.`;
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private apiCallsService: ApiCallsService,
@@ -230,9 +231,9 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
 
   share(item: ILegislation) {
     this.shareItem = item;
-    console.log('1111 share', item);
     if (isPlatformBrowser(this.platformId)) {
-      this.currentNewsUrl = `${this.windowRef.nativeWindow.location.href}/${item.Id}`;
+      const url = this.windowRef.nativeWindow.location.href;
+      this.currentNewsUrl = this.currentItem ? url : `${url}/${item.Id}`;
     }
     this.displayShare = true;
   }
