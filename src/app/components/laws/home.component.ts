@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {IAvatar, IDropdownClick, ILegislation, IOption, ITag, IWebsiteDetails} from "../../models/common.model";
 import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
 import {SearchBy} from "../../models/general-values.model";
 import {ISelectedFilter, ITools, IToolSection} from "../hub/model/hub.model";
 import {MenuItem} from "primeng/api";
-import {combineLatest, Observable, of, take} from "rxjs";
+import {combineLatest, Observable, of, ReplaySubject, take, takeUntil} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 
 
@@ -14,7 +14,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   @Input() avatars: IAvatar[];
   legislationData: ILegislation[];
   allRegulatorKeys: any[];
@@ -30,12 +30,14 @@ export class HomeComponent implements OnInit {
   bannerDetails: any;
   bannerDetailsPerRoute: IWebsiteDetails;
   items: MenuItem[];
+  currentMenuItem: MenuItem;
   toolDetails: ITools;
   currentTab: string = 'tool';
   toolId = 'tool-privacy-law-navigator';
   currentLaw: any;
   top20Tags: ITag[];
   selectedTags: ITag[] = [];
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
               private activatedRoute: ActivatedRoute, private router: Router) {
@@ -45,6 +47,10 @@ export class HomeComponent implements OnInit {
     this.currentLaw = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.reset();
     this.setTabItems();
+    this.activatedRoute.queryParams.pipe(takeUntil(this.destroyed$)).subscribe(params => {
+      this.currentTab = params['tab'] ? params['tab'].toLowerCase() : 'tool';
+      this.currentMenuItem = this.items.find(item => item.id === this.currentTab) || this.items[0];
+    });
     this.apiCallsService.getToolDetails(this.toolId).pipe(take(1))
       .subscribe(tool => {
         this.toolDetails = tool[0];
@@ -145,5 +151,8 @@ export class HomeComponent implements OnInit {
     this.router.navigate([`tools/privacy-law-navigator`]);
   }
 
-
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
+  }
 }

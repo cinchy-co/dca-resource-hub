@@ -1,11 +1,11 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {IAvatar, IDropdownClick, ILegislation, IOption, ITag, IWebsiteDetails} from "../../models/common.model";
 import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
 import {SearchBy} from "../../models/general-values.model";
 import {ITools} from "../hub/model/hub.model";
 import {MenuItem} from "primeng/api";
-import {take} from "rxjs";
+import {ReplaySubject, take, takeUntil} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
 
 
@@ -14,7 +14,7 @@ import {ActivatedRoute, Router} from "@angular/router";
   templateUrl: './reg-home.component.html',
   styleUrls: ['./reg-home.component.scss']
 })
-export class RegHomeComponent implements OnInit {
+export class RegHomeComponent implements OnInit, OnDestroy {
   @Input() avatars: IAvatar[];
   legislationData: ILegislation[];
   allRegulatorKeys: any[];
@@ -30,12 +30,13 @@ export class RegHomeComponent implements OnInit {
   bannerDetailsPerRoute: IWebsiteDetails;
   toolDetails: ITools;
   items: MenuItem[];
+  currentMenuItem: MenuItem;
   currentTab: string = 'tool';
   currentRegulator: string;
   toolId = 'tool-privacy-regulator-navigator';
   top20Tags: ITag[];
   selectedTags: ITag[] = [];
-
+  private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
               private activatedRoute: ActivatedRoute, private router: Router) {
@@ -44,6 +45,10 @@ export class RegHomeComponent implements OnInit {
   async ngOnInit() {
     this.currentRegulator = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.setTabItems();
+    this.activatedRoute.queryParams.pipe(takeUntil(this.destroyed$)).subscribe(params => {
+      this.currentTab = params['tab'] ? params['tab'].toLowerCase() : 'tool';
+      this.currentMenuItem = this.items.find(item => item.id === this.currentTab) || this.items[0];
+    });
     this.apiCallsService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
     });
@@ -146,6 +151,11 @@ export class RegHomeComponent implements OnInit {
   reset() {
     this.searchVal = '';
     this.appStateService.setReset(true);
+  }
+
+  ngOnDestroy() {
+    this.destroyed$.next(true);
+    this.destroyed$.complete();
   }
 
 }

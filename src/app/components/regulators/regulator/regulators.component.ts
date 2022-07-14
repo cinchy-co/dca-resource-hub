@@ -32,7 +32,7 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
   currentNewsUrl: string;
   shareItem: any;
   currentItem: any;
-  shareDesc: string;
+  shareDesc = `Hey there;\n\nAs a member of the Data Collaboration Community, I get access to open datasets and free apps related to data privacy and other domains.\n\nI wanted to share this privacy-related information from the Privacy Regulators App!\n\nIf you're already a member, simply click the link below to view the data in the Collaboration Hub platform.\n\nIf you have not yet joined, go to https://www.datacollaboration.org/community to learn more and sign-up in 3 seconds.\n\nAll users of the Hub are protected by a pioneering Data Owner Bill of Rights.\n\nThanks \n\n`;
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
@@ -139,7 +139,6 @@ export class RegulatorsComponent implements OnInit, OnDestroy {
 
   share(item: any) {
     this.shareItem = item;
-    this.shareDesc = `Hey there; As a member of the Data Collaboration Community, I get access to open datasets and free apps related to data privacy and other domains. I wanted to share this privacy-related information from the Privacy Regulators App! If you're already a member, simply click the link below to view the data in the Collaboration Hub platform. If you have not yet joined, go to https://www.datacollaboration.org/community to learn more and sign-up in 3 seconds. All users of the Hub are protected by a pioneering Data Owner Bill of Rights.`
     if (isPlatformBrowser(this.platformId)) {
       const url = this.windowRef.nativeWindow.location.href;
       this.currentNewsUrl = this.currentRegulator ? url : `${url}/${item['Short Name']}`;

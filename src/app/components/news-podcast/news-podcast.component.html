@@ -4,7 +4,7 @@
     <app-hero-banner *ngIf="toolDetails" [toolDetails]="toolDetails"></app-hero-banner>
   </div>
 
-  <p-tabMenu [model]="items" [activeItem]="items[1]"></p-tabMenu>
+  <p-tabMenu [model]="items" [activeItem]="currentMenuItem"></p-tabMenu>
 
   <ng-container *ngIf="currentTab === 'overview'">
     <app-video-overview class="mt-5" [toolId]="'tool-privacy-newsfeed'"></app-video-overview>

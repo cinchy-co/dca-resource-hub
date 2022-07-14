@@ -35,6 +35,7 @@ import {PipesModule} from "../../pipes/pipes.module";
 import { GettingStartedComponent } from './getting-started/getting-started.component';
 import {TableModule} from "primeng/table";
 import {ProfilePreferencesComponent} from "../profile-preferences/profile-preferences.component";
+import {NgAddToCalendarModule} from "@trademe/ng-add-to-calendar";
 
 const routes = [
   {
@@ -174,6 +175,7 @@ const routes = [
     TabMenuModule,
     PipesModule,
     TableModule,
+    NgAddToCalendarModule
   ],
   exports: [RouterModule]
 })

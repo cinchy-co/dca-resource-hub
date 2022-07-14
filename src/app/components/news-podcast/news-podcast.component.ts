@@ -50,13 +50,14 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   websiteDetails: IWebsiteDetails;
   toolDetails: ITools;
   items: MenuItem[];
+  currentMenuItem: MenuItem;
   currentTab: string = 'tool';
   toolId = 'tool-privacy-newsfeed';
   displayShare: boolean;
   currentNewsUrl: string;
   shareItem: any;
   currentItem: any;
-  shareDesc = `Hey there; As a member of the Data Collaboration Community, I get access to open datasets and free apps related to data privacy and other domains. I wanted to share this privacy-related information from the Data Privacy Newsfeed App! If you're already a member, simply click the link below to view the data in the Collaboration Hub platform. If you have not yet joined, go to https://www.datacollaboration.org/community to learn more and sign-up in 3 seconds. All users of the Hub are protected by a pioneering Data Owner Bill of Rights.`;
+  shareDesc = `Hey there;\n\nAs a member of the Data Collaboration Community, I get access to open datasets and free apps related to data privacy and other domains.\n\nI wanted to share this privacy-related information from the Data Privacy Newsfeed App!\n\nIf you're already a member, simply click the link below to view the data in the Collaboration Hub platform.\n\nIf you have not yet joined, go to https://www.datacollaboration.org/community to learn more and sign-up in 3 seconds.\n\nAll users of the Hub are protected by a pioneering Data Owner Bill of Rights.\n\nThanks \n\n`;
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private apiCallsService: ApiCallsService,
@@ -73,6 +74,10 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
     this.getNewsAndPodcasts();
     this.getBannerDetailsPerRoute();
     this.setTabItems();
+    this.activatedRoute.queryParams.pipe(takeUntil(this.destroyed$)).subscribe(params => {
+      this.currentTab = params['tab'] ? params['tab'].toLowerCase() : 'tool';
+      this.currentMenuItem = this.items.find(item => item.id === this.currentTab) || this.items[0];
+    });
   }
 
   setTabItems() {
