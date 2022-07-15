@@ -1,3 +1,5 @@
+import {SafeUrl} from "@angular/platform-browser";
+
 export interface INewsFeed {
   creatorName: string;
   date: string;
@@ -101,6 +103,16 @@ export interface IToolDetails {
   'privacy-newsfeed': ITools;
   'privacy-regulator-navigator': ITools;
 }
+
+export type CalendarEvents = {
+  [key in Calendar]: CalendarEvent;
+};
+
+export type CalendarEvent = {
+  [key in any]: SafeUrl;
+}
+
+export type Calendar = 'google' | 'apple'
 
 export type IToolsOverview = {
   [key in ToolIds]: any;

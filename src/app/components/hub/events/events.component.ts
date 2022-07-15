@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
-import {IEvents} from "../model/hub.model";
+import {CalendarEvents, IEvents} from "../model/hub.model";
 import {ICommunityDetails} from "../../../models/general-values.model";
 import {ApiCallsService} from "../../../services/api-calls.service";
 import {AppStateService} from "../../../services/app-state.service";
@@ -19,45 +19,48 @@ export class EventsComponent implements OnInit {
   eventsHeaderDetails: ICommunityDetails;
   googleCalendarEventUrl: SafeUrl;
   iCalendarEventUrl: SafeUrl;
-  outlookCalendarEventUrl: SafeUrl;
   newEvent: ICalendarEvent;
+  calendarEvents: CalendarEvents = {google: {}, apple: {}} as CalendarEvents;
+  showGoogle: boolean;
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
               @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService,
               private addToCalendarService: NgAddToCalendarService, private sanitizer: DomSanitizer) {
-    this.newEvent = {
-      // Event title
-      title: 'My event title',
-      // Event start date
-      start: new Date('June 15, 2013 19:00'),
-      // Event duration (IN MINUTES)
-      duration: 120,
-      // If an end time is set, this will take precedence over duration (optional)
-      end: new Date('June 15, 2013 23:00'),
-      // Event Address (optional)
-      address: '1 test street, testland',
-      // Event Description (optional)
-      description: 'An awesome event'
-    };
-    this.googleCalendarEventUrl = this.sanitizer.bypassSecurityTrustUrl(
-      this.addToCalendarService.getHrefFor(this.addToCalendarService.calendarType.google, this.newEvent)
-    );
-
-    this.iCalendarEventUrl = this.sanitizer.bypassSecurityTrustUrl(
-      this.addToCalendarService.getHrefFor(this.addToCalendarService.calendarType.iCalendar, this.newEvent)
-    );
-
-    this.outlookCalendarEventUrl = this.sanitizer.bypassSecurityTrustUrl(
-      this.addToCalendarService.getHrefFor(this.addToCalendarService.calendarType.outlook, this.newEvent)
-    );
-    console.log('1111 CALENDARD', this.iCalendarEventUrl, this.outlookCalendarEventUrl, this.googleCalendarEventUrl)
   }
 
   async ngOnInit() {
     const communityDetails = this.appStateService.communityDetails;
     this.eventsHeaderDetails = communityDetails.find(item => item.id === 'events') as ICommunityDetails;
     this.events = await this.appApiService.getHubEvents().toPromise();
-    console.log('ppp events', this.events)
+    this.events.forEach(item => {
+      const calendarEvent = this.getCalendarEvent(item);
+      const googleCalendarEventUrl = this.sanitizer.bypassSecurityTrustUrl(
+        this.addToCalendarService.getHrefFor(this.addToCalendarService.calendarType.google, calendarEvent)
+      );
+      const iCalendarEventUrl = this.sanitizer.bypassSecurityTrustUrl(
+        this.addToCalendarService.getHrefFor(this.addToCalendarService.calendarType.iCalendar, calendarEvent)
+      );
+      this.calendarEvents.google[item.title] = googleCalendarEventUrl;
+      this.calendarEvents.apple[item.title] = iCalendarEventUrl;
+    })
+    this.showGoogle = this.windowRef.getOperatingSystem() === 'Windows';
+    console.log('ppp events', this.events, this.calendarEvents, this.windowRef.getOperatingSystem())
+  }
+
+  getCalendarEvent(event: IEvents) {
+    return {
+      // Event title
+      title: event.title,
+      // Event start date
+      start: new Date(event.date + ' ' + event.time),
+      // Event duration (IN MINUTES)
+      duration: 60,
+      // If an end time is set, this will take precedence over duration (optional) end: new Date(event.date + ' ' + event.time),
+      // Event Address (optional)
+      address: event.zoomLink,
+      // Event Description (optional)
+      description: event.description
+    };
   }
 
   goToSelection(option: IEvents) {

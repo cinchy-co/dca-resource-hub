@@ -10,13 +10,25 @@ function _window(): any {
 })
 export class WindowRefService {
 
-  constructor(@Inject(PLATFORM_ID) private readonly _platformId: object) { }
+  constructor(@Inject(PLATFORM_ID) private readonly platformId: object) { }
 
   get nativeWindow(): any {
     return _window();
   }
 
   isSSR(): boolean {
-    return  !isPlatformBrowser(this._platformId);
+    return  !isPlatformBrowser(this.platformId);
+  }
+
+  getOperatingSystem(): string {
+    if(isPlatformBrowser(this.platformId)) {
+      let OS = "Unknown";
+      if (navigator.userAgent.indexOf("Win")!=-1) OS="Windows";
+      if (navigator.userAgent.indexOf("Mac")!=-1) OS="MacOS";
+      if (navigator.userAgent.indexOf("X11")!=-1) OS="UNIX";
+      if (navigator.userAgent.indexOf("Linux")!=-1) OS="Linux";
+      return OS;
+    }
+    return 'Windows'
   }
 }
