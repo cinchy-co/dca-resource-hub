@@ -36,6 +36,8 @@ import { GettingStartedComponent } from './getting-started/getting-started.compo
 import {TableModule} from "primeng/table";
 import {ProfilePreferencesComponent} from "../profile-preferences/profile-preferences.component";
 import {NgAddToCalendarModule} from "@trademe/ng-add-to-calendar";
+import {DialogModule} from "primeng/dialog";
+import {VirtualScrollerModule} from "primeng/virtualscroller";
 
 const routes = [
   {
@@ -175,7 +177,9 @@ const routes = [
     TabMenuModule,
     PipesModule,
     TableModule,
-    NgAddToCalendarModule
+    NgAddToCalendarModule,
+    DialogModule,
+    VirtualScrollerModule
   ],
   exports: [RouterModule]
 })

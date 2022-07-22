@@ -15,9 +15,9 @@
              alt="tool-logo-image" style="height: 50px" [src]="item.logo">
       </div>
 
-      <div class="flex flex-col pt-1 pb-3 pl-4 pr-4 h-[180px]" (click)="goToSelection(item)">
-        <span class="line-clamp-2 text-[20px] font-semibold mb-2" [title]="item.title" [innerHTML]="item.title"></span>
-        <span class="line-clamp-2 text-sm-12 font-semibold mb-2" [title]="item.date" [innerHTML]="item.date | date"></span>
+      <div class="flex flex-col pt-0 pb-3 pl-4 pr-4 h-[190px]" (click)="goToSelection(item)">
+        <span class="line-clamp-1 text-[20px] font-semibold mb-1" [title]="item.title" [innerHTML]="item.title"></span>
+        <span class="line-clamp-1 text-sm-12 font-semibold mb-2" [title]="item.date" [innerHTML]="item.date | date"></span>
         <span class="line-clamp-6 text-sm-12 text-gray-800" [title]="item.description" [innerHTML]="item.description"></span>
       </div>
 

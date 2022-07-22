@@ -1,10 +1,10 @@
 <p-progressSpinner class="item-center-n-relative"
-                   *ngIf="!allFields?.length">
+                   *ngIf="!allFields?.length || showLoader">
 </p-progressSpinner>
 
 
 <div class="p-4">
-  <form *ngIf="allFields?.length" [formGroup]="customForm" class="flex flex-wrap gap-5 justify-between w-[100%]">
+  <form *ngIf="allFields?.length" [formGroup]="customForm" class="flex flex-wrap gap-3 justify-between w-[100%]">
     <div *ngFor="let field of allFields" class="form-item flex flex-col items-start sm:w-[100%] sm:basis-[100%]
       md:w-[100%] md:basis-[100%]" [ngStyle]="{'width': field.width+'%', 'flex-basis': field.width+'%'}">
 

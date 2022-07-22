@@ -57,10 +57,122 @@
         <hr>
 
         <div class="flex items-center justify-center cursor-pointer m-2" (click)="toggleExpansions(activity)">
-          <i  *ngIf="expansionState[activity.cinchyId]" class="pi pi-angle-up" style="font-size: 1rem"></i>
-          <i  *ngIf="!expansionState[activity.cinchyId]" class="pi pi-angle-down" style="font-size: 1rem"></i>
+          <i *ngIf="expansionState[activity.cinchyId]" class="pi pi-angle-up" style="font-size: 1rem"></i>
+          <i *ngIf="!expansionState[activity.cinchyId]" class="pi pi-angle-down" style="font-size: 1rem"></i>
         </div>
       </div>
     </div>
   </ng-container>
+
+  <ng-container *ngIf="currentTab === 'messages'">
+    <div *ngIf="!showNewMessage" class="mt-4 p-4 flex justify-end">
+      <p-button class="btn-color-green p-button-raised p-button-rounded" icon="pi pi-plus" iconPos="left"
+                [label]="'New Message'" (click)="showNewMessageForm()">
+      </p-button>
+    </div>
+
+    <div class="p-4 m-4 default-border" *ngIf="showNewMessage">
+      <div class="flex justify-between">
+        <p class="font-semibold text-lg">New Message</p>
+        <i class="pi pi-times cursor-pointer" (click)="showNewMessageForm()"></i>
+      </div>
+
+      <app-hub-form [formId]="'chat'" [buttonLabel]="'Submit'"
+                    [existingDetails]="{'collab': collabDetails.collabId}"
+                    [updateWithHiddenOrDisabledFields]="true"
+                    [successMessage]="'Your message has been submitted'"
+                    (submitClicked)="messageAdded($event)">
+      </app-hub-form>
+    </div>
+
+    <div class="p-5">
+      <h1 class="mb-2 pl-2 font-semibold text-lg">MESSAGES</h1>
+      <ng-container *ngIf="collabMessages?.length">
+        <!--<p-virtualScroller [value]="collabMessages" scrollHeight="1000px">
+          <ng-template pTemplate="item" let-message>-->
+        <div *ngFor="let message of collabMessages" class="default-border flex flex-col mr-4 mb-3 pb-4">
+          <div class="flex justify-between">
+            <div class="p-5">
+              <div class="flex items-center gap-4">
+                <p class="text-[20px] font-semibold text-gray-800" [innerHTML]="message.title"></p>
+                <span class="text-[12px] text-gray-500" *ngIf="message.edited">edited</span>
+              </div>
+
+              <div class="flex gap-2 mb-2">
+                <p class="text-[12px] text-gray-700" [innerHTML]="message.creatorName"></p>
+                <p class="text-[12px] text-gray-500"
+                   [innerHTML]="message.modifiedDate ? (message.modifiedDate | date) : (message.date | date)"></p>
+              </div>
+              <p class="text-sm text-gray-700" [innerHTML]="getMessageWithLinks(message.description)"></p>
+
+              <p class="link-color" *ngIf="message.numberComments" (click)="getComments(message)">
+                {{message.numberComments}} comments
+              </p>
+            </div>
+
+            <div class="p-5 flex items-center gap-5" *ngIf="message.canUpdateOrDelete">
+              <i class="pi pi-pencil cursor-pointer" style="font-size: 1.2rem;" (click)="editMessage(message)"></i>
+              <i class="pi pi-trash cursor-pointer" style="font-size: 1.2rem; color: red; fill: red"
+                 (click)="deleteMessage(message)"></i>
+            </div>
+          </div>
+
+          <!--COMMENTS SECTION-->
+          <div class="p-2" *ngIf="commentsForMessages[message.id] && currentCommentsParent.id === message.id">
+            <div class="pr-4 flex justify-between">
+              <p class="font-semibold text-lg"></p>
+              <i class="pi pi-times cursor-pointer" (click)="closeComments()"></i>
+            </div>
+
+            <app-hub-form class="" [formId]="'comments'" [buttonLabel]="'Reply'"
+                          [existingDetails]="{'collab': collabDetails.collabId, 'msgId': message.id}"
+                          [updateWithHiddenOrDisabledFields]="true"
+                          [successMessage]="'Your message has been submitted'"
+                          (submitClicked)="commentAdded($event, false)">
+            </app-hub-form>
+
+            <!-- <p-virtualScroller [value]="commentsForMessages[message.id]" scrollHeight="500px">
+               <ng-template pTemplate="item" let-comment>-->
+            <div class="h-[300px] overflow-auto">
+              <div *ngFor="let comment of commentsForMessages[message.id]">
+                <div class="flex justify-between items-center ml-8 mr-8 mt-4 mb-4 p-4 mb-2 default-border">
+                  <div>
+                    <div class="flex gap-2 mb-2">
+                      <p class="text-[12px] text-gray-700" [innerHTML]="comment.creatorName"></p>
+                      <p class="text-[12px] text-gray-500"
+                         [innerHTML]="comment.modifiedDate ? (comment.modifiedDate | date) : (comment.date | date)"></p>
+                    </div>
+                    <p class="text-sm text-gray-700" [innerHTML]="getMessageWithLinks(comment.description)"></p>
+                  </div>
+
+                  <div class="p-5 flex items-center gap-5" *ngIf="comment.canUpdateOrDelete">
+                   <!-- <i class="pi pi-pencil cursor-pointer" style="font-size: 1.2rem;"
+                       (click)="editMessage(message)"></i>-->
+                    <i class="pi pi-trash cursor-pointer" style="font-size: 1.2rem; color: red; fill: red"
+                       (click)="deleteMessage(comment, true)"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- </ng-template>
+           </p-virtualScroller>-->
+
+          </div>
+        </div>
+        <!-- </ng-template>
+       </p-virtualScroller>-->
+      </ng-container>
+    </div>
+  </ng-container>
 </section>
+
+<p-dialog *ngIf="currentMessage" [header]="'Edit' + ' ' + currentMessage.title" [(visible)]="showEditDialog"
+          appendTo="body">
+  <app-hub-form class="p-4" [formId]="'chat'" [buttonLabel]="'Update'"
+                [existingDetails]="{'collab': collabDetails.collabId, title: currentMessage.title,
+                message: currentMessage.description, id: currentMessage.id}"
+                [updateWithHiddenOrDisabledFields]="true"
+                [successMessage]="'Your message has been submitted'"
+                (submitClicked)="messageAdded($event, true)">
+  </app-hub-form>
+</p-dialog>

@@ -149,6 +149,21 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getHubCollabMessages(collabId: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Collab%20Messages?%40collabId=${collabId}`;
+    return this.getResponse(url);
+  }
+
+  getHubCollabCommentsPerMessage(msgId: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Collab%20Message%20Comments?%40parentId=${msgId}`;
+    return this.getResponse(url);
+  }
+
+  deleteMessage(messageId: string) {
+    const url = `/API/Node%20Zero%20Website/Delete%20Message?%40msgId=${messageId}`;
+    return this.getResponse(url);
+  }
+
   getHubCollabOverview(collabId: string): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Collab%20Overview%20Sections?%40collabId=${collabId}`;
     return this.getResponse(url);

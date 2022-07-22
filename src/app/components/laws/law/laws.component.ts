@@ -38,7 +38,7 @@ export class LawsComponent implements OnInit, OnDestroy {
   displayShare: boolean;
   currentLawUrl: string;
   shareItem: ILegislation;
-  shareDesc = `Hey there;\n\nAs a member of the Data Collaboration Community, I get access to open datasets and free apps related to data privacy and other domains.\n\nI wanted to share this privacy-related information from the Privacy Law Navigator App!\n\nIf you're already a member, simply click the link below to view the data in the Collaboration Hub platform.\n\nIf you have not yet joined, go to https://www.datacollaboration.org/community to learn more and sign-up in 3 seconds.\n\nAll users of the Hub are protected by a pioneering Data Owner Bill of Rights.\n\nThanks \n\n`;
+  shareDesc = `Sharing this privacy law summary info from the free #Privacy Law Navigator app:`;
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private router: Router) {

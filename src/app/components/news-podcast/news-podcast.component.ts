@@ -57,7 +57,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   currentNewsUrl: string;
   shareItem: any;
   currentItem: any;
-  shareDesc = `Hey there;\n\nAs a member of the Data Collaboration Community, I get access to open datasets and free apps related to data privacy and other domains.\n\nI wanted to share this privacy-related information from the Data Privacy Newsfeed App!\n\nIf you're already a member, simply click the link below to view the data in the Collaboration Hub platform.\n\nIf you have not yet joined, go to https://www.datacollaboration.org/community to learn more and sign-up in 3 seconds.\n\nAll users of the Hub are protected by a pioneering Data Owner Bill of Rights.\n\nThanks \n\n`;
+  shareDesc = `This privacy news story from the free #Privacy Newsfeed app caught my eye 👀`;
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private apiCallsService: ApiCallsService,

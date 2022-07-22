@@ -54,7 +54,7 @@ export class EventsComponent implements OnInit {
       // Event start date
       start: new Date(event.date + ' ' + event.time),
       // Event duration (IN MINUTES)
-      duration: 60,
+      duration: event.duration,
       // If an end time is set, this will take precedence over duration (optional) end: new Date(event.date + ' ' + event.time),
       // Event Address (optional)
       address: event.zoomLink,

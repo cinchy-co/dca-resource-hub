@@ -8,14 +8,15 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import {AppStateService} from "../../../services/app-state.service";
-import {IActivity, ICollab} from "../model/hub.model";
+import {IActivity, ICollab, ICollabMessage, IComments} from "../model/hub.model";
 import {ApiCallsService} from "../../../services/api-calls.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MenuItem} from "primeng/api";
+import {MenuItem, MessageService} from "primeng/api";
 import {ReplaySubject, take, takeUntil} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../../services/window-ref.service";
 import {animate, style, transition, trigger} from '@angular/animations';
+import {IUser} from "../../../models/common.model";
 
 @Component({
   selector: 'app-collab-details',
@@ -54,11 +55,19 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   currentMenuItem: MenuItem;
   activities: IActivity[];
   expansionState: any = {};
+  collabMessages: ICollabMessage[];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  userDetails: IUser;
+  showEditDialog: boolean;
+  currentMessage: ICollabMessage;
+  currentCommentsParent: ICollabMessage;
+  showNewMessage: boolean;
+  commentsForMessages: IComments = {};
 
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
               private router: Router, private changeDetection: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
-              private windowRef: WindowRefService, private activatedRoute: ActivatedRoute) {
+              private windowRef: WindowRefService, private activatedRoute: ActivatedRoute,
+              private messageService: MessageService) {
   }
 
   async ngOnInit() {
@@ -74,16 +83,144 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
       this.collabDetails = this.collabs.find(collab => `/${collab.collabRoute}` === this.router.url.split('?')[0]) as ICollab;
       this.appStateService.currentCollab = this.collabDetails;
       this.getCollabActivities();
+      this.getCollabMessages();
+      console.log('1111 CURRENT TAB', this.collabDetails);
+
     } else {
       this.getCollabActivities();
+      this.getCollabMessages();
     }
   }
 
   getCollabActivities() {
     this.appApiService.getHubCollabActivities(this.collabDetails.collabId).pipe(take(1)).subscribe(activities => {
       this.activities = activities;
-      console.log('ppp activities', activities);
       this.changeDetection.detectChanges();
+    });
+  }
+
+  goToActivity(activity: IActivity) {
+    const url = activity.link;
+    if (isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
+  }
+
+  toggleExpansions(activity: IActivity) {
+    this.expansionState[activity.cinchyId] = !this.expansionState[activity.cinchyId];
+  }
+
+  async getCollabMessages() {
+    this.appApiService.getHubCollabMessages(this.collabDetails.collabId).pipe(take(1)).subscribe(collabMessages => {
+      this.collabMessages = collabMessages.reverse();
+      this.appStateService.getUserDetailsSub().pipe(takeUntil(this.destroyed$))
+        .subscribe(async (userDetails: IUser) => {
+          this.userDetails = userDetails;
+          this.collabMessages = this.collabMessages.map(message => {
+            return {...message, canUpdateOrDelete: this.userDetails.username === message.username}
+          })
+          this.changeDetection.detectChanges();
+        })
+    });
+  }
+
+  getMessageWithLinks(messageDesc: string) {
+    return messageDesc.replace(
+      /(https?:\/\/)([^ ]+)/g,
+      '<a target="_blank" class="link-color" href="$&">$2</a>'
+    );
+  }
+
+  showNewMessageForm() {
+    this.showNewMessage = !this.showNewMessage;
+  }
+
+  messageAdded(formValues: any, isEdit?: boolean) {
+    const newMessage: ICollabMessage = this.getNewOrUpdatedMessage(formValues, isEdit);
+    this.currentMessage = isEdit ? {...this.currentMessage, ...newMessage} : this.currentMessage;
+    if (isEdit) {
+      this.collabMessages = this.collabMessages.filter(message => message.id !== this.currentMessage.id);
+      this.collabMessages.unshift(this.currentMessage);
+    } else {
+      this.collabMessages.unshift(newMessage);
+    }
+  }
+
+  getNewOrUpdatedMessage(formValues: any, isEdit?: boolean, isComment?: boolean): ICollabMessage {
+    return {
+      date: new Date().toDateString(),
+      title: formValues.title,
+      description: formValues.message,
+      creatorName: this.userDetails.name,
+      id: isEdit ? formValues.id : Math.random().toString(),
+      edited: !!isEdit,
+      canUpdateOrDelete: true,
+      username: this.userDetails.username,
+      numberComments: 0,
+      parentId: isComment ? this.currentCommentsParent.parentId : ''
+    }
+  }
+
+  editMessage(message: ICollabMessage) {
+    this.showEditDialog = true;
+    this.currentMessage = message;
+  }
+
+  async deleteMessage(message: ICollabMessage, isComment?: boolean) {
+    try {
+      await this.appApiService.deleteMessage(message.id).toPromise();
+      const messageToFilterFrom = isComment ? this.commentsForMessages[this.currentCommentsParent.id] : this.collabMessages;
+      if (isComment) {
+        this.commentsForMessages[this.currentCommentsParent.id] = messageToFilterFrom.filter(item => item.id !== message.id)
+      } else {
+        this.collabMessages = messageToFilterFrom.filter(item => item.id !== message.id);
+      }
+      this.successMessage();
+      this.changeDetection.detectChanges();
+    } catch (e) {
+      this.errorMessage();
+    }
+  }
+
+  async getComments(message: ICollabMessage) {
+    this.currentCommentsParent = message;
+    this.commentsForMessages[message.id] = await this.appApiService.getHubCollabCommentsPerMessage(message.id).toPromise();
+    this.commentsForMessages[message.id] = this.commentsForMessages[message.id].map(comment => {
+      return {...comment, canUpdateOrDelete: this.userDetails.username === comment.username}
+    })
+    console.log('1111 COMMENTS', this.commentsForMessages);
+    this.changeDetection.markForCheck();
+  }
+
+  commentAdded(formValues: any, isEdit?: boolean) {
+    const newComment: ICollabMessage = this.getNewOrUpdatedMessage(formValues, isEdit);
+//    this.currentMessage = isEdit ? {...this.currentMessage, ...newComment} : this.currentMessage;
+    if (isEdit) {
+      this.collabMessages = this.collabMessages.filter(message => message.id !== this.currentMessage.id);
+      this.collabMessages.unshift(this.currentMessage);
+    } else {
+      this.commentsForMessages[this.currentCommentsParent.id].unshift(newComment);
+    }
+    this.changeDetection.detectChanges();
+  }
+
+  closeComments() {
+    this.currentCommentsParent = {} as ICollabMessage;
+  }
+
+  successMessage() {
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Delete Successful',
+      detail: 'Your message has been deleted'
+    });
+  }
+
+  errorMessage() {
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Network error',
+      detail: 'Please try again after other time'
     });
   }
 
@@ -100,23 +237,18 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
         command: () => {
           this.tabClicked('activities');
         }
+      },
+      {
+        label: 'Messages', id: 'messages', icon: 'pi pi-comments',
+        command: () => {
+          this.tabClicked('messages');
+        }
       }
     ];
   }
 
   tabClicked(tabId: string) {
     this.currentTab = tabId;
-  }
-
-  goToActivity(activity: IActivity) {
-    const url = activity.link;
-    if (isPlatformBrowser(this.platformId)) {
-      this.windowRef.nativeWindow.open(url, '_blank');
-    }
-  }
-
-  toggleExpansions(activity: IActivity) {
-    this.expansionState[activity.cinchyId] = !this.expansionState[activity.cinchyId];
   }
 
   ngOnDestroy() {
