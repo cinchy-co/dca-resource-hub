@@ -17,6 +17,8 @@ import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../../services/window-ref.service";
 import {animate, style, transition, trigger} from '@angular/animations';
 import {IUser} from "../../../models/common.model";
+import {ContextMenu} from "primeng/contextmenu";
+import {TieredMenu} from "primeng/tieredmenu";
 
 @Component({
   selector: 'app-collab-details',
@@ -63,6 +65,10 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   currentCommentsParent: ICollabMessage;
   showNewMessage: boolean;
   commentsForMessages: IComments = {};
+  currentComment: ICollabMessage;
+  showEditCommentDialog: boolean;
+  actionItems: MenuItem[];
+  commentClicked: boolean;
 
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
               private router: Router, private changeDetection: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
@@ -73,6 +79,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.collabDetails = this.appStateService.currentCollab;
     this.setTabItems();
+    this.setActionItems();
     this.activatedRoute.queryParams.pipe(takeUntil(this.destroyed$)).subscribe(params => {
       this.currentTab = params['tab'] ? params['tab'].toLowerCase() : 'overview';
       this.currentMenuItem = this.items.find(item => item.id === this.currentTab) || this.items[0];
@@ -84,8 +91,6 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
       this.appStateService.currentCollab = this.collabDetails;
       this.getCollabActivities();
       this.getCollabMessages();
-      console.log('1111 CURRENT TAB', this.collabDetails);
-
     } else {
       this.getCollabActivities();
       this.getCollabMessages();
@@ -136,14 +141,15 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   messageAdded(formValues: any, isEdit?: boolean) {
-    const newMessage: ICollabMessage = this.getNewOrUpdatedMessage(formValues, isEdit);
-    this.currentMessage = isEdit ? {...this.currentMessage, ...newMessage} : this.currentMessage;
-    if (isEdit) {
-      this.collabMessages = this.collabMessages.filter(message => message.id !== this.currentMessage.id);
-      this.collabMessages.unshift(this.currentMessage);
-    } else {
-      this.collabMessages.unshift(newMessage);
-    }
+    /*    const newMessage: ICollabMessage = this.getNewOrUpdatedMessage(formValues, isEdit);
+        this.currentMessage = isEdit ? {...this.currentMessage, ...newMessage} : this.currentMessage;
+        if (isEdit) {
+          this.collabMessages = this.collabMessages.filter(message => message.id !== this.currentMessage.id);
+          this.collabMessages.unshift(this.currentMessage);
+        } else {
+          this.collabMessages.unshift(newMessage);
+        }*/
+    this.getCollabMessages();
   }
 
   getNewOrUpdatedMessage(formValues: any, isEdit?: boolean, isComment?: boolean): ICollabMessage {
@@ -157,7 +163,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
       canUpdateOrDelete: true,
       username: this.userDetails.username,
       numberComments: 0,
-      parentId: isComment ? this.currentCommentsParent.parentId : ''
+      parentId: isComment ? this.currentComment.parentId : ''
     }
   }
 
@@ -167,11 +173,15 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   async deleteMessage(message: ICollabMessage, isComment?: boolean) {
+    console.log('MESSAGE. 1111', message, isComment)
     try {
       await this.appApiService.deleteMessage(message.id).toPromise();
       const messageToFilterFrom = isComment ? this.commentsForMessages[this.currentCommentsParent.id] : this.collabMessages;
       if (isComment) {
-        this.commentsForMessages[this.currentCommentsParent.id] = messageToFilterFrom.filter(item => item.id !== message.id)
+        this.commentsForMessages[this.currentCommentsParent.id] = messageToFilterFrom.filter(item => item.id !== message.id);
+        const currentCommentsTotal = this.currentCommentsParent.numberComments;
+        this.currentCommentsParent.numberComments = currentCommentsTotal ? currentCommentsTotal - 1 : 0;
+
       } else {
         this.collabMessages = messageToFilterFrom.filter(item => item.id !== message.id);
       }
@@ -182,9 +192,13 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  async getComments(message: ICollabMessage) {
+  async getComments(message: ICollabMessage, noComments?: boolean) {
     this.currentCommentsParent = message;
-    this.commentsForMessages[message.id] = await this.appApiService.getHubCollabCommentsPerMessage(message.id).toPromise();
+    if (noComments) {
+      this.commentsForMessages[message.id] = [];
+    } else {
+      this.commentsForMessages[message.id] = await this.appApiService.getHubCollabCommentsPerMessage(message.id).toPromise();
+    }
     this.commentsForMessages[message.id] = this.commentsForMessages[message.id].map(comment => {
       return {...comment, canUpdateOrDelete: this.userDetails.username === comment.username}
     })
@@ -193,15 +207,16 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   commentAdded(formValues: any, isEdit?: boolean) {
+    this.getComments(this.currentCommentsParent)
     const newComment: ICollabMessage = this.getNewOrUpdatedMessage(formValues, isEdit);
-//    this.currentMessage = isEdit ? {...this.currentMessage, ...newComment} : this.currentMessage;
-    if (isEdit) {
-      this.collabMessages = this.collabMessages.filter(message => message.id !== this.currentMessage.id);
-      this.collabMessages.unshift(this.currentMessage);
-    } else {
-      this.commentsForMessages[this.currentCommentsParent.id].unshift(newComment);
-    }
-    this.changeDetection.detectChanges();
+    this.currentComment = isEdit ? {...this.currentComment, ...newComment} : this.currentComment;
+    const currentCommentsTotal = this.currentCommentsParent.numberComments;
+    this.currentCommentsParent.numberComments = isEdit ? currentCommentsTotal : currentCommentsTotal ? currentCommentsTotal + 1 : 1;
+  }
+
+  editComment(comment: ICollabMessage) {
+    this.showEditCommentDialog = true;
+    this.currentComment = comment;
   }
 
   closeComments() {
@@ -249,6 +264,42 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
 
   tabClicked(tabId: string) {
     this.currentTab = tabId;
+  }
+
+  showContext(cm: TieredMenu, event: MouseEvent, message: ICollabMessage, isComment?: boolean) {
+    console.log('111 MESSAGE', message)
+    this.commentClicked = !!isComment;
+    if (isComment) {
+      this.currentComment = message;
+    } else {
+      this.currentMessage = message;
+    }
+    cm.toggle(event);
+    event.stopPropagation();
+  }
+
+  setActionItems() {
+    this.actionItems = [
+      {
+        label: 'Edit',
+        icon: 'pi pi-fw pi-pencil',
+        command: (event) => {
+          if (this.commentClicked) {
+            this.editComment(this.currentComment);
+          } else {
+            this.editMessage(this.currentMessage);
+          }
+        }
+      },
+      {
+        label: 'Delete',
+        icon: 'pi pi-fw pi-trash',
+        command: (event) => {
+          const messageToDelete = this.commentClicked ? this.currentComment : this.currentMessage;
+          this.deleteMessage(messageToDelete, this.commentClicked);
+        }
+      }
+    ];
   }
 
   ngOnDestroy() {

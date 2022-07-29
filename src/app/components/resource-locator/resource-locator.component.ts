@@ -1,12 +1,14 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {MenuItem} from "primeng/api";
 import {take} from "rxjs";
 import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {ITools} from "../hub/model/hub.model";
+import {ITools, ToolSearchAction} from "../hub/model/hub.model";
 import {IDropdownClick, IOption, ITag} from "../../models/common.model";
-import {SearchByTag} from "../../models/general-values.model";
+import {PAGE_SIZE, SearchByTag} from "../../models/general-values.model";
+import {isPlatformBrowser} from "@angular/common";
+import {WindowRefService} from "../../services/window-ref.service";
 
 @Component({
   selector: 'app-resource-locator',
@@ -25,11 +27,16 @@ export class ResourceLocatorComponent implements OnInit {
   searchByOptions = SearchByTag;
   searchVal: string;
   selectedOption: IOption; //
-
+  toolList: ToolSearchAction[];
+  paginatedData: ToolSearchAction[];
+  pageSize = PAGE_SIZE;
+  currentPage = 0;
+  totalButtonsArray: any[] = [];
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
               private activatedRoute: ActivatedRoute, private router: Router,
-              private changeDetectorRef: ChangeDetectorRef) { }
+              private changeDetectorRef: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
+              private windowRef: WindowRefService) { }
 
   ngOnInit(): void {
     this.setTabItems();
@@ -51,8 +58,12 @@ export class ResourceLocatorComponent implements OnInit {
     const isAlreadyPresent = this.selectedTags.find(stag => stag.Tags === tag.Tags);
     if (isAlreadyPresent) {
       this.selectedTags = this.selectedTags.filter(stag => stag.Tags !== tag.Tags);
+      this.reset();
     } else {
+      this.selectedTags = [];
+      this.searchVal = tag.Tags;
       this.selectedTags.push(tag);
+      this.getToolOptions();
     }
   }
 
@@ -66,14 +77,58 @@ export class ResourceLocatorComponent implements OnInit {
 
   itemSelectedInDropdown(data: IDropdownClick) {
     this.searchVal = data.dropdownStr;
+    this.topTagSelected({Tags: data.dropdownStr})
+    this.getToolOptions();
   }
 
   itemSearched(val: string) {
     this.searchVal = val;
+    this.selectedTags = [];
+    this.getToolOptions();
+  }
+
+  async getToolOptions() {
+    this.toolList = await this.apiCallsService.getHubToolsSearch(this.searchVal).toPromise();
+    this.toolList = this.toolList.map((item: any) => ({
+      ...item,
+      tags: item['Tags'] ? item['Tags'].split(', ') : []
+    }));
+    console.log('111 OOOL', this.toolList);
+    if(this.toolList[0]) {
+      this.setButtonsCountArray(this.toolList[0]['TotalActionLinks']);
+    }
+    this.setPaginateData();
+
+    this.changeDetectorRef.detectChanges();
+  }
+
+  setButtonsCountArray(totalButtons: number) {
+    this.totalButtonsArray = new Array(totalButtons);
   }
 
   reset() {
+    this.toolList = [];
+    this.paginatedData = [];
+    this.selectedTags = [];
     this.searchVal = '';
+  }
+
+  paginate(event: any) {
+    this.currentPage = event.page;
+    this.setPaginateData();
+  }
+
+  setPaginateData() {
+    const startPoint = this.currentPage * this.pageSize;
+    const endPoint = startPoint + this.pageSize;
+    this.paginatedData = [...this.toolList].slice(startPoint, endPoint);
+  }
+
+
+  goToDetails(url: string) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
   }
 
   setTabItems() {

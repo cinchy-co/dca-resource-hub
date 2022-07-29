@@ -4,7 +4,7 @@
 
 
 <div class="p-4">
-  <form *ngIf="allFields?.length" [formGroup]="customForm" class="flex flex-wrap gap-3 justify-between w-[100%]">
+  <form *ngIf="allFields?.length" [formGroup]="customForm" class="flex flex-wrap gap-2 justify-between w-[100%]">
     <div *ngFor="let field of allFields" class="form-item flex flex-col items-start sm:w-[100%] sm:basis-[100%]
       md:w-[100%] md:basis-[100%]" [ngStyle]="{'width': field.width+'%', 'flex-basis': field.width+'%'}">
 
@@ -40,7 +40,7 @@
           <input *ngIf="!field.isTextArea" [type]="field.isHidden ? 'hidden' : 'text'" pInputText class="p-inputtext-sm w-[100%]" placeholder=""
                  [formControlName]="field.id">
 
-          <textarea class="p-inputtext-sm w-[100%]" *ngIf="field.isTextArea" [rows]="5" pInputTextarea [autoResize]=true
+          <textarea class="p-inputtext-sm w-[100%]" *ngIf="field.isTextArea" [rows]="3" pInputTextarea [autoResize]=true
                     [formControlName]="field.id"></textarea>
 
         </ng-container>
@@ -48,7 +48,7 @@
     </div>
   </form>
 
-  <div class="mt-4">
+  <div class="mt-1" [ngStyle]="{'margin-top': this.topSpaceToButton ? this.topSpaceToButton : '0.25rem'}">
     <p-button *ngIf="customForm" class="btn-color-green p-button-raised p-button-rounded"
               [label]="buttonLabel"
               [ngClass]="{'disabled': !customForm.valid}"

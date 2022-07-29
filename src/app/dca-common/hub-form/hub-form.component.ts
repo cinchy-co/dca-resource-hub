@@ -18,6 +18,7 @@ export class HubFormComponent implements OnInit {
   @Input() buttonLabel: string;
   @Input() successMessage = 'Your changes has been done';
   @Input() existingDetails: any;
+  @Input() topSpaceToButton: string;
   @Input() updateWithHiddenOrDisabledFields: boolean;
 
   @Output() submitClicked: EventEmitter<any> = new EventEmitter<any>();
@@ -122,12 +123,14 @@ export class HubFormComponent implements OnInit {
       await this.apiService.executeCinchyQueries(insertQueryName, insertQueryDomain, params, true).toPromise();
       this.submitClicked.emit(formValues);
       this.showLoader = false;
-
+      this.customForm.reset();
+      this.customForm.reset(this.customForm.value);
       this.messageService.add({
         severity: 'success',
         summary: 'Submit Successful',
         detail: this.successMessage
       });
+      this.changeDetectionRef.detectChanges();
     } catch (e: any) {
       this.handleError(e, formValues);
     }
@@ -143,6 +146,9 @@ export class HubFormComponent implements OnInit {
       });
       this.submitClicked.emit(formValues);
       this.showLoader = false;
+      this.customForm.reset();
+      this.customForm.reset(this.customForm.value);
+      this.changeDetectionRef.detectChanges();
     } else {
       this.showLoader = false;
       this.messageService.add({

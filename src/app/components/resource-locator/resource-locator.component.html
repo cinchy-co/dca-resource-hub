@@ -11,26 +11,71 @@
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'tool'">
-    <div class="p-4 relative flex flex-col justify-center" *ngIf="tags?.length">
-      <app-search-by-autocomplete class="inherit-width"
-                                  [searchByOptions]="searchByOptions"
-                                  [allDataForOptions]="tags"
-                                  [global]="true"
-                                  [showSearchButton]="true"
-                                  [preSelectedSearchBy]="searchByOptions[0]"
-                                  [placeholderOverride]="'Search by Subject Area'"
-                                  [hideSearchByOptions]="true"
-                                  (optionClicked)="itemSelectedInDropdown($event)"
-                                  (searchBySelected)="searchBySelected($event)"
-                                  (itemSearched)="itemSearched($event)"
-                                  (resetAll)="reset()">
-      </app-search-by-autocomplete>
+    <div class="p-5 relative flex flex-col justify-center">
+      <div class="flex gap-2 pl-5">
+        <div class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input class="w-[250px]" type="text" pInputText [(ngModel)]="searchVal" placeholder="Search" (keyup.enter)="itemSearched(searchVal)">
+        </div>
 
-      <div *ngIf="tags?.length" class="flex flex-wrap gap-2.5 mt-3">
+        <button class="" pButton type="button" icon="pi pi-search" iconPos="right" label="Search"
+                (click)="itemSearched(searchVal)">
+        </button>
+      </div>
+
+
+      <div *ngIf="tags?.length" class="flex flex-wrap gap-2.5 mt-3 p-5">
         <div *ngFor="let tag of top20Tags" (click)="topTagSelected(tag)">
           <p-chip class="cursor-pointer" [ngClass]="{'selected-chip': isSelectedFilter(tag)}"
                   [label]="tag.Tags"></p-chip>
         </div>
+      </div>
+
+      <div *ngIf="paginatedData" class="flex flex-col gap-8 p-5">
+        <div class="default-border p-5 flex gap-5" *ngFor="let toolDetail of paginatedData">
+          <h1 class="max-w-[50px] min-w-[50px]" [innerHTML]="toolDetail['Type']"></h1>
+          <div>
+            <p class="font-semibold" [innerHTML]="toolDetail['App']"></p>
+            <p class="pt-1 font-bold text-cyan-700" [innerHTML]="toolDetail['Title']"></p>
+            <p class="pt-0" [innerHTML]="toolDetail['Description']"></p>
+
+            <div class="flex flex-row flex-wrap gap-1 pt-2 text-sm-12 text-gray-700">
+              <ng-container *ngFor="let tag of toolDetail['tags']">
+                <p-chip [ngClass]="{'selected-chip': isSelectedFilter({Tags: tag})}"
+                        class="mr-2" [label]="tag" styleClass="p-1 custom-chip"></p-chip>
+              </ng-container>
+            </div>
+          </div>
+
+          <div class="ml-auto flex flex-col">
+            <p-button class="btn-color-green self-end p-button-raised p-button-rounded"
+                      [label]="'View'">
+            </p-button>
+
+            <div class="mt-2">
+              <p class="font-semibold">Actions</p>
+              <div class="flex gap-2">
+                <ng-container *ngFor="let count of totalButtonsArray;let i = index">
+                  <div class="" *ngIf="toolDetail['Action-Label' + '-' + (i+1)]">
+                    <a class="link-color" (click)="goToDetails(toolDetail['Action-Link' + '-' + (i+1)])">
+                      {{toolDetail['Action-Label' + '-' + (i + 1)]}}
+                    </a>
+                  </div>
+                </ng-container>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p-paginator [pageLinkSize]="3" *ngIf="paginatedData?.length" [rows]="pageSize"
+                   [totalRecords]="toolList.length"
+                   [alwaysShow]="true"
+                   (onPageChange)="paginate($event)">
+      </p-paginator>
+
+      <div class="p-5 flex items-center justify-center w-full" *ngIf="!paginatedData?.length">
+        <p class="font-semibold">Please use search input or one of the top searches to see results</p>
       </div>
 
       <p-progressSpinner class="item-center-n-relative"

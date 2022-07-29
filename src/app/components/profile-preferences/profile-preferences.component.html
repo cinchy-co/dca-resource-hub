@@ -11,8 +11,16 @@
 
   <p-divider></p-divider>
 
-  <div class="mb-10 flex flex-col items-start gap-10" *ngIf="existingProfileDetails">
+  <div class="mb-10 flex flex-col items-start gap-2" *ngIf="existingProfileDetails">
     <app-hub-form [userDetails]="userDetails" [formId]="'preferences'" [buttonLabel]="'Update'"
+                  [topSpaceToButton]="'20px'"
+                  [existingDetails]="existingProfileDetails" [successMessage]="'Your Profile has been updated'">
+    </app-hub-form>
+
+    <p-divider class="w-full"></p-divider>
+
+    <app-hub-form [userDetails]="userDetails" [formId]="'delete'" [buttonLabel]="'Delete'"
+                  [topSpaceToButton]="'20px'"
                   [existingDetails]="existingProfileDetails" [successMessage]="'Your Profile has been updated'">
     </app-hub-form>
   </div>

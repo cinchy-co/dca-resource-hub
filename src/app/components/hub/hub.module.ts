@@ -38,6 +38,7 @@ import {ProfilePreferencesComponent} from "../profile-preferences/profile-prefer
 import {NgAddToCalendarModule} from "@trademe/ng-add-to-calendar";
 import {DialogModule} from "primeng/dialog";
 import {VirtualScrollerModule} from "primeng/virtualscroller";
+import {TieredMenuModule} from "primeng/tieredmenu";
 
 const routes = [
   {
@@ -179,7 +180,8 @@ const routes = [
     TableModule,
     NgAddToCalendarModule,
     DialogModule,
-    VirtualScrollerModule
+    VirtualScrollerModule,
+    TieredMenuModule
   ],
   exports: [RouterModule]
 })

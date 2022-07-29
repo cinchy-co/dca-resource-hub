@@ -6,6 +6,9 @@ import {TabMenuModule} from "primeng/tabmenu";
 import {RouterModule} from "@angular/router";
 import {ChipModule} from "primeng/chip";
 import {ProgressSpinnerModule} from "primeng/progressspinner";
+import {PaginatorModule} from "primeng/paginator";
+import {ButtonModule} from "primeng/button";
+import {InputTextModule} from "primeng/inputtext";
 
 
 const routes = [
@@ -26,7 +29,10 @@ const routes = [
     DcaCommonModule,
     TabMenuModule,
     ChipModule,
-    ProgressSpinnerModule
+    ProgressSpinnerModule,
+    PaginatorModule,
+    ButtonModule,
+    InputTextModule
   ]
 })
 export class ResourceLocatorModule { }

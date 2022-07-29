@@ -14,7 +14,8 @@ export interface INewsFeed {
   tags: string;
   category: string;
   linksCount: number;
-  [key: string|number]: any;
+
+  [key: string | number]: any;
 }
 
 export interface IGettingStarted {
@@ -74,6 +75,13 @@ export interface ITools {
   toolSequence?: number;
   title?: string;
 }
+
+export type IToolSearch = 'App' | 'Description' | 'Id' | 'Tags'  | 'Title'  | 'Type' | 'TotalActionLinks';
+
+export type ToolSearchAction = {
+  [key in IToolSearch | any]: any;
+}
+
 
 export interface IToolSection {
   sectionName: string;
