@@ -69,6 +69,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   showEditCommentDialog: boolean;
   actionItems: MenuItem[];
   commentClicked: boolean;
+  doAutoFocus: boolean;
 
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
               private router: Router, private changeDetection: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
@@ -173,7 +174,6 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   async deleteMessage(message: ICollabMessage, isComment?: boolean) {
-    console.log('MESSAGE. 1111', message, isComment)
     try {
       await this.appApiService.deleteMessage(message.id).toPromise();
       const messageToFilterFrom = isComment ? this.commentsForMessages[this.currentCommentsParent.id] : this.collabMessages;
@@ -192,21 +192,18 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
-  async getComments(message: ICollabMessage, noComments?: boolean) {
+  async getComments(message: ICollabMessage, numberComments?: boolean) {
     this.currentCommentsParent = message;
-    if (noComments) {
-      this.commentsForMessages[message.id] = [];
-    } else {
-      this.commentsForMessages[message.id] = await this.appApiService.getHubCollabCommentsPerMessage(message.id).toPromise();
-    }
+    this.doAutoFocus = !numberComments;
+    this.commentsForMessages[message.id] = await this.appApiService.getHubCollabCommentsPerMessage(message.id).toPromise();
     this.commentsForMessages[message.id] = this.commentsForMessages[message.id].map(comment => {
       return {...comment, canUpdateOrDelete: this.userDetails.username === comment.username}
     })
-    console.log('1111 COMMENTS', this.commentsForMessages);
     this.changeDetection.markForCheck();
   }
 
   commentAdded(formValues: any, isEdit?: boolean) {
+    this.currentCommentsParent = this.collabMessages.find(message => message.id === formValues.msgId) as ICollabMessage;
     this.getComments(this.currentCommentsParent)
     const newComment: ICollabMessage = this.getNewOrUpdatedMessage(formValues, isEdit);
     this.currentComment = isEdit ? {...this.currentComment, ...newComment} : this.currentComment;
@@ -267,9 +264,9 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   showContext(cm: TieredMenu, event: MouseEvent, message: ICollabMessage, isComment?: boolean) {
-    console.log('111 MESSAGE', message)
     this.commentClicked = !!isComment;
     if (isComment) {
+      this.currentCommentsParent = (this.collabMessages.find(parent => parent.id == message.parentId)) as ICollabMessage;
       this.currentComment = message;
     } else {
       this.currentMessage = message;

@@ -1,4 +1,13 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component, ElementRef,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import {IField, IFormField, IUser} from "../../models/common.model";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ReplaySubject} from "rxjs";
@@ -20,6 +29,7 @@ export class HubFormComponent implements OnInit {
   @Input() existingDetails: any;
   @Input() topSpaceToButton: string;
   @Input() updateWithHiddenOrDisabledFields: boolean;
+  @Input() doAutoFocus: boolean;
 
   @Output() submitClicked: EventEmitter<any> = new EventEmitter<any>();
 
@@ -28,7 +38,9 @@ export class HubFormComponent implements OnInit {
   customForm: FormGroup;
   customFormQueries: any;
   showLoader: boolean;
+
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
+  @ViewChild("autoFocusInput") autoFocusInput: ElementRef;
 
   constructor(private apiService: ApiCallsService, private fb: FormBuilder, private appStateService: AppStateService,
               private messageService: MessageService, private changeDetectionRef: ChangeDetectorRef) {
@@ -72,6 +84,11 @@ export class HubFormComponent implements OnInit {
       }
     });
     this.createForm();
+    if (this.doAutoFocus) {
+      setTimeout(() => {
+        this.autoFocusInput.nativeElement.focus();
+      }, 100);
+    }
   }
 
   createForm() {

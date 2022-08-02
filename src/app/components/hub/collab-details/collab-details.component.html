@@ -90,7 +90,7 @@
       <ng-container *ngIf="collabMessages?.length">
         <!--<p-virtualScroller [value]="collabMessages" scrollHeight="1000px">
           <ng-template pTemplate="item" let-message>-->
-        <div *ngFor="let message of collabMessages" class="default-border flex flex-col mr-4 mb-3 pb-4">
+        <div *ngFor="let message of collabMessages" class="default-border flex flex-col mr-4 mb-3">
           <div class="flex justify-between">
             <div class="p-5 w-full">
               <div class="flex justify-between items-center gap-4">
@@ -113,37 +113,43 @@
               </div>
               <p class="text-sm text-gray-700" [innerHTML]="getMessageWithLinks(message.description)"></p>
 
-              <p class="link-color" *ngIf="message.numberComments" (click)="getComments(message)">
-                {{message.numberComments}} comments
-              </p>
+              <div class="mt-2 flex justify-between items-center">
+                <p class="text-gray-500 hover:underline flex cursor-pointer hover:text-sky-500 items-center gap-1" (click)="getComments(message)">
+                  <i class="pi pi-comment"></i>
+                  <span>Comment</span>
+                </p>
 
-              <p class="link-color" *ngIf="!message.numberComments" (click)="getComments(message, true)">
-               Reply
-              </p>
+                <p class="text-gray-500 hover:underline cursor-pointer hover:text-sky-500" *ngIf="message.numberComments"
+                   (click)="getComments(message, true)">
+                  {{message.numberComments}} comments
+                </p>
+              </div>
             </div>
           </div>
 
           <!--COMMENTS SECTION-->
-          <div class="pl-5 pr-4" *ngIf="commentsForMessages[message.id] && currentCommentsParent.id === message.id">
+          <div class="pl-5 pr-4 relative" *ngIf="commentsForMessages[message.id]">
             <hr class="pb-2">
-            <div class="flex justify-between">
+            <div class="absolute right-3 top-2">
               <p class="font-semibold text-lg"></p>
               <i class="pi pi-times cursor-pointer" (click)="closeComments()"></i>
             </div>
           </div>
 
           <div class="p-2 lg:mr-[150px] md:mr-[100px] sm:mr-[20px] mr-[20px]"
-               *ngIf="commentsForMessages[message.id] && currentCommentsParent.id === message.id">
+               *ngIf="commentsForMessages[message.id]">
             <app-hub-form class="" [formId]="'comments'" [buttonLabel]="'Reply'"
                           [existingDetails]="{'collab': collabDetails.collabId, 'msgId': message.id}"
                           [updateWithHiddenOrDisabledFields]="true"
                           [successMessage]="'Your message has been submitted'"
+                          [doAutoFocus]="doAutoFocus"
                           (submitClicked)="commentAdded($event, false)">
             </app-hub-form>
 
             <!-- <p-virtualScroller [value]="commentsForMessages[message.id]" scrollHeight="500px">
                <ng-template pTemplate="item" let-comment>-->
-            <div class="pr-5 overflow-auto" [ngClass]="{'h-[400px]': commentsForMessages[message.id].length}">
+            <!--COMMENTS-->
+            <div class="pr-5 overflow-auto" [ngClass]="{'max-h-[400px]': commentsForMessages[message.id].length}">
               <div *ngFor="let comment of commentsForMessages[message.id]">
                 <div class="flex flex-col ml-8 mr-8 mt-4 mb-4 p-4 mb-2 default-border">
                   <div class="flex justify-between items-center">

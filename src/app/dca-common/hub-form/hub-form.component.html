@@ -40,7 +40,7 @@
           <input *ngIf="!field.isTextArea" [type]="field.isHidden ? 'hidden' : 'text'" pInputText class="p-inputtext-sm w-[100%]" placeholder=""
                  [formControlName]="field.id">
 
-          <textarea class="p-inputtext-sm w-[100%]" *ngIf="field.isTextArea" [rows]="3" pInputTextarea [autoResize]=true
+          <textarea #autoFocusInput class="p-inputtext-sm w-[100%]" *ngIf="field.isTextArea" [rows]="3" pInputTextarea [autoResize]=true
                     [formControlName]="field.id"></textarea>
 
         </ng-container>
