@@ -178,12 +178,11 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
       await this.appApiService.deleteMessage(message.id).toPromise();
       const messageToFilterFrom = isComment ? this.commentsForMessages[this.currentCommentsParent.id] : this.collabMessages;
       if (isComment) {
-        this.commentsForMessages[this.currentCommentsParent.id] = messageToFilterFrom.filter(item => item.id !== message.id);
+        this.commentsForMessages[this.currentCommentsParent.id] = messageToFilterFrom?.filter(item => item.id !== message.id);
         const currentCommentsTotal = this.currentCommentsParent.numberComments;
         this.currentCommentsParent.numberComments = currentCommentsTotal ? currentCommentsTotal - 1 : 0;
-
       } else {
-        this.collabMessages = messageToFilterFrom.filter(item => item.id !== message.id);
+        this.collabMessages = messageToFilterFrom?.filter(item => item.id !== message.id) as ICollabMessage[];
       }
       this.successMessage();
       this.changeDetection.detectChanges();
@@ -196,7 +195,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
     this.currentCommentsParent = message;
     this.doAutoFocus = !numberComments;
     this.commentsForMessages[message.id] = await this.appApiService.getHubCollabCommentsPerMessage(message.id).toPromise();
-    this.commentsForMessages[message.id] = this.commentsForMessages[message.id].map(comment => {
+    this.commentsForMessages[message.id] = this.commentsForMessages[message.id]?.map(comment => {
       return {...comment, canUpdateOrDelete: this.userDetails.username === comment.username}
     })
     this.changeDetection.markForCheck();
@@ -216,8 +215,9 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
     this.currentComment = comment;
   }
 
-  closeComments() {
-    this.currentCommentsParent = {} as ICollabMessage;
+  closeComments(message: ICollabMessage) {
+   // this.currentCommentsParent = {} as ICollabMessage;
+    this.commentsForMessages[message.id] = undefined;
   }
 
   successMessage() {

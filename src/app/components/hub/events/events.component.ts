@@ -25,7 +25,8 @@ export class EventsComponent implements OnInit {
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
               @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService,
-              private addToCalendarService: NgAddToCalendarService, private sanitizer: DomSanitizer) {
+              private addToCalendarService: NgAddToCalendarService, private sanitizer: DomSanitizer,
+              private router: Router) {
   }
 
   async ngOnInit() {
@@ -64,10 +65,12 @@ export class EventsComponent implements OnInit {
   }
 
   goToSelection(option: IEvents) {
-    const url = option.rsvpLink;
-    if(isPlatformBrowser(this.platformId)) {
+    console.log('111 option', option);
+    const id = option.id;
+    this.router.navigate([`events/${id}`]);
+    /*if(isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.open(url, '_blank');
-    }
+    }*/
   }
 
 }

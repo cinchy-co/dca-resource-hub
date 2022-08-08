@@ -132,7 +132,7 @@
             <hr class="pb-2">
             <div class="absolute right-3 top-2">
               <p class="font-semibold text-lg"></p>
-              <i class="pi pi-times cursor-pointer" (click)="closeComments()"></i>
+              <i class="pi pi-times cursor-pointer" (click)="closeComments(message)"></i>
             </div>
           </div>
 
@@ -149,7 +149,7 @@
             <!-- <p-virtualScroller [value]="commentsForMessages[message.id]" scrollHeight="500px">
                <ng-template pTemplate="item" let-comment>-->
             <!--COMMENTS-->
-            <div class="pr-5 overflow-auto" [ngClass]="{'max-h-[400px]': commentsForMessages[message.id].length}">
+            <div class="pr-5 overflow-auto" [ngClass]="{'max-h-[400px]': commentsForMessages[message.id]?.length}">
               <div *ngFor="let comment of commentsForMessages[message.id]">
                 <div class="flex flex-col ml-8 mr-8 mt-4 mb-4 p-4 mb-2 default-border">
                   <div class="flex justify-between items-center">

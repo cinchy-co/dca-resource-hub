@@ -76,7 +76,8 @@ export interface ITools {
   title?: string;
 }
 
-export type IToolSearch = 'App' | 'Description' | 'Id' | 'Tags'  | 'Title'  | 'Type' | 'TotalActionLinks';
+export type IToolSearch = 'App' | 'Description' | 'Id' | 'Tags'  | 'Title'  | 'Type' | 'TotalActionLinks' | 'Button-Label'
+  | 'Route';
 
 export type ToolSearchAction = {
   [key in IToolSearch | any]: any;
@@ -147,6 +148,7 @@ export interface IEvents {
   zoomLink: string;
   duration: number;
   addToCalendar: string;
+  id: string;
 }
 
 export interface IBookmark {
@@ -195,7 +197,7 @@ export interface ICollabMessage {
 }
 
 export type IComments = {
-  [key in any]: ICollabMessage[];
+  [key in any]: ICollabMessage[] | undefined;
 }
 
 export type IActivity = {

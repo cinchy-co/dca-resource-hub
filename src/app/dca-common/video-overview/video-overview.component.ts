@@ -14,6 +14,7 @@ import {AppStateService} from "../../services/app-state.service";
 })
 export class VideoOverviewComponent implements OnInit {
   @Input() toolId: ToolIds | string;
+  @Input() childToolId: ToolIds | string;
   @Input() toolDetails: ITools; // need to remove
   toolsOverviewSections: IToolSection[];
   toolsOverviewSectionsDetails: IToolSection[];
@@ -46,17 +47,20 @@ export class VideoOverviewComponent implements OnInit {
         allObs.push(of(section.sectionValue));
       } else {
         const params = {
-          '@id': this.toolId
+          '@id': this.childToolId ? this.childToolId : this.toolId
         }
         const obs = this.apiCallsService.executeCinchyQueries(section.queryName, section.queryDomain, params);
         allObs.push(obs);
       }
     })
     combineLatest(allObs).pipe(take(1)).subscribe(values => {
+      console.log('111 OVERVIEW VALUES', values);
       this.toolsOverviewSectionsDetails = this.toolsOverviewSections.map((section, i) => {
         return {...section, details: values[i]};
       });
-      this.appStateService.toolsOverview[this.toolId] = this.toolsOverviewSectionsDetails;
+      const toolIdToSave = this.childToolId ? this.childToolId : this.toolId;
+      this.appStateService.toolsOverview[toolIdToSave] = this.toolsOverviewSectionsDetails;
+      console.log('1111 SECTIONS', this.toolsOverviewSectionsDetails);
       this.changeDetectorRef.detectChanges();
     });
   }

@@ -28,6 +28,28 @@
         <p class="whitespace-pre-wrap" [innerHTML]="toolSection.details[0].sectionValue"></p>
       </div>
 
+
+      <!--IMAGE-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Image'"
+           class="flex justify-center gap-2 pr-4 w-[100%]">
+        <img class="text-[32px] font-semibold whitespace-pre-wrap" alt="event"
+             [src]="toolSection.details[0].image">
+      </div>
+
+      <!--HEADER ONLY TEXT-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Dynamic Header'"
+           class="flex gap-2 w-[100%]">
+        <p class="text-[32px] font-semibold whitespace-pre-wrap" [innerHTML]="toolSection.details[0].header"></p>
+      </div>
+
+      <!--DATE ONLY TEXT-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Date'"
+           class="flex gap-2 w-[100%]">
+        <p class="text-sm text-gray-600 whitespace-pre-wrap"
+           [innerHTML]="toolSection.details[0].Date | date: 'medium'">
+        </p>
+      </div>
+
       <!--LIST-->
       <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'List'"
            class="flex flex-col gap-2 w-[100%]">

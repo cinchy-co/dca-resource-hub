@@ -15,7 +15,8 @@
       <div class="flex gap-2 pl-5">
         <div class="p-input-icon-left">
           <i class="pi pi-search"></i>
-          <input class="w-[250px]" type="text" pInputText [(ngModel)]="searchVal" placeholder="Search" (keyup.enter)="itemSearched(searchVal)">
+          <input class="w-[250px]" type="search" pInputText [(ngModel)]="searchVal" placeholder="Search"
+                 (keyup.enter)="itemSearched(searchVal)">
         </div>
 
         <button class="" pButton type="button" icon="pi pi-search" iconPos="right" label="Search"
@@ -49,7 +50,7 @@
 
           <div class="ml-auto flex flex-col">
             <p-button class="btn-color-green self-end p-button-raised p-button-rounded"
-                      [label]="'View'">
+                      [label]="toolDetail['Button-Label']" (click)="viewTool(toolDetail)">
             </p-button>
 
             <div class="mt-2">

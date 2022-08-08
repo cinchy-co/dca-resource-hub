@@ -50,7 +50,6 @@ export class ResourceLocatorComponent implements OnInit {
   async getTags() {
     this.tags = await this.apiCallsService.getTags().toPromise();
     this.top20Tags = this.tags.filter(tag => tag.TopTags === 'Yes');
-    console.log('111 TAGS', this.tags);
     this.changeDetectorRef.detectChanges();
   }
 
@@ -129,6 +128,10 @@ export class ResourceLocatorComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.open(url, '_blank');
     }
+  }
+
+  viewTool(tool: ToolSearchAction) {
+    this.router.navigate([`tools/${tool['Route']}`])
   }
 
   setTabItems() {

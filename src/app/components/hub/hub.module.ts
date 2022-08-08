@@ -39,6 +39,7 @@ import {NgAddToCalendarModule} from "@trademe/ng-add-to-calendar";
 import {DialogModule} from "primeng/dialog";
 import {VirtualScrollerModule} from "primeng/virtualscroller";
 import {TieredMenuModule} from "primeng/tieredmenu";
+import { EventDetailsComponent } from './event-details/event-details.component';
 
 const routes = [
   {
@@ -76,6 +77,10 @@ const routes = [
       {
         path: 'events',
         component: EventsComponent
+      },
+      {
+        path: 'events/:id',
+        component: EventDetailsComponent
       },
       {
         path: 'learning',
@@ -156,7 +161,8 @@ const routes = [
     CollabsComponent,
     CommonHeaderComponent,
     CollabDetailsComponent,
-    GettingStartedComponent
+    GettingStartedComponent,
+    EventDetailsComponent
   ],
   imports: [
     CommonModule,

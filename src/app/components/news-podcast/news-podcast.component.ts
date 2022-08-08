@@ -152,7 +152,6 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
     let key = keyOverride ? keyOverride : this.selectedOption.code;
     key = option ? option.code : key;
     const isGlobal = (!keyOverride && !option?.code) || option?.code === 'Tags';
-    console.log('111 SLECTED TAGS', this.selectedTags);
     this.filteredNewsData = dataToFilterFrom.filter((newsItem: any) => {
       return this.filterCriteria(key, newsItem, currentSearchByKeyVal, isGlobal);
     });

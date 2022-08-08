@@ -114,18 +114,20 @@ export class AppStateService {
 
   globalSearchItem(item: any, currentSearchByKeyVal: string, countryValue?: string, tags?: ITag[]) {
     if (countryValue && tags?.length) {
+      const mappedTags = item.tags.map((tagV: string) => tagV.trim().toLowerCase());
       return (item['Country']?.toLowerCase()?.includes(countryValue?.toLowerCase().trim())
           || item['Combine Country']?.toLowerCase()?.includes(countryValue?.toLowerCase().trim())
           || item['Region']?.toLowerCase()?.includes(countryValue?.toLowerCase().trim())
           || currentSearchByKeyVal?.toLowerCase()?.includes(item['Region']?.toLowerCase().trim()))
-        && tags.filter(tag => item['Tags']?.toLowerCase()?.includes(tag.Tags?.toLowerCase().trim())).length;
+        && tags.every(r=> mappedTags.includes(r.Tags.toLowerCase()));
     } else if (countryValue && !tags?.length) {
       return item['Country']?.toLowerCase()?.includes(countryValue?.toLowerCase().trim())
         || item['Combine Country']?.toLowerCase()?.includes(countryValue?.toLowerCase().trim())
         || item['Region']?.toLowerCase()?.includes(countryValue?.toLowerCase().trim())
         || currentSearchByKeyVal?.toLowerCase().trim()?.includes(item['Region']?.toLowerCase().trim());
     } else if (tags?.length) {
-      return tags?.filter(tag => item['Tags']?.toLowerCase()?.includes(tag.Tags?.toLowerCase().trim())).length;
+      const mappedTags = item.tags.map((tagV: string) => tagV.trim().toLowerCase());
+      return tags.every(r=> mappedTags.includes(r.Tags.toLowerCase()));
     } else {
       return true;
     }
