@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Inject, OnInit, PLATFORM_ID} from '@angular/core';
 import {ApiCallsService} from "../../../services/api-calls.service";
 import {ITools} from "../model/hub.model";
 import {AppStateService} from "../../../services/app-state.service";
 import {ICommunityDetails} from "../../../models/general-values.model";
 import {Router} from "@angular/router";
+import {WindowRefService} from "../../../services/window-ref.service";
+import {isPlatformBrowser} from "@angular/common";
 
 @Component({
   selector: 'app-tools',
@@ -15,7 +17,8 @@ export class ToolsComponent implements OnInit {
   toolsHeaderDetails: ICommunityDetails;
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
-              private router: Router) {
+              private router: Router, @Inject(PLATFORM_ID) private platformId: any,
+              private windowRef: WindowRefService) {
   }
 
   async ngOnInit() {
@@ -26,6 +29,12 @@ export class ToolsComponent implements OnInit {
 
   goToSelection(item: ITools) {
     this.appStateService.currentToolSelected = item;
+    if (item.externalLink && isPlatformBrowser(this.platformId)) {
+      const url = item.externalLink;
+      console.log('1111 url', url);
+      this.windowRef.nativeWindow.open(url, '_blank');
+      return;
+    }
     this.router.navigate([`tools/${item.toolRoute}`]);
   }
 

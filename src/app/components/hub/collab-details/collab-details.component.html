@@ -5,7 +5,9 @@
 
 
   <ng-container *ngIf="currentTab === 'overview'">
-    <app-video-overview class="mt-5" [toolId]="collabDetails.collabId"></app-video-overview>
+    <app-video-overview class="mt-5" [toolId]="collabDetails.collabId"
+                        [userDetails]="userDetails" [successMessage]="'Succesfully joined'">
+    </app-video-overview>
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'activities'">
@@ -114,12 +116,14 @@
               <p class="text-sm text-gray-700" [innerHTML]="getMessageWithLinks(message.description)"></p>
 
               <div class="mt-2 flex justify-between items-center">
-                <p class="text-gray-500 hover:underline flex cursor-pointer hover:text-sky-500 items-center gap-1" (click)="getComments(message)">
+                <p class="text-gray-500 hover:underline flex cursor-pointer hover:text-sky-500 items-center gap-1"
+                   (click)="getComments(message)">
                   <i class="pi pi-comment"></i>
                   <span>Comment</span>
                 </p>
 
-                <p class="text-gray-500 hover:underline cursor-pointer hover:text-sky-500" *ngIf="message.numberComments"
+                <p class="text-gray-500 hover:underline cursor-pointer hover:text-sky-500"
+                   *ngIf="message.numberComments"
                    (click)="getComments(message, true)">
                   {{message.numberComments}} comments
                 </p>

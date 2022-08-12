@@ -74,6 +74,7 @@ export interface ITools {
   videoLink: string;
   toolSequence?: number;
   title?: string;
+  externalLink?: string;
 }
 
 export type IToolSearch = 'App' | 'Description' | 'Id' | 'Tags'  | 'Title'  | 'Type' | 'TotalActionLinks' | 'Button-Label'
@@ -91,6 +92,7 @@ export interface IToolSection {
   queryName: string;
   sectionValue: string;
   details?: any;
+  sectionQueryParams?: string;
 }
 
 export const FormatAndToolOverviewMap = {

@@ -202,16 +202,12 @@
 <p-dialog *ngIf="shareItem" [header]="'Share ' + shareItem.Type" appendTo="body" [(visible)]="displayShare">
   <p class="pb-2 w-[250px]">{{shareItem.Headline}}</p>
   <div class="bg-black">
-    <share-buttons [theme]="'modern-light'"
-                   [include]="['facebook','twitter','linkedin','email', 'copy']"
-                   [show]="5"
-                   [showText]="false"
+    <app-share-social-buttons
                    [url]="currentNewsUrl"
                    [title]="'Check out this privacy news'"
                    [description]="shareDesc"
-                   [autoSetMeta]="false"
                    [image]="'https://static.wixstatic.com/media/9eeb4e_7da4ab8b49b843419d88e5a44244915c~mv2.png'"
-    ></share-buttons>
+    ></app-share-social-buttons>
   </div>
 </p-dialog>
 

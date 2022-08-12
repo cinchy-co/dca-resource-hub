@@ -20,6 +20,8 @@ import {MultiSelectModule} from "primeng/multiselect";
 import {InputTextareaModule} from "primeng/inputtextarea";
 import {InputTextModule} from "primeng/inputtext";
 import {ToastModule} from "primeng/toast";
+import { ShareSocialButtonsComponent } from './share-social-buttons/share-social-buttons.component';
+import {ShareButtonsModule} from "ngx-sharebuttons/buttons";
 
 
 
@@ -29,7 +31,8 @@ import {ToastModule} from "primeng/toast";
     VideoBannerComponent,
     HeroBannerComponent,
     VideoOverviewComponent,
-    HubFormComponent
+    HubFormComponent,
+    ShareSocialButtonsComponent
   ],
   imports: [
     CommonModule,
@@ -48,14 +51,16 @@ import {ToastModule} from "primeng/toast";
     MultiSelectModule,
     InputTextareaModule,
     InputTextModule,
-    ToastModule
+    ToastModule,
+    ShareButtonsModule
   ],
   exports: [
     SearchByAutocompleteComponent,
     VideoBannerComponent,
     HeroBannerComponent,
     VideoOverviewComponent,
-    HubFormComponent
+    HubFormComponent,
+    ShareSocialButtonsComponent
   ]
 })
 export class DcaCommonModule { }

@@ -5,6 +5,8 @@ import {ApiCallsService} from "../../services/api-calls.service";
 import {WindowRefService} from "../../services/window-ref.service";
 import {isPlatformBrowser} from "@angular/common";
 import {AppStateService} from "../../services/app-state.service";
+import {IUser} from "../../models/common.model";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-video-overview',
@@ -16,13 +18,15 @@ export class VideoOverviewComponent implements OnInit {
   @Input() toolId: ToolIds | string;
   @Input() childToolId: ToolIds | string;
   @Input() toolDetails: ITools; // need to remove
+  @Input() userDetails: IUser;
+  @Input() successMessage: string = 'Success';
   toolsOverviewSections: IToolSection[];
   toolsOverviewSectionsDetails: IToolSection[];
   allQueriesObs: any;
 
   constructor(private apiCallsService: ApiCallsService, private windowRef: WindowRefService,
               private appStateService: AppStateService, private changeDetectorRef: ChangeDetectorRef,
-              @Inject(PLATFORM_ID) private platformId: any) {
+              @Inject(PLATFORM_ID) private platformId: any, private messageService: MessageService) {
   }
 
   ngOnInit(): void {
@@ -41,7 +45,8 @@ export class VideoOverviewComponent implements OnInit {
   }
 
   setToolSectionsAndGetDetails() {
-    const allObs: Observable<any>[] = []
+    const allObs: Observable<any>[] = [];
+    let obs: Observable<any>;
     this.toolsOverviewSections.forEach(section => {
       if (section.sectionValue) {
         allObs.push(of(section.sectionValue));
@@ -49,7 +54,11 @@ export class VideoOverviewComponent implements OnInit {
         const params = {
           '@id': this.childToolId ? this.childToolId : this.toolId
         }
-        const obs = this.apiCallsService.executeCinchyQueries(section.queryName, section.queryDomain, params);
+        if (section.format === 'Query Button') {
+          obs = of(section.sectionName);
+        } else {
+          obs = this.apiCallsService.executeCinchyQueries(section.queryName, section.queryDomain, params);
+        }
         allObs.push(obs);
       }
     })
@@ -80,6 +89,29 @@ export class VideoOverviewComponent implements OnInit {
     if (isPlatformBrowser(this.platformId)) {
       const url = item.logoLink;
       this.windowRef.nativeWindow.open(url, '_blank');
+    }
+  }
+
+  async queryButtonClicked(section: IToolSection) {
+    console.log('1111 query button clicked', section);
+    const params = {
+      '@id': this.childToolId ? this.childToolId : this.toolId,
+      '@username': this.userDetails.username
+    }
+    try {
+      await this.apiCallsService.executeCinchyQueries(section.queryName, section.queryDomain, params, true).toPromise();
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Submit Successful',
+        detail: this.successMessage
+      });
+    }catch (e) {
+      console.log('1111 EEE', e)
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Network error',
+        detail: 'Please try again after other time'
+      });
     }
   }
 

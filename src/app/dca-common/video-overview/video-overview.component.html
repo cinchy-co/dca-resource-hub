@@ -36,6 +36,13 @@
              [src]="toolSection.details[0].image">
       </div>
 
+      <!--QUERY BUTTON-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Query Button'"
+           class="">
+        <button class="btn-color-green p-button-raised" pButton [label]="toolSection.details"
+        (click)="queryButtonClicked(toolSection)"></button>
+      </div>
+
       <!--HEADER ONLY TEXT-->
       <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Dynamic Header'"
            class="flex gap-2 w-[100%]">

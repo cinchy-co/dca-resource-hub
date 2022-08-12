@@ -11,17 +11,25 @@
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'tool'">
-    <div class="p-5 relative flex flex-col justify-center">
-      <div class="flex gap-2 pl-5">
+    <div class="p-0 pt-2 md:p-5 lg:p-5 relative flex flex-col justify-center">
+      <div class="flex gap-2 pl-2 md:pl-5 lg:pl-5">
         <div class="p-input-icon-left">
           <i class="pi pi-search"></i>
           <input class="w-[250px]" type="search" pInputText [(ngModel)]="searchVal" placeholder="Search"
                  (keyup.enter)="itemSearched(searchVal)">
         </div>
 
-        <button class="" pButton type="button" icon="pi pi-search" iconPos="right" label="Search"
-                (click)="itemSearched(searchVal)">
-        </button>
+        <div class="hidden sm:block md:block lg:block">
+          <button class="" pButton type="button" icon="pi pi-search" iconPos="right" label="Search"
+                  (click)="itemSearched(searchVal)">
+          </button>
+        </div>
+
+        <div class="block sm:hidden lg:hidden md:hidden">
+          <button class="" pButton type="button" icon="pi pi-search" iconPos="right" label=""
+                  (click)="itemSearched(searchVal)">
+          </button>
+        </div>
       </div>
 
 
@@ -33,9 +41,9 @@
       </div>
 
       <div *ngIf="paginatedData" class="flex flex-col gap-8 p-5">
-        <div class="default-border p-5 flex gap-5" *ngFor="let toolDetail of paginatedData">
+        <div class="default-border p-5 flex flex-wrap gap-5" *ngFor="let toolDetail of paginatedData">
           <h1 class="max-w-[50px] min-w-[50px]" [innerHTML]="toolDetail['Type']"></h1>
-          <div>
+          <div class="basis-[70%]">
             <p class="font-semibold" [innerHTML]="toolDetail['App']"></p>
             <p class="pt-1 font-bold text-cyan-700" [innerHTML]="toolDetail['Title']"></p>
             <p class="pt-0" [innerHTML]="toolDetail['Description']"></p>
