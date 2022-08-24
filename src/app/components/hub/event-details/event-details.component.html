@@ -1,5 +1,6 @@
 <div class="default-border lg:w-[65%] m-auto">
-  <app-video-overview class="mt-5" [toolId]="'events'"
-                      [childToolId]="currentEventId">
+  <app-video-overview *ngIf="userDetails" class="mt-5" [toolId]="'events'"
+                      [childToolId]="currentEventId" [userDetails]="userDetails"
+                      [successMessage]="'Successfully joined'">
   </app-video-overview>
 </div>

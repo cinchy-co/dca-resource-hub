@@ -33,6 +33,7 @@ export class EventsComponent implements OnInit {
     const communityDetails = this.appStateService.communityDetails;
     this.eventsHeaderDetails = communityDetails.find(item => item.id === 'events') as ICommunityDetails;
     this.events = await this.appApiService.getHubEvents().toPromise();
+
     this.events.forEach(item => {
       const calendarEvent = this.getCalendarEvent(item);
       const googleCalendarEventUrl = this.sanitizer.bypassSecurityTrustUrl(
@@ -45,7 +46,6 @@ export class EventsComponent implements OnInit {
       this.calendarEvents.apple[item.title] = iCalendarEventUrl;
     })
     this.showGoogle = this.windowRef.getOperatingSystem() === 'Windows';
-    console.log('ppp events', this.events, this.calendarEvents, this.windowRef.getOperatingSystem())
   }
 
   getCalendarEvent(event: IEvents) {
@@ -53,7 +53,7 @@ export class EventsComponent implements OnInit {
       // Event title
       title: event.title,
       // Event start date
-      start: new Date(event.date + ' ' + event.time),
+      start: new Date(event.date),
       // Event duration (IN MINUTES)
       duration: event.duration,
       // If an end time is set, this will take precedence over duration (optional) end: new Date(event.date + ' ' + event.time),
@@ -65,7 +65,6 @@ export class EventsComponent implements OnInit {
   }
 
   goToSelection(option: IEvents) {
-    console.log('111 option', option);
     const id = option.id;
     this.router.navigate([`events/${id}`]);
     /*if(isPlatformBrowser(this.platformId)) {
