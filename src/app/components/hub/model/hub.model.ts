@@ -51,6 +51,12 @@ export interface ISelectedFilter {
   isFeatured?: number;
 }
 
+export interface ITopNews {
+  title: string;
+  date: string;
+  id: string;
+}
+
 export type IFeatures = {
   sequence: number;
   title: string;

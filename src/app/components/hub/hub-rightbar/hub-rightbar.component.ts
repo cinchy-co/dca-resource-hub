@@ -5,6 +5,7 @@ import {isPlatformBrowser} from "@angular/common";
 import {Router} from "@angular/router";
 import {AppStateService} from "../../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
+import {ITopNews} from "../model/hub.model";
 
 @Component({
   selector: 'app-hub-rightbar',
@@ -15,6 +16,7 @@ export class HubRightbarComponent implements OnInit, OnDestroy {
   @Input() userDetails: IUser;
   @Input() footerDetails: IFooter[];
   @Input() socialMediaDetails: ISocialMedia[];
+  @Input() topNews: ITopNews[];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private windowRef: WindowRefService, private appStateService: AppStateService,
@@ -48,6 +50,11 @@ export class HubRightbarComponent implements OnInit, OnDestroy {
 
   goToProfile() {
     this.router.navigate([`/profile`]);
+  }
+
+  goToNews(news: ITopNews) {
+    const route = `tools/privacy-newsfeed/${news.id}`;
+    this.router.navigate([route])
   }
 
   ngOnDestroy() {

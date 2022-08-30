@@ -63,13 +63,11 @@ export class VideoOverviewComponent implements OnInit {
       }
     })
     combineLatest(allObs).pipe(take(1)).subscribe(values => {
-      console.log('111 OVERVIEW VALUES', values);
       this.toolsOverviewSectionsDetails = this.toolsOverviewSections.map((section, i) => {
         return {...section, details: values[i]};
       });
       const toolIdToSave = this.childToolId ? this.childToolId : this.toolId;
       this.appStateService.toolsOverview[toolIdToSave] = this.toolsOverviewSectionsDetails;
-      console.log('1111 SECTIONS', this.toolsOverviewSectionsDetails);
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -93,7 +91,6 @@ export class VideoOverviewComponent implements OnInit {
   }
 
   async queryButtonClicked(section: IToolSection) {
-    console.log('1111 query button clicked', section);
     const params = {
       '@id': this.childToolId ? this.childToolId : this.toolId,
       '@username': this.userDetails.username
@@ -106,7 +103,6 @@ export class VideoOverviewComponent implements OnInit {
         detail: this.successMessage
       });
     }catch (e) {
-      console.log('1111 EEE', e)
       this.messageService.add({
         severity: 'error',
         summary: 'Network error',

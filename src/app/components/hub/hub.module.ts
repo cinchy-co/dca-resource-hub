@@ -103,6 +103,10 @@ const routes = [
         component: CollabDetailsComponent
       },
       {
+        path: 'collab-human-rights',
+        component: CollabDetailsComponent
+      },
+      {
         path: 'preferences',
         component: ProfilePreferencesComponent
       },

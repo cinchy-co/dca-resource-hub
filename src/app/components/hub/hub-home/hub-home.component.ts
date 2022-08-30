@@ -8,7 +8,14 @@ import {
   PLATFORM_ID
 } from '@angular/core';
 import {ApiCallsService} from "../../../services/api-calls.service";
-import {IFeatures, INewsFeed, INewsFeedFilter, INewsSelectedFilter, ISelectedFilter} from "../model/hub.model";
+import {
+  IFeatures,
+  INewsFeed,
+  INewsFeedFilter,
+  INewsSelectedFilter,
+  ISelectedFilter,
+  ITopNews
+} from "../model/hub.model";
 import {AppStateService} from "../../../services/app-state.service";
 import {IFooter, ISocialMedia, IUser} from "../../../models/common.model";
 import {ICommunityDetails} from "../../../models/general-values.model";
@@ -40,6 +47,7 @@ export class HubHomeComponent implements OnInit, OnDestroy {
   homeDetails: ICommunityDetails;
   hubFeatures: IFeatures[];
   showFeatures = true;
+  hubTopNews: ITopNews[];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
@@ -55,6 +63,11 @@ export class HubHomeComponent implements OnInit, OnDestroy {
     this.filters = await this.appApiService.getHubNewsFilter().toPromise();
     this.appApiService.getHubFeatures().pipe(take(1)).subscribe(val => {
       this.hubFeatures = val;
+      this.changeDetectionRef.markForCheck();
+    });
+
+    this.appApiService.getHubTopNews().pipe(take(1)).subscribe(val => {
+      this.hubTopNews = val;
       this.changeDetectionRef.markForCheck();
     });
     this.featuredFilters = this.filters.filter(filter => filter.isFeatured);

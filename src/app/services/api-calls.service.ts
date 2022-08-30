@@ -106,6 +106,12 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  //
+  getHubTopNews(): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Featured%20News%20Stories`;
+    return this.getResponse(url);
+  }
+
   getFooterDetails(): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Footer%20Details`;
     if (this.cachedFooterDetails) {
@@ -170,11 +176,16 @@ export class ApiCallsService {
   }
 
   getHubCollabActivities(collabId: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Collab%20Activities?%40collabId=${collabId}`;
+    const url = `/API/Node%20Zero%20Website/Get%20All%20Collab%20Activities?%40collabId=${collabId}`;
     return this.getResponse(url);
   }
 
-  // /API/Collaborative%20Privacy/Get%20Privacy%20Resources?%40tag=AD
+  getMyCollabActivities(collabId: string, username: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20My%20Collab%20Activities?%40collabId=${collabId}&%40username=${username}`;
+    return this.getResponse(url);
+  }
+
+  // /API/Node%20Zero%20Website/Get%20All%20Collab%20Activities?%40collabId=asd
 
   getHubToolsSearch(tag: string): Observable<any> {
     const url = `/API/Collaborative%20Privacy/Get%20Privacy%20Resources?%40searchStr=${tag}`;

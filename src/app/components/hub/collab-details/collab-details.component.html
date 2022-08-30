@@ -10,8 +10,8 @@
     </app-video-overview>
   </ng-container>
 
-  <ng-container *ngIf="currentTab === 'activities'">
-    <div class="flex flex-col gap-5 p-4">
+  <ng-container *ngIf="currentTab === 'openActivities'">
+   <!-- <div class="flex flex-col gap-5 p-4">
       <div class="default-border relative pt-2 pb-2 flex flex-col"
            *ngFor="let activity of activities">
          <span class="absolute right-5 top-2 cursor-pointer">
@@ -34,7 +34,7 @@
 
         <div *ngIf="expansionState[activity.cinchyId]" class="mt-2 transition-custom pr-4 pl-4 m-5" [@inOutAnimation]>
           <div class="flex flex-col gap-5 mb-[20px]" *ngIf="activity.videoLink">
-            <!--VIDEO SECTION-->
+            &lt;!&ndash;VIDEO SECTION&ndash;&gt;
             <div class="w-[100%] m-auto">
               <div class="m-auto" id="player">
                 <iframe
@@ -63,9 +63,44 @@
           <i *ngIf="!expansionState[activity.cinchyId]" class="pi pi-angle-down" style="font-size: 1rem"></i>
         </div>
       </div>
-    </div>
+    </div>-->
+    <ng-container *ngTemplateOutlet="activityTable;context:{activities: openActivities}"></ng-container>
   </ng-container>
 
+  <ng-container *ngIf="currentTab === 'myActivities'">
+    <ng-container *ngTemplateOutlet="activityTable;context:{activities: myActivities}"></ng-container>
+  </ng-container>
+
+  <ng-template #activityTable let-activities="activities">
+    <div *ngIf="activities?.length"
+         class="w-[100%]">
+      <p-table [value]="activities">
+        <ng-template pTemplate="header">
+          <tr>
+            <th *ngFor="let col of getCols(activities[0])">
+              {{col}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-tableRow>
+          <tr>
+            <td *ngFor="let col of getCols(activities[0])">
+              <ng-container *ngIf="col.includes('Open'); else elseTemp">
+                <a class="text-blue-500" [href]="tableRow[col]" target="_blank">Open</a>
+              </ng-container>
+              <ng-template #elseTemp>
+                {{tableRow[col]}}
+              </ng-template>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div class="default-border p-5" *ngIf="!activities?.length">
+      No activity present
+    </div>
+  </ng-template>
   <ng-container *ngIf="currentTab === 'messages'">
     <div *ngIf="!showNewMessage" class="mt-4 p-4 flex justify-end">
       <p-button class="btn-color-green p-button-raised p-button-rounded" icon="pi pi-plus" iconPos="left"

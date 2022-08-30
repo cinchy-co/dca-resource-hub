@@ -24,30 +24,7 @@ import {TieredMenu} from "primeng/tieredmenu";
   selector: 'app-collab-details',
   templateUrl: './collab-details.component.html',
   styleUrls: ['./collab-details.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger(
-      'inOutAnimation',
-      [
-        transition(
-          ':enter',
-          [
-            style({height: 0, opacity: 0}),
-            animate('200ms ease-out',
-              style({height: 300, opacity: 1}))
-          ]
-        ),
-        transition(
-          ':leave',
-          [
-            style({height: 300, opacity: 1}),
-            animate('200ms ease-in',
-              style({height: 0, opacity: 0}))
-          ]
-        )
-      ]
-    )
-  ]
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CollabDetailsComponent implements OnInit, OnDestroy {
   collabDetails: ICollab;
@@ -55,7 +32,9 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   items: MenuItem[];
   currentTab: string = 'overview';
   currentMenuItem: MenuItem;
-  activities: IActivity[];
+  activities: any;
+  openActivities: any;
+  myActivities: any;
   expansionState: any = {};
   collabMessages: ICollabMessage[];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
@@ -100,9 +79,22 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
 
   getCollabActivities() {
     this.appApiService.getHubCollabActivities(this.collabDetails.collabId).pipe(take(1)).subscribe(activities => {
-      this.activities = activities;
+      this.openActivities = activities;
+      console.log('111 acti', activities)
       this.changeDetection.detectChanges();
     });
+  }
+
+  getMyCollabActivities() {
+    this.appApiService.getMyCollabActivities(this.collabDetails.collabId, this.userDetails.username)
+      .pipe(take(1)).subscribe(activities => {
+      this.myActivities = activities;
+      this.changeDetection.detectChanges();
+    });
+  }
+
+  getCols(tableFirstRow: any): string[] {
+    return Object.keys(tableFirstRow);
   }
 
   goToActivity(activity: IActivity) {
@@ -122,6 +114,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
       this.appStateService.getUserDetailsSub().pipe(takeUntil(this.destroyed$))
         .subscribe(async (userDetails: IUser) => {
           this.userDetails = userDetails;
+          this.getMyCollabActivities();
           this.collabMessages = this.collabMessages.map(message => {
             return {...message, canUpdateOrDelete: this.userDetails.username === message.username}
           })
@@ -245,9 +238,15 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
         }
       },
       {
-        label: 'Activities', id: 'activities', icon: 'pi pi-fw pi-cog',
+        label: 'Open Activities', id: 'openActivities', icon: 'pi pi-fw pi-cog',
         command: () => {
-          this.tabClicked('activities');
+          this.tabClicked('openActivities');
+        }
+      },
+      {
+        label: 'My Activities', id: 'myActivities', icon: 'pi pi-fw pi-cog',
+        command: () => {
+          this.tabClicked('myActivities');
         }
       },
       {
