@@ -1,8 +1,10 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Inject, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ApiCallsService} from "../../../services/api-calls.service";
 import {IGettingStarted} from "../model/hub.model";
 import {combineLatest, Observable, ObservableInput, of, ReplaySubject, take, takeUntil} from "rxjs";
+import {PageScrollService} from "ngx-page-scroll-core";
+import {DOCUMENT} from "@angular/common";
 
 @Component({
   selector: 'app-getting-started',
@@ -16,15 +18,22 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
   mappedPageDetails: IGettingStarted[];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
-  constructor(private activatedRoute: ActivatedRoute, private apiCallsService: ApiCallsService) {
+  constructor(private activatedRoute: ActivatedRoute, private apiCallsService: ApiCallsService,
+              private pageScrollService: PageScrollService, @Inject(DOCUMENT) private document: any) {
   }
+
 
   async ngOnInit() {
     this.activatedRoute.paramMap.pipe(takeUntil(this.destroyed$)).subscribe(async (params: any) => {
       this.currentPage = params.get('route') as string;
       this.pageDetails = await this.apiCallsService.getFooterPageDetails(this.currentPage).toPromise();
       this.setMappedDetailsWithTableData();
-    })
+    });
+
+    this.pageScrollService.scroll({
+      document: this.document,
+      scrollTarget: '.theEnd',
+    });
   }
 
   setMappedDetailsWithTableData() {
@@ -47,6 +56,10 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
 
   getCols(tableFirstRow: any): string[] {
     return Object.keys(tableFirstRow);
+  }
+
+  getId(str: string): string {
+    return str.replace(/\s/g, '');
   }
 
   ngOnDestroy() {

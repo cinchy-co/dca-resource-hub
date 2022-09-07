@@ -20,6 +20,7 @@ export class VideoOverviewComponent implements OnInit {
   @Input() toolDetails: ITools; // need to remove
   @Input() userDetails: IUser;
   @Input() successMessage: string = 'Success';
+  @Input() useQueryButton = true;
   toolsOverviewSections: IToolSection[];
   toolsOverviewSectionsDetails: IToolSection[];
   allQueriesObs: any;
@@ -86,6 +87,13 @@ export class VideoOverviewComponent implements OnInit {
   goToDetails(item: any) {
     if (isPlatformBrowser(this.platformId)) {
       const url = item.logoLink;
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
+  }
+
+  linkButtonClicked(item: any) {
+    if (isPlatformBrowser(this.platformId) && item.details) {
+      const url = item.details[0].buttonLink;
       this.windowRef.nativeWindow.open(url, '_blank');
     }
   }

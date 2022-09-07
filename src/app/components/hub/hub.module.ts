@@ -40,6 +40,7 @@ import {DialogModule} from "primeng/dialog";
 import {VirtualScrollerModule} from "primeng/virtualscroller";
 import {TieredMenuModule} from "primeng/tieredmenu";
 import { EventDetailsComponent } from './event-details/event-details.component';
+import {NgxPageScrollModule} from "ngx-page-scroll";
 
 const routes = [
   {
@@ -168,31 +169,32 @@ const routes = [
     GettingStartedComponent,
     EventDetailsComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    DividerModule,
-    CardModule,
-    ButtonModule,
-    InputTextModule,
-    ReactiveFormsModule,
-    DropdownModule,
-    ProgressSpinnerModule,
-    ToastModule,
-    FontAwesomeModule,
-    InputTextareaModule,
-    MultiSelectModule,
-    ChipModule,
-    OverlayPanelModule,
-    DcaCommonModule,
-    TabMenuModule,
-    PipesModule,
-    TableModule,
-    NgAddToCalendarModule,
-    DialogModule,
-    VirtualScrollerModule,
-    TieredMenuModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        DividerModule,
+        CardModule,
+        ButtonModule,
+        InputTextModule,
+        ReactiveFormsModule,
+        DropdownModule,
+        ProgressSpinnerModule,
+        ToastModule,
+        FontAwesomeModule,
+        InputTextareaModule,
+        MultiSelectModule,
+        ChipModule,
+        OverlayPanelModule,
+        DcaCommonModule,
+        TabMenuModule,
+        PipesModule,
+        TableModule,
+        NgAddToCalendarModule,
+        DialogModule,
+        VirtualScrollerModule,
+        TieredMenuModule,
+        NgxPageScrollModule
+    ],
   exports: [RouterModule]
 })
 export class HubModule {

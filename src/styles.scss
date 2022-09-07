@@ -227,6 +227,7 @@ p-button.btn-color, .p-button.btn-color {
     .p-button {
       background-color: #00b529;
       border: #00b529;
+      min-width: 100px;
 
       &:enabled:hover {
         background-color: #00b529;
@@ -250,127 +251,133 @@ p-button.btn-color, .p-button.btn-color {
   }
 }
 
-  .p-accordion-toggle-icon {
-    color: #164f63;
+.p-accordion-toggle-icon {
+  color: #164f63;
+}
+
+.p-carousel-items-container {
+  height: 100%;
+}
+
+.p-carousel-content {
+  background: #111827;
+}
+
+.p-chip .p-chip-text {
+  font-size: 12px;
+  line-height: 1;
+}
+
+.pipps-container, .key-issues-container {
+  .p-sidebar .p-sidebar-header + .p-sidebar-content {
+    transition: all 0.5s ease;
+    padding-top: 20px;
+    //  padding-bottom: 150px;
   }
 
-  .p-carousel-items-container {
-    height: 100%;
+  .p-sidebar, p-sidebar {
+    position: sticky;
+    height: 100vh;
+    overflow: auto;
   }
 
-  .p-carousel-content {
-    background: #111827;
-  }
+  &.pd-top-scroll {
+    transition: all 0.5s ease;
 
-  .p-chip .p-chip-text {
-    font-size: 12px;
-    line-height: 1;
-  }
-
-  .pipps-container, .key-issues-container {
     .p-sidebar .p-sidebar-header + .p-sidebar-content {
-      transition: all 0.5s ease;
-      padding-top: 20px;
-      //  padding-bottom: 150px;
-    }
-
-    .p-sidebar, p-sidebar {
-      position: sticky;
-      height: 100vh;
-      overflow: auto;
-    }
-
-    &.pd-top-scroll {
-      transition: all 0.5s ease;
-
-      .p-sidebar .p-sidebar-header + .p-sidebar-content {
-        // padding-top: 185px;
-      }
-    }
-
-    p-panel {
-      .p-panel .p-panel-header {
-        border: 0.5px solid #dee2e6;
-        border-left: 0;
-        border-right: 0;
-        background: white;
-      }
-
-      .p-panel-content {
-        padding-top: 5px;
-      }
-
-      .pi {
-        font-size: 0.7rem;
-      }
+      // padding-top: 185px;
     }
   }
 
-  app-avatars {
-    .p-avatar.p-avatar-lg {
-      width: 7rem;
-      height: 7rem;
-      font-size: 1.5rem;
+  p-panel {
+    .p-panel .p-panel-header {
+      border: 0.5px solid #dee2e6;
+      border-left: 0;
+      border-right: 0;
+      background: white;
+    }
 
-      @media (max-width: 992px) {
-        width: 5rem;
-        height: 5rem;
-      }
+    .p-panel-content {
+      padding-top: 5px;
+    }
+
+    .pi {
+      font-size: 0.7rem;
     }
   }
+}
 
-  app-footer {
-    fa-icon {
-      font-size: 28px;
+app-avatars {
+  .p-avatar.p-avatar-lg {
+    width: 7rem;
+    height: 7rem;
+    font-size: 1.5rem;
+
+    @media (max-width: 992px) {
+      width: 5rem;
+      height: 5rem;
     }
   }
+}
 
-  .pipps-container {
-    .p-dropdown {
-      width: 98%;
-    }
+app-footer {
+  fa-icon {
+    font-size: 28px;
   }
+}
 
-  .pipps-container {
-    .p-sidebar.p-sidebar-active {
-      z-index: 1102 !important;
-    }
+.pipps-container {
+  .p-dropdown {
+    width: 98%;
   }
+}
 
-  .tag-selected {
-    .p-chip {
-      --tw-bg-opacity: 1;
-      background-color: rgb(14 165 233 / var(--tw-bg-opacity));
-      color: white;
-    }
+.pipps-container {
+  .p-sidebar.p-sidebar-active {
+    z-index: 1102 !important;
   }
+}
 
-  .suggestions-container {
-    .p-dropdown, .p-multiselect {
-      width: 100%;
-    }
+.tag-selected {
+  .p-chip {
+    --tw-bg-opacity: 1;
+    background-color: rgb(14 165 233 / var(--tw-bg-opacity));
+    color: white;
   }
+}
 
-  .p-overlaypanel-content {
-    .p-chip {
-      background-color: white !important;
-      border: 1px solid #dee2e6;
-    }
+.suggestions-container {
+  .p-dropdown, .p-multiselect {
+    width: 100%;
   }
+}
 
+.p-overlaypanel-content {
   .p-chip {
     background-color: white !important;
     border: 1px solid #dee2e6;
   }
+}
 
-  .selected-chip {
-    .p-chip {
-      background-color: #dee2e6 !important;
-      border: 1px solid whitesmoke;
-    }
+.p-chip {
+  background-color: white !important;
+  border: 1px solid #dee2e6;
+}
+
+.selected-chip {
+  .p-chip {
+    background-color: #dee2e6 !important;
+    border: 1px solid whitesmoke;
   }
+}
 
 
-  .p-autocomplete .p-autocomplete-panel {
-    max-width: 500px !important;
+.p-autocomplete .p-autocomplete-panel {
+  max-width: 500px !important;
+}
+
+th {
+  .p-multiselect {
+    max-width: 200px;
   }
+}

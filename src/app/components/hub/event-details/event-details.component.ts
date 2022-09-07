@@ -4,6 +4,7 @@ import {AppStateService} from "../../../services/app-state.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {IUser} from "../../../models/common.model";
+import {IEvents} from "../model/hub.model";
 
 @Component({
   selector: 'app-event-details',
@@ -13,6 +14,8 @@ import {IUser} from "../../../models/common.model";
 export class EventDetailsComponent implements OnInit, OnDestroy {
   currentEventId: string;
   userDetails: IUser;
+  events: IEvents[];
+  currentEvent: IEvents;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
 
@@ -20,8 +23,10 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
               private activatedRoute: ActivatedRoute, private router: Router) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.currentEventId = this.activatedRoute.snapshot.paramMap.get('id') as string;
+    this.events = await this.apiCallsService.getHubEvents().toPromise();
+    this.currentEvent = this.events.find(event => event.id == this.currentEventId) as IEvents;
     this.appStateService.getUserDetailsSub().pipe(takeUntil(this.destroyed$))
       .subscribe(async (userDetails: IUser) => {
         this.userDetails = userDetails;

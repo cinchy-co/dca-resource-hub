@@ -3,7 +3,7 @@ import {BehaviorSubject, Subject} from "rxjs";
 import {IDropdownClick, IFooter, IOption, ITag, IUser} from "../models/common.model";
 import {ICommunityDetails, MappedCombinedCountryKey} from "../models/general-values.model";
 import {
-  ICollab,
+  ICollab, IEvents,
   INewsSelectedFilter,
   IToolDetails,
   ITools,
@@ -32,6 +32,7 @@ export class AppStateService {
   newsFeedHomeFilters: INewsSelectedFilter[];
   showFeatures = true;
   currentCollab: ICollab;
+  hubEvents: IEvents[];
 
   constructor() {
   }

@@ -10,7 +10,7 @@
     </app-video-overview>
   </ng-container>
 
-  <ng-container *ngIf="currentTab === 'openActivities'">
+  <ng-container *ngIf="currentTab === 'activities'">
    <!-- <div class="flex flex-col gap-5 p-4">
       <div class="default-border relative pt-2 pb-2 flex flex-col"
            *ngFor="let activity of activities">
@@ -64,7 +64,7 @@
         </div>
       </div>
     </div>-->
-    <ng-container *ngTemplateOutlet="activityTable;context:{activities: openActivities}"></ng-container>
+    <ng-container *ngTemplateOutlet="activityTable;context:{activities: filteredActivities}"></ng-container>
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'myActivities'">
@@ -79,6 +79,21 @@
           <tr>
             <th *ngFor="let col of getCols(activities[0])">
               {{col}}
+            </th>
+          </tr>
+
+          <tr>
+            <th *ngFor="let col of getCols(activities[0])">
+             <ng-container *ngIf="col==='Assigned To'">
+               <p-multiSelect [options]="allAssignedTo" placeholder="All" (onChange)="onAssigneeChange($event, 'Assigned To')"
+                              styleClass="p-column-filter">
+                 <ng-template let-option pTemplate="item">
+                   <div class="p-multiselect-representative-option">
+                     <span class="p-ml-1">{{option}}</span>
+                   </div>
+                 </ng-template>
+               </p-multiSelect>
+             </ng-container>
             </th>
           </tr>
         </ng-template>

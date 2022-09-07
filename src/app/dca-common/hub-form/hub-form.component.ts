@@ -30,6 +30,7 @@ export class HubFormComponent implements OnInit {
   @Input() topSpaceToButton: string;
   @Input() updateWithHiddenOrDisabledFields: boolean;
   @Input() doAutoFocus: boolean;
+  @Input() clearAfterSubmit = true;
 
   @Output() submitClicked: EventEmitter<any> = new EventEmitter<any>();
 
@@ -138,34 +139,30 @@ export class HubFormComponent implements OnInit {
     this.showLoader = true;
     try {
       await this.apiService.executeCinchyQueries(insertQueryName, insertQueryDomain, params, true).toPromise();
-      this.submitClicked.emit(formValues);
-      this.showLoader = false;
-      this.customForm.reset();
-      this.customForm.reset(this.customForm.value);
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Submit Successful',
-        detail: this.successMessage
-      });
-      this.changeDetectionRef.detectChanges();
+      this.handleSuccess(formValues);
     } catch (e: any) {
       this.handleError(e, formValues);
     }
   }
 
-  handleError(e: any, formValues: any) {
-    if (e?.cinchyException?.data?.status === 200) {
-      this.showLoader = false;
-      this.messageService.add({
-        severity: 'success',
-        summary: 'Submit Successful',
-        detail: this.successMessage
-      });
-      this.submitClicked.emit(formValues);
-      this.showLoader = false;
+  handleSuccess(formValues: any) {
+    this.submitClicked.emit(formValues);
+    this.showLoader = false;
+    if (this.clearAfterSubmit) {
       this.customForm.reset();
       this.customForm.reset(this.customForm.value);
-      this.changeDetectionRef.detectChanges();
+    }
+    this.messageService.add({
+      severity: 'success',
+      summary: 'Submit Successful',
+      detail: this.successMessage
+    });
+    this.changeDetectionRef.detectChanges();
+  }
+
+  handleError(e: any, formValues: any) {
+    if (e?.cinchyException?.data?.status === 200) {
+      this.handleSuccess(formValues);
     } else {
       this.showLoader = false;
       this.messageService.add({

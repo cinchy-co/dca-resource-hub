@@ -229,7 +229,12 @@ export class ApiCallsService {
 
   getHubEvents(): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Upcoming%20Events`;
-    return this.getResponse(url);
+    if (this.appStateService.hubEvents) {
+      return of(this.appStateService.hubEvents);
+    }
+    return this.getResponse(url).pipe(
+      tap(resp => this.appStateService.hubEvents = resp)
+    );
   }
 
   getLearningEvents(): Observable<any> {

@@ -34,6 +34,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   currentMenuItem: MenuItem;
   activities: any;
   openActivities: any;
+  filteredActivities: any;
   myActivities: any;
   expansionState: any = {};
   collabMessages: ICollabMessage[];
@@ -49,6 +50,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   actionItems: MenuItem[];
   commentClicked: boolean;
   doAutoFocus: boolean;
+  allAssignedTo: any;
 
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
               private router: Router, private changeDetection: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
@@ -60,9 +62,10 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
     this.collabDetails = this.appStateService.currentCollab;
     this.setTabItems();
     this.setActionItems();
-    this.activatedRoute.queryParams.pipe(takeUntil(this.destroyed$)).subscribe(params => {
-      this.currentTab = params['tab'] ? params['tab'].toLowerCase() : 'overview';
-      this.currentMenuItem = this.items.find(item => item.id === this.currentTab) || this.items[0];
+    this.activatedRoute.queryParams.pipe(take(1)).subscribe(params => {
+      this.currentTab = params['tab'] ? params['tab'] : 'overview';
+      this.currentMenuItem = this.items.find(item => item.id?.toLowerCase() === this.currentTab?.toLowerCase()) || this.items[0];
+      console.log('1111 CURRENT TAB', this.currentTab)
     });
 
     if (!this.collabDetails?.collabId) {
@@ -80,9 +83,25 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   getCollabActivities() {
     this.appApiService.getHubCollabActivities(this.collabDetails.collabId).pipe(take(1)).subscribe(activities => {
       this.openActivities = activities;
-      console.log('111 acti', activities)
+      this.filteredActivities = activities;
+      this.setAssigneeValues();
       this.changeDetection.detectChanges();
     });
+  }
+
+  setAssigneeValues() {
+    this.allAssignedTo = this.openActivities?.map((item: { [x: string]: any; }) => item['Assigned To']);
+    this.allAssignedTo = this.allAssignedTo?.filter((item: { [x: string]: any; }) => item);
+    this.allAssignedTo = [...new Set(this.allAssignedTo)];
+  }
+
+  onAssigneeChange(e: any, columnName: string) {
+    if (!e.value?.length) {
+      this.filteredActivities = this.openActivities;
+    }
+    this.filteredActivities = this.openActivities.filter((item: { [x: string]: any; }) => e.value.includes(item[columnName]));
+    this.filteredActivities = this.filteredActivities?.length ? this.filteredActivities : this.openActivities;
+    this.changeDetection.detectChanges();
   }
 
   getMyCollabActivities() {
@@ -114,7 +133,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
       this.appStateService.getUserDetailsSub().pipe(takeUntil(this.destroyed$))
         .subscribe(async (userDetails: IUser) => {
           this.userDetails = userDetails;
-          this.getMyCollabActivities();
+          //  this.getMyCollabActivities();
           this.collabMessages = this.collabMessages.map(message => {
             return {...message, canUpdateOrDelete: this.userDetails.username === message.username}
           })
@@ -135,14 +154,6 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   messageAdded(formValues: any, isEdit?: boolean) {
-    /*    const newMessage: ICollabMessage = this.getNewOrUpdatedMessage(formValues, isEdit);
-        this.currentMessage = isEdit ? {...this.currentMessage, ...newMessage} : this.currentMessage;
-        if (isEdit) {
-          this.collabMessages = this.collabMessages.filter(message => message.id !== this.currentMessage.id);
-          this.collabMessages.unshift(this.currentMessage);
-        } else {
-          this.collabMessages.unshift(newMessage);
-        }*/
     this.getCollabMessages();
   }
 
@@ -209,7 +220,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   closeComments(message: ICollabMessage) {
-   // this.currentCommentsParent = {} as ICollabMessage;
+    // this.currentCommentsParent = {} as ICollabMessage;
     this.commentsForMessages[message.id] = undefined;
   }
 
@@ -238,15 +249,9 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
         }
       },
       {
-        label: 'Open Activities', id: 'openActivities', icon: 'pi pi-fw pi-cog',
+        label: 'Activities', id: 'activities', icon: 'pi pi-fw pi-cog',
         command: () => {
-          this.tabClicked('openActivities');
-        }
-      },
-      {
-        label: 'My Activities', id: 'myActivities', icon: 'pi pi-fw pi-cog',
-        command: () => {
-          this.tabClicked('myActivities');
+          this.tabClicked('activities');
         }
       },
       {
@@ -260,6 +265,14 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
 
   tabClicked(tabId: string) {
     this.currentTab = tabId;
+    this.router.navigate([], {
+      relativeTo: this.activatedRoute,
+      queryParams: {
+        tab: tabId
+      },
+      queryParamsHandling: 'merge',
+      // preserve the existing query params in the route
+    });
   }
 
   showContext(cm: TieredMenu, event: MouseEvent, message: ICollabMessage, isComment?: boolean) {

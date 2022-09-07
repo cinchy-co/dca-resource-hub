@@ -37,10 +37,16 @@
       </div>
 
       <!--QUERY BUTTON-->
-      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Query Button'"
-           class="">
-        <button class="btn-color-green p-button-raised" pButton [label]="toolSection.details"
-        (click)="queryButtonClicked(toolSection)"></button>
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Query Button'
+            && useQueryButton" class="">
+        <p-button class="btn-color-green p-button-raised" [label]="toolSection.details"
+                (click)="queryButtonClicked(toolSection)"></p-button>
+      </div>
+
+      <!--LINK BUTTON-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Link Button'">
+        <p-button class="btn-color-green p-button-raised" [label]="toolSection.sectionName"
+                (click)="linkButtonClicked(toolSection)"></p-button>
       </div>
 
       <!--HEADER ONLY TEXT-->
@@ -53,7 +59,7 @@
       <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Date'"
            class="flex gap-2 w-[100%]">
         <p class="text-sm text-gray-600 whitespace-pre-wrap"
-           [innerHTML]="toolSection.details[0].Date | date: 'medium'">
+           [innerHTML]="toolSection.details[0].Date">
         </p>
       </div>
 
@@ -68,15 +74,27 @@
         </div>
       </div>
 
+      <!--Header and List-->
+      <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Header and List'"
+           class="flex flex-col gap-2 w-[100%]">
+        <h1 [id]="toolSection.sectionName" class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
+
+        <div class="flex flex-wrap gap-3">
+          <ng-container *ngFor="let item of toolSection.details">
+            <p class="whitespace-pre-wrap" [innerHTML]="item.sectionValue"></p>
+          </ng-container>
+        </div>
+      </div>
+
       <!--Image and Title-->
       <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Image and Title'"
            class="w-[100%]">
-        <h1 class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
+        <h1 [id]="toolSection.sectionName" class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
 
         <div class="flex flex-wrap gap-5">
           <div class="flex flex-col items-center cursor-pointer border-[1px] border-solid border-slate-400"
                (click)="goToDetails(item)" *ngFor="let item of toolSection.details">
-            <img class="h-[200px] w-[200px] gap-5" [src]="item.logoImage" [alt]="item.name">
+            <img class="h-[100px] w-[100px] gap-5" [src]="item.logoImage" [alt]="item.name">
             <!-- <p [innerHTML]="item.name"></p>-->
           </div>
         </div>
@@ -85,7 +103,7 @@
       <!--Paragraph-->
       <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Paragraph'"
            class="w-[100%]">
-        <h1 class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
+        <h1 [id]="toolSection.sectionName" class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
         <p class="whitespace-pre-wrap" *ngIf="toolSection.sectionValue" [innerHTML]="toolSection.sectionValue"></p>
         <p class="whitespace-pre-wrap" *ngIf="!toolSection.sectionValue"
            [innerHTML]="toolSection.details[0].toolDesc"></p>
@@ -94,7 +112,7 @@
       <!--Table Query-->
       <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Table Query'"
            class="w-[100%]">
-        <h1 class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
+        <h1 [id]="toolSection.sectionName" class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
         <p-table [value]="toolSection.details">
           <ng-template pTemplate="header">
             <tr>
@@ -117,7 +135,7 @@
       <div
         *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Paragraph and Cards'"
         class="w-[100%]">
-        <h1 class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
+        <h1 [id]="toolSection.sectionName" class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
         <p class="whitespace-pre-wrap" [innerHTML]="toolSection.details[0].sectionDesc"></p>
 
         <div class="flex flex-wrap gap-10 mt-2" *ngIf="toolSection.details[0].cardName">
@@ -142,7 +160,7 @@
       <!--Tags-->
       <div *ngIf="(toolSection.details?.length || toolSection.sectionValue) && toolSection.format === 'Tags'"
            class="w-[100%]">
-        <h1 class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
+        <h1 [id]="toolSection.sectionName" class="text-[24px] pb-2 font-semibold" [innerHTML]="toolSection.sectionName"></h1>
         <div class="flex flex-row flex-wrap gap-1 pt-1 text-sm-12 text-gray-700">
           <ng-container *ngFor="let tag of toolSection.details">
             <p-chip class="mr-2" [label]="tag.toolTags"></p-chip>

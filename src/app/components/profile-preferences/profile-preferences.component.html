@@ -14,6 +14,7 @@
   <div class="mb-10 flex flex-col items-start gap-2" *ngIf="existingProfileDetails">
     <app-hub-form [userDetails]="userDetails" [formId]="'preferences'" [buttonLabel]="'Update'"
                   [topSpaceToButton]="'20px'"
+                  [clearAfterSubmit]="false"
                   [existingDetails]="existingProfileDetails" [successMessage]="'Your Profile has been updated'">
     </app-hub-form>
 

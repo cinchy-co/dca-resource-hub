@@ -44,6 +44,7 @@ export class EventsComponent implements OnInit {
       );
       this.calendarEvents.google[item.title] = googleCalendarEventUrl;
       this.calendarEvents.apple[item.title] = iCalendarEventUrl;
+      console.log('1111 CALENDAR', this.calendarEvents);
     })
     this.showGoogle = this.windowRef.getOperatingSystem() === 'Windows';
   }
