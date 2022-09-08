@@ -45,7 +45,7 @@
         <i class="pi pi-book z-10 bg-white text-gray-400" style="font-size: 1.2rem"></i>
 
         <div class="w-full flex justify-between">
-          <p [innerHTML]="headerDetails?.header"></p>
+          <p [innerHTML]="headerDetails.header"></p>
 
           <div class="flex items-center gap-2 cursor-pointer" (click)="op.toggle($event)">
             <!-- <fa-icon [icon]="['fas', 'filter']"></fa-icon>-->
@@ -90,7 +90,7 @@
         </div>
       </div>
 
-      <div *ngIf="featuredFilters?.length" class="ml-[50px] mt-5 flex flex-wrap gap-2.5 p-overlaypanel-content">
+      <div *ngIf="featuredFilters.length" class="ml-[50px] mt-5 flex flex-wrap gap-2.5 p-overlaypanel-content">
         <div class="cursor-pointer" *ngFor="let filter of featuredFilters"
              (click)="filterToggled({name: filter.filterTag, id: filter.id, isFeatured: filter.isFeatured}, filter.labelKey)"
              [ngClass]="{'selected-chip': isSelectedFilter({name: filter.filterTag, id: filter.id, isFeatured: filter.isFeatured})}">
@@ -98,7 +98,7 @@
         </div>
       </div>
 
-      <div *ngIf="selectedFilters?.length" class="ml-[50px] mt-5 flex flex-wrap gap-2.5">
+      <div *ngIf="selectedFilters.length" class="ml-[50px] mt-5 flex flex-wrap gap-2.5">
         <ng-container *ngFor="let filter of selectedFilters">
           <div class="cursor-pointer" *ngIf="!filter.filter.isFeatured">
             <p-chip [label]="filter.filter.name" [removable]="true"

@@ -15,7 +15,7 @@
     <div class="relative pipps-container-content flex flex-row">
 
       <p-progressSpinner class="item-center-n-relative"
-                         *ngIf="!(currentLegislationData?.length && (currentLegislationData?.length))">
+                         *ngIf="!(currentLegislationData.length && (currentLegislationData.length))">
       </p-progressSpinner>
 
       <div class="show-in-medium-large z-0">
@@ -207,16 +207,16 @@
         <div class="flex flex-row justify-between" *ngIf="prevNextAndCurrent.next || prevNextAndCurrent.prev">
           <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center"
              (click)="goToArticle(prevNextAndCurrent.prev)">
-            <ng-container *ngIf="prevNextAndCurrent.prev?.id">
+            <ng-container *ngIf="prevNextAndCurrent.prev.id">
               <i class="pi pi-angle-left"></i>
-              <span>{{prevNextAndCurrent.prev?.label}}</span>
+              <span>{{prevNextAndCurrent.prev.label}}</span>
             </ng-container>
           </p>
 
           <p class="cursor-pointer text-sm-12 text-sky-500 flex flex-row items-center"
              (click)="goToArticle(prevNextAndCurrent.next)">
-            <ng-container *ngIf="prevNextAndCurrent.next?.id">
-              <span>{{prevNextAndCurrent.next?.label}}</span>
+            <ng-container *ngIf="prevNextAndCurrent.next.id">
+              <span>{{prevNextAndCurrent.next.label}}</span>
               <i class="pi pi-angle-right"></i>
             </ng-container>
           </p>

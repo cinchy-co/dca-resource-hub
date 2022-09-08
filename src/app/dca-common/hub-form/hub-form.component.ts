@@ -9,7 +9,7 @@ import {
   ViewChild
 } from '@angular/core';
 import {IField, IFormField, IUser} from "../../models/common.model";
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {ReplaySubject} from "rxjs";
 import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
@@ -36,14 +36,14 @@ export class HubFormComponent implements OnInit {
 
   allFields: IFormField[] = [];
   optionsForFields: any = {};
-  customForm: FormGroup;
+  customForm: UntypedFormGroup;
   customFormQueries: any;
   showLoader: boolean;
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   @ViewChild("autoFocusInput") autoFocusInput: ElementRef;
 
-  constructor(private apiService: ApiCallsService, private fb: FormBuilder, private appStateService: AppStateService,
+  constructor(private apiService: ApiCallsService, private fb: UntypedFormBuilder, private appStateService: AppStateService,
               private messageService: MessageService, private changeDetectionRef: ChangeDetectorRef) {
   }
 

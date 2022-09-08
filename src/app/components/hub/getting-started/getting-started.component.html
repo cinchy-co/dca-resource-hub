@@ -3,11 +3,10 @@
 </p-progressSpinner>
 
 
-<a pageScroll [href]="'#DataOwnerBillofRights'">Scroll</a>
 <div class="default-border" *ngIf="mappedPageDetails">
   <h1 class="p-4 page-header text-center" [innerHTML]="mappedPageDetails[0].page"></h1>
-  <div class="p-4 pl-8" *ngFor="let page of mappedPageDetails">
-    <h2 [id]="getId(page.sectionName)" class="whitespace-pre-wrap font-semibold header-dca mt-2 mb-4" [innerHTML]="page.sectionName"></h2>
+  <div [id]="getId(page.sectionName)" class="p-4 pl-8" *ngFor="let page of mappedPageDetails" #mySections>
+    <h2 class="whitespace-pre-wrap font-semibold header-dca mt-2 mb-4" [innerHTML]="page.sectionName"></h2>
 
     <!--VIDEO-->
     <div *ngIf="page.video" class="w-[100%] m-auto">

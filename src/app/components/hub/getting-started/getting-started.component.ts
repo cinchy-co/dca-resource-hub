@@ -1,9 +1,18 @@
-import {Component, Inject, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Inject,
+  OnDestroy,
+  OnInit, QueryList,
+  ViewChildren,
+  ViewEncapsulation
+} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {ApiCallsService} from "../../../services/api-calls.service";
 import {IGettingStarted} from "../model/hub.model";
 import {combineLatest, Observable, ObservableInput, of, ReplaySubject, take, takeUntil} from "rxjs";
-import {PageScrollService} from "ngx-page-scroll-core";
+import {PageScrollService, PageScrollTarget} from "ngx-page-scroll-core";
 import {DOCUMENT} from "@angular/common";
 
 @Component({
@@ -12,7 +21,8 @@ import {DOCUMENT} from "@angular/common";
   styleUrls: ['./getting-started.component.scss'],
   encapsulation: ViewEncapsulation.None
 })
-export class GettingStartedComponent implements OnInit, OnDestroy {
+export class GettingStartedComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChildren('mySections') mySections: QueryList<ElementRef>;
   currentPage: string;
   pageDetails: IGettingStarted[];
   mappedPageDetails: IGettingStarted[];
@@ -29,11 +39,19 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
       this.pageDetails = await this.apiCallsService.getFooterPageDetails(this.currentPage).toPromise();
       this.setMappedDetailsWithTableData();
     });
+  }
 
-    this.pageScrollService.scroll({
-      document: this.document,
-      scrollTarget: '.theEnd',
-    });
+  ngAfterViewInit() {
+    setTimeout(() => {
+      const scrollToId = this.activatedRoute.snapshot.queryParamMap.get('scrollToId');
+      const elem: any = this.mySections.find(item => item.nativeElement.id === scrollToId);
+      this.pageScrollService.scroll({
+        document: this.document,
+        scrollTarget: elem.nativeElement,
+        scrollOffset: 80,
+        duration: 0
+      });
+    }, 1000);
   }
 
   setMappedDetailsWithTableData() {
@@ -59,7 +77,7 @@ export class GettingStartedComponent implements OnInit, OnDestroy {
   }
 
   getId(str: string): string {
-    return str.replace(/\s/g, '');
+    return str?.replace(/\s/g, '');
   }
 
   ngOnDestroy() {

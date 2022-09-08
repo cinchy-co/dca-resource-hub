@@ -3,7 +3,7 @@ import {ICommunityDetails} from "../../../models/general-values.model";
 import {ApiCallsService} from "../../../services/api-calls.service";
 import {AppStateService} from "../../../services/app-state.service";
 import {FieldTypes, IField, IFormField} from "../../../models/common.model";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../../services/window-ref.service";
 import {MessageService} from "primeng/api";
@@ -17,12 +17,12 @@ export class SuggestionsComponent implements OnInit {
   suggestionHeaderDetails: ICommunityDetails;
   allFields: IFormField[] = [];
   optionsForFields: any = {};
-  suggestionForm: FormGroup;
+  suggestionForm: UntypedFormGroup;
   suggestionFormQueries: any;
   showLoader: boolean;
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
-              private fb: FormBuilder, @Inject(PLATFORM_ID) private platformId: any,
+              private fb: UntypedFormBuilder, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private messageService: MessageService) {
   }
 
