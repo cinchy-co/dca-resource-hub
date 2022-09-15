@@ -148,7 +148,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   showAllLaws() {
-    this.router.navigate([`tools/privacy-law-navigator`]);
+    this.router.navigate([`apps/privacy-law-navigator`]);
   }
 
   ngOnDestroy() {

@@ -35,7 +35,7 @@ export class ToolsComponent implements OnInit {
       this.windowRef.nativeWindow.open(url, '_blank');
       return;
     }
-    this.router.navigate([`tools/${item.toolRoute}`]);
+    this.router.navigate([`apps/${item.toolRoute}`]);
   }
 
 }

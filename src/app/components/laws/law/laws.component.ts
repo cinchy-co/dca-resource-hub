@@ -191,7 +191,7 @@ export class LawsComponent implements OnInit, OnDestroy {
   }
 
   goToRegulator(id: string) {
-    this.router.navigate([`tools/privacy-regulators/${id}`]);
+    this.router.navigate([`apps/privacy-regulators/${id}`]);
   }
 
   ngOnDestroy() {

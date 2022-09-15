@@ -92,7 +92,6 @@ export class ResourceLocatorComponent implements OnInit {
       ...item,
       tags: item['Tags'] ? item['Tags'].split(', ') : []
     }));
-    console.log('111 OOOL', this.toolList);
     if(this.toolList[0]) {
       this.setButtonsCountArray(this.toolList[0]['TotalActionLinks']);
     }
@@ -131,7 +130,7 @@ export class ResourceLocatorComponent implements OnInit {
   }
 
   viewTool(tool: ToolSearchAction) {
-    this.router.navigate([`tools/${tool['Route']}`])
+    this.router.navigate([`apps/${tool['Route']}`])
   }
 
   setTabItems() {

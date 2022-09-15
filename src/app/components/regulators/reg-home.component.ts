@@ -137,11 +137,11 @@ export class RegHomeComponent implements OnInit, OnDestroy {
 
 
   showAllRegulators() {
-    this.router.navigate([`tools/privacy-regulators`]);
+    this.router.navigate([`apps/privacy-regulators`]);
   }
 
   goToLaws() {
-    this.router.navigate([`tools/privacy-law-navigator`]);
+    this.router.navigate([`apps/privacy-law-navigator`]);
   }
 
   resetTags() {

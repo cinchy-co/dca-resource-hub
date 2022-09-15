@@ -77,7 +77,6 @@ export class PippsComponent implements OnInit, OnDestroy {
     this.setTabItems();
     this.apiCallService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
-      console.log('111 TOOLS', this.toolDetails);
     });
     this.allLaws = await this.apiCallService.getAllLegislationLaws().toPromise();
     this.webSiteDetails = (await this.apiCallService.getWebsiteDetails('legislation-navigator').toPromise())[0];
@@ -169,7 +168,7 @@ export class PippsComponent implements OnInit, OnDestroy {
     this.showIndexPage = true;
     this.showSectionDetails = false;
     const legislation = event.value;
-    this.router.navigate([`tools/${this.routePage}`, {legislation: legislation.code}]);
+    this.router.navigate([`apps/${this.routePage}`, {legislation: legislation.code}]);
   }
 
   getSections() {
@@ -226,7 +225,7 @@ export class PippsComponent implements OnInit, OnDestroy {
       urlParams = {legislation: this.currentLegislation, ...urlParams};
     }
     this.updatePrevAndBackArticles(article);
-    this.router.navigate([`tools/${this.routePage}`, urlParams]);
+    this.router.navigate([`apps/${this.routePage}`, urlParams]);
   }
 
   updatePrevAndBackArticles(currentArticle: ILaw) {
@@ -239,11 +238,11 @@ export class PippsComponent implements OnInit, OnDestroy {
   navigateToKeyIssues(issue?: IKeyIssues) {
     const urlParams = {legislation: this.currentLegislation};
     if (!issue) {
-      this.router.navigate([`tools/${this.routePage}/keyIssues/all`, urlParams]);
+      this.router.navigate([`apps/${this.routePage}/keyIssues/all`, urlParams]);
       return;
     }
     const issueId = issue.id;
-    this.router.navigate([`tools/${this.routePage}/keyIssues/${issueId}`, urlParams]);
+    this.router.navigate([`apps/${this.routePage}/keyIssues/${issueId}`, urlParams]);
   }
 
   asIsOrder(a: any, b: any) {

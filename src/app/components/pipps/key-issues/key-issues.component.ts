@@ -73,17 +73,17 @@ export class KeyIssuesComponent implements OnInit, OnDestroy {
   navigateToKeyIssues(issue: IKeyIssues) {
     const issueId = issue.id;
     const urlParams = {legislation: this.currentLegislation};
-    this.router.navigate([`tools/${this.routePage}/keyIssues/${issueId}`, urlParams]);
+    this.router.navigate([`apps/${this.routePage}/keyIssues/${issueId}`, urlParams]);
   }
 
   navigateToLegislation() {
     const urlParams = {legislation: this.currentLegislation};
-    this.router.navigate([`tools/${this.routePage}`, urlParams]);
+    this.router.navigate([`apps/${this.routePage}`, urlParams]);
   }
 
   goToAllIssues() {
     const urlParams = {legislation: this.currentLegislation};
-    this.router.navigate([`tools/${this.routePage}/keyIssues/all`, urlParams]);
+    this.router.navigate([`apps/${this.routePage}/keyIssues/all`, urlParams]);
   }
 
   ngOnDestroy() {

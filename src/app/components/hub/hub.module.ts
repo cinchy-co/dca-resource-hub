@@ -59,7 +59,7 @@ const routes = [
         component: ProfileFormComponent
       },
       {
-        path: 'tools',
+        path: 'apps',
         component: ToolsComponent
       },
       {
@@ -115,35 +115,35 @@ const routes = [
         component: ProfilePreferencesComponent
       },
       {
-        path: 'tools/privacy-legislation-text',
+        path: 'apps/privacy-legislation-text',
         loadChildren: () => import('../pipps/pipps.module').then(m => m.PippsModule),
       },
       {
-        path: 'tools/privacy-newsfeed',
+        path: 'apps/privacy-newsfeed',
         loadChildren: () => import('../news-podcast/news-podcast.module').then(m => m.NewsPodcastModule),
       },
       {
-        path: 'tools/privacy-newsfeed/:id',
+        path: 'apps/privacy-newsfeed/:id',
         loadChildren: () => import('../news-podcast/news-podcast.module').then(m => m.NewsPodcastModule),
       },
       {
-        path: 'tools/privacy-law-navigator',
+        path: 'apps/privacy-law-navigator',
         loadChildren: () => import('../laws/laws.module').then(m => m.LawsModule)
       },
       {
-        path: 'tools/privacy-law-navigator/:id',
+        path: 'apps/privacy-law-navigator/:id',
         loadChildren: () => import('../laws/laws.module').then(m => m.LawsModule)
       },
       {
-        path: 'tools/privacy-regulators',
+        path: 'apps/privacy-regulators',
         loadChildren: () => import('../regulators/regulators.module').then(m => m.RegulatorsModule)
       },
       {
-        path: 'tools/privacy-regulators/:id',
+        path: 'apps/privacy-regulators/:id',
         loadChildren: () => import('../regulators/regulators.module').then(m => m.RegulatorsModule)
       },
       {
-        path: 'tools/privacy-resource-locator',
+        path: 'apps/privacy-resource-locator',
         loadChildren: () => import('../resource-locator/resource-locator.module').then(m => m.ResourceLocatorModule)
       },
       {
