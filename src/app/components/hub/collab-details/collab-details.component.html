@@ -1,7 +1,7 @@
 <section class="default-border" *ngIf="collabDetails">
   <app-hero-banner [toolDetails]="collabDetails"></app-hero-banner>
 
-  <p-tabMenu [model]="items" [activeItem]="currentMenuItem">></p-tabMenu>
+  <p-tabMenu *ngIf="currentMenuItem" [model]="items" [activeItem]="currentMenuItem">></p-tabMenu>
 
 
   <ng-container *ngIf="currentTab === 'overview'">
@@ -11,64 +11,7 @@
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'activities'">
-   <!-- <div class="flex flex-col gap-5 p-4">
-      <div class="default-border relative pt-2 pb-2 flex flex-col"
-           *ngFor="let activity of activities">
-         <span class="absolute right-5 top-2 cursor-pointer">
-          <i class="pi pi-star" style="font-size: 1rem"></i>
-        </span>
-        <div class="flex gap-5 items-center justify-between mr-5 pr-4 pl-4">
-          <div class="flex flex-col gap-1 mr-5 m-5">
-            <p class="lg:text-[24px] text-[16px] sm:text-[16px] md:text-[16px] font-semibold" [title]="activity.title"
-               [innerHTML]="activity.title"></p>
-            <p class="text-slate-600 line-clamp-2" [title]="activity.desc" [innerHTML]="activity.desc"></p>
-          </div>
-
-          <div class="mr-5">
-            <p-button icon="pi pi-sign-in" iconPos="right" class="btn-color-green p-button-raised p-button-rounded"
-                      [label]="activity.buttonLabel"
-                      (click)="goToActivity(activity)">
-            </p-button>
-          </div>
-        </div>
-
-        <div *ngIf="expansionState[activity.cinchyId]" class="mt-2 transition-custom pr-4 pl-4 m-5" [@inOutAnimation]>
-          <div class="flex flex-col gap-5 mb-[20px]" *ngIf="activity.videoLink">
-            &lt;!&ndash;VIDEO SECTION&ndash;&gt;
-            <div class="w-[100%] m-auto">
-              <div class="m-auto" id="player">
-                <iframe
-                  class="m-auto w-[100%] sm:w-[100%] md:w-[70%] lg:w-[60%] lg:h-[400px] md:h-[300px] sm:h-[200px] h-[200px]"
-                  title="Node Zero video"
-                  loading="lazy"
-                  [src]="activity.videoLink | urlSanitizer: 'resourceUrl'"
-                  allowfullscreen
-                  allowtransparency
-                  allow="autoplay"
-                ></iframe>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <p class="whitespace-pre-wrap" [innerHTML]="activity.steps"></p>
-          </div>
-
-        </div>
-
-        <hr>
-
-        <div class="flex items-center justify-center cursor-pointer m-2" (click)="toggleExpansions(activity)">
-          <i *ngIf="expansionState[activity.cinchyId]" class="pi pi-angle-up" style="font-size: 1rem"></i>
-          <i *ngIf="!expansionState[activity.cinchyId]" class="pi pi-angle-down" style="font-size: 1rem"></i>
-        </div>
-      </div>
-    </div>-->
     <ng-container *ngTemplateOutlet="activityTable;context:{activities: filteredActivities}"></ng-container>
-  </ng-container>
-
-  <ng-container *ngIf="currentTab === 'myActivities'">
-    <ng-container *ngTemplateOutlet="activityTable;context:{activities: myActivities}"></ng-container>
   </ng-container>
 
   <ng-template #activityTable let-activities="activities">
@@ -84,16 +27,17 @@
 
           <tr>
             <th *ngFor="let col of getCols(activities[0])">
-             <ng-container *ngIf="col==='Assigned To'">
-               <p-multiSelect [options]="allAssignedTo" placeholder="All" (onChange)="onAssigneeChange($event, 'Assigned To')"
-                              styleClass="p-column-filter">
-                 <ng-template let-option pTemplate="item">
-                   <div class="p-multiselect-representative-option">
-                     <span class="p-ml-1">{{option}}</span>
-                   </div>
-                 </ng-template>
-               </p-multiSelect>
-             </ng-container>
+              <ng-container *ngIf="col==='Assigned To'">
+                <p-multiSelect [options]="allAssignedTo" placeholder="All"
+                               (onChange)="onAssigneeChange($event, 'Assigned To')"
+                               styleClass="p-column-filter">
+                  <ng-template let-option pTemplate="item">
+                    <div class="p-multiselect-representative-option">
+                      <span class="p-ml-1">{{option}}</span>
+                    </div>
+                  </ng-template>
+                </p-multiSelect>
+              </ng-container>
             </th>
           </tr>
         </ng-template>
@@ -104,7 +48,15 @@
                 <a class="text-blue-500" [href]="tableRow[col]" target="_blank">Open</a>
               </ng-container>
               <ng-template #elseTemp>
-                {{tableRow[col]}}
+                <div class="flex gap-2">
+                  <span [innerHTML]="tableRow[col]"></span>
+                  <ng-container
+                    *ngIf="col === 'End Date' && userDetails && userDetails.name === tableRow['Assigned To']">
+                    <p class="link-color" (click)="openEditDateModal(tableRow)">
+                      <i class="pi pi-pencil"></i>
+                    </p>
+                  </ng-container>
+                </div>
               </ng-template>
             </td>
           </tr>
@@ -117,14 +69,26 @@
     </div>
   </ng-template>
   <ng-container *ngIf="currentTab === 'messages'">
+   <div class="mt-4 p-4">
+     <p-messages severity="info">
+       <ng-template pTemplate>
+         <p>Only members who have
+           <span class="link-color" (click)="joinCollab()">joined this collab</span>
+           can post messages. Please observe our
+           <span class="link-color" (click)="goToCommunity()">Community Guidelines</span>.
+         </p>
+       </ng-template>
+     </p-messages>
+   </div>
+
     <div *ngIf="!showNewMessage" class="mt-4 p-4 flex justify-end">
-      <p-button class="btn-color-green p-button-raised p-button-rounded" icon="pi pi-plus" iconPos="left"
+      <p-button *ngIf="isAllowedMessages" class="btn-color-green p-button-raised p-button-rounded" icon="pi pi-plus" iconPos="left"
                 [label]="'New Message'" (click)="showNewMessageForm()">
       </p-button>
     </div>
 
     <div class="p-4 m-4 default-border" *ngIf="showNewMessage">
-      <div class="flex justify-between">
+      <div class="flex justify-between" *ngIf="isAllowedMessages">
         <p class="font-semibold text-lg">New Message</p>
         <i class="pi pi-times cursor-pointer" (click)="showNewMessageForm()"></i>
       </div>
@@ -138,7 +102,7 @@
     </div>
 
     <div class="p-5">
-      <h1 class="mb-2 pl-2 font-semibold text-lg">MESSAGES</h1>
+      <h1 class="mb-2 pl-2 font-semibold text-lg" *ngIf="collabMessages?.length">MESSAGES</h1>
       <ng-container *ngIf="collabMessages?.length">
         <!--<p-virtualScroller [value]="collabMessages" scrollHeight="1000px">
           <ng-template pTemplate="item" let-message>-->
@@ -191,7 +155,7 @@
           </div>
 
           <div class="p-2 lg:mr-[150px] md:mr-[100px] sm:mr-[20px] mr-[20px]"
-               *ngIf="commentsForMessages[message.id]">
+               *ngIf="commentsForMessages[message.id] && isAllowedMessages">
             <app-hub-form class="" [formId]="'comments'" [buttonLabel]="'Reply'"
                           [existingDetails]="{'collab': collabDetails.collabId, 'msgId': message.id}"
                           [updateWithHiddenOrDisabledFields]="true"
@@ -258,4 +222,22 @@
                 [successMessage]="'Your reply has been updated'"
                 (submitClicked)="commentAdded($event, true)">
   </app-hub-form>
+</p-dialog>
+
+
+<p-dialog *ngIf="showEditEndDate" [header]="'Edit End Date'"
+          [(visible)]="showEditEndDate" appendTo="body">
+  <div class="flex flex-col">
+    <p [innerHTML]="'Update' + ' ' + currentRow.Task"></p>
+    <p-calendar [inline]="true" [showButtonBar]="true" [(ngModel)]="endDateValue"></p-calendar>
+
+    <div class="mt-1">
+      <p-button class="btn-color-green p-button-raised p-button-rounded"
+                [label]="'Update'"
+                [ngClass]="{'disabled': !endDateValue}"
+                (click)="updateEndDate(currentRow)">
+      </p-button>
+    </div>
+  </div>
+
 </p-dialog>

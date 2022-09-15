@@ -185,7 +185,17 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
-  // /API/Node%20Zero%20Website/Get%20All%20Collab%20Activities?%40collabId=asd
+  updateEndDate(endDate: any, collabId: string, ): Observable<any> {
+    const url = `/API/Node%20Zero%20Community/Add%20End%20Date?%40endDate=${endDate}&%40id=${collabId}`;
+    return this.getResponse(url);
+  }
+
+  getCollabMembers(collabId: string, ): Observable<any> {
+    const url = `/API/Node%20Zero%20Community/Get%20Collab%20Members%20List?%40id=${collabId}`;
+    return this.getResponse(url);
+  }
+
+  // https://datacollaboration.net/API/Node%20Zero%20Community/Get%20Collab%20Members%20List?%40id=w
 
   getHubToolsSearch(tag: string): Observable<any> {
     const url = `/API/Collaborative%20Privacy/Get%20Privacy%20Resources?%40searchStr=${tag}`;

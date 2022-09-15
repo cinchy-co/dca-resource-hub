@@ -44,13 +44,15 @@ export class GettingStartedComponent implements OnInit, AfterViewInit, OnDestroy
   ngAfterViewInit() {
     setTimeout(() => {
       const scrollToId = this.activatedRoute.snapshot.queryParamMap.get('scrollToId');
-      const elem: any = this.mySections.find(item => item.nativeElement.id === scrollToId);
-      this.pageScrollService.scroll({
-        document: this.document,
-        scrollTarget: elem.nativeElement,
-        scrollOffset: 80,
-        duration: 0
-      });
+      const elem: any = this.mySections.find(item => item?.nativeElement.id === scrollToId);
+      if (elem && elem?.nativeElement) {
+        this.pageScrollService.scroll({
+          document: this.document,
+          scrollTarget: elem.nativeElement,
+          scrollOffset: 80,
+          duration: 0
+        });
+      }
     }, 1000);
   }
 

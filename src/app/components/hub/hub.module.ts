@@ -13,7 +13,7 @@ import {CardModule} from "primeng/card";
 import {MarketplaceComponent} from './marketplace/marketplace.component';
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {DropdownModule} from "primeng/dropdown";
 import {EventsComponent} from './events/events.component';
 import {LearningComponent} from './learning/learning.component';
@@ -32,15 +32,18 @@ import {CollabDetailsComponent} from './collab-details/collab-details.component'
 import {DcaCommonModule} from "../../dca-common/dca-common.module";
 import {TabMenuModule} from "primeng/tabmenu";
 import {PipesModule} from "../../pipes/pipes.module";
-import { GettingStartedComponent } from './getting-started/getting-started.component';
+import {GettingStartedComponent} from './getting-started/getting-started.component';
 import {TableModule} from "primeng/table";
 import {ProfilePreferencesComponent} from "../profile-preferences/profile-preferences.component";
 import {NgAddToCalendarModule} from "@trademe/ng-add-to-calendar";
 import {DialogModule} from "primeng/dialog";
 import {VirtualScrollerModule} from "primeng/virtualscroller";
 import {TieredMenuModule} from "primeng/tieredmenu";
-import { EventDetailsComponent } from './event-details/event-details.component';
+import {EventDetailsComponent} from './event-details/event-details.component';
 import {NgxPageScrollModule} from "ngx-page-scroll";
+import { CalendarModule } from 'primeng/calendar';
+import {MessageModule} from "primeng/message";
+import {MessagesModule} from "primeng/messages";
 
 const routes = [
   {
@@ -169,32 +172,36 @@ const routes = [
     GettingStartedComponent,
     EventDetailsComponent
   ],
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        DividerModule,
-        CardModule,
-        ButtonModule,
-        InputTextModule,
-        ReactiveFormsModule,
-        DropdownModule,
-        ProgressSpinnerModule,
-        ToastModule,
-        FontAwesomeModule,
-        InputTextareaModule,
-        MultiSelectModule,
-        ChipModule,
-        OverlayPanelModule,
-        DcaCommonModule,
-        TabMenuModule,
-        PipesModule,
-        TableModule,
-        NgAddToCalendarModule,
-        DialogModule,
-        VirtualScrollerModule,
-        TieredMenuModule,
-        NgxPageScrollModule
-    ],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    DividerModule,
+    CardModule,
+    ButtonModule,
+    InputTextModule,
+    ReactiveFormsModule,
+    DropdownModule,
+    ProgressSpinnerModule,
+    ToastModule,
+    FontAwesomeModule,
+    InputTextareaModule,
+    MultiSelectModule,
+    ChipModule,
+    OverlayPanelModule,
+    DcaCommonModule,
+    TabMenuModule,
+    PipesModule,
+    TableModule,
+    NgAddToCalendarModule,
+    DialogModule,
+    VirtualScrollerModule,
+    TieredMenuModule,
+    NgxPageScrollModule,
+    CalendarModule,
+    FormsModule,
+    MessageModule,
+    MessagesModule
+  ],
   exports: [RouterModule]
 })
 export class HubModule {

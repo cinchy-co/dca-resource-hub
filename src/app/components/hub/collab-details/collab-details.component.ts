@@ -47,10 +47,15 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   commentsForMessages: IComments = {};
   currentComment: ICollabMessage;
   showEditCommentDialog: boolean;
+  showEditEndDate: boolean;
   actionItems: MenuItem[];
   commentClicked: boolean;
   doAutoFocus: boolean;
   allAssignedTo: any;
+  endDateValue: any;
+  currentRow: any;
+  members: any;
+  isAllowedMessages: boolean;
 
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
               private router: Router, private changeDetection: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
@@ -89,6 +94,13 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  getCollabMembers() {
+    this.appApiService.getCollabMembers(this.collabDetails.collabId).pipe(take(1)).subscribe(members => {
+      this.members = members;
+      this.isAllowedMessages = this.members?.find((member: any) => member.username === this.userDetails.username)
+    })
+  }
+
   setAssigneeValues() {
     this.allAssignedTo = this.openActivities?.map((item: { [x: string]: any; }) => item['Assigned To']);
     this.allAssignedTo = this.allAssignedTo?.filter((item: { [x: string]: any; }) => item);
@@ -113,7 +125,31 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   getCols(tableFirstRow: any): string[] {
-    return Object.keys(tableFirstRow);
+    return Object.keys(tableFirstRow).filter(key => key !== 'Id');
+  }
+
+  openEditDateModal(row: any) {
+    this.currentRow = row;
+    this.showEditEndDate = true;
+  }
+
+  async updateEndDate(activity: any) {
+    try {
+      await this.appApiService.updateEndDate(this.endDateValue.toISOString(), activity.Id).toPromise();
+      this.showEditEndDate = false;
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Update Successful',
+        detail: 'End date has been updated'
+      });
+      this.getCollabActivities();
+    } catch (e) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Network error',
+        detail: 'Please try again after other time'
+      });
+    }
   }
 
   goToActivity(activity: IActivity) {
@@ -121,6 +157,20 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
     if (isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.open(url, '_blank');
     }
+  }
+
+  goToCommunity() {
+    this.router.navigate(['/data-collaboration'], {
+      queryParams: {
+        scrollToId: 'CommunityGuidelines'
+      }
+    });
+  }
+
+  joinCollab() {
+    this.currentMenuItem = this.items.find(item => item.id?.toLowerCase() === 'overview') || this.items[0];
+    this.tabClicked('overview');
+    this.changeDetection.detectChanges();
   }
 
   toggleExpansions(activity: IActivity) {
@@ -133,10 +183,11 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
       this.appStateService.getUserDetailsSub().pipe(takeUntil(this.destroyed$))
         .subscribe(async (userDetails: IUser) => {
           this.userDetails = userDetails;
+          this.getCollabMembers();
           //  this.getMyCollabActivities();
           this.collabMessages = this.collabMessages.map(message => {
             return {...message, canUpdateOrDelete: this.userDetails.username === message.username}
-          })
+          });
           this.changeDetection.detectChanges();
         })
     });
