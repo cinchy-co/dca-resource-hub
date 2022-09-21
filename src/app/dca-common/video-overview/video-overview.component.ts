@@ -20,6 +20,7 @@ export class VideoOverviewComponent implements OnInit {
   @Input() toolDetails: ITools; // need to remove
   @Input() userDetails: IUser;
   @Input() successMessage: string = 'Success';
+  @Input() errorMessage: string = 'Please try again after other time';
   @Input() useQueryButton = true;
   toolsOverviewSections: IToolSection[];
   toolsOverviewSectionsDetails: IToolSection[];
@@ -114,7 +115,7 @@ export class VideoOverviewComponent implements OnInit {
       this.messageService.add({
         severity: 'error',
         summary: 'Network error',
-        detail: 'Please try again after other time'
+        detail: this.errorMessage
       });
     }
   }

@@ -6,7 +6,8 @@
 
   <ng-container *ngIf="currentTab === 'overview'">
     <app-video-overview class="mt-5" [toolId]="collabDetails.collabId"
-                        [userDetails]="userDetails" [successMessage]="'Successfully joined'">
+                        [userDetails]="userDetails" [successMessage]="'Successfully joined'"
+                        [errorMessage]="'You are already a member'">
     </app-video-overview>
   </ng-container>
 
@@ -27,9 +28,9 @@
 
           <tr>
             <th *ngFor="let col of getCols(activities[0])">
-              <ng-container *ngIf="col==='Assigned To'">
+              <ng-container *ngIf="col===assignedToLabel">
                 <p-multiSelect [options]="allAssignedTo" placeholder="All"
-                               (onChange)="onAssigneeChange($event, 'Assigned To')"
+                               (onChange)="onAssigneeChange($event, assignedToLabel)"
                                styleClass="p-column-filter">
                   <ng-template let-option pTemplate="item">
                     <div class="p-multiselect-representative-option">
@@ -51,7 +52,7 @@
                 <div class="flex gap-2">
                   <span [innerHTML]="tableRow[col]"></span>
                   <ng-container
-                    *ngIf="col === 'End Date' && userDetails && userDetails.name === tableRow['Assigned To']">
+                    *ngIf="col === 'End Date' && userDetails && userDetails.name === tableRow[assignedToLabel]">
                     <p class="link-color" (click)="openEditDateModal(tableRow)">
                       <i class="pi pi-pencil"></i>
                     </p>

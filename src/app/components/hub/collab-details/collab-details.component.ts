@@ -51,6 +51,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   actionItems: MenuItem[];
   commentClicked: boolean;
   doAutoFocus: boolean;
+  assignedToLabel: string;
   allAssignedTo: any;
   endDateValue: any;
   currentRow: any;
@@ -102,7 +103,8 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   setAssigneeValues() {
-    this.allAssignedTo = this.openActivities?.map((item: { [x: string]: any; }) => item['Assigned To']);
+    this.assignedToLabel = this.openActivities[0].assignedToLabel;
+    this.allAssignedTo = this.openActivities?.map((item: { [x: string]: any; }) => item[this.assignedToLabel]);
     this.allAssignedTo = this.allAssignedTo?.filter((item: { [x: string]: any; }) => item);
     this.allAssignedTo = [...new Set(this.allAssignedTo)];
   }
@@ -125,7 +127,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   getCols(tableFirstRow: any): string[] {
-    return Object.keys(tableFirstRow).filter(key => key !== 'Id');
+    return Object.keys(tableFirstRow).filter(key => key !== 'Id' && key !== 'assignedToLabel');
   }
 
   openEditDateModal(row: any) {
