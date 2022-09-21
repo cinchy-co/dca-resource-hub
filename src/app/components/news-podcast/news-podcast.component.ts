@@ -243,7 +243,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   }
 
   showAll() {
-    this.router.navigate([`tools/privacy-newsfeed`]);
+    this.router.navigate([`apps/privacy-newsfeed`]);
   }
 
   joinFree() {
