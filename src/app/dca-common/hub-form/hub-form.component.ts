@@ -39,6 +39,7 @@ export class HubFormComponent implements OnInit {
   customForm: UntypedFormGroup;
   customFormQueries: any;
   showLoader: boolean;
+  insertQuery: any;
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
   @ViewChild("autoFocusInput") autoFocusInput: ElementRef;
@@ -49,6 +50,7 @@ export class HubFormComponent implements OnInit {
 
   async ngOnInit() {
     this.customFormQueries = (await this.apiService.getSuggestionFormQueries(this.formId).toPromise())[0];
+    this.insertQuery = this.customFormQueries.insertQueryName;
     this.setFieldAndOptions(this.customFormQueries);
   }
 
@@ -58,6 +60,7 @@ export class HubFormComponent implements OnInit {
       '@pageId': this.formId
     }
     const fields: IField[] = (await this.apiService.executeCinchyQueries(getQueryName, getQueryDomain, params).toPromise());
+    console.log('111 fields', fields)
     let startIndex = 1;
     while (startIndex <= totalQueries) {
       const linkQueryName = customFormQueries[`optionQuery-${startIndex}`];

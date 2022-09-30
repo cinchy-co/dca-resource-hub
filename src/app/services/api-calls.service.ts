@@ -274,6 +274,11 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getMemberProfileDetails(userName: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Member%20Profile?%40userName=${userName}`;
+    return this.getResponse(url);
+  }
+
   getHubNewsFilter(): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Newsfeed%20Filters`;
     return this.getResponse(url);

@@ -44,6 +44,7 @@ import {NgxPageScrollModule} from "ngx-page-scroll";
 import { CalendarModule } from 'primeng/calendar';
 import {MessageModule} from "primeng/message";
 import {MessagesModule} from "primeng/messages";
+import { MemberProfileComponent } from './member-profile/member-profile.component';
 
 const routes = [
   {
@@ -107,12 +108,20 @@ const routes = [
         component: CollabDetailsComponent
       },
       {
+        path: 'collab-mucp',
+        component: CollabDetailsComponent
+      },
+      {
         path: 'collab-human-rights',
         component: CollabDetailsComponent
       },
       {
         path: 'preferences',
         component: ProfilePreferencesComponent
+      },
+      {
+        path: 'member-profile',
+        component: MemberProfileComponent
       },
       {
         path: 'apps/privacy-legislation-text',
@@ -170,7 +179,8 @@ const routes = [
     CommonHeaderComponent,
     CollabDetailsComponent,
     GettingStartedComponent,
-    EventDetailsComponent
+    EventDetailsComponent,
+    MemberProfileComponent
   ],
   imports: [
     CommonModule,

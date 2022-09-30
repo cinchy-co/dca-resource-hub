@@ -49,7 +49,7 @@
   </form>
 
   <div class="mt-1" [ngStyle]="{'margin-top': this.topSpaceToButton ? this.topSpaceToButton : '0.25rem'}">
-    <p-button *ngIf="customForm" class="btn-color-green p-button-raised p-button-rounded"
+    <p-button *ngIf="customForm && insertQuery" class="btn-color-green p-button-raised p-button-rounded"
               [label]="buttonLabel"
               [ngClass]="{'disabled': !customForm.valid}"
               (click)="submit()">

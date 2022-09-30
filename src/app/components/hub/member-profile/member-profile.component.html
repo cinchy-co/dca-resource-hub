@@ -1,0 +1,16 @@
+<p-progressSpinner class="item-center-n-relative"
+                   *ngIf="!details">
+</p-progressSpinner>
+
+<section>
+  <app-common-header *ngIf="details" [headerDetails]="details"></app-common-header>
+
+  <p-divider></p-divider>
+
+
+  <div class="flex flex-wrap gap-10">
+    <app-hub-form [formId]="'member-profile'" [userDetails]="userDetails" [buttonLabel]="'Update'"
+                  [existingDetails]="cinchyProfileDetails"></app-hub-form>
+  </div>
+</section>
+

@@ -25,7 +25,13 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.currentEventId = this.activatedRoute.snapshot.paramMap.get('id') as string;
-    this.events = await this.apiCallsService.getHubEvents().toPromise();
+    const isLearning = this.activatedRoute.snapshot.queryParamMap.get('learning');
+    if (isLearning) {
+      this.events = await this.apiCallsService.getLearningEvents().toPromise();
+    } else {
+      this.events = await this.apiCallsService.getHubEvents().toPromise();
+    }
+
     this.currentEvent = this.events.find(event => event.id == this.currentEventId) as IEvents;
     this.appStateService.getUserDetailsSub().pipe(takeUntil(this.destroyed$))
       .subscribe(async (userDetails: IUser) => {
