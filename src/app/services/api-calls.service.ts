@@ -155,6 +155,11 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getCollabStatuses() {
+    const url = `/API/Node%20Zero%20Website/Get%20Activity%20Status%20List`;
+    return this.getResponse(url);
+  }
+
   getHubCollabMessages(collabId: string): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Collab%20Messages?%40collabId=${collabId}`;
     return this.getResponse(url);
@@ -187,6 +192,11 @@ export class ApiCallsService {
 
   updateEndDate(endDate: any, collabId: string, ): Observable<any> {
     const url = `/API/Node%20Zero%20Community/Add%20End%20Date?%40endDate=${endDate}&%40id=${collabId}`;
+    return this.getResponse(url);
+  }
+
+  updateStatus(status: any, collabId: string, ): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Update%20Activity%20Status?%40status=${status}&%40id=${collabId}`;
     return this.getResponse(url);
   }
 
@@ -269,13 +279,18 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  updateProfilePhoto(photo: string, userName: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Update%20Profile%20Photo?%40photo=${photo}&%40username=${userName}`;
+    return this.getResponse(url);
+  }
+
   getCinchyProfileDetails(userName: string): Observable<any> {
     const url = `/API/Node%20Zero%20Website/Get%20Cinchy%20Profile?%40userName=${userName}`;
     return this.getResponse(url);
   }
 
-  getMemberProfileDetails(userName: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Member%20Profile?%40userName=${userName}`;
+  getMemberProfileDetails(memberId: string): Observable<any> {
+    const url = `/API/Node%20Zero%20Website/Get%20Member%20Profile%20Page?%40memberId=${memberId}`;
     return this.getResponse(url);
   }
 

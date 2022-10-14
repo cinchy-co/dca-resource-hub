@@ -49,11 +49,20 @@
                 <a class="text-blue-500" [href]="tableRow[col]" target="_blank">Open</a>
               </ng-container>
               <ng-template #elseTemp>
-                <div class="flex gap-2">
-                  <span [innerHTML]="tableRow[col]"></span>
+                <div class="flex gap-1 items-center">
+                  <span *ngIf="col !== 'Owner'" [innerHTML]="tableRow[col]"></span>
+                  <span *ngIf="col === 'Owner'" class="link-color" (click)="goToMemberProfile(tableRow)"
+                        [innerHTML]="tableRow[col]"></span>
                   <ng-container
                     *ngIf="col === 'End Date' && userDetails && userDetails.name === tableRow[assignedToLabel]">
                     <p class="link-color" (click)="openEditDateModal(tableRow)">
+                      <i class="pi pi-pencil"></i>
+                    </p>
+                  </ng-container>
+
+                  <ng-container
+                    *ngIf="col === 'Status' && userDetails && userDetails.name === tableRow[assignedToLabel]">
+                    <p class="link-color" (click)="openEditStatusModal(tableRow)">
                       <i class="pi pi-pencil"></i>
                     </p>
                   </ng-container>
@@ -69,21 +78,24 @@
       No activity present
     </div>
   </ng-template>
+
+
   <ng-container *ngIf="currentTab === 'messages'">
-   <div class="mt-4 p-4">
-     <p-messages severity="info">
-       <ng-template pTemplate>
-         <p>Only members who have
-           <span class="link-color" (click)="joinCollab()">joined this collab</span>
-           can post messages. Please observe our
-           <span class="link-color" (click)="goToCommunity()">Community Guidelines</span>.
-         </p>
-       </ng-template>
-     </p-messages>
-   </div>
+    <div class="mt-4 p-4">
+      <p-messages severity="info">
+        <ng-template pTemplate>
+          <p>Only members who have
+            <span class="link-color" (click)="joinCollab()">joined this collab</span>
+            can post messages. Please observe our
+            <span class="link-color" (click)="goToCommunity()">Community Guidelines</span>.
+          </p>
+        </ng-template>
+      </p-messages>
+    </div>
 
     <div *ngIf="!showNewMessage" class="mt-4 p-4 flex justify-end">
-      <p-button *ngIf="isAllowedMessages" class="btn-color-green p-button-raised p-button-rounded" icon="pi pi-plus" iconPos="left"
+      <p-button *ngIf="isAllowedMessages" class="btn-color-green p-button-raised p-button-rounded" icon="pi pi-plus"
+                iconPos="left"
                 [label]="'New Message'" (click)="showNewMessageForm()">
       </p-button>
     </div>
@@ -237,6 +249,26 @@
                 [label]="'Update'"
                 [ngClass]="{'disabled': !endDateValue}"
                 (click)="updateEndDate(currentRow)">
+      </p-button>
+    </div>
+  </div>
+
+</p-dialog>
+
+<p-dialog *ngIf="showEditStatusModal" [header]="'Edit End Date'"
+          [(visible)]="showEditStatusModal" appendTo="body" [style]="{height: '30vh', width:'30vw'}">
+  <div class="flex flex-col">
+    <p [innerHTML]="'Update' + ' ' + currentRow.Task"></p>
+    <p-dropdown class="w-[100%] mt-4" placeholder="Select..." [options]="allStatuses"
+                [(ngModel)]="statusValue" [appendTo]="'body'"
+                optionLabel="label" optionValue="label">
+    </p-dropdown>
+
+    <div class="mt-5">
+      <p-button class="btn-color-green p-button-raised p-button-rounded"
+                [label]="'Update'"
+                [ngClass]="{'disabled': !statusValue}"
+                (click)="updateStatus(currentRow)">
       </p-button>
     </div>
   </div>

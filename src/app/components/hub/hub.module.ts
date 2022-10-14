@@ -124,6 +124,10 @@ const routes = [
         component: MemberProfileComponent
       },
       {
+        path: 'member-profile/:id',
+        component: MemberProfileComponent
+      },
+      {
         path: 'apps/privacy-legislation-text',
         loadChildren: () => import('../pipps/pipps.module').then(m => m.PippsModule),
       },

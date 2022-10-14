@@ -381,3 +381,12 @@ th {
     max-width: 200px;
   }
 }
+
+
+.p-fileupload-choose {
+  &.p-button {
+    background: white;
+    color: black;
+    border: none;
+  }
+}

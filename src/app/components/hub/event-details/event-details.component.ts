@@ -16,6 +16,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   userDetails: IUser;
   events: IEvents[];
   currentEvent: IEvents;
+  toolId: string;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
 
@@ -26,6 +27,7 @@ export class EventDetailsComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.currentEventId = this.activatedRoute.snapshot.paramMap.get('id') as string;
     const isLearning = this.activatedRoute.snapshot.queryParamMap.get('learning');
+    this.toolId = isLearning ? 'learning' : 'events';
     if (isLearning) {
       this.events = await this.apiCallsService.getLearningEvents().toPromise();
     } else {

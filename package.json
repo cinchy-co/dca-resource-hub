@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --ssl --port 3000",
-    "build": "ng build",
+    "build": "ng build --base-href \"/hub/\"\n",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:production:ssr": "ng build --prod --configuration=production --base-href /privacyTools/ && ng run dca-privacy-leg:server:production",

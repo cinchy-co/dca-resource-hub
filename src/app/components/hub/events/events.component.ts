@@ -22,6 +22,7 @@ export class EventsComponent implements OnInit {
   newEvent: ICalendarEvent;
   calendarEvents: CalendarEvents = {google: {}, apple: {}} as CalendarEvents;
   showGoogle: boolean;
+  showZoom: boolean;
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
               @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService,
@@ -35,6 +36,11 @@ export class EventsComponent implements OnInit {
     this.events = await this.appApiService.getHubEvents().toPromise();
 
     this.events.forEach(item => {
+      const today = new Date();
+      const [todayDate, todayMonth] = [today.getDate(), today.getMonth()];
+      const eventDay = new Date(item.date);
+      const [eventDate, eventMonth] = [eventDay.getDate(), eventDay.getMonth()];
+      this.showZoom = todayDate === eventDate && todayMonth === eventMonth;
       const calendarEvent = this.getCalendarEvent(item);
       const googleCalendarEventUrl = this.sanitizer.bypassSecurityTrustUrl(
         this.addToCalendarService.getHrefFor(this.addToCalendarService.calendarType.google, calendarEvent)
@@ -44,12 +50,12 @@ export class EventsComponent implements OnInit {
       );
       this.calendarEvents.google[item.title] = googleCalendarEventUrl;
       this.calendarEvents.apple[item.title] = iCalendarEventUrl;
-      console.log('1111 CALENDAR', this.calendarEvents);
     })
     this.showGoogle = this.windowRef.getOperatingSystem() === 'Windows';
   }
 
   getCalendarEvent(event: IEvents) {
+    console.log('111 EVTS', event);
     return {
       // Event title
       title: event.title,

@@ -23,17 +23,24 @@ export class LearningComponent implements OnInit {
   newEvent: ICalendarEvent;
   calendarEvents: CalendarEvents = {google: {}, apple: {}} as CalendarEvents;
   showGoogle: boolean;
+  showZoom: boolean;
 
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
               @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService,
               private addToCalendarService: NgAddToCalendarService, private sanitizer: DomSanitizer,
-              private router: Router) { }
+              private router: Router) {
+  }
 
   async ngOnInit() {
     const communityDetails = this.appStateService.communityDetails;
     this.learningDetails = communityDetails.find(item => item.id === 'learning') as ICommunityDetails;
     this.events = await this.appApiService.getLearningEvents().toPromise();
     this.events.forEach(item => {
+      const today = new Date();
+      const [todayDate, todayMonth] = [today.getDate(), today.getMonth()];
+      const eventDay = new Date(item.date);
+      const [eventDate, eventMonth] = [eventDay.getDate(), eventDay.getMonth()];
+      this.showZoom = todayDate === eventDate && todayMonth === eventMonth;
       const calendarEvent = this.getCalendarEvent(item);
       const googleCalendarEventUrl = this.sanitizer.bypassSecurityTrustUrl(
         this.addToCalendarService.getHrefFor(this.addToCalendarService.calendarType.google, calendarEvent)
@@ -65,7 +72,7 @@ export class LearningComponent implements OnInit {
 
   goToSelection(option: IEvents) {
     const id = option.id;
-    this.router.navigate([`events/${id}`], { queryParams: { learning: true }});
+    this.router.navigate([`events/${id}`], {queryParams: {learning: true}});
     /*if(isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.open(url, '_blank');
     }*/

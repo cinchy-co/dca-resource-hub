@@ -48,6 +48,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   currentComment: ICollabMessage;
   showEditCommentDialog: boolean;
   showEditEndDate: boolean;
+  showEditStatusModal: boolean;
   actionItems: MenuItem[];
   commentClicked: boolean;
   doAutoFocus: boolean;
@@ -57,6 +58,8 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   currentRow: any;
   members: any;
   isAllowedMessages: boolean;
+  allStatuses: string[];
+  statusValue: string;
 
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
               private router: Router, private changeDetection: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
@@ -87,10 +90,12 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   getCollabActivities() {
-    this.appApiService.getHubCollabActivities(this.collabDetails.collabId).pipe(take(1)).subscribe(activities => {
+    this.appApiService.getHubCollabActivities(this.collabDetails.collabId).pipe(take(1)).subscribe(async(activities) => {
       this.openActivities = activities;
       this.filteredActivities = activities;
       this.setAssigneeValues();
+      this.allStatuses = await this.appApiService.getCollabStatuses().toPromise();
+      console.log('1111 stats', this.allStatuses)
       this.changeDetection.detectChanges();
     });
   }
@@ -127,12 +132,17 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   getCols(tableFirstRow: any): string[] {
-    return Object.keys(tableFirstRow).filter(key => key !== 'Id' && key !== 'assignedToLabel');
+    return Object.keys(tableFirstRow).filter(key => key !== 'Id' && key !== 'assignedToLabel' && !key.includes('hidden'));
   }
 
   openEditDateModal(row: any) {
     this.currentRow = row;
     this.showEditEndDate = true;
+  }
+
+  openEditStatusModal(row: any) {
+    this.currentRow = row;
+    this.showEditStatusModal = true;
   }
 
   async updateEndDate(activity: any) {
@@ -154,11 +164,35 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
     }
   }
 
+  async updateStatus(activity: any) {
+    try {
+      await this.appApiService.updateStatus(this.statusValue, activity.Id).toPromise();
+      this.showEditStatusModal = false;
+      this.messageService.add({
+        severity: 'success',
+        summary: 'Update Successful',
+        detail: 'End date has been updated'
+      });
+      this.getCollabActivities();
+    } catch (e) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Network error',
+        detail: 'Please try again after other time'
+      });
+    }
+  }
+
   goToActivity(activity: IActivity) {
     const url = activity.link;
     if (isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.open(url, '_blank');
     }
+  }
+
+  goToMemberProfile(row: any) {
+    const route= `member-profile/${row['hidden-owner-route']}`;
+    this.router.navigate([route]);
   }
 
   goToCommunity() {

@@ -45,7 +45,7 @@ export class HubFormComponent implements OnInit {
   @ViewChild("autoFocusInput") autoFocusInput: ElementRef;
 
   constructor(private apiService: ApiCallsService, private fb: UntypedFormBuilder, private appStateService: AppStateService,
-              private messageService: MessageService, private changeDetectionRef: ChangeDetectorRef) {
+              private changeDetectionRef: ChangeDetectorRef, private messageService: MessageService) {
   }
 
   async ngOnInit() {
@@ -60,7 +60,6 @@ export class HubFormComponent implements OnInit {
       '@pageId': this.formId
     }
     const fields: IField[] = (await this.apiService.executeCinchyQueries(getQueryName, getQueryDomain, params).toPromise());
-    console.log('111 fields', fields)
     let startIndex = 1;
     while (startIndex <= totalQueries) {
       const linkQueryName = customFormQueries[`optionQuery-${startIndex}`];
@@ -70,10 +69,12 @@ export class HubFormComponent implements OnInit {
       this.optionsForFields[`${linkQueryLabel}-Label`] = optionsList;
       startIndex++;
     }
+    console.log('111 FIELDS', fields);
     fields.forEach(field => {
       if (field.label.includes('Label') || field.label.includes('label')) {
         const item = {
           label: field.title,
+          description: field.description,
           id: field.label.split('-')[0],
           options: this.optionsForFields[field.label],
           isMultiple: field.isMultiple === 'Yes',

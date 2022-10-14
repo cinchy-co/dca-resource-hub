@@ -7,6 +7,7 @@ import {isPlatformBrowser} from "@angular/common";
 import {AppStateService} from "../../services/app-state.service";
 import {IUser} from "../../models/common.model";
 import {MessageService} from "primeng/api";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-video-overview',
@@ -28,7 +29,8 @@ export class VideoOverviewComponent implements OnInit {
 
   constructor(private apiCallsService: ApiCallsService, private windowRef: WindowRefService,
               private appStateService: AppStateService, private changeDetectorRef: ChangeDetectorRef,
-              @Inject(PLATFORM_ID) private platformId: any, private messageService: MessageService) {
+              @Inject(PLATFORM_ID) private platformId: any, private messageService: MessageService,
+              private router: Router) {
   }
 
   ngOnInit(): void {
@@ -86,6 +88,11 @@ export class VideoOverviewComponent implements OnInit {
   }
 
   goToDetails(item: any) {
+    if(item.route) {
+      const route: string = item.route;
+      this.router.navigate([route]);
+      return ;
+    }
     if (isPlatformBrowser(this.platformId)) {
       const url = item.logoLink;
       this.windowRef.nativeWindow.open(url, '_blank');

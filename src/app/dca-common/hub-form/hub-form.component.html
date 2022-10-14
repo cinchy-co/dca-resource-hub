@@ -13,7 +13,11 @@
       </ng-container>
 
       <ng-template #formTemplate>
-        <label *ngIf="!field.isCheckbox && !field.isHidden">{{field.label}}</label>
+        <div class="flex items-center gap-2" *ngIf="!field.isCheckbox && !field.isHidden">
+          <label>{{field.label}}</label>
+          <i *ngIf="field.description" class="pi pi-info-circle" style="font-size: 0.8rem;"
+             [pTooltip]="field.description"></i>
+        </div>
 
         <ng-container *ngIf="field.options">
           <ng-container *ngIf="!field.isMultiple">
@@ -31,7 +35,11 @@
 
         <ng-container *ngIf="field.isCheckbox">
           <div class="flex gap-5 items-center justify-between">
-            <label [for]="field.id" class="w-[250px]">{{field.label}}</label>
+            <div class="flex gap-2 items-center w-[250px]">
+              <label [for]="field.id">{{field.label}}</label>
+              <i *ngIf="field.description" class="pi pi-info-circle" style="font-size: 0.8rem;"
+                 [pTooltip]="field.description"></i>
+            </div>
             <input [id]="field.id" type="checkbox" [formControlName]="field.id">
           </div>
         </ng-container>

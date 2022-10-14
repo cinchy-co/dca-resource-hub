@@ -84,6 +84,7 @@ export interface IUser {
 }
 
 export interface IField {
+  description?: string;
   title: string;
   label: string;
   isMultiple: string;
@@ -96,6 +97,7 @@ export interface IField {
 }
 
 export interface IFormField {
+  description?: string;
   label: string;
   type?: FieldTypes;
   options?: any[];

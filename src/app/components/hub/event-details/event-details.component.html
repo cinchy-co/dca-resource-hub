@@ -1,5 +1,5 @@
 <div class="default-border lg:w-[65%] m-auto">
-  <app-video-overview *ngIf="userDetails" class="mt-5" [toolId]="'events'"
+  <app-video-overview *ngIf="userDetails" class="mt-5" [toolId]="toolId"
                       [childToolId]="currentEventId" [userDetails]="userDetails"
                       [useQueryButton]="!currentEvent.rsvpLink"
                       [successMessage]="'Successfully joined'">

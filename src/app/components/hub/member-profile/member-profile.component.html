@@ -8,9 +8,14 @@
   <p-divider></p-divider>
 
 
-  <div class="flex flex-wrap gap-10">
-    <app-hub-form [formId]="'member-profile'" [userDetails]="userDetails" [buttonLabel]="'Update'"
-                  [existingDetails]="cinchyProfileDetails"></app-hub-form>
+  <div class="flex flex-col gap-3" *ngIf="columns">
+  <!--  <app-hub-form [formId]="'member-profile'" [userDetails]="userDetails" [buttonLabel]="'Update'"
+                  [existingDetails]="cinchyProfileDetails"></app-hub-form>-->
+
+    <div class="flex gap-2" *ngFor="let key of columns">
+      <label class="font-semibold text-gray-600 w-[150px] min-w-[150px]" [innerHTML]="key + ':'"></label>
+      <p [innerHTML]="cinchyProfileDetails[key]"></p>
+    </div>
   </div>
 </section>
 

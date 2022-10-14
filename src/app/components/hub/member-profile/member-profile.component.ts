@@ -5,6 +5,7 @@ import {AppStateService} from "../../../services/app-state.service";
 import {WindowRefService} from "../../../services/window-ref.service";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {IUser} from "../../../models/common.model";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-member-profile',
@@ -15,23 +16,22 @@ export class MemberProfileComponent implements OnInit, OnDestroy {
   details: ICommunityDetails;
   userDetails: IUser;
   cinchyProfileDetails: any;
+  columns: string[];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
-              @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService) { }
+              @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService,
+              private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.appStateService.getUserDetailsSub().pipe(takeUntil(this.destroyed$))
-      .subscribe(async (userDetails: IUser) => {
-        this.userDetails = userDetails;
-        if (userDetails?.username) {
-          this.cinchyProfileDetails = (await this.appApiService.getMemberProfileDetails(this.userDetails?.username).toPromise())[0];
-          console.log('111 CINCHY', this.cinchyProfileDetails);
-          const communityDetails = this.appStateService.communityDetails;
-          this.details = communityDetails.find(item => item.id === 'member-profile') as ICommunityDetails;
-        }
-      });
+    this.activatedRoute.paramMap.pipe(takeUntil(this.destroyed$)).subscribe(async (params: any) => {
+      const memberId = params.get('id') as string;
+      this.cinchyProfileDetails = (await this.appApiService.getMemberProfileDetails(memberId).toPromise())[0];
+      this.columns = Object.keys(this.cinchyProfileDetails).filter(key => !key.includes('hidden'));
+      const communityDetails = this.appStateService.communityDetails;
+      this.details = communityDetails.find(item => item.id === 'member-profile') as ICommunityDetails;
+    });
   }
 
   ngOnDestroy() {

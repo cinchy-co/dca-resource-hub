@@ -22,6 +22,7 @@ import {InputTextModule} from "primeng/inputtext";
 import {ToastModule} from "primeng/toast";
 import { ShareSocialButtonsComponent } from './share-social-buttons/share-social-buttons.component';
 import {ShareButtonsModule} from "ngx-sharebuttons/buttons";
+import {TooltipModule} from "primeng/tooltip";
 
 
 
@@ -34,26 +35,27 @@ import {ShareButtonsModule} from "ngx-sharebuttons/buttons";
     HubFormComponent,
     ShareSocialButtonsComponent
   ],
-  imports: [
-    CommonModule,
-    AutoCompleteModule,
-    FormsModule,
-    ReactiveFormsModule,
-    SelectButtonModule,
-    ButtonModule,
-    PipesModule,
-    CardModule,
-    DividerModule,
-    ChipModule,
-    TableModule,
-    ProgressSpinnerModule,
-    DropdownModule,
-    MultiSelectModule,
-    InputTextareaModule,
-    InputTextModule,
-    ToastModule,
-    ShareButtonsModule
-  ],
+    imports: [
+        CommonModule,
+        AutoCompleteModule,
+        FormsModule,
+        ReactiveFormsModule,
+        SelectButtonModule,
+        ButtonModule,
+        PipesModule,
+        CardModule,
+        DividerModule,
+        ChipModule,
+        TableModule,
+        ProgressSpinnerModule,
+        DropdownModule,
+        MultiSelectModule,
+        InputTextareaModule,
+        InputTextModule,
+        ToastModule,
+        ShareButtonsModule,
+        TooltipModule
+    ],
   exports: [
     SearchByAutocompleteComponent,
     VideoBannerComponent,
