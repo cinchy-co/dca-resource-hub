@@ -31,7 +31,6 @@ export class ToolsComponent implements OnInit {
     this.appStateService.currentToolSelected = item;
     if (item.externalLink && isPlatformBrowser(this.platformId)) {
       const url = item.externalLink;
-      console.log('1111 url', url);
       this.windowRef.nativeWindow.open(url, '_blank');
       return;
     }

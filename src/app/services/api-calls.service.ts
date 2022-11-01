@@ -26,7 +26,7 @@ export class ApiCallsService {
   }
 
   getHeaderBannerDetails(): Observable<any> {
-    const url = '/API/Node%20Zero%20Website/Get%20Node%20Zero%20Website%20Details'
+    const url = '/API/Website/Get%20Website%20Details'
     return this.getResponse(url);
   }
 
@@ -102,18 +102,18 @@ export class ApiCallsService {
 
   // HUB
   getCommunityPageDetails(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Community%20Page%20Details`;
+    const url = `/API/Website/Get%20Community%20Page%20Details`;
     return this.getResponse(url);
   }
 
   //
   getHubTopNews(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Featured%20News%20Stories`;
+    const url = `/API/Website/Get%20Featured%20News%20Stories`;
     return this.getResponse(url);
   }
 
   getFooterDetails(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Footer%20Details`;
+    const url = `/API/Website/Get%20Footer%20Details`;
     if (this.cachedFooterDetails) {
       return of(this.cachedFooterDetails);
     } else {
@@ -124,7 +124,7 @@ export class ApiCallsService {
   }
 
   getFooterPageDetails(route: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Document%20Page%20Details?%40route=${route}`;
+    const url = `/API/Website/Get%20Document%20Page%20Details?%40route=${route}`;
     if (this.cachedFooterPagesDetails[route]) {
       return of(this.cachedFooterPagesDetails[route]);
     } else {
@@ -135,7 +135,7 @@ export class ApiCallsService {
   }
 
   getSocialMediaDetails(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Social%20Media%20Details`;
+    const url = `/API/Website/Get%20Social%20Media%20Details`;
     if (this.cachedSocialMedia) {
       return of(this.cachedSocialMedia);
     } else {
@@ -146,66 +146,66 @@ export class ApiCallsService {
   }
 
   getHubNewsfeed(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Community%20Newsfeed`;
+    const url = `/API/Website/Get%20Community%20Newsfeed`;
     return this.getResponse(url);
   }
 
   getHubCollabs(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Collabs`;
+    const url = `/API/Website/Get%20Collabs`;
     return this.getResponse(url);
   }
 
   getCollabStatuses() {
-    const url = `/API/Node%20Zero%20Website/Get%20Activity%20Status%20List`;
+    const url = `/API/Website/Get%20Activity%20Status%20List`;
     return this.getResponse(url);
   }
 
   getHubCollabMessages(collabId: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Collab%20Messages?%40collabId=${collabId}`;
+    const url = `/API/Website/Get%20Collab%20Messages?%40collabId=${collabId}`;
     return this.getResponse(url);
   }
 
   getHubCollabCommentsPerMessage(msgId: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Collab%20Message%20Comments?%40parentId=${msgId}`;
+    const url = `/API/Website/Get%20Collab%20Message%20Comments?%40parentId=${msgId}`;
     return this.getResponse(url);
   }
 
   deleteMessage(messageId: string) {
-    const url = `/API/Node%20Zero%20Website/Delete%20Message?%40msgId=${messageId}`;
+    const url = `/API/Website/Delete%20Message?%40msgId=${messageId}`;
     return this.getResponse(url);
   }
 
   getHubCollabOverview(collabId: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Collab%20Overview%20Sections?%40collabId=${collabId}`;
+    const url = `/API/Website/Get%20Collab%20Overview%20Sections?%40collabId=${collabId}`;
     return this.getResponse(url);
   }
 
   getHubCollabActivities(collabId: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20All%20Collab%20Activities?%40collabId=${collabId}`;
+    const url = `/API/Website/Get%20All%20Collab%20Activities?%40collabId=${collabId}`;
     return this.getResponse(url);
   }
 
   getMyCollabActivities(collabId: string, username: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20My%20Collab%20Activities?%40collabId=${collabId}&%40username=${username}`;
+    const url = `/API/Website/Get%20My%20Collab%20Activities?%40collabId=${collabId}&%40username=${username}`;
     return this.getResponse(url);
   }
 
   updateEndDate(endDate: any, collabId: string, ): Observable<any> {
-    const url = `/API/Node%20Zero%20Community/Add%20End%20Date?%40endDate=${endDate}&%40id=${collabId}`;
+    const url = `/API/Community/Add%20End%20Date?%40endDate=${endDate}&%40id=${collabId}`;
     return this.getResponse(url);
   }
 
   updateStatus(status: any, collabId: string, ): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Update%20Activity%20Status?%40status=${status}&%40id=${collabId}`;
+    const url = `/API/Website/Update%20Activity%20Status?%40status=${status}&%40id=${collabId}`;
     return this.getResponse(url);
   }
 
   getCollabMembers(collabId: string, ): Observable<any> {
-    const url = `/API/Node%20Zero%20Community/Get%20Collab%20Members%20List?%40id=${collabId}`;
+    const url = `/API/Community/Get%20Collab%20Members%20List?%40id=${collabId}`;
     return this.getResponse(url);
   }
 
-  // https://datacollaboration.net/API/Node%20Zero%20Community/Get%20Collab%20Members%20List?%40id=w
+  // https://datacollaboration.net/API/Community/Get%20Collab%20Members%20List?%40id=w
 
   getHubToolsSearch(tag: string): Observable<any> {
     const url = `/API/Collaborative%20Privacy/Get%20Privacy%20Resources?%40searchStr=${tag}`;
@@ -213,17 +213,17 @@ export class ApiCallsService {
   }
 
   getHubTools(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Tool%20Page%20Tools`;
+    const url = `/API/Website/Get%20Tool%20Page%20Tools`;
     return this.getResponse(url);
   }
 
   getToolsOverview(toolId: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Overview%20Sections?%40toolId=${toolId}`;
+    const url = `/API/Website/Get%20Overview%20Sections?%40toolId=${toolId}`;
     return this.getResponse(url);
   }
 
   getToolDetails(toolId: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Tool%20Overview%20Details?%40toolsId=${toolId}`;
+    const url = `/API/Website/Get%20Tool%20Overview%20Details?%40toolsId=${toolId}`;
     if (this.appStateService.tool[toolId]) {
       return of(this.appStateService.tool[toolId]);
     }
@@ -233,22 +233,22 @@ export class ApiCallsService {
   }
 
   getHubTables(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Table%20Page%20Tables`;
+    const url = `/API/Website/Get%20Table%20Page%20Tables`;
     return this.getResponse(url);
   }
 
   getSuggestionFormQueries(formId: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Suggestion%20Form%20Queries?%40formId=${formId}`;
+    const url = `/API/Website/Get%20Suggestion%20Form%20Queries?%40formId=${formId}`;
     return this.getResponse(url);
   }
 
   getFormPageLabels(pageId: string) {
-    const url = `/API/Node%20Zero%20Website/Get%20Form%20Labels?%40pageId=${pageId}`;
+    const url = `/API/Website/Get%20Form%20Labels?%40pageId=${pageId}`;
     return this.getResponse(url);
   }
 
   getHubEvents(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Upcoming%20Events`;
+    const url = `/API/Website/Get%20Upcoming%20Events`;
     if (this.appStateService.hubEvents) {
       return of(this.appStateService.hubEvents);
     }
@@ -258,59 +258,59 @@ export class ApiCallsService {
   }
 
   getLearningEvents(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Upcoming%20Learning%20Events`;
+    const url = `/API/Website/Get%20Upcoming%20Learning%20Events`;
     return this.getResponse(url);
   }
 
   getHubBookmarks(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20My%20Bookmarks`;
+    const url = `/API/Website/Get%20My%20Bookmarks`;
     return this.getResponse(url);
   }
 
 
-  // /API/Node%20Zero%20Website/Get%20Newsfeed%20Filters
+  // /API/Website/Get%20Newsfeed%20Filters
   getProfileFormLabels(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Member%20Profile%20Page%20Labels`;
+    const url = `/API/Website/Member%20Profile%20Page%20Labels`;
     return this.getResponse(url);
   }
 
   getProfileDetails(userName: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Member%20Profile%20Details?%40userName=${userName}`;
+    const url = `/API/Website/Get%20Member%20Profile%20Details?%40userName=${userName}`;
     return this.getResponse(url);
   }
 
   updateProfilePhoto(photo: string, userName: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Update%20Profile%20Photo?%40photo=${photo}&%40username=${userName}`;
+    const url = `/API/Website/Update%20Profile%20Photo?%40photo=${photo}&%40username=${userName}`;
     return this.getResponse(url);
   }
 
   getCinchyProfileDetails(userName: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Cinchy%20Profile?%40userName=${userName}`;
+    const url = `/API/Website/Get%20Cinchy%20Profile?%40userName=${userName}`;
     return this.getResponse(url);
   }
 
   getMemberProfileDetails(memberId: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Member%20Profile%20Page?%40memberId=${memberId}`;
+    const url = `/API/Website/Get%20Member%20Profile%20Page?%40memberId=${memberId}`;
     return this.getResponse(url);
   }
 
   getHubNewsFilter(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Newsfeed%20Filters`;
+    const url = `/API/Website/Get%20Newsfeed%20Filters`;
     return this.getResponse(url);
   }
 
   saveHubNewsFilter(params: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Update%20Filter%20For%20User?%40filters=${params}`;
+    const url = `/API/Website/Update%20Filter%20For%20User?%40filters=${params}`;
     return this.getResponse(url);
   }
 
   getSavedHubNewsFilter(currentUser: string): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Saved%20Filters?%40currentUser=${currentUser}`;
+    const url = `/API/Website/Get%20Saved%20Filters?%40currentUser=${currentUser}`;
     return this.getResponse(url);
   }
 
   getHubFeatures(): Observable<any> {
-    const url = `/API/Node%20Zero%20Website/Get%20Featured%20Cards`;
+    const url = `/API/Website/Get%20Featured%20Cards`;
     return this.getResponse(url);
   }
 
@@ -363,7 +363,7 @@ export class ApiCallsService {
   }
 
   getLoggedInUserDetails(userName: string): Observable<IUser[]> {
-    const url = `/API/Node%20Zero%20Website/Get%20User%20Details?%40userName=${userName}`;
+    const url = `/API/Website/Get%20User%20Details?%40userName=${userName}`;
     return this.getResponse(url);
   }
 

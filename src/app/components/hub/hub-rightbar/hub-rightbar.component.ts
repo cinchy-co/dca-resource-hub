@@ -52,8 +52,8 @@ export class HubRightbarComponent implements OnInit, OnDestroy {
     this.router.navigate([`/profile`]);
   }
 
-  goToNews(news: ITopNews) {
-    const route = `tools/privacy-newsfeed/${news.id}`;
+  goToNews(news?: ITopNews) {
+    const route = news ? `apps/privacy-newsfeed/${news.id}` : `apps/privacy-newsfeed/`;
     this.router.navigate([route])
   }
 

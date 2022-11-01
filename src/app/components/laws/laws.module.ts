@@ -24,7 +24,7 @@ const routes = [
     component: HomeComponent,
   },
   {
-    path: '/:id',
+    path: ':id',
     component: HomeComponent,
   }
 ];
