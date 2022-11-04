@@ -25,6 +25,58 @@ export class ApiCallsService {
               private configService: ConfigService, private appStateService: AppStateService) {
   }
 
+  login() {
+    this.cinchyService.checkIfSessionValid().toPromise().then((response: any) => {
+      if (response.accessTokenIsValid) {
+        if (isPlatformBrowser(this.platformId)) {
+          console.log('111 IF SESSION VALID LOGIN IN SUCCESS')
+          sessionStorage.setItem('is-logged-in', JSON.stringify(true));
+          this.setDetails();
+        }
+      } else {
+        if (isPlatformBrowser(this.platformId)) {
+          this.cinchyService.login().then(success => {
+            if (success) {
+              console.log('111 LOGIN IN SUCCESS')
+              if (isPlatformBrowser(this.platformId)) {
+                sessionStorage.setItem('is-logged-in', JSON.stringify(true));
+              }
+              this.setDetails();
+            }
+          }, error => {
+            console.error('Could not login: ', error)
+          });
+        }
+      }
+    })
+  }
+
+  async setDetails() {
+    this.setUserDetails().then(val => {
+      this.appStateService.userDetails = val;
+      this.appStateService.setUserDetailsSub(this.appStateService.userDetails);
+      const userDetail = localStorage.getItem('hub-user-details') || '';
+      //  console.log('In user details', val);
+      if (!val && userDetail) {
+        //  console.log('In no user details if', userDetail);
+        this.appStateService.userDetails = userDetail ? JSON.parse(userDetail) : null;
+        this.appStateService.setUserDetailsSub(this.appStateService.userDetails);
+      }
+      if (isPlatformBrowser(this.platformId)) {
+        localStorage.setItem('hub-user-details', JSON.stringify(val));
+      }
+    }).catch((e: any) => {
+      if (isPlatformBrowser(this.platformId)) {
+        console.error(e);
+        const userDetail = localStorage.getItem('hub-user-details') || '';
+        this.appStateService.userDetails = userDetail ? JSON.parse(userDetail) : null;
+        this.appStateService.setUserDetailsSub(this.appStateService.userDetails);
+        console.error(e);
+      }
+    });
+    this.appStateService.setRoutingAndGlobalDetails(true);
+  }
+
   getHeaderBannerDetails(): Observable<any> {
     const url = '/API/Website/Get%20Website%20Details'
     return this.getResponse(url);
@@ -370,7 +422,6 @@ export class ApiCallsService {
   getResponse(url: string): Observable<any> {
     const fullUrl = `${this.configService.enviornmentConfig.cinchyRootUrl}${url}`
     return this.http.get(fullUrl, {
-      headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded'),
       responseType: 'text'
     }).pipe(
       map(resp => {

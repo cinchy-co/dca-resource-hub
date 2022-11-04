@@ -5,7 +5,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ComponentsModule} from "./components/components.module";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {faFacebookSquare, faLinkedinIn, faTwitterSquare} from '@fortawesome/free-brands-svg-icons';
 import {FaIconLibrary, FontAwesomeModule} from "@fortawesome/angular-fontawesome";
 import {HubSidebarComponent} from "./components/hub-sidebar/hub-sidebar.component";
@@ -19,6 +19,7 @@ import {fas} from '@fortawesome/free-solid-svg-icons';
 import {far} from "@fortawesome/free-regular-svg-icons";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
+import {ApiInterceptorService} from "./api-interceptor.service";
 
 
 const icons = [
@@ -69,6 +70,11 @@ export function getBaseUrl() {
       deps: [ConfigService]
     },
     {provide: 'BASE_URL', useFactory: getBaseUrl},
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptorService,
+      multi: true
+    },
     MessageService
   ],
   bootstrap: [AppComponent]

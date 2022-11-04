@@ -25,7 +25,20 @@ export class ProfileComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.userDetails = this.userDetails ? this.userDetails : this.appStateService.userDetails;
+    if (isPlatformBrowser(this.platformId) && sessionStorage.getItem('is-logged-in')) {
+      const userDetail = localStorage.getItem('hub-user-details') || '';
+      this.appStateService.userDetails = userDetail ? JSON.parse(userDetail) : null;
+      this.userDetails = this.userDetails ? this.userDetails : this.appStateService.userDetails;
+      this.appStateService.setUserDetailsSub(this.appStateService.userDetails);
+    }
+    this.appStateService.getRoutingOnLogin().subscribe(val => {
+      this.userDetails = this.userDetails ? this.userDetails : this.appStateService.userDetails;
+    });
+  }
+
+  login() {
+    this.appStateService.setCurrentUrl();
+    this.apiService.login();
   }
 
   profileClicked() {

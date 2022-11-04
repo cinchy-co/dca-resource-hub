@@ -22,9 +22,14 @@ export class BookmarksComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const communityDetails = this.appStateService.communityDetails;
-    this.toolsHeaderDetails = communityDetails.find(item => item.id === 'bookmarks') as ICommunityDetails;
-    this.bookmarks = await this.appApiService.getHubBookmarks().toPromise();
+    this.appStateService.setCurrentUrl();
+    if (isPlatformBrowser(this.platformId) && sessionStorage.getItem('is-logged-in')) {
+      const communityDetails = this.appStateService.communityDetails;
+      this.toolsHeaderDetails = communityDetails.find(item => item.id === 'bookmarks') as ICommunityDetails;
+      this.bookmarks = await this.appApiService.getHubBookmarks().toPromise();
+    } else {
+      this.appApiService.login();
+    }
   }
 
   goToBookmark(option: IBookmark) {

@@ -31,51 +31,19 @@ export class AppComponent implements OnInit {
       if (!sessionStorage.getItem('current-url-hub')) {
         sessionStorage.setItem('current-url-hub', url);
       }
-    }
-    this.cinchyService.checkIfSessionValid().toPromise().then((response: any) => {
-      if (response.accessTokenIsValid) {
-        this.setDetails();
+
+      if(sessionStorage.getItem('nonce')) {
+        this.apiCallsService.login();
       } else {
-        if (isPlatformBrowser(this.platformId)) {
-          this.cinchyService.login().then(success => {
-            if (success) {
-              this.setDetails();
-            }
-          }, error => {
-            console.error('Could not login: ', error)
-          });
-        }
+        this.setRoutingAndGlobalDetails();
+      }
+    }
+
+    this.appStateService.getRoutingOnLogin().subscribe(val => {
+      if(val) {
+        this.setRoutingAndGlobalDetails()
       }
     })
-  }
-
-  async setDetails() {
-    this.apiCallsService.setUserDetails().then(val => {
-      this.userDetails = val;
-      this.appStateService.userDetails = this.userDetails;
-      this.appStateService.setUserDetailsSub(this.userDetails);
-      const userDetail = localStorage.getItem('hub-user-details') || '';
-      //  console.log('In user details', val);
-      if (!val && userDetail) {
-        //  console.log('In no user details if', userDetail);
-        this.userDetails = userDetail ? JSON.parse(userDetail) : null;
-        this.appStateService.userDetails = this.userDetails;
-        this.appStateService.setUserDetailsSub(this.userDetails);
-      }
-      if (isPlatformBrowser(this.platformId)) {
-        localStorage.setItem('hub-user-details', JSON.stringify(val));
-      }
-    }).catch((e: any) => {
-      if (isPlatformBrowser(this.platformId)) {
-        console.error(e);
-        const userDetail = localStorage.getItem('hub-user-details') || '';
-        this.userDetails = userDetail ? JSON.parse(userDetail) : null;
-        this.appStateService.userDetails = this.userDetails;
-        this.appStateService.setUserDetailsSub(this.userDetails);
-        console.error(e);
-      }
-    });
-    this.setRoutingAndGlobalDetails();
   }
 
   async setRoutingAndGlobalDetails() {
@@ -107,6 +75,7 @@ export class AppComponent implements OnInit {
       this.router.navigate([`${routeWithoutQueryParam}`], {queryParams});
       sessionStorage.removeItem('current-url-hub')
     }
+    this.userDetails = this.appStateService.userDetails;
   }
 
   sidebarStateChange(isExpanded: boolean) {

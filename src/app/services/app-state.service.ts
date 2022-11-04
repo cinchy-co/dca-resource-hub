@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
 import {IDropdownClick, IFooter, IOption, ITag, IUser} from "../models/common.model";
 import {ICommunityDetails, MappedCombinedCountryKey} from "../models/general-values.model";
@@ -10,6 +10,9 @@ import {
   IToolsOverview,
   ToolIds
 } from "../components/hub/model/hub.model";
+import {isPlatformBrowser} from "@angular/common";
+import {WindowRefService} from "./window-ref.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -33,8 +36,27 @@ export class AppStateService {
   showFeatures = true;
   currentCollab: ICollab;
   hubEvents: IEvents[];
+  setRoutingOnLogin$ = new Subject();
+  loggedIn: boolean;
+  authorizationHeader: any;
 
-  constructor() {
+  constructor(@Inject(PLATFORM_ID) private platformId: any,
+              private windowRef: WindowRefService, private router: Router) {
+  }
+
+  setRoutingAndGlobalDetails(val: any) {
+    this.setRoutingOnLogin$.next(val);
+  }
+
+  getRoutingOnLogin() {
+    return this.setRoutingOnLogin$.asObservable();
+  }
+
+  setCurrentUrl() {
+    if (isPlatformBrowser(this.platformId)) {
+      const url = this.windowRef.nativeWindow.location.href;
+      sessionStorage.setItem('current-url-hub', url);
+    }
   }
 
   setSidebarToggled(val: boolean) {
