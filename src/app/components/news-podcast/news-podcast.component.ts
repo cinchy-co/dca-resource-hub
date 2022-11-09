@@ -58,6 +58,8 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   shareItem: any;
   currentItem: any;
   shareDesc = `This privacy news story from the free #Privacy Newsfeed app caught my eye 👀`;
+  isSignedIn: boolean;
+  signInMessage = `Please sign in to leave your feedback.`;
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private apiCallsService: ApiCallsService,
@@ -66,6 +68,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.isSignedIn = this.apiCallsService.isSignedIn();
     this.currentItem = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.apiCallsService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];

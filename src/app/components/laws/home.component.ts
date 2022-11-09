@@ -37,6 +37,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentLaw: any;
   top20Tags: ITag[];
   selectedTags: ITag[] = [];
+  isSignedIn: boolean;
+  signInMessage = `Please sign in to leave your feedback.`;
+
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
@@ -44,6 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.isSignedIn = this.apiCallsService.isSignedIn();
     this.currentLaw = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.reset();
     this.setTabItems();

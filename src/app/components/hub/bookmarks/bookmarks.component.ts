@@ -6,6 +6,7 @@ import {IBookmark} from "../model/hub.model";
 import {isPlatformBrowser} from "@angular/common";
 import {ConfigService} from "../../../config.service";
 import {WindowRefService} from "../../../services/window-ref.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-bookmarks',
@@ -18,17 +19,18 @@ export class BookmarksComponent implements OnInit {
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
               private configService: ConfigService, @Inject(PLATFORM_ID) private platformId: any,
-              private windowRef: WindowRefService) {
+              private windowRef: WindowRefService, private router: Router) {
   }
 
   async ngOnInit() {
     this.appStateService.setCurrentUrl();
-    if (isPlatformBrowser(this.platformId) && sessionStorage.getItem('is-logged-in')) {
+    if (this.appApiService.isSignedIn()) {
       const communityDetails = this.appStateService.communityDetails;
       this.toolsHeaderDetails = communityDetails.find(item => item.id === 'bookmarks') as ICommunityDetails;
       this.bookmarks = await this.appApiService.getHubBookmarks().toPromise();
     } else {
-      this.appApiService.login();
+      this.router.navigate(['/'])
+    //  this.appApiService.login();
     }
   }
 

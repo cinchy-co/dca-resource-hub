@@ -59,6 +59,13 @@ export class AppStateService {
     }
   }
 
+  setDefaultUrl() {
+    if (isPlatformBrowser(this.platformId)) {
+      const url = this.windowRef.nativeWindow.location.href;
+      sessionStorage.setItem('current-url-hub', url);
+    }
+  }
+
   setSidebarToggled(val: boolean) {
     this.sidebarToggled$.next(val);
   }

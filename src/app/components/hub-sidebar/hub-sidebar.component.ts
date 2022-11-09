@@ -7,6 +7,7 @@ import {ICommunityDetails} from "../../models/general-values.model";
 import {AppStateService} from "../../services/app-state.service";
 import {IFooter} from "../../models/common.model";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import {ApiCallsService} from "../../services/api-calls.service";
 
 
 @Component({
@@ -39,13 +40,18 @@ export class HubSidebarComponent implements OnInit {
   @Output() toggleSidebarClicked: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private windowRef: WindowRefService,
-              @Inject(PLATFORM_ID) private platformId: any, private appStateService: AppStateService) {
+              @Inject(PLATFORM_ID) private platformId: any, private appStateService: AppStateService,
+              private appApiService: ApiCallsService) {
   }
 
   ngOnInit(): void {
     this.sidebarOptions = this.appStateService.communityDetails;
     this.mainSectionOptions = this.sidebarOptions.filter(item => item.navigation === 'Main');
     this.moreSectionOptions = this.sidebarOptions.filter(item => item.navigation === 'More');
+    if (!this.appApiService.isSignedIn()) {
+      this.mainSectionOptions = this.mainSectionOptions.filter(item => item.isBehindLogin !== 'Yes');
+      this.moreSectionOptions = this.moreSectionOptions.filter(item => item.isBehindLogin !== 'Yes');
+    }
     this.collaborationBtn = this.sidebarOptions.find(item => item.id === 'collaboration') as ICommunityDetails;
     this.footerDetails = this.appStateService.footerDetails;
     if (isPlatformBrowser(this.platformId)) {

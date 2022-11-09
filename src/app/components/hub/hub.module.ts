@@ -112,6 +112,10 @@ const routes = [
         component: CollabDetailsComponent
       },
       {
+        path: 'collab-data-collaboration-policy',
+        component: CollabDetailsComponent
+      },
+      {
         path: 'collab-human-rights',
         component: CollabDetailsComponent
       },

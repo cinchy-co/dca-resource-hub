@@ -56,11 +56,14 @@
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'feedback'">
-    <app-hub-form [formId]="'tools'" [buttonLabel]="'Submit'"
+    <app-hub-form *ngIf="isSignedIn" [formId]="'tools'" [buttonLabel]="'Submit'"
                   [existingDetails]="{'tool': toolId}"
                   [updateWithHiddenOrDisabledFields]="true"
                   [successMessage]="'Your feedback has been submitted'">
     </app-hub-form>
+
+    <app-sign-in class="p-4" *ngIf="!isSignedIn" [message]="signInMessage"></app-sign-in>
+
   </ng-container>
 
 </div>

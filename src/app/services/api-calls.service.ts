@@ -25,6 +25,10 @@ export class ApiCallsService {
               private configService: ConfigService, private appStateService: AppStateService) {
   }
 
+  isSignedIn(): boolean {
+    return !!(isPlatformBrowser(this.platformId) && sessionStorage.getItem('is-logged-in'));
+  }
+
   login() {
     this.cinchyService.checkIfSessionValid().toPromise().then((response: any) => {
       if (response.accessTokenIsValid) {

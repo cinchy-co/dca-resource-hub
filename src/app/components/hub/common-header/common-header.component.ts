@@ -19,7 +19,7 @@ export class CommonHeaderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.setButtonsCountArray(this.headerDetails.numberOfButtons);
+    this.setButtonsCountArray(this.headerDetails?.numberOfButtons);
   }
 
   getIcon(option: ICommunityDetails, isCollapsed?: boolean): IconProp {

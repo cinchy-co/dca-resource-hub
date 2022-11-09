@@ -54,6 +54,9 @@ export class PippsComponent implements OnInit, OnDestroy {
   currentTab: string = 'tool';
   toolId = 'tool-privacy-legislation-navigator';
   routePage = 'privacy-legislation-text';
+  isSignedIn: boolean;
+  signInMessage = `Please sign in to leave your feedback.`;
+
 
   /* @HostListener('window:scroll', [])
    onWindowScroll() {
@@ -74,6 +77,7 @@ export class PippsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.isSignedIn = this.apiCallService.isSignedIn();
     this.setTabItems();
     this.apiCallService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];

@@ -32,6 +32,8 @@ export class ResourceLocatorComponent implements OnInit {
   pageSize = PAGE_SIZE;
   currentPage = 0;
   totalButtonsArray: any[] = [];
+  isSignedIn: boolean;
+  signInMessage = `Please sign in to leave your feedback.`;
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
               private activatedRoute: ActivatedRoute, private router: Router,
@@ -39,6 +41,7 @@ export class ResourceLocatorComponent implements OnInit {
               private windowRef: WindowRefService) { }
 
   ngOnInit(): void {
+    this.isSignedIn = this.apiCallsService.isSignedIn();
     this.setTabItems();
     this.getTags();
     this.apiCallsService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {

@@ -23,6 +23,7 @@ import {ToastModule} from "primeng/toast";
 import { ShareSocialButtonsComponent } from './share-social-buttons/share-social-buttons.component';
 import {ShareButtonsModule} from "ngx-sharebuttons/buttons";
 import {TooltipModule} from "primeng/tooltip";
+import { SignInComponent } from './sign-in/sign-in.component';
 
 
 
@@ -33,7 +34,8 @@ import {TooltipModule} from "primeng/tooltip";
     HeroBannerComponent,
     VideoOverviewComponent,
     HubFormComponent,
-    ShareSocialButtonsComponent
+    ShareSocialButtonsComponent,
+    SignInComponent
   ],
     imports: [
         CommonModule,
@@ -62,7 +64,8 @@ import {TooltipModule} from "primeng/tooltip";
     HeroBannerComponent,
     VideoOverviewComponent,
     HubFormComponent,
-    ShareSocialButtonsComponent
+    ShareSocialButtonsComponent,
+    SignInComponent
   ]
 })
 export class DcaCommonModule { }

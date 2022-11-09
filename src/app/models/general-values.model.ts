@@ -28,6 +28,7 @@ export const SearchByRegulator = [
 
 export interface ICommunityDetails {
   sidebarLabel: string;
+  isBehindLogin: string;
   id: string;
   sidebarIcon: string;
   faIcon: string;

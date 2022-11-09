@@ -36,6 +36,8 @@ export class RegHomeComponent implements OnInit, OnDestroy {
   toolId = 'tool-privacy-regulator-navigator';
   top20Tags: ITag[];
   selectedTags: ITag[] = [];
+  isSignedIn: boolean;
+  signInMessage = `Please sign in to leave your feedback.`;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
@@ -43,6 +45,7 @@ export class RegHomeComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.isSignedIn = this.apiCallsService.isSignedIn();
     this.currentRegulator = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.setTabItems();
     this.activatedRoute.queryParams.pipe(takeUntil(this.destroyed$)).subscribe(params => {
