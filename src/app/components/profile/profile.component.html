@@ -1,5 +1,6 @@
 <div class="" *ngIf="userDetails">
-  <div class="drop-shadow-sm w-[100%] fixed right-5 flex bg-white z-10 justify-end">
+  <div class="drop-shadow-sm w-[100%] fixed right-5 flex bg-white justify-end"
+       [ngClass]="{'z-10': !isSidebarHidden}">
     <img class="mt-3 mb-3 rounded-[50%] w-[50px] h-[50px] cursor-pointer block" (click)="profileClicked()"
          [src]="'data:image/png;base64,' + userDetails.photo" alt="profile">
   </div>
@@ -28,7 +29,8 @@
   </p-sidebar>
 </div>
 
-<div *ngIf="!userDetails" class="h-[50px] mt-3 w-[100%] absolute right-5 flex bg-white z-10 justify-end">
+<div *ngIf="!userDetails" class="h-[50px] mt-3 w-[100%] absolute right-5 flex bg-white justify-end"
+     [ngClass]="{'z-10': !isSidebarHidden}">
   <p-button class="btn-color-green p-button-raised p-button-rounded"
             [label]="'Sign in'"
             (click)="login()">

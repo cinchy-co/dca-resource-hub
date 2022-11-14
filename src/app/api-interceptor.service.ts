@@ -32,6 +32,11 @@ export class ApiInterceptorService implements HttpInterceptor {
         }
       }
     }
+    const finalAuthorization = req.headers.get('Authorization');
+
+    if (finalAuthorization?.includes('null')) {
+      req = req.clone({headers: req.headers.delete('Authorization')});
+    }
     return next.handle(req);
   }
 }

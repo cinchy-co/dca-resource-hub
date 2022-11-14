@@ -6,6 +6,15 @@ export interface IEnv {
   "version": string;
 }
 
+export interface ILanding {
+  gifLink: string;
+  header: string;
+  headerText: string;
+  subHeader: string;
+  subText: string;
+  videoLink: string;
+}
+
 export interface ILegislation {
   Law: string;
   Passed: string;

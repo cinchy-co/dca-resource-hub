@@ -81,6 +81,11 @@ export class ApiCallsService {
     this.appStateService.setRoutingAndGlobalDetails(true);
   }
 
+  getLandingPageDetails() {
+    const url = `/API/Website/Get%20Landing%20Page%20Details`;
+    return this.getResponse(url);
+  }
+
   getHeaderBannerDetails(): Observable<any> {
     const url = '/API/Website/Get%20Website%20Details'
     return this.getResponse(url);
@@ -447,6 +452,9 @@ export class ApiCallsService {
   }
 
   logOut() {
+    sessionStorage.removeItem('is-logged-in')
+    sessionStorage.removeItem('authorizationHeader');
+    sessionStorage.removeItem('current-url-hub');
     const cookies = document.cookie.split("; ");
     for (let c = 0; c < cookies.length; c++) {
       const d = window.location.hostname.split(".");

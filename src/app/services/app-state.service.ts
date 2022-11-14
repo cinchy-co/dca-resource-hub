@@ -23,6 +23,7 @@ export class AppStateService {
   dropdownOptionClicked$: Subject<IDropdownClick> = new Subject<IDropdownClick>();
   topTagClicked$: Subject<ITag[]> = new Subject<ITag[]>();
   sidebarToggled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  hideSidebarToggled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   currentSidebarOption$: Subject<string> = new Subject<string>();
   userDetails$: BehaviorSubject<IUser> = new BehaviorSubject<IUser>(({} as IUser));
   avatars: any;
@@ -72,6 +73,14 @@ export class AppStateService {
 
   getSidebarToggled() {
     return this.sidebarToggled$.asObservable();
+  }
+
+  setDisplayOfSidebarToggled(val: boolean) {
+    this.hideSidebarToggled$.next(val);
+  }
+
+  getDisplayOfSidebarToggled() {
+    return this.hideSidebarToggled$.asObservable();
   }
 
   setSidebarOption(val: string) {

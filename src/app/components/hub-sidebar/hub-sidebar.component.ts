@@ -36,8 +36,10 @@ export class HubSidebarComponent implements OnInit {
   moreSectionOptions: ICommunityDetails[];
   mainSectionOptions: ICommunityDetails[];
   collaborationBtn: ICommunityDetails;
+  hideSidebar = false;
 
-  @Output() toggleSidebarClicked: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() toggleSidebarClicked: EventEmitter<boolean> = new EventEmitter<boolean>(); // toggle doesn't completely hide it
+  @Output() hideOrShowSidebar: EventEmitter<boolean> = new EventEmitter<boolean>(); // hides it
 
   constructor(private activatedRoute: ActivatedRoute, private router: Router, private windowRef: WindowRefService,
               @Inject(PLATFORM_ID) private platformId: any, private appStateService: AppStateService,
@@ -45,6 +47,10 @@ export class HubSidebarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.appStateService.getDisplayOfSidebarToggled().subscribe(val => {
+      this.hideSidebar = !val;
+      this.hideOrShowSidebar.emit(val);
+    })
     this.sidebarOptions = this.appStateService.communityDetails;
     this.mainSectionOptions = this.sidebarOptions.filter(item => item.navigation === 'Main');
     this.moreSectionOptions = this.sidebarOptions.filter(item => item.navigation === 'More');

@@ -390,3 +390,18 @@ th {
     border: none;
   }
 }
+
+.landing {
+  .p-menubar {
+    background: white !important;
+    border: none;
+
+    ul {
+      min-width: 145px;
+
+      li {
+        margin-right: 20px;
+      }
+    }
+  }
+}

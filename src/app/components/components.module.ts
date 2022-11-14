@@ -32,8 +32,10 @@ import {InputTextModule} from "primeng/inputtext";
 import {CheckboxModule} from "primeng/checkbox";
 import {MultiSelectModule} from "primeng/multiselect";
 import {InputTextareaModule} from "primeng/inputtextarea";
-import { ProfilePreferencesComponent } from './profile-preferences/profile-preferences.component';
+import {ProfilePreferencesComponent} from './profile-preferences/profile-preferences.component';
 import {FileUploadModule} from "primeng/fileupload";
+import {LandingComponent} from './landing/landing.component';
+import {MenubarModule} from "primeng/menubar";
 
 
 @NgModule({
@@ -44,38 +46,40 @@ import {FileUploadModule} from "primeng/fileupload";
     ProfileComponent,
     ProfileFormComponent,
     ProfilePreferencesComponent,
+    LandingComponent,
   ],
-    imports: [
-        CommonModule,
-        AutoCompleteModule,
-        FormsModule,
-        ReactiveFormsModule,
-        PaginatorModule,
-        CardModule,
-        SelectButtonModule,
-        AvatarModule,
-        AvatarGroupModule,
-        ButtonModule,
-        AccordionModule,
-        ProgressSpinnerModule,
-        CarouselModule,
-        ChipModule,
-        ShareModule,
-        ShareIconsModule,
-        ShareButtonsModule,
-        DcaCommonModule,
-        RadioButtonModule,
-        EllipsisModule,
-        PipesModule,
-        SidebarModule,
-        DividerModule,
-        ToastModule,
-        InputTextModule,
-        CheckboxModule,
-        MultiSelectModule,
-        InputTextareaModule,
-        FileUploadModule
-    ],
+  imports: [
+    CommonModule,
+    AutoCompleteModule,
+    FormsModule,
+    ReactiveFormsModule,
+    PaginatorModule,
+    CardModule,
+    SelectButtonModule,
+    AvatarModule,
+    AvatarGroupModule,
+    ButtonModule,
+    AccordionModule,
+    ProgressSpinnerModule,
+    CarouselModule,
+    ChipModule,
+    ShareModule,
+    ShareIconsModule,
+    ShareButtonsModule,
+    DcaCommonModule,
+    RadioButtonModule,
+    EllipsisModule,
+    PipesModule,
+    SidebarModule,
+    DividerModule,
+    ToastModule,
+    InputTextModule,
+    CheckboxModule,
+    MultiSelectModule,
+    InputTextareaModule,
+    FileUploadModule,
+    MenubarModule
+  ],
   exports: [
     HeaderComponent,
     FooterComponent,

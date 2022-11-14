@@ -13,6 +13,9 @@ export class HubComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    setTimeout(() => {
+      this.appStateService.setDisplayOfSidebarToggled(true);
+    }, 10);
   }
 
 }

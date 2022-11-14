@@ -1,4 +1,4 @@
-<div [ngStyle]="{'width': isExpanded ? isMobileOrTab ? '100%' : '250px' : '60px'}"
+<div *ngIf="!hideSidebar" [ngStyle]="{'width': isExpanded ? isMobileOrTab ? '100%' : '250px' : '60px'}"
      class="hub-sidebar overflow-y-auto">
   <div class="flex items-center justify-left p-5 mb-10 mt-5 gap-4 h-[42px]">
     <i class="pi pi-bars cursor-pointer" style="font-size: 1.2rem" (click)="toggleSidebar()"></i>

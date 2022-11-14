@@ -3,11 +3,14 @@
 </p-progressSpinner>
 
 <div class="page-wrapper" *ngIf="loginDone">
-  <app-hub-sidebar (toggleSidebarClicked)="sidebarStateChange($event)"></app-hub-sidebar>
+  <app-hub-sidebar (toggleSidebarClicked)="sidebarStateChange($event)"
+                   (hideOrShowSidebar)="hideOrShowSideBar($event)"></app-hub-sidebar>
 
-  <app-profile [userDetails]="userDetails"></app-profile>
-  <div class="p-[20px] pt-[100px] lg:p-[100px] hub-content"
-       [ngStyle]="{'margin-left': !isSidebarExpanded ? '50px' : '220px',
+  <app-profile *ngIf="!isSidebarHidden" [userDetails]="userDetails" [isSidebarHidden]="isSidebarHidden"></app-profile>
+
+  <div class="hub-content"
+       [ngClass]="{'pt-[100px]': !isSidebarHidden, 'lg:p-[100px]': !isSidebarHidden, 'p-[20px]': !isSidebarHidden }"
+       [ngStyle]="{'margin-left': isSidebarHidden ? '0' : !isSidebarExpanded ? '50px' : '220px',
        'display': isSidebarExpanded && isMobileOrTab ? 'none': 'block'}">
     <router-outlet></router-outlet>
   </div>

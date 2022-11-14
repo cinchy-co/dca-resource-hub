@@ -16,6 +16,7 @@ import {Router} from "@angular/router";
 export class AppComponent implements OnInit {
   title = 'dca-privacy-leg';
   isSidebarExpanded = true;
+  isSidebarHidden: boolean;
   loginDone: boolean;
   userDetails: IUser;
   isMobileOrTab: boolean;
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit {
         sessionStorage.setItem('current-url-hub', url);
       }
 
-      if(sessionStorage.getItem('nonce')) {
+      if (sessionStorage.getItem('nonce')) {
         this.apiCallsService.login();
       } else {
         this.setRoutingAndGlobalDetails();
@@ -40,7 +41,7 @@ export class AppComponent implements OnInit {
     }
 
     this.appStateService.getRoutingOnLogin().subscribe(val => {
-      if(val) {
+      if (val) {
         this.setRoutingAndGlobalDetails()
       }
     })
@@ -57,14 +58,27 @@ export class AppComponent implements OnInit {
       this.isMobileOrTab = this.windowRefService.nativeWindow.innerWidth < 1040;
       this.isSidebarExpanded = !this.isMobileOrTab;
       this.sidebarStateChange(this.isSidebarExpanded);
-      const currentUrl = sessionStorage.getItem('current-url-hub');
-      let route: any = '/';
-      if (environment.production) {
-        route = currentUrl?.split('/hub')[1] || route;
-      } else {
-        route = currentUrl?.split(':3000')[1] || currentUrl?.split('/hub')[1] || route;
-      }
-      const routeWithoutQueryParam = route.split('?')[0];
+      this.setRouting();
+    }
+    this.userDetails = this.appStateService.userDetails;
+  }
+
+  setRouting() {
+    const currentUrl = sessionStorage.getItem('current-url-hub');
+    let route: any = '/';
+    if (environment.production) {
+      route = currentUrl?.split('/hub')[1] || route;
+    } else {
+      route = currentUrl?.split(':3000')[1] || currentUrl?.split('/hub')[1] || route;
+    }
+    const routeWithoutQueryParam = route.split('?')[0];
+    console.log('1111 routeWithoutQueryParam', routeWithoutQueryParam, routeWithoutQueryParam === '/landing');
+    if (routeWithoutQueryParam === '/' && !this.apiCallsService.isSignedIn()) {
+      this.router.navigate([`landing`]);
+    } else if (routeWithoutQueryParam === '/landing' && this.apiCallsService.isSignedIn()) {
+      console.log('1111 IN LANDING SIGN NIN')
+      this.router.navigate([`/home`]);
+    } else {
       const queryParams: any = {};
       if (route.split('?')[1]) {
         const urlParams = new URLSearchParams(route.split('?')[1]);
@@ -73,13 +87,16 @@ export class AppComponent implements OnInit {
         });
       }
       this.router.navigate([`${routeWithoutQueryParam}`], {queryParams});
-      sessionStorage.removeItem('current-url-hub')
     }
-    this.userDetails = this.appStateService.userDetails;
+    sessionStorage.removeItem('current-url-hub')
   }
 
-  sidebarStateChange(isExpanded: boolean) {
+  sidebarStateChange(isExpanded: boolean) { // toggle doesn't completely hide it
     this.isSidebarExpanded = isExpanded;
     this.appStateService.setSidebarToggled(isExpanded);
+  }
+
+  hideOrShowSideBar(isShown: boolean) {
+    this.isSidebarHidden = !isShown;
   }
 }

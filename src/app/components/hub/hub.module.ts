@@ -56,6 +56,10 @@ const routes = [
         component: HubHomeComponent
       },
       {
+        path: 'home',
+        component: HubHomeComponent
+      },
+      {
         path: 'profile',
         component: ProfileFormComponent
       },

@@ -16,6 +16,7 @@ import {Router} from "@angular/router";
 })
 export class ProfileComponent implements OnInit {
   @Input() userDetails: IUser;
+  @Input() isSidebarHidden: boolean;
   display: boolean;
 
   constructor(private appStateService: AppStateService, private configService: ConfigService,
@@ -51,9 +52,9 @@ export class ProfileComponent implements OnInit {
   }
 
   signOut() {
-    this.cinchyService.logout();
-    this.apiService.logOut();
     if (isPlatformBrowser(this.platformId)) {
+      this.cinchyService.logout();
+      this.apiService.logOut();
       localStorage.removeItem('hub-user-details');
       const url = `${this.configService.enviornmentConfig.cinchyRootUrl}/Account/Logoff`;
       const windowRef = this.windowRef.nativeWindow.open(url, '_blank');
