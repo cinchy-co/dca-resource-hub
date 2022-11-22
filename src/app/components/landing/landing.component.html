@@ -25,12 +25,17 @@
       <div class="banner-content">
         <div class="banner-content__inner">
           <div class="banner-content--text">
-            <h1 class="lowercase" [innerHTML]="landingPageDetails.header"></h1>
-            <h4 class="lowercase" [innerHTML]="landingPageDetails.headerText"></h4>
-            <button pButton [label]="landingPageDetails.header" class="homePageButton" (click)="signIn()">
-            </button>
+            <h1 class="" [innerHTML]="landingPageDetails.header"></h1>
+            <h4 class="" [innerHTML]="landingPageDetails.headerText"></h4>
+
+            <div class="flex flex-col gap-2">
+              <p-button [label]="landingPageDetails.signInButton" (click)="signIn()"
+                        class="btn-color-green p-button-raised p-button-rounded">
+              </p-button>
+              <p class="link-color" [innerHTML]="landingPageDetails.textUnderSignIn"></p>
+            </div>
           </div>
-          <div class="banner-content--video">
+          <div class="banner-content--video flex justify-center">
             <img [src]="landingPageDetails.gifLink">
           </div>
         </div>
@@ -41,8 +46,49 @@
   <div>
     <p class="" [innerHTML]="landingPageDetails.subText"></p>
 
+    <div class="flex gap-3 mt-5 flex-wrap justify-center p-4">
+      <div *ngFor="let option of mainSectionOptions">
+
+        <div [title]="option.sidebarLabel"
+             class="flex items-center justify-left pr-5 pl-5 pt-2 pb-2 gap-2 cursor-pointer
+            text-slate-600 hover:bg-slate-100 border border-solid border-slate-300 rounded-sm"
+             (click)="optionClicked(option)">
+        <span *ngIf="option.sidebarIconDesc === 'Icon' && (option.id !== 'more')" style="font-size: 1.2rem; width:25px">
+          <fa-icon [icon]="getIcon(option)"></fa-icon>
+        </span>
+          <span *ngIf="option.id === 'more'" style="font-size: 1.2rem; width:25px">
+           <fa-icon [icon]="getIcon(option)"></fa-icon>
+        </span>
+          <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon" alt="side-bar-icon">
+          <span class="">{{option.sidebarLabel}}</span>
+        </div>
+      </div>
+    </div>
+
+
     <div class="mt-5 flex items-center justify-center">
       <h1 class="text-[20px] font-semibold" [innerHTML]="landingPageDetails.subHeader"></h1>
+    </div>
+
+    <div class="flex flex-wrap gap-10 p-4 mt-5 justify-center">
+      <div class="cursor-pointer default-border w-[300px] h-[320px] rounded-[20px]" *ngFor="let item of cards"
+           (click)="goToDetails(item)">
+        <div class="relative mb-4 responsive-image-container rounded-t-[20px]">
+          <img class="rounded-t-[20px] responsive-image" alt="tool-image" [src]="item.tableImage">
+        </div>
+
+        <div class="flex flex-col pt-1 pb-3 pl-4 pr-4 h-[140px]">
+          <span class="line-clamp-2 text-[20px] font-semibold mb-2" [title]="item.tableName" [innerHTML]="item.tableName"></span>
+
+          <span class="line-clamp-4 text-sm-12 text-gray-800" [title]="item.tableDesc" [innerHTML]="item.tableDesc"></span>
+        </div>
+
+        <hr>
+
+        <div class="pt-3 pb-3 pl-4 pr-4">
+          <span class="font-bold" [innerHTML]="item.action"></span>
+        </div>
+      </div>
     </div>
   </div>
 </section>

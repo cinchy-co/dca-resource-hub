@@ -86,6 +86,11 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getLandingPageCards() {
+    const url = `/API/Website/Get%20Landing%20Cards`;
+    return this.getResponse(url);
+  }
+
   getHeaderBannerDetails(): Observable<any> {
     const url = '/API/Website/Get%20Website%20Details'
     return this.getResponse(url);

@@ -47,5 +47,7 @@ export interface ICommunityDetails {
   featuredDescription?: string;
   filterHeader?: string;
   filterDescription?: string;
+  landingNav: string;
+  landingLabel: string;
   [key: string|number]: any;
 }

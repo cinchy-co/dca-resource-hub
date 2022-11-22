@@ -13,6 +13,8 @@ export interface ILanding {
   subHeader: string;
   subText: string;
   videoLink: string;
+  textUnderSignIn: string;
+  signInButton: string;
 }
 
 export interface ILegislation {

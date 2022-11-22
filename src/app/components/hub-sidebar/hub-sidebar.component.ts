@@ -49,7 +49,9 @@ export class HubSidebarComponent implements OnInit {
   ngOnInit(): void {
     this.appStateService.getDisplayOfSidebarToggled().subscribe(val => {
       this.hideSidebar = !val;
-      this.hideOrShowSidebar.emit(val);
+      setTimeout(() => {
+        this.hideOrShowSidebar.emit(val);
+      }, 10);
     })
     this.sidebarOptions = this.appStateService.communityDetails;
     this.mainSectionOptions = this.sidebarOptions.filter(item => item.navigation === 'Main');
