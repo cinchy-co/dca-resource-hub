@@ -1,6 +1,6 @@
 <div class="landing drop-shadow-sm pl-4 sticky z-10 top-0 left-0 flex bg-white justify-between w-[100%]">
-    <img src="assets/logoBeta.png" alt="logo" style="height:75px"
-         class="cursor-pointer" (click)="goToHome()">
+  <img src="assets/logoBeta.png" alt="logo" style="height:75px"
+       class="cursor-pointer" (click)="goToHome()">
 
   <div class="mt-2">
     <p-menubar [model]="items"></p-menubar>
@@ -59,15 +59,11 @@
           <span *ngIf="option.id === 'more'" style="font-size: 1.2rem; width:25px">
            <fa-icon [icon]="getIcon(option)"></fa-icon>
         </span>
-          <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon" alt="side-bar-icon">
+          <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon"
+               alt="side-bar-icon">
           <span class="">{{option.sidebarLabel}}</span>
         </div>
       </div>
-    </div>
-
-
-    <div class="mt-5 flex items-center justify-center">
-      <h1 class="text-[20px] font-semibold" [innerHTML]="landingPageDetails.subHeader"></h1>
     </div>
 
     <div class="flex flex-wrap gap-10 p-4 mt-5 justify-center">
@@ -78,9 +74,11 @@
         </div>
 
         <div class="flex flex-col pt-1 pb-3 pl-4 pr-4 h-[140px]">
-          <span class="line-clamp-2 text-[20px] font-semibold mb-2" [title]="item.tableName" [innerHTML]="item.tableName"></span>
+          <span class="line-clamp-2 text-[20px] font-semibold mb-2" [title]="item.tableName"
+                [innerHTML]="item.tableName"></span>
 
-          <span class="line-clamp-4 text-sm-12 text-gray-800" [title]="item.tableDesc" [innerHTML]="item.tableDesc"></span>
+          <span class="line-clamp-4 text-sm-12 text-gray-800" [title]="item.tableDesc"
+                [innerHTML]="item.tableDesc"></span>
         </div>
 
         <hr>
@@ -89,6 +87,33 @@
           <span class="font-bold" [innerHTML]="item.action"></span>
         </div>
       </div>
+    </div>
+
+    <div class="mt-5 flex flex-col items-center justify-center">
+      <h1 class="text-[20px] font-semibold" [innerHTML]="landingPageDetails.subHeader"></h1>
+
+
+      <div>
+        <p-carousel [contentClass]="'carousal-content'" [style]="{'background': 'white'}"
+                    [value]="testimonials" [numVisible]="1" [numScroll]="1" [autoplayInterval]="5000"
+                    [circular]="true">
+          <ng-template let-testimonial pTemplate="item">
+            <div class="flex flex-col items-center gap-5">
+              <img class="mt-3 mb-3 rounded-[50%] w-[100px] h-[100px] cursor-pointer block"
+                   [src]="testimonial.image" alt="profile">
+              <h1 class="text-[20px] text-slate-700" [innerHTML]="testimonial.title"></h1>
+              <p [innerHTML]="testimonial.quote"></p>
+            </div>
+          </ng-template>
+        </p-carousel>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-2 mt-5 justify-center items-center">
+      <p-button [label]="landingPageDetails.signInButton" (click)="signIn()"
+                class="btn-color-green p-button-raised p-button-rounded">
+      </p-button>
+      <p class="link-color" [innerHTML]="landingPageDetails.textUnderSignIn"></p>
     </div>
   </div>
 </section>

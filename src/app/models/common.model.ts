@@ -17,6 +17,13 @@ export interface ILanding {
   signInButton: string;
 }
 
+export interface ITestimonial {
+  sequence: number;
+  image: string;
+  quote: string;
+  title: string;
+}
+
 export interface ILegislation {
   Law: string;
   Passed: string;

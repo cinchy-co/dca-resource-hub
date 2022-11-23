@@ -1,6 +1,6 @@
 import {Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
 import {ApiCallsService} from "../../services/api-calls.service";
-import {IFooter, ILanding, ISocialMedia} from "../../models/common.model";
+import {IFooter, ILanding, ISocialMedia, ITestimonial} from "../../models/common.model";
 import {AppStateService} from "../../services/app-state.service";
 import {Router} from "@angular/router";
 import {WindowRefService} from "../../services/window-ref.service";
@@ -22,6 +22,7 @@ export class LandingComponent implements OnInit {
   sidebarOptions: ICommunityDetails[];
   items: MenuItem[];
   cards: any[];
+  testimonials: ITestimonial[];
 
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
               private router: Router, private windowRef: WindowRefService,
@@ -35,8 +36,9 @@ export class LandingComponent implements OnInit {
     this.landingPageDetails = (await this.appApiService.getLandingPageDetails().toPromise())[0];
     this.socialMediaDetails = (await this.appApiService.getSocialMediaDetails().toPromise());
     this.cards = (await this.appApiService.getLandingPageCards().toPromise());
+    this.testimonials = (await this.appApiService.getLandingPageTestimonials().toPromise());
     this.footerDetails = this.appStateService.footerDetails;
-    console.log('1111 landingPageDetails', this.landingPageDetails, this.cards);
+  //  console.log('1111 landingPageDetails', this.landingPageDetails, this.cards);
   }
 
   setMenuItems() {
