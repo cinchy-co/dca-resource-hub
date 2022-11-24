@@ -38,7 +38,7 @@ export class LandingComponent implements OnInit {
     this.cards = (await this.appApiService.getLandingPageCards().toPromise());
     this.testimonials = (await this.appApiService.getLandingPageTestimonials().toPromise());
     this.footerDetails = this.appStateService.footerDetails;
-  //  console.log('1111 landingPageDetails', this.landingPageDetails, this.cards);
+    console.log('1111 landingPageDetails', this.landingPageDetails, this.cards);
   }
 
   setMenuItems() {
@@ -63,18 +63,24 @@ export class LandingComponent implements OnInit {
 
   optionClicked(option: ICommunityDetails) {
     if (option.redirectLink) {
-      if (isPlatformBrowser(this.platformId)) {
-        const url = option.redirectLink;
-        this.windowRef.nativeWindow.open(url, '_blank');
-      }
+      this.goToExternalLink(option);
     } else {
       this.router.navigate([`${option.sidebarRoute}`]);
     }
   }
 
+  goToExternalLink(option: any) {
+    if (isPlatformBrowser(this.platformId)) {
+      const url = option.redirectLink;
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
+  }
+
   goToDetails(item: any) {
-    const url = item.redirectRoute;
-    if (url) {
+    if (item.redirectLink) {
+      this.goToExternalLink(item);
+    } else {
+      const url = item.redirectRoute;
       this.router.navigate([`${url}`]);
     }
   }

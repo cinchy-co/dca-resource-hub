@@ -49,17 +49,16 @@
       }
 
       h1 {
-        font-size: 58px;
-        line-height: 74px;
-        margin-bottom: 0;
-        font-weight: bold;
+        font-size: 36px;
+        line-height: 44px;
+        font-weight: 400;
 
         @media (max-width: 600px){
-          font-size: 44px;
+          font-size: 36px;
           line-height: 54px;
         }
         @media (min-width: 768px) {
-          font-size: 48px;
+          font-size: 36px;
           line-height: 54px;
         }
       }

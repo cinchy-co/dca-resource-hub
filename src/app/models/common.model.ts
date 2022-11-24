@@ -15,6 +15,7 @@ export interface ILanding {
   videoLink: string;
   textUnderSignIn: string;
   signInButton: string;
+  footerText: string;
 }
 
 export interface ITestimonial {
