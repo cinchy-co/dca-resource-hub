@@ -45,6 +45,8 @@ import { CalendarModule } from 'primeng/calendar';
 import {MessageModule} from "primeng/message";
 import {MessagesModule} from "primeng/messages";
 import { MemberProfileComponent } from './member-profile/member-profile.component';
+import {SubscribeComponent} from "./subscribe/subscribe.component";
+import {UnSubscribeComponent} from "./un-subscribe/un-subscribe.component";
 
 const routes = [
   {
@@ -168,6 +170,14 @@ const routes = [
         loadChildren: () => import('../resource-locator/resource-locator.module').then(m => m.ResourceLocatorModule)
       },
       {
+        path: 'subscribe',
+        component: SubscribeComponent
+      },
+      {
+        path: 'unsubscribe',
+        component: UnSubscribeComponent
+      },
+      {
         path: ':route',
         component: GettingStartedComponent
       },
@@ -192,7 +202,9 @@ const routes = [
     CollabDetailsComponent,
     GettingStartedComponent,
     EventDetailsComponent,
-    MemberProfileComponent
+    MemberProfileComponent,
+    SubscribeComponent,
+    UnSubscribeComponent,
   ],
   imports: [
     CommonModule,

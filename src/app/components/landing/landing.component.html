@@ -32,7 +32,7 @@
               <p-button [label]="landingPageDetails.signInButton" (click)="signIn()"
                         class="btn-color-green p-button-raised p-button-rounded">
               </p-button>
-              <p class="text-sky-500 text-[28px]" [innerHTML]="landingPageDetails.textUnderSignIn"></p>
+              <p class="text-sky-500" [innerHTML]="landingPageDetails.textUnderSignIn"></p>
             </div>
           </div>
           <div class="banner-content--video flex justify-center">
@@ -44,19 +44,19 @@
   </div>
 
   <div class="flex flex-col items-center">
-    <p class="" [innerHTML]="landingPageDetails.subText"></p>
+    <p class="text-[20px]" [innerHTML]="landingPageDetails.subText"></p>
 
     <div class="flex gap-3 mt-5 flex-wrap justify-center p-4">
       <div *ngFor="let option of mainSectionOptions">
 
         <div [title]="option.sidebarLabel"
              class="flex items-center justify-left pr-5 pl-5 pt-2 pb-2 gap-2 cursor-pointer
-            text-slate-600 hover:bg-slate-100 border border-solid border-slate-300 rounded-sm min-h-[50px]"
+            text-slate-600 hover:bg-slate-100 border border-solid border-slate-300 rounded-lg min-h-[40px]"
              (click)="optionClicked(option)">
-        <span *ngIf="option.sidebarIconDesc === 'Icon' && (option.id !== 'more')" style="font-size: 1.2rem; width:25px">
+        <span *ngIf="option.sidebarIconDesc === 'Icon' && (option.id !== 'more')" style="font-size: 1rem; width:25px">
           <fa-icon [icon]="getIcon(option)"></fa-icon>
         </span>
-          <span *ngIf="option.id === 'more'" style="font-size: 1.2rem; width:25px">
+          <span *ngIf="option.id === 'more'" style="font-size: 1rem; width:25px">
            <fa-icon [icon]="getIcon(option)"></fa-icon>
         </span>
           <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon"
