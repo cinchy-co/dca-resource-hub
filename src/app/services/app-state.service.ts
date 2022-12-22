@@ -1,6 +1,6 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {BehaviorSubject, Subject} from "rxjs";
-import {IDropdownClick, IFooter, IOption, ITag, IUser} from "../models/common.model";
+import {IDropdownClick, IFooter, ILandingFooter, IOption, ITag, IUser} from "../models/common.model";
 import {ICommunityDetails, MappedCombinedCountryKey} from "../models/general-values.model";
 import {
   ICollab, IEvents,
@@ -131,6 +131,18 @@ export class AppStateService {
     return this.topTagClicked$.asObservable();
   }
 
+  getGroupedItems(allItems: ILandingFooter[]) {
+    const groupWise: any = {};
+    allItems.forEach(item => {
+      if (groupWise[item.footerGroup]) {
+        groupWise[item.footerGroup].push(item);
+      } else {
+        groupWise[item.footerGroup] = [item];
+      }
+    });
+    return groupWise;
+  }
+
   getUniqueOptions(dataForOptions: any, selectedOption: IOption, addAnotherSet?: boolean) {
     const key = selectedOption.code;
     let anotherSetUniqueOptions: any[] = [];
@@ -158,7 +170,7 @@ export class AppStateService {
           || item['Combine Country']?.toLowerCase()?.includes(countryValue?.toLowerCase().trim())
           || item['Region']?.toLowerCase()?.includes(countryValue?.toLowerCase().trim())
           || currentSearchByKeyVal?.toLowerCase()?.includes(item['Region']?.toLowerCase().trim()))
-        && tags.every(r=> mappedTags.includes(r.Tags.toLowerCase()));
+        && tags.every(r => mappedTags.includes(r.Tags.toLowerCase()));
     } else if (countryValue && !tags?.length) {
       return item['Country']?.toLowerCase()?.includes(countryValue?.toLowerCase().trim())
         || item['Combine Country']?.toLowerCase()?.includes(countryValue?.toLowerCase().trim())
@@ -166,7 +178,7 @@ export class AppStateService {
         || currentSearchByKeyVal?.toLowerCase().trim()?.includes(item['Region']?.toLowerCase().trim());
     } else if (tags?.length) {
       const mappedTags = item.tags.map((tagV: string) => tagV.trim().toLowerCase());
-      return tags.every(r=> mappedTags.includes(r.Tags.toLowerCase()));
+      return tags.every(r => mappedTags.includes(r.Tags.toLowerCase()));
     } else {
       return true;
     }

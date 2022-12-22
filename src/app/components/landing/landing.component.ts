@@ -1,6 +1,6 @@
 import {Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
 import {ApiCallsService} from "../../services/api-calls.service";
-import {IFooter, ILanding, ISocialMedia, ITestimonial} from "../../models/common.model";
+import {IFooter, ILanding, ILandingFooter, ISocialMedia, ITestimonial} from "../../models/common.model";
 import {AppStateService} from "../../services/app-state.service";
 import {Router} from "@angular/router";
 import {WindowRefService} from "../../services/window-ref.service";
@@ -16,10 +16,12 @@ import {IconProp} from "@fortawesome/fontawesome-svg-core";
 })
 export class LandingComponent implements OnInit {
   landingPageDetails: ILanding;
-  footerDetails: IFooter[];
+  footerDetails: {[k: string]: ILandingFooter[]};
+  footerKeys: string[];
   socialMediaDetails: ISocialMedia[];
   mainSectionOptions: ICommunityDetails[];
   sidebarOptions: ICommunityDetails[];
+  moreSectionOptions: ICommunityDetails[];
   items: MenuItem[];
   cards: any[];
   testimonials: ITestimonial[];
@@ -37,12 +39,16 @@ export class LandingComponent implements OnInit {
     this.socialMediaDetails = (await this.appApiService.getSocialMediaDetails().toPromise());
     this.cards = (await this.appApiService.getLandingPageCards().toPromise());
     this.testimonials = (await this.appApiService.getLandingPageTestimonials().toPromise());
-    this.footerDetails = this.appStateService.footerDetails;
-    console.log('1111 landingPageDetails', this.landingPageDetails, this.cards);
+    const footerDetails =(await this.appApiService.getLandingPageFooter().toPromise());
+    this.footerDetails = this.appStateService.getGroupedItems(footerDetails);
+    this.footerKeys = Object.keys(this.footerDetails);
+    console.log('1111 footer', this.footerDetails);
   }
 
   setMenuItems() {
     this.sidebarOptions = this.appStateService.communityDetails;
+    this.moreSectionOptions = this.sidebarOptions.filter(item => item.navigation === 'More');
+    console.log('111 sidebarOptions', this.moreSectionOptions);
     this.mainSectionOptions = this.sidebarOptions.filter(item => item.landingNav === 'Yes');
     this.items = this.mainSectionOptions.map(({landingLabel, sidebarIcon, sidebarRoute}) => ({
       label: landingLabel,
@@ -71,13 +77,13 @@ export class LandingComponent implements OnInit {
 
   goToExternalLink(option: any) {
     if (isPlatformBrowser(this.platformId)) {
-      const url = option.redirectLink;
+      const url = option.redirectURL;
       this.windowRef.nativeWindow.open(url, '_blank');
     }
   }
 
   goToDetails(item: any) {
-    if (item.redirectLink) {
+    if (item.redirectURL) {
       this.goToExternalLink(item);
     } else {
       const url = item.redirectRoute;
@@ -86,12 +92,16 @@ export class LandingComponent implements OnInit {
   }
 
   getIcon(option: ICommunityDetails, isCollapsed?: boolean): IconProp {
-    const iconToTake = isCollapsed ? option.collapseIcon : option.faIcon;
+    const iconToTake = isCollapsed ? option.collapseIcon : option.landingPageIcons;
     return iconToTake.split(',') as IconProp;
   }
 
   goToHome() {
     this.router.navigate([`/`]);
+  }
+
+  subscribe() {
+    this.router.navigate([`/subscribe`]);
   }
 
   footerClicked(footer: IFooter) {

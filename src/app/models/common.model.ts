@@ -16,6 +16,16 @@ export interface ILanding {
   textUnderSignIn: string;
   signInButton: string;
   footerText: string;
+  copyrightText: string;
+  privacyRoute: string;
+}
+
+export interface ILandingFooter {
+  sequence: number;
+  footerTitle: string;
+  footerLink: string;
+  footerRoute: string;
+  footerGroup: string;
 }
 
 export interface ITestimonial {

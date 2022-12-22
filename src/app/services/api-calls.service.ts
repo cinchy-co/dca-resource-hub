@@ -90,6 +90,11 @@ export class ApiCallsService {
     const url = `/API/Website/Get%20Landing%20Cards`;
     return this.getResponse(url);
   }
+
+  getLandingPageFooter() {
+    const url = `/API/Website/Landing%20Page%20Footer`;
+    return this.getResponse(url);
+  }
   ///
   getLandingPageTestimonials() {
     const url = `/API/Website/Get%20Landing%20Page%20Testimonials`;

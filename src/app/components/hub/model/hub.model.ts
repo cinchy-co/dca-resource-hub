@@ -65,6 +65,7 @@ export type IFeatures = {
   redirectRoute: string;
   image: string;
   logo: string;
+  redirectURL: string;
 }
 
 

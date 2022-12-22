@@ -37,6 +37,7 @@ export interface ICommunityDetails {
   description: string;
   image: string;
   sidebarIconDesc: string;
+  landingPageIcons: string;
   navigation: string;
   redirectLink: string;
   collapseIcon: string;

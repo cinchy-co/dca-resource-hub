@@ -88,9 +88,20 @@ export class HubHomeComponent implements OnInit, OnDestroy {
   }
 
   goToSelection(feature: IFeatures) {
-    const url = feature.redirectRoute;
-    this.appStateService.setSidebarOption(url);
-    this.router.navigate([`/${url}`]);
+    if (feature.redirectURL) {
+      this.goToExternalLink(feature);
+    } else {
+      const url = feature.redirectRoute;
+      this.appStateService.setSidebarOption(url);
+      this.router.navigate([`/${url}`]);
+    }
+  }
+
+  goToExternalLink(option: IFeatures) {
+    if (isPlatformBrowser(this.platformId)) {
+      const url = option.redirectURL;
+      this.windowRef.nativeWindow.open(url, '_blank');
+    }
   }
 
   closeFeatures() {

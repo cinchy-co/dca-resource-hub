@@ -1,9 +1,28 @@
 <div class="landing drop-shadow-sm pl-4 sticky z-10 top-0 left-0 flex bg-white justify-between w-[100%]">
-  <img src="assets/logoBeta.png" alt="logo" style="height:65px"
-       class="cursor-pointer" (click)="goToHome()">
+  <div class="flex gap-5">
+    <img src="assets/logoBeta.png" alt="logo" style="height:65px"
+         class="cursor-pointer" (click)="goToHome()">
 
-  <div class="mt-2">
-    <p-menubar [model]="items"></p-menubar>
+    <div class="mt-2 flex gap-2 items-center">
+      <p-menubar [model]="items"></p-menubar>
+      <i class="pi pi-ellipsis-h cursor-pointer" (click)="op.toggle($event)"></i>
+      <p-overlayPanel #op [dismissable]="true" [showCloseIcon]="false">
+        <ng-template pTemplate>
+          <div>
+            <div *ngFor="let option of moreSectionOptions">
+              <div (click)="optionClicked(option)"
+                class="flex items-center justify-left pr-5 pt-2 pb-2 gap-5 cursor-pointer text-slate-600 hover:bg-slate-100">
+                <i *ngIf="option.sidebarIconDesc === 'Icon'" class="pi" [ngClass]="option.sidebarIcon"
+                   style="font-size: 1.2rem; width:25px"></i>
+                <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon"
+                     alt="side-bar-icon">
+                <span class="text-sm-12">{{option.sidebarLabel}}</span>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </p-overlayPanel>
+    </div>
   </div>
 
   <div class="h-[50px] mt-3 mr-3">
@@ -26,13 +45,13 @@
         <div class="banner-content__inner">
           <div class="banner-content--text">
             <h1 class="" [innerHTML]="landingPageDetails.header"></h1>
-            <h4 class="" [innerHTML]="landingPageDetails.headerText"></h4>
+            <h4 class="text-gray-500" [innerHTML]="landingPageDetails.headerText"></h4>
 
             <div class="flex flex-col gap-2">
               <p-button [label]="landingPageDetails.signInButton" (click)="signIn()"
                         class="btn-color-green p-button-raised p-button-rounded">
               </p-button>
-              <p class="text-sky-500" [innerHTML]="landingPageDetails.textUnderSignIn"></p>
+              <p class="text-sky-500 cursor-pointer" (click)="subscribe()" [innerHTML]="landingPageDetails.textUnderSignIn"></p>
             </div>
           </div>
           <div class="banner-content--video flex justify-center">
@@ -44,23 +63,23 @@
   </div>
 
   <div class="flex flex-col items-center">
-    <p class="text-[20px]" [innerHTML]="landingPageDetails.subText"></p>
+    <p class="text-[25px]" [innerHTML]="landingPageDetails.subText"></p>
 
     <div class="flex gap-3 mt-5 flex-wrap justify-center p-4">
       <div *ngFor="let option of mainSectionOptions">
 
         <div [title]="option.sidebarLabel"
              class="flex items-center justify-left pr-5 pl-5 pt-2 pb-2 gap-2 cursor-pointer
-            text-slate-600 hover:bg-slate-100 border border-solid border-slate-300 rounded-lg min-h-[40px]"
+            text-slate-600 hover:bg-slate-100 border border-solid border-slate-300 rounded-lg min-h-[38px]"
              (click)="optionClicked(option)">
-        <span *ngIf="option.sidebarIconDesc === 'Icon' && (option.id !== 'more')" style="font-size: 1rem; width:25px">
+        <span style="font-size: 1rem; width:25px">
           <fa-icon [icon]="getIcon(option)"></fa-icon>
         </span>
-          <span *ngIf="option.id === 'more'" style="font-size: 1rem; width:25px">
+       <!--   <span *ngIf="option.id === 'more'" style="font-size: 1rem; width:25px">
            <fa-icon [icon]="getIcon(option)"></fa-icon>
-        </span>
-          <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon"
-               alt="side-bar-icon">
+        </span> -->
+          <!--  <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon"
+                 alt="side-bar-icon">-->
           <span class="">{{option.landingLabel}}</span>
         </div>
       </div>
@@ -92,8 +111,8 @@
     <div class="mt-5 flex flex-col items-center justify-center">
       <h1 class="text-[20px] font-semibold" [innerHTML]="landingPageDetails.subHeader"></h1>
 
-
-      <div>
+<!--TESTIMONIAL-->
+      <div *ngIf="false">
         <p-carousel [contentClass]="'carousal-content'" [style]="{'background': 'white'}"
                     [value]="testimonials" [numVisible]="1" [numScroll]="1" [autoplayInterval]="5000"
                     [circular]="true">
@@ -113,6 +132,8 @@
       <p-button [label]="landingPageDetails.signInButton" (click)="signIn()"
                 class="btn-color-green p-button-raised p-button-rounded">
       </p-button>
+
+      <p class="text-sky-500 cursor-pointer" (click)="subscribe()" [innerHTML]="landingPageDetails.textUnderSignIn"></p>
     </div>
   </div>
 </section>
@@ -120,22 +141,32 @@
 <p-divider></p-divider>
 
 <!--FOOTER-->
-<section *ngIf="landingPageDetails" class="p-5 flex flex-wrap justify-around gap-5">
-  <div>
-    <img src="assets/logoBeta.png" alt="logo" style="height:75px">
-    <p class="text-sm-12 max-w-[300px]" [innerHTML]="landingPageDetails.footerText"></p>
+<section *ngIf="landingPageDetails" class="p-5">
+  <div class="p-5 flex flex-wrap justify-between gap-5">
+    <div>
+      <img src="assets/logoBeta.png" alt="logo" style="height:70px">
+      <p class="text-sm-12 max-w-[300px] mt-2 whitespace-pre-wrap text-gray-500" [innerHTML]="landingPageDetails.footerText"></p>
+    </div>
+
+    <div class="flex gap-5 p-5 basis-[50%]">
+      <ul *ngFor="let key of footerKeys" class="flex flex-col gap-3 mr-[100px]">
+        <li class="font-semibold text-[24px]">{{key}}</li>
+        <li class="text-gray-500 cursor-pointer" *ngFor="let footer of footerDetails[key]"
+            (click)="footerClicked(footer)">{{footer.footerTitle}}</li>
+      </ul>
+    </div>
   </div>
 
-  <div>
-    <ul class="flex flex-col gap-2">
-      <li class="font-semibold cursor-pointer" *ngFor="let footer of footerDetails"
-          (click)="footerClicked(footer)">{{footer.footerTitle}}</li>
-    </ul>
-  </div>
-
-  <div class="p-2 pl-4 pt-4 pr-4 basis-[40%] flex flex-row gap-5 items-start justify-start">
+  <div class="p-2 pl-4 pt-4 pr-4 basis-[40%] flex flex-row gap-5 items-start justify-end">
     <div class="cursor-pointer" *ngFor="let media of socialMediaDetails" (click)="socialMediaClicked(media)">
       <i class="pi" [ngClass]="media.socialIcon" style="font-size: 1.5rem"></i>
     </div>
   </div>
+
+  <div class="flex items-center justify-center gap-2">
+    <p [innerHTML]="landingPageDetails.copyrightText"></p>
+    <p>|</p>
+    <p [innerHTML]="landingPageDetails.privacyRoute"></p>
+  </div>
+
 </section>
