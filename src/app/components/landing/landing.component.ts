@@ -42,7 +42,7 @@ export class LandingComponent implements OnInit {
     const footerDetails =(await this.appApiService.getLandingPageFooter().toPromise());
     this.footerDetails = this.appStateService.getGroupedItems(footerDetails);
     this.footerKeys = Object.keys(this.footerDetails);
-    console.log('1111 footer', this.footerDetails);
+    console.log('1111 footer', this.landingPageDetails);
   }
 
   setMenuItems() {
@@ -98,6 +98,11 @@ export class LandingComponent implements OnInit {
 
   goToHome() {
     this.router.navigate([`/`]);
+  }
+
+  goToPrivacy() {
+    const url = this.landingPageDetails.privacyRoute;
+    this.router.navigate([`/${url}`]);
   }
 
   subscribe() {
