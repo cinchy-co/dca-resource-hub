@@ -16,7 +16,7 @@ import {Router} from "@angular/router";
 export class AppComponent implements OnInit {
   title = 'dca-privacy-leg';
   isSidebarExpanded = true;
-  isSidebarHidden: boolean;
+  isSidebarHidden = true;
   loginDone: boolean;
   userDetails: IUser;
   isMobileOrTab: boolean;

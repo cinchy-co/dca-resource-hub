@@ -1,6 +1,6 @@
 import {Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
 import {ApiCallsService} from "../../services/api-calls.service";
-import {IFooter, ILanding, ILandingFooter, ISocialMedia, ITestimonial} from "../../models/common.model";
+import {IFooter, ILanding, ILandingFooter, ILandingNav, ISocialMedia, ITestimonial} from "../../models/common.model";
 import {AppStateService} from "../../services/app-state.service";
 import {Router} from "@angular/router";
 import {WindowRefService} from "../../services/window-ref.service";
@@ -25,6 +25,8 @@ export class LandingComponent implements OnInit {
   items: MenuItem[];
   cards: any[];
   testimonials: ITestimonial[];
+  landingPageNavigation: ILandingNav[];
+  showVideo = false;
 
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
               private router: Router, private windowRef: WindowRefService,
@@ -36,19 +38,19 @@ export class LandingComponent implements OnInit {
     this.setMenuItems();
     this.appStateService.setDisplayOfSidebarToggled(false);
     this.landingPageDetails = (await this.appApiService.getLandingPageDetails().toPromise())[0];
+    this.landingPageNavigation = (await this.appApiService.getLandingPageNavigation().toPromise());
     this.socialMediaDetails = (await this.appApiService.getSocialMediaDetails().toPromise());
     this.cards = (await this.appApiService.getLandingPageCards().toPromise());
     this.testimonials = (await this.appApiService.getLandingPageTestimonials().toPromise());
     const footerDetails =(await this.appApiService.getLandingPageFooter().toPromise());
     this.footerDetails = this.appStateService.getGroupedItems(footerDetails);
     this.footerKeys = Object.keys(this.footerDetails);
-    console.log('1111 footer', this.landingPageDetails);
+    console.log('1111 landingPageDetails', this.landingPageDetails);
   }
 
   setMenuItems() {
     this.sidebarOptions = this.appStateService.communityDetails;
     this.moreSectionOptions = this.sidebarOptions.filter(item => item.navigation === 'More');
-    console.log('111 sidebarOptions', this.moreSectionOptions);
     this.mainSectionOptions = this.sidebarOptions.filter(item => item.landingNav === 'Yes');
     this.items = this.mainSectionOptions.map(({landingLabel, sidebarIcon, sidebarRoute}) => ({
       label: landingLabel,
@@ -60,6 +62,7 @@ export class LandingComponent implements OnInit {
   }
 
   menuClicked(sidebarRoute: string) {
+    this.appStateService.setSidebarOption(sidebarRoute);
     this.router.navigate([`/${sidebarRoute}`]);
   }
 
@@ -67,11 +70,12 @@ export class LandingComponent implements OnInit {
     this.appApiService.login();
   }
 
-  optionClicked(option: ICommunityDetails) {
+  optionClicked(option: ILandingNav) {
     if (option.redirectLink) {
       this.goToExternalLink(option);
     } else {
-      this.router.navigate([`${option.sidebarRoute}`]);
+      this.appStateService.setSidebarOption(option.redirectRoute);
+      this.router.navigate([`${option.redirectRoute}`]);
     }
   }
 

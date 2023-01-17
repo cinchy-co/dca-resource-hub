@@ -33,7 +33,6 @@ export class ApiCallsService {
     this.cinchyService.checkIfSessionValid().toPromise().then((response: any) => {
       if (response.accessTokenIsValid) {
         if (isPlatformBrowser(this.platformId)) {
-          console.log('111 IF SESSION VALID LOGIN IN SUCCESS')
           sessionStorage.setItem('is-logged-in', JSON.stringify(true));
           this.setDetails();
         }
@@ -41,7 +40,6 @@ export class ApiCallsService {
         if (isPlatformBrowser(this.platformId)) {
           this.cinchyService.login().then(success => {
             if (success) {
-              console.log('111 LOGIN IN SUCCESS')
               if (isPlatformBrowser(this.platformId)) {
                 sessionStorage.setItem('is-logged-in', JSON.stringify(true));
               }
@@ -83,6 +81,11 @@ export class ApiCallsService {
 
   getLandingPageDetails() {
     const url = `/API/Website/Get%20Landing%20Page%20Details`;
+    return this.getResponse(url);
+  }
+
+  getLandingPageNavigation() {
+    const url = `/API/Website/Get%20Landing%20Page%20Navigation`;
     return this.getResponse(url);
   }
 

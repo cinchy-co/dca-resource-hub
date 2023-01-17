@@ -83,33 +83,6 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
     });
   }
 
-  setTabItems() {
-    this.items = [
-      {
-        label: 'Overview', id: 'overview', icon: 'pi pi-fw pi-home',
-        command: () => {
-          this.tabClicked('overview');
-        }
-      },
-      {
-        label: 'Tool', id: 'tool', icon: 'pi pi-fw pi-cog',
-        command: () => {
-          this.tabClicked('tool');
-        }
-      },
-      {
-        label: 'Feedback', id: 'feedback', icon: 'pi pi-comment',
-        command: () => {
-          this.tabClicked('feedback');
-        }
-      }
-    ];
-  }
-
-  tabClicked(tabId: string) {
-    this.currentTab = tabId;
-  }
-
   async getLegislationData() {
     this.legislationData = await this.apiCallsService.getLegislation().toPromise();
     this.changeDetectorRef.detectChanges();
@@ -259,6 +232,33 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   tagClicked(tag: string) {
     this.topTagSelected({Tags: tag.trim()});
     this.searchVal = tag;
+  }
+
+  setTabItems() {
+    this.items = [
+      {
+        label: 'Overview', id: 'overview', icon: 'pi pi-fw pi-home',
+        command: () => {
+          this.tabClicked('overview');
+        }
+      },
+      {
+        label: 'Tool', id: 'tool', icon: 'pi pi-fw pi-cog',
+        command: () => {
+          this.tabClicked('tool');
+        }
+      },
+      {
+        label: 'Feedback', id: 'feedback', icon: 'pi pi-comment',
+        command: () => {
+          this.tabClicked('feedback');
+        }
+      }
+    ];
+  }
+
+  tabClicked(tabId: string) {
+    this.currentTab = tabId;
   }
 
   ngOnDestroy() {

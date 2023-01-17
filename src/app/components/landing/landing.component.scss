@@ -36,7 +36,7 @@
     }
 
     &--text {
-      flex-basis: 40%;
+      flex-basis: 35%;
       margin-right: 50px;
 
       @media (max-width: 992px) {
@@ -51,7 +51,7 @@
       h1 {
         font-size: 36px;
         line-height: 44px;
-        font-weight: 400;
+        font-weight: 500;
 
         @media (max-width: 600px){
           font-size: 36px;
@@ -59,6 +59,11 @@
         }
         @media (min-width: 768px) {
           font-size: 36px;
+          line-height: 54px;
+        }
+
+        @media (min-width: 1024px) {
+          font-size: 52px;
           line-height: 54px;
         }
       }
@@ -94,17 +99,18 @@
 
     &--video {
       flex-basis: 80%;
+     // height: 550px;
 
       @media (max-width: 992px) {
         width: 70%;
       }
 
       @media (min-width: 992px) {
-        flex-basis: 60%;
+        flex-basis: 65%;
       }
 
       @media (min-width: 1600px) {
-        flex-basis: 60%;
+        flex-basis: 65%;
       }
     }
 
@@ -117,4 +123,8 @@
       }
     }
   }
+}
+
+.bg-color {
+  background-color: #4a0cd9;
 }

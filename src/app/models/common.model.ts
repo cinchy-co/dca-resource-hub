@@ -18,6 +18,14 @@ export interface ILanding {
   footerText: string;
   copyrightText: string;
   privacyRoute: string;
+  subText3: string;
+  subText4: string;
+  subText5: string;
+  videoImage: string;
+  videoLogo: string;
+  videoHeader: string;
+  videoButtonText: string;
+  cardSetionHeader: string;
 }
 
 export interface ILandingFooter {
@@ -26,6 +34,16 @@ export interface ILandingFooter {
   footerLink: string;
   footerRoute: string;
   footerGroup: string;
+}
+
+export interface ILandingNav {
+  page: string;
+  sequence: number;
+  customIconLanding: string;
+  cardText: string;
+  linkText: string;
+  redirectRoute: string;
+  redirectLink: string;
 }
 
 export interface ITestimonial {

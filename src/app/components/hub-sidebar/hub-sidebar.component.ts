@@ -60,6 +60,7 @@ export class HubSidebarComponent implements OnInit {
       this.mainSectionOptions = this.mainSectionOptions.filter(item => item.isBehindLogin !== 'Yes');
       this.moreSectionOptions = this.moreSectionOptions.filter(item => item.isBehindLogin !== 'Yes');
     }
+
     this.collaborationBtn = this.sidebarOptions.find(item => item.id === 'collaboration') as ICommunityDetails;
     this.footerDetails = this.appStateService.footerDetails;
     if (isPlatformBrowser(this.platformId)) {
@@ -69,13 +70,17 @@ export class HubSidebarComponent implements OnInit {
       this.isExpanded = !this.isMobileOrTab;
     }
     this.appStateService.getSidebarOption().subscribe(sidebarRoute => {
+      console.log('1111 sidebarRoute URL', sidebarRoute);
+
       this.setCurrentOption(sidebarRoute);
     })
   }
 
   setCurrentOption(routeOrUrl: string) {
+    console.log('1111 ROUET URL', routeOrUrl);
+    const home = this.currentOptionSelected = this.sidebarOptions.find(item => item.id === 'home') as ICommunityDetails;
     const currentOption = this.sidebarOptions.find(option => routeOrUrl.includes(option.sidebarRoute) && option.sidebarRoute !== '/');
-    this.currentOptionSelected = currentOption ? currentOption : this.sidebarOptions[0];
+    this.currentOptionSelected = currentOption ? currentOption : home;
   }
 
   toggleSidebar() {
@@ -106,6 +111,7 @@ export class HubSidebarComponent implements OnInit {
 
   goToHome() {
     this.router.navigate([`/`]);
+    this.currentOptionSelected = this.sidebarOptions.find(item => item.id === 'home') as ICommunityDetails;
   }
 
   goToCollabs() {

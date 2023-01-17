@@ -98,8 +98,23 @@
 
         </div>
 
-        <div class="mt-2 md:grid-cols-2 lg:grid-cols-3 grid-cols-1 auto-rows-fr grid gap-2"
-             *ngIf="paginatedNewsData?.length; else noMessage">
+        <ng-container *ngIf="!currentItem">
+          <div class="mt-2 md:grid-cols-2 lg:grid-cols-3 grid-cols-1 auto-rows-fr grid gap-2"
+               *ngIf="paginatedNewsData?.length; else noMessage">
+            <ng-container *ngTemplateOutlet="newsBody"></ng-container>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="currentItem">
+          <div class="mt-[-10px] md:grid-cols-1 lg:grid-cols-1 grid-cols-1 auto-rows-fr grid gap-2"
+               *ngIf="paginatedNewsData?.length; else noMessage">
+            <ng-container *ngTemplateOutlet="newsBodyFull"></ng-container>
+          </div>
+
+        </ng-container>
+
+        <!--FOR ALL NEWS ON PAGE-->
+        <ng-template #newsBody>
           <div class="mb-3 md:basis-[49%] lg:basis-[49%] basis-full mr-2 font-light"
                *ngFor="let item of paginatedNewsData">
             <p-card>
@@ -125,7 +140,8 @@
                 </div>
               </ng-template>
 
-              <div class="flex flex-row flex-wrap gap-1 pt-1 pl-4 text-sm-12 text-gray-700">
+              <div *ngIf="item['tags']?.length"
+                   class="flex flex-row flex-wrap gap-1 pt-1 pl-4 text-sm-12 text-gray-700">
                 <ng-container *ngFor="let tag of item['tags']">
                   <p-chip [ngClass]="{'selected-chip': isSelectedFilter({Tags: tag})}" class="mr-2 cursor-pointer"
                           [label]="tag" (click)="tagClicked(tag)"></p-chip>
@@ -170,7 +186,91 @@
               </div>
             </p-card>
           </div>
-        </div>
+
+        </ng-template>
+
+<!--FOR SINGLE ALONE NEWS ON PAGE-->
+        <ng-template #newsBodyFull>
+          <div class="mb-3 md:basis-[49%] lg:basis-[49%] basis-full mr-2 font-light"
+               *ngFor="let item of paginatedNewsData">
+            <p-card>
+              <ng-template pTemplate="header">
+                <div class="pl-4 pr-1">
+                  <div class="flex flex-row justify-between items-center">
+                    <a rel="noopener" role="link" [href]="item['URL'] ? item['URL'] : 'javascript:void(0);'"
+                       target="_blank"
+                       class="pt-2 text-lg font-bold text-cyan-700" [title]="item.Headline">{{item.Headline}}
+                    </a>
+                  </div>
+
+                  <p class="text-sm-12 text-gray-700 font-semibold">
+                    {{item['Date'] | date}}{{item['Country'] ? ',' + ' ' + item['Country'] : ''}}
+                    <span>
+              <i title="News Story" *ngIf="item['Type'] === 'News Story'" class="pi pi-book"></i>
+              <i title="Podcasts" *ngIf="item['Type'] !== 'News Story'" class="pi pi-volume-down"></i>
+                    </span>
+                  </p>
+
+                  <p class="text-sm-12" [innerHTML]="item['Domain']"></p>
+                </div>
+              </ng-template>
+
+              <ng-template [ngTemplateOutlet]="tagsTemp" [ngTemplateOutletContext]="{ item: item }"></ng-template>
+
+              <div class="flex flex-wrap p-2 pl-4 justify-start">
+                <div class="flex flex-col basis-full mr-4 md:mr-2 lg:mr-2 text-sm-12" [title]="item['Brief']">
+                  <span class="font-sans text-sm-12 mb-2 text-gray-500 break-words"
+                        [title]="item['Brief']" [innerHTML]="item['Brief']">
+                  </span>
+                </div>
+              </div>
+
+              <ng-template [ngTemplateOutlet]="actions" [ngTemplateOutletContext]="{ item: item }"></ng-template>
+
+            </p-card>
+          </div>
+
+        </ng-template>
+
+        <ng-template #tagsTemp let-item="item">
+          <div *ngIf="item['tags']?.length"
+               class="flex flex-row flex-wrap gap-1 pt-1 pl-4 text-sm-12 text-gray-700">
+            <ng-container *ngFor="let tag of item['tags']">
+              <p-chip [ngClass]="{'selected-chip': isSelectedFilter({Tags: tag})}" class="mr-2 cursor-pointer"
+                      [label]="tag" (click)="tagClicked(tag)"></p-chip>
+            </ng-container>
+          </div>
+        </ng-template>
+
+        <ng-template #actions let-item="item">
+          <div class="pl-4 pb-2">
+            <p class="text-sm font-semibold">Actions</p>
+            <div class="flex flex-row flex-wrap gap-3">
+              <a role="link" [href]="item['URL']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
+                {{item['Type'] === 'News Story' ? 'View' : 'View'}}
+              </a>
+
+              <a *ngIf="item['Bookmark']" role="link" [href]="item['Bookmark']" target="_blank"
+                 class="pt-0 text-sm-12 text-sky-500">
+                Bookmark
+              </a>
+
+              <a role="link" *ngIf="item['Type'] === 'Podcast'" [href]="item['Episode']" target="_blank"
+                 class="pt-0 text-sm-12 text-sky-500">
+                Episode
+              </a>
+
+              <a role="link" *ngIf="item['Edit']" [href]="item['Edit']" target="_blank"
+                 class="pt-0 text-sm-12 text-sky-500">
+                Edit
+              </a>
+
+              <a (click)="share(item)" target="_blank" class="cursor-pointer pt-0 text-sm-12 text-sky-500">
+                Share
+              </a>
+            </div>
+          </div>
+        </ng-template>
       </p-panel>
     </div>
 
@@ -205,10 +305,10 @@
   <p class="pb-2 w-[250px]">{{shareItem.Headline}}</p>
   <div class="bg-black">
     <app-share-social-buttons
-                   [url]="currentNewsUrl"
-                   [title]="'Check out this privacy news'"
-                   [description]="shareDesc"
-                   [image]="'https://static.wixstatic.com/media/9eeb4e_7da4ab8b49b843419d88e5a44244915c~mv2.png'"
+      [url]="currentNewsUrl"
+      [title]="'Check out this privacy news'"
+      [description]="shareDesc"
+      [image]="'https://static.wixstatic.com/media/9eeb4e_7da4ab8b49b843419d88e5a44244915c~mv2.png'"
     ></app-share-social-buttons>
   </div>
 </p-dialog>

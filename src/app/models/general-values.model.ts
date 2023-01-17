@@ -40,6 +40,7 @@ export interface ICommunityDetails {
   landingPageIcons: string;
   navigation: string;
   redirectLink: string;
+  customIcons: string;
   collapseIcon: string;
   numberOfButtons: number;
   buttonText?: string; // it is buttonText-1, buttonText-2 and so on
