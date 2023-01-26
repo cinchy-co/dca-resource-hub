@@ -1,30 +1,7 @@
 <!--TOP NAV-->
 <div class="landing drop-shadow-sm pl-8 sticky z-10 top-0 left-0 flex bg-color justify-between w-[100%]">
   <div class="flex gap-5 items-center">
-    <p class="link-white font-semibold">Collaboration Hub</p>
-    <!--<img src="assets/logoBeta.png" alt="logo home" style="height:65px"
-         class="cursor-pointer" (click)="goToHome()">
-
-    <div class="mt-2 flex gap-2 items-center">
-      <p-menubar [model]="items"></p-menubar>
-      <i class="pi pi-ellipsis-h cursor-pointer" (click)="op.toggle($event)"></i>
-      <p-overlayPanel #op [dismissable]="true" [showCloseIcon]="false">
-        <ng-template pTemplate>
-          <div>
-            <div *ngFor="let option of moreSectionOptions">
-              <div (click)="optionClicked(option)"
-                   class="flex items-center justify-left pr-5 pt-2 pb-2 gap-5 cursor-pointer text-slate-600 hover:bg-slate-100">
-                <i *ngIf="option.sidebarIconDesc === 'Icon'" class="pi" [ngClass]="option.sidebarIcon"
-                   style="font-size: 1.2rem; width:25px"></i>
-                <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon"
-                     alt="side-bar-icon">
-                <span class="text-sm-12">{{option.sidebarLabel}}</span>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </p-overlayPanel>
-    </div>-->
+    <p class="link-white font-semibold" (click)="goToHome()">Collaboration Hub</p>
   </div>
 
   <div class="h-[60px] mt-3 mr-3">
@@ -40,7 +17,7 @@
 <section *ngIf="landingPageDetails">
 
  <!-- HERO SECTION-->
-  <div class="shadow-sm banner bg-color sm:pl-[10px] sm:pr-[10px] md:pl-[70px] md:pr-[70px] pl-[70px] pr-[70px] pt-[20px]">
+  <div class="shadow-sm banner bg-color sm:pl-[10px] sm:pr-[10px] md:pl-[70px] md:pr-[70px] pl-[70px] pr-[70px] pt-[10px]">
     <div class="banner__content">
       <div *ngIf="landingPageDetails" class="banner__background">
       </div>
@@ -48,6 +25,7 @@
       <div class="banner-content">
         <div class="banner-content__inner">
           <div class="banner-content--text">
+            <img [src]="landingPageDetails.logo" class="ml-[-13px]" style="height: 120px" alt="logo">
             <h1 class="text-white font-semibold" [innerHTML]="landingPageDetails.header"></h1>
             <h4 class="text-white" [innerHTML]="landingPageDetails.headerText"></h4>
 
@@ -65,7 +43,7 @@
             </div>
           </div>
           <div class="banner-content--video flex justify-center">
-            <img [src]="landingPageDetails.gifLink" alt="landing gif">
+            <img [src]="'assets/hero.svg'" class="hero-image mt-[80px]" alt="landing hero image">
           </div>
         </div>
       </div>
@@ -131,10 +109,26 @@
     </div>
   </div>
 
+  <!--COLLABS-->
+
+  <div class="pt-[50px] pb-8 flex gap-5 justify-center items-center">
+      <img [src]="landingPageDetails.collabImage" style="height: 400px" alt="collabImage">
+      <div class="p-5 flex flex-col max-w-[400px]">
+        <h2 class="text-[30px] text-slate-800 font-semibold mb-5"
+            [innerHTML]="landingPageDetails['collabHeader'] ? landingPageDetails['collabHeader']
+             : 'Collaborate and get your work done with Collabs'"></h2>
+        <p class="mb-5" [innerHTML]="landingPageDetails.subText4"></p>
+        <p-button class="h-[45px] btn-color-transparent btn-color-transparent--black p-button-raised p-button-rounded"
+                  [label]="landingPageDetails.textUnderSignIn"
+                  (click)="subscribe()">
+        </p-button>
+      </div>
+  </div>
+
   <!--VIDEO-->
   <div *ngIf="!showVideo" class="flex justify-center mt-8 mb-8">
     <div class="h-[550px] relative">
-      <img class="h-[550px] cursor-pointer" [src]="landingPageDetails.videoImage" alt="video-dummy">
+      <img class="h-[500px] cursor-pointer rounded-[20px]" [src]="landingPageDetails.videoImage" alt="video-dummy">
       <div class="p-[3px] item-v-center-n-relative absolute">
         <img alt="video-logo-image" class="mb-3 rounded-[50%] h-[50px]" [src]="landingPageDetails.videoLogo">
         <h2 class="mb-3 text-[24px] font-semibold text-white" [innerHTML]="landingPageDetails.videoHeader"></h2>
@@ -147,7 +141,7 @@
   </div>
 
   <div *ngIf="showVideo" class="video-plyr flex mt-8 mb-8 justify-center w-[100%]" id="player">
-    <iframe class="h-[550px] w-[100%] sm:w-[100%] md:w-[100%] lg:w-[80%]"
+    <iframe class="h-[500px] w-[100%] sm:w-[100%] md:w-[100%] lg:w-[80%]"
             title="Node Zero video"
             loading="lazy"
             [src]="landingPageDetails.videoLink + '?autoplay=1' | urlSanitizer: 'resourceUrl'"
@@ -197,10 +191,8 @@
   </div>
 </section>
 
-<p-divider></p-divider>
-
 <!--FOOTER-->
-<section *ngIf="landingPageDetails" class="p-5 bg-[#0b1158]">
+<section *ngIf="landingPageDetails" class="p-5 mt-8 bg-[#0b1158]">
   <div class="p-5 flex flex-wrap justify-between gap-5">
     <div class="pl-10">
       <img src="assets/LogoWhite.png" class="mb-5" alt="logo" style="height:50px">
@@ -225,7 +217,7 @@
 
   <div class="flex items-center justify-center gap-2">
     <p class="text-white" [innerHTML]="landingPageDetails.copyrightText"></p>
-    <p>|</p>
+    <p class="text-white">|</p>
     <p class="link-color" [innerHTML]="landingPageDetails.privacyRoute" (click)="goToPrivacy()"></p>
   </div>
 

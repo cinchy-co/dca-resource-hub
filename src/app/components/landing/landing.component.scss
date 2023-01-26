@@ -1,5 +1,21 @@
 .banner {
-  height: 570px;
+  height: 630px;
+
+  .hero-image {
+    height: 627px;
+  }
+
+  @media (max-width: 992px) {
+    height: 500px;
+  }
+
+  @media (min-width: 1400px) {
+    height: 630px;
+
+    .hero-image {
+      height: 627px;
+    }
+  }
 
   &__content {
     height: 100%;
@@ -18,12 +34,20 @@
 
   &-content {
     position: absolute;
-    top: 50%;
+    top: 43%;
     left: 50%;
    // color: white;
     transform: translate(-50%, -50%);
     width: 100%;
     margin: auto;
+
+    @media (min-width: 1400px) {
+      left: 55%;
+    }
+
+    @media (min-width: 1800px) {
+      left: 60%;
+    }
 
     &__inner {
       display: flex;
@@ -103,6 +127,7 @@
 
       @media (max-width: 992px) {
         width: 70%;
+        display: none;
       }
 
       @media (min-width: 992px) {

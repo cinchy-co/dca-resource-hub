@@ -33,6 +33,7 @@ export class ApiCallsService {
     this.cinchyService.checkIfSessionValid().toPromise().then((response: any) => {
       if (response.accessTokenIsValid) {
         if (isPlatformBrowser(this.platformId)) {
+          console.log('111 IN SET DETAILS 1')
           sessionStorage.setItem('is-logged-in', JSON.stringify(true));
           this.setDetails();
         }
@@ -41,11 +42,13 @@ export class ApiCallsService {
           this.cinchyService.login().then(success => {
             if (success) {
               if (isPlatformBrowser(this.platformId)) {
+                console.log('111 IN SET DETAILS 2')
                 sessionStorage.setItem('is-logged-in', JSON.stringify(true));
               }
               this.setDetails();
             }
           }, error => {
+            console.log('111 IN SET DETAILS 3')
             console.error('Could not login: ', error)
           });
         }

@@ -70,14 +70,11 @@ export class HubSidebarComponent implements OnInit {
       this.isExpanded = !this.isMobileOrTab;
     }
     this.appStateService.getSidebarOption().subscribe(sidebarRoute => {
-      console.log('1111 sidebarRoute URL', sidebarRoute);
-
       this.setCurrentOption(sidebarRoute);
     })
   }
 
   setCurrentOption(routeOrUrl: string) {
-    console.log('1111 ROUET URL', routeOrUrl);
     const home = this.currentOptionSelected = this.sidebarOptions.find(item => item.id === 'home') as ICommunityDetails;
     const currentOption = this.sidebarOptions.find(option => routeOrUrl.includes(option.sidebarRoute) && option.sidebarRoute !== '/');
     this.currentOptionSelected = currentOption ? currentOption : home;

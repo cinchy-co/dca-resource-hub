@@ -1,11 +1,11 @@
 <div *ngIf="!hideSidebar" [ngStyle]="{'width': isExpanded ? isMobileOrTab ? '100%' : '250px' : '60px'}"
      class="hub-sidebar overflow-y-auto">
-  <div class="flex items-center justify-left p-5 mb-10 mt-5 gap-4 h-[42px]">
-    <i class="pi pi-bars cursor-pointer" style="font-size: 1.2rem" (click)="toggleSidebar()"></i>
-    <img @fadeSlideInOut *ngIf="isExpanded" src="assets/logoBeta.png" alt="logo" style="height:55px"
+  <div class="flex items-center justify-between p-5 mb-10 mt-5 gap-4 h-[42px]">
+    <img @fadeSlideInOut *ngIf="isExpanded" src="assets/logoBeta.png" alt="logo" style="height:52px"
          class="cursor-pointer" (click)="goToHome()">
+    <i class="pi pi-bars cursor-pointer" style="font-size: 1.2rem" (click)="toggleSidebar()"></i>
   </div>
-  <div *ngIf="isExpanded" class="flex justify-start mb-5 pl-5">
+<!--  <div *ngIf="isExpanded" class="flex justify-start mb-5 pl-5">
     <button pButton pRipple type="button" [label]="collaborationBtn.sidebarLabel"
             class="p-button-outlined p-button-success p-button-rounded" (click)="goToCollabs()">
       <img class="mr-4" (click)="goToCollabs()" [src]="collaborationBtn.sidebarIcon" alt="logo" style="height: 20px">
@@ -15,7 +15,7 @@
 
   <div *ngIf="!isExpanded" class="flex justify-start mb-5 pl-5 cursor-pointer">
     <img (click)="goToCollabs()" [src]="collaborationBtn.sidebarIcon" alt="logo" style="height: 23px">
-  </div>
+  </div>-->
 
 
   <div class="flex flex-col">
@@ -26,7 +26,8 @@
         [ngClass]="{'border-r border-current bg-slate-200 text-slate-900': currentOptionSelected.sidebarRoute === option.sidebarRoute}"
         (click)="optionClicked(option)">
         <span *ngIf="option.sidebarIconDesc === 'Icon' && (option.id !== 'more')" style="font-size: 1.2rem; width:25px">
-          <fa-icon [icon]="getIcon(option)"></fa-icon>
+          <fa-icon *ngIf="!option.customIcons" [icon]="getIcon(option)"></fa-icon>
+          <img *ngIf="option.customIcons" [src]="'assets/icons/' + option.customIcons" [alt]="option.customIcons"/>
         </span>
         <span *ngIf="option.id === 'more' && !showMore" style="font-size: 1.2rem; width:25px">
            <fa-icon [icon]="getIcon(option)"></fa-icon>

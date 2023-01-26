@@ -74,7 +74,6 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams.pipe(take(1)).subscribe(params => {
       this.currentTab = params['tab'] ? params['tab'] : 'overview';
       this.currentMenuItem = this.items.find(item => item.id?.toLowerCase() === this.currentTab?.toLowerCase()) || this.items[0];
-      console.log('1111 CURRENT TAB', this.currentTab)
     });
 
     if (!this.collabDetails?.collabId) {
@@ -95,7 +94,6 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
       this.filteredActivities = activities;
       this.setAssigneeValues();
       this.allStatuses = await this.appApiService.getCollabStatuses().toPromise();
-      console.log('1111 stats', this.allStatuses)
       this.changeDetection.detectChanges();
     });
   }

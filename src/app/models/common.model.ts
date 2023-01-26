@@ -26,6 +26,9 @@ export interface ILanding {
   videoHeader: string;
   videoButtonText: string;
   cardSetionHeader: string;
+  logo: string;
+  collabImage: string;
+  collabHeader: string;
 }
 
 export interface ILandingFooter {
