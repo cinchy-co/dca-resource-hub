@@ -29,6 +29,8 @@ export interface ILanding {
   logo: string;
   collabImage: string;
   collabHeader: string;
+  button1Text: string;
+  button1Link: string;
 }
 
 export interface ILandingFooter {

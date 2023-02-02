@@ -113,6 +113,11 @@ export class LandingComponent implements OnInit {
     this.router.navigate([`/subscribe`]);
   }
 
+  contact() {
+    const url = this.landingPageDetails.button1Link;
+    this.windowRef.nativeWindow.open(url, '_blank');
+  }
+
   footerClicked(footer: IFooter) {
     const url = footer.footerLink;
     if (url) {
