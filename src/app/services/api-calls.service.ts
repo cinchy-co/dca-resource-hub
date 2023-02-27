@@ -144,6 +144,11 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getToolSponsors(toolId: string): Observable<any> {
+    const url = `/API/Website/Get%20App%20Partner%20Logos?%40id=${toolId}`;
+    return this.getResponse(url);
+  }
+
   getTags(): Observable<any> {
     const url = '/API/Collaborative%20Privacy/Get%20Tags';
     if (this.cachedTags) {

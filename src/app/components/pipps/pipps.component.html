@@ -1,8 +1,8 @@
 <!--<app-header></app-header>-->
-<div class="default-border pipps-container h-[100%] flex flex-col" [ngClass]="{'pd-top-scroll': !fixed}" #ppips>
+<div class="default-border default-radius pipps-container h-[100%] flex flex-col" [ngClass]="{'pd-top-scroll': !fixed}" #ppips>
 
   <div #promoDiv class="banner-container w-full">
-    <app-hero-banner *ngIf="toolDetails" [toolDetails]="toolDetails"></app-hero-banner>
+    <app-hero-banner *ngIf="toolDetails" [toolDetails]="toolDetails" [sponsors]="sponsors"></app-hero-banner>
   </div>
 
   <p-tabMenu [model]="items" [activeItem]="items[1]"></p-tabMenu>

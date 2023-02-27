@@ -5,7 +5,7 @@ import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ITools, ToolSearchAction} from "../hub/model/hub.model";
-import {IDropdownClick, IOption, ITag} from "../../models/common.model";
+import {IDropdownClick, IOption, ISponsor, ITag} from "../../models/common.model";
 import {PAGE_SIZE, SearchByTag} from "../../models/general-values.model";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
@@ -34,6 +34,7 @@ export class ResourceLocatorComponent implements OnInit {
   totalButtonsArray: any[] = [];
   isSignedIn: boolean;
   signInMessage = `Please sign in to leave your feedback.`;
+  sponsors: ISponsor[];
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
               private activatedRoute: ActivatedRoute, private router: Router,
@@ -47,6 +48,10 @@ export class ResourceLocatorComponent implements OnInit {
     this.apiCallsService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
       this.changeDetectorRef.detectChanges();
+    });
+
+    this.apiCallsService.getToolSponsors(this.toolId).pipe(take(1)).subscribe(sponsors => {
+      this.sponsors = sponsors;
     });
   }
 

@@ -14,9 +14,11 @@
     </div>
 
     <div class="flex gap-10 w-full overflow-x-auto overflow-y-hidden">
-      <div class="cursor-pointer default-border min-w-[200px] max-w-[320px] w-[100%] h-[280px] rounded-[20px] mb-3 flex flex-col"
-           *ngFor="let item of hubFeatures">
-        <div class="relative mb-4 responsive-image-container rounded-t-[20px] max-h-[100px]" (click)="goToSelection(item)">
+      <div
+        class="cursor-pointer default-border min-w-[200px] max-w-[320px] w-[100%] h-[280px] rounded-[20px] mb-3 flex flex-col"
+        *ngFor="let item of hubFeatures">
+        <div class="relative mb-4 responsive-image-container rounded-t-[20px] max-h-[100px]"
+             (click)="goToSelection(item)">
           <img class="rounded-t-[20px] responsive-image" alt="tool-image" [src]="item.image">
           <img class="p-[3px] left-[15px] bottom-[15px] absolute rounded-[50%] border-[3px] border-white"
                alt="tool-logo-image" style="height: 50px" [src]="item.logo">
@@ -154,7 +156,8 @@
     <app-hub-rightbar class="hidden lg:block"
                       [userDetails]="userDetails" [footerDetails]="footerDetails"
                       [socialMediaDetails]="socialMediaDetails"
-    [topNews]="hubTopNews">
+                      [pageDetails]="homeDetails"
+                      [topNews]="hubTopNews">
     </app-hub-rightbar>
   </div>
 </div>

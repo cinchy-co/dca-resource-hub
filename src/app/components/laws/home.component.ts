@@ -1,5 +1,13 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {IAvatar, IDropdownClick, ILegislation, IOption, ITag, IWebsiteDetails} from "../../models/common.model";
+import {
+  IAvatar,
+  IDropdownClick,
+  ILegislation,
+  IOption,
+  ISponsor,
+  ITag,
+  IWebsiteDetails
+} from "../../models/common.model";
 import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
 import {SearchBy} from "../../models/general-values.model";
@@ -39,6 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectedTags: ITag[] = [];
   isSignedIn: boolean;
   signInMessage = `Please sign in to leave your feedback.`;
+  sponsors: ISponsor[];
 
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
@@ -55,11 +64,13 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.currentTab = params['tab'] ? params['tab'].toLowerCase() : 'tool';
       this.currentMenuItem = this.items.find(item => item.id === this.currentTab) || this.items[0];
     });
-    this.apiCallsService.getToolDetails(this.toolId).pipe(take(1))
-      .subscribe(tool => {
+    this.apiCallsService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {
         this.toolDetails = tool[0];
-      });
+    });
 
+    this.apiCallsService.getToolSponsors(this.toolId).pipe(take(1)).subscribe(sponsors => {
+          this.sponsors = sponsors;
+    });
     this.getLegislationData();
     this.getTags();
   }

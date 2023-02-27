@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dca-privacy-leg-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: dca-privacy-leg
+  template:
+    metadata:
+      labels:
+        app: dca-privacy-leg
+    spec:
+      containers:
+        - name: dca-privacy-leg
+          image: dca-privacy-leg
+          ports:
+            - containerPort: 4200

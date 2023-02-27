@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import {ReplaySubject, take, takeUntil} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
-import {IDropdownClick, ILegislation, IOption, ITag, IWebsiteDetails} from "../../models/common.model";
+import {IDropdownClick, ILegislation, IOption, ISponsor, ITag, IWebsiteDetails} from "../../models/common.model";
 import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
 import {SearchBy, SEPARATE_PAGE_SIZE} from "../../models/general-values.model";
@@ -60,6 +60,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   shareDesc = `This privacy news story from the free #Privacy Newsfeed app caught my eye 👀`;
   isSignedIn: boolean;
   signInMessage = `Please sign in to leave your feedback.`;
+  sponsors: ISponsor[];
 
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private apiCallsService: ApiCallsService,
@@ -80,6 +81,10 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
     this.activatedRoute.queryParams.pipe(takeUntil(this.destroyed$)).subscribe(params => {
       this.currentTab = params['tab'] ? params['tab'].toLowerCase() : 'tool';
       this.currentMenuItem = this.items.find(item => item.id === this.currentTab) || this.items[0];
+    });
+
+    this.apiCallsService.getToolSponsors(this.toolId).pipe(take(1)).subscribe(sponsors => {
+      this.sponsors = sponsors;
     });
   }
 

@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {AppStateService} from "../../../services/app-state.service";
 import {ReplaySubject, takeUntil} from "rxjs";
 import {ITopNews} from "../model/hub.model";
+import {ICommunityDetails} from "../../../models/general-values.model";
 
 @Component({
   selector: 'app-hub-rightbar',
@@ -17,6 +18,7 @@ export class HubRightbarComponent implements OnInit, OnDestroy {
   @Input() footerDetails: IFooter[];
   @Input() socialMediaDetails: ISocialMedia[];
   @Input() topNews: ITopNews[];
+  @Input() pageDetails: ICommunityDetails;
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private windowRef: WindowRefService, private appStateService: AppStateService,

@@ -110,12 +110,16 @@ export class LandingComponent implements OnInit {
   }
 
   subscribe() {
-    this.router.navigate([`/subscribe`]);
+    const {redirectLink}= this.sidebarOptions.find(({id}) => id === 'subscribe') as ICommunityDetails;
+    if (isPlatformBrowser(this.platformId)) {
+      this.windowRef.nativeWindow.open(redirectLink, '_blank');
+    }
   }
 
   contact() {
-    const url = this.landingPageDetails.button1Link;
-    this.windowRef.nativeWindow.open(url, '_blank');
+    this.router.navigate(['/submit-application']);
+   /* const url = this.landingPageDetails.button1Link;
+    this.windowRef.nativeWindow.open(url, '_blank');*/
   }
 
   footerClicked(footer: IFooter) {

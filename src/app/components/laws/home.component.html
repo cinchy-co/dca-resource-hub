@@ -1,11 +1,12 @@
 <!--<app-header></app-header>-->
-<section class="default-border flex w-full justify-center flex-col home-container">
+<section class="default-border default-radius flex w-full justify-center flex-col home-container">
 
   <div class="video">
     <!--
         <app-video-banner *ngIf="bannerDetailsPerRoute" [bannerDetails]="bannerDetailsPerRoute" class="basis-[50%]"></app-video-banner>
     -->
-    <app-hero-banner *ngIf="toolDetails" [toolDetails]="toolDetails"></app-hero-banner>
+    <app-hero-banner *ngIf="toolDetails" [toolDetails]="toolDetails"
+    [sponsors]="sponsors"></app-hero-banner>
 
   </div>
 

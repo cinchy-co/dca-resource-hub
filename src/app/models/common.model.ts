@@ -111,6 +111,12 @@ export interface ITag {
   TopTags?: string;
 }
 
+export interface ISponsor {
+  logoImage: string;
+  logoLink: string;
+  name: string;
+}
+
 
 export interface IWebsiteDetails {
   route: string;

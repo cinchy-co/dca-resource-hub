@@ -1,5 +1,13 @@
 import {Component, Input, OnDestroy, OnInit} from '@angular/core';
-import {IAvatar, IDropdownClick, ILegislation, IOption, ITag, IWebsiteDetails} from "../../models/common.model";
+import {
+  IAvatar,
+  IDropdownClick,
+  ILegislation,
+  IOption,
+  ISponsor,
+  ITag,
+  IWebsiteDetails
+} from "../../models/common.model";
 import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
 import {SearchBy} from "../../models/general-values.model";
@@ -38,6 +46,7 @@ export class RegHomeComponent implements OnInit, OnDestroy {
   selectedTags: ITag[] = [];
   isSignedIn: boolean;
   signInMessage = `Please sign in to leave your feedback.`;
+  sponsors: ISponsor[];
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
@@ -54,6 +63,9 @@ export class RegHomeComponent implements OnInit, OnDestroy {
     });
     this.apiCallsService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
+    });
+    this.apiCallsService.getToolSponsors(this.toolId).pipe(take(1)).subscribe(sponsors => {
+      this.sponsors = sponsors;
     });
     this.getLegislationData();
     this.getRegulatorData();

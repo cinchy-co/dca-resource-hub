@@ -51,5 +51,6 @@ export interface ICommunityDetails {
   filterDescription?: string;
   landingNav: string;
   landingLabel: string;
+  copyright: string;
   [key: string|number]: any;
 }

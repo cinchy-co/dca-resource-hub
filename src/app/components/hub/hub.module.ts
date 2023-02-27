@@ -47,6 +47,7 @@ import {MessagesModule} from "primeng/messages";
 import { MemberProfileComponent } from './member-profile/member-profile.component';
 import {SubscribeComponent} from "./subscribe/subscribe.component";
 import {UnSubscribeComponent} from "./un-subscribe/un-subscribe.component";
+import { ContactUsComponent } from './contact-us/contact-us.component';
 
 const routes = [
   {
@@ -130,6 +131,10 @@ const routes = [
         component: ProfilePreferencesComponent
       },
       {
+        path: 'submit-application',
+        component: ContactUsComponent
+      },
+      {
         path: 'member-profile',
         component: MemberProfileComponent
       },
@@ -205,6 +210,7 @@ const routes = [
     MemberProfileComponent,
     SubscribeComponent,
     UnSubscribeComponent,
+    ContactUsComponent,
   ],
   imports: [
     CommonModule,

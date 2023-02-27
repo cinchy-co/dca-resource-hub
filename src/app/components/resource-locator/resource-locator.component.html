@@ -1,7 +1,7 @@
-<section class="default-border flex w-full justify-center flex-col home-container">
+<section class="default-border default-radius flex w-full justify-center flex-col home-container">
 
   <div class="video">
-    <app-hero-banner *ngIf="toolDetails" [toolDetails]="toolDetails"></app-hero-banner>
+    <app-hero-banner *ngIf="toolDetails" [toolDetails]="toolDetails" [sponsors]="sponsors"></app-hero-banner>
   </div>
 
   <p-tabMenu [model]="items" [activeItem]="items[1]"></p-tabMenu>

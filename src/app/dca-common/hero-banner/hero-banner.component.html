@@ -1,21 +1,29 @@
-<section class="banner">
-  <div class="banner__content">
-    <div class="banner__background">
-      <img class="banner__background" alt="Node Zero Image" src="assets/background.png">
-    </div>
-
-    <div class="banner-content" *ngIf="toolDetails">
-      <div class="banner-content__inner">
-        <div class="banner-content--text flex items-center gap-4">
-          <h1 class="text-3xl font-bold">{{toolDetails.toolName || toolDetails.title}}</h1>
-       <!--   <div
-            class="text-white bg-[#00b529] h-[58px] w-[58px] border-[3px] p-2 rounded-[50%]
-           border-[#00b529] flex flex-col items-center justify-start cursor-pointer" (click)="goToFeedback()">
-            <p class="text-sm-12 mb-0">BETA</p>
-            <sub class="mt-0">feedback</sub>
-          </div>-->
+<section class="banner bg-color default-radius" *ngIf="toolDetails">
+    <div class="banner__content flex flex-wrap justify-between items-center p-8 pl-[50px] h-full">
+        <div>
+            <p class="text-white font-bold mb-2">{{toolDetails.subTitle || 'PRIVACY'}}</p>
+            <h1 class="text-4xl font-semibold text-white">{{toolDetails.toolName || toolDetails.title}}</h1>
         </div>
-      </div>
+
+        <p-button *ngIf="toolDetails.contributorButton" class="h-[45px] btn-color-transparent p-button-raised p-button-rounded"
+                  [label]="toolDetails.contributorButton || 'Become a contributor'">
+        </p-button>
     </div>
-  </div>
+</section>
+
+
+<section class="bg-gray-100" *ngIf="sponsors">
+    <div class="banner__content flex flex-wrap justify-between items-center p-8 pl-[50px] h-full">
+        <div>
+            <p class="font-bold mb-3">{{toolDetails.sponsor || 'SPONSORS'}}</p>
+
+            <div class="flex flex-wrap gap-10">
+                <div class="flex w-[150px] items-center justify-center bg-white shadow-sm items-center cursor-pointer border-[1px]
+                 border-solid border-slate-100 rounded-lg"
+                     (click)="goToDetails(item)" *ngFor="let item of sponsors">
+                    <img class="h-[100px] w-[100px] gap-5" [src]="item.logoImage" [alt]="item.name">
+                </div>
+            </div>
+        </div>
+    </div>
 </section>

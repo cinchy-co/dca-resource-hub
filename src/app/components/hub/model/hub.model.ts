@@ -82,6 +82,9 @@ export interface ITools {
   toolSequence?: number;
   title?: string;
   externalLink?: string;
+  sponsor: string;
+  contributorButton: string;
+  subTitle: string;
 }
 
 export type IToolSearch = 'App' | 'Description' | 'Id' | 'Tags'  | 'Title'  | 'Type' | 'TotalActionLinks' | 'Button-Label'
@@ -188,7 +191,10 @@ export interface ICollab {
   tags: string;
   collabRoute: string;
   collabId: string;
-  toolName?: string; // only for hero anner
+  toolName?: string; //below all only for hero anner
+  sponsor: string;
+  contributorButton: string;
+  subTitle: string;
 }
 
 export interface ICollabMessage {

@@ -1,0 +1,13 @@
+<div>
+    <app-common-header [headerDetails]="headerDetails"></app-common-header>
+
+
+    <app-hub-form *ngIf="isSignedIn" class="p-4" [formId]="'collab-application'" [buttonLabel]="'Submit'"
+                  [existingDetails]="{'tool': 'collab-application'}"
+                  [updateWithHiddenOrDisabledFields]="true"
+                  [topSpaceToButton]="'20px'"
+                  [successMessage]="'Your feedback has been submitted'">
+    </app-hub-form>
+
+    <app-sign-in class="p-4" *ngIf="!isSignedIn" [message]="signInMessage"></app-sign-in>
+</div>

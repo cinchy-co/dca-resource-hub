@@ -13,7 +13,7 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ReplaySubject, take, takeUntil} from "rxjs";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
-import {IWebsiteDetails} from "../../models/common.model";
+import {ISponsor, IWebsiteDetails} from "../../models/common.model";
 import {ITools} from "../hub/model/hub.model";
 import {AppStateService} from "../../services/app-state.service";
 import {MenuItem} from "primeng/api";
@@ -56,6 +56,7 @@ export class PippsComponent implements OnInit, OnDestroy {
   routePage = 'privacy-legislation-text';
   isSignedIn: boolean;
   signInMessage = `Please sign in to leave your feedback.`;
+  sponsors: ISponsor[];
 
 
   /* @HostListener('window:scroll', [])
@@ -86,6 +87,9 @@ export class PippsComponent implements OnInit, OnDestroy {
     this.webSiteDetails = (await this.apiCallService.getWebsiteDetails('legislation-navigator').toPromise())[0];
     this.legislation = this.allLaws.map(law => ({...law, code: law.law}));
     this.selectedLegislation = this.legislation[0];
+    this.apiCallService.getToolSponsors(this.toolId).pipe(take(1)).subscribe(sponsors => {
+      this.sponsors = sponsors;
+    });
     this.routeSub();
   }
 
@@ -137,7 +141,7 @@ export class PippsComponent implements OnInit, OnDestroy {
 
   scrollToTop() {
     if (isPlatformBrowser(this.platformId)) {
-      this.windowRef.nativeWindow.scrollTo(0, 0);
+      this.windowRef.nativeWindow.scrollTo(0, 500);
     }
   }
 

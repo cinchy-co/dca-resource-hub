@@ -1,7 +1,7 @@
 <!--<app-header></app-header>-->
-<section class="default-border">
+<section class="default-border default-radius">
   <div>
-    <app-hero-banner *ngIf="toolDetails" [toolDetails]="toolDetails"></app-hero-banner>
+    <app-hero-banner *ngIf="toolDetails" [toolDetails]="toolDetails" [sponsors]="sponsors"></app-hero-banner>
   </div>
 
   <p-tabMenu [model]="items" [activeItem]="currentMenuItem"></p-tabMenu>
