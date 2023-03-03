@@ -18,10 +18,10 @@
             <p class="font-bold mb-3">{{toolDetails.sponsor || 'SPONSORS'}}</p>
 
             <div class="flex flex-wrap gap-10">
-                <div class="flex w-[150px] items-center justify-center bg-white shadow-sm items-center cursor-pointer border-[1px]
+                <div class="flex w-[200px] items-center justify-center bg-white shadow-sm items-center cursor-pointer border-[1px]
                  border-solid border-slate-100 rounded-lg"
                      (click)="goToDetails(item)" *ngFor="let item of sponsors">
-                    <img class="h-[100px] w-[100px] gap-5" [src]="item.logoImage" [alt]="item.name">
+                    <img class="h-[125px] w-[150px] gap-5 content-gray" [src]="item.logoImage" [alt]="item.name">
                 </div>
             </div>
         </div>

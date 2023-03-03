@@ -60,6 +60,14 @@ app-footer {
 }
 
 
+.content-gray {
+  filter: grayscale(100%);
+
+  &:hover {
+    filter: grayscale(0%);
+  }
+}
+
 /* width */
 ::-webkit-scrollbar {
   width: 7px;
