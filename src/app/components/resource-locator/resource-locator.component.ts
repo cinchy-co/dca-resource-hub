@@ -5,7 +5,7 @@ import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ITools, ToolSearchAction} from "../hub/model/hub.model";
-import {IDropdownClick, IOption, ISponsor, ITag} from "../../models/common.model";
+import {IDropdownClick, IFilter, IOption, ISponsor, ITag} from "../../models/common.model";
 import {PAGE_SIZE, SearchByTag} from "../../models/general-values.model";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
@@ -23,18 +23,20 @@ export class ResourceLocatorComponent implements OnInit {
   toolDetails: ITools;
   top20Tags: ITag[];
   selectedTags: ITag[] = [];
+  selectedFilters: IFilter[] = [];
   tags: ITag[];
   searchByOptions = SearchByTag;
   searchVal: string;
   selectedOption: IOption; //
   toolList: ToolSearchAction[];
   paginatedData: ToolSearchAction[];
-  pageSize = PAGE_SIZE;
+  pageSize = PAGE_SIZE + 1;
   currentPage = 0;
   totalButtonsArray: any[] = [];
   isSignedIn: boolean;
   signInMessage = `Please sign in to leave your feedback.`;
   sponsors: ISponsor[];
+  filters: IFilter[];
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
               private activatedRoute: ActivatedRoute, private router: Router,
@@ -47,6 +49,12 @@ export class ResourceLocatorComponent implements OnInit {
     this.getTags();
     this.apiCallsService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {
       this.toolDetails = tool[0];
+      this.changeDetectorRef.detectChanges();
+    });
+
+    this.apiCallsService.getResourceLocatorFilters().pipe(take(1)).subscribe(filters => {
+      this.filters = filters as IFilter[];
+      console.log('111 filters', filters)
       this.changeDetectorRef.detectChanges();
     });
 
@@ -74,7 +82,24 @@ export class ResourceLocatorComponent implements OnInit {
     }
   }
 
-  isSelectedFilter(tag: ITag, labelKey?: string): boolean {
+  filterSelected(filter: IFilter) {
+    const isAlreadyPresent = this.selectedFilters.find(sFilter => sFilter.Labels === filter.Labels);
+    if (isAlreadyPresent) {
+      this.selectedFilters = this.selectedFilters.filter(sFilter => sFilter.Labels !== filter.Labels);
+      this.reset();
+    } else {
+      this.selectedFilters = [];
+      this.selectedFilters.push(filter);
+      this.getToolOptions();
+    }
+  }
+
+  isSelectedFilter(tag: IFilter): boolean {
+    return !!this.selectedFilters.find(item => item.Labels === tag.Labels);
+  }
+
+
+  isSelectedTag(tag: ITag): boolean {
     return !!this.selectedTags.find(item => item.Tags === tag.Tags);
   }
 

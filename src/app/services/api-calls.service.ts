@@ -1,13 +1,11 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {map, Observable, of, tap} from "rxjs";
 import {IUser} from "../models/common.model";
 import {CinchyService} from "@cinchy-co/angular-sdk";
-import {WindowRefService} from "./window-ref.service";
 import {isPlatformBrowser} from "@angular/common";
 import {ConfigService} from "../config.service";
 import {AppStateService} from "./app-state.service";
-import {ToolIds} from "../components/hub/model/hub.model";
 
 @Injectable({
   providedIn: 'root'
@@ -299,6 +297,11 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
+  getResourceLocatorFilters(): Observable<any> {
+    const url = `/API/Collaborative%20Privacy/Get%20Privacy%20Resources%20Filter`;
+    return this.getResponse(url);
+  }
+
   getHubTools(): Observable<any> {
     const url = `/API/Website/Get%20Tool%20Page%20Tools`;
     return this.getResponse(url);
@@ -441,7 +444,7 @@ export class ApiCallsService {
               reject('No user details');
             }
           }, error => {
-            console.log('IN REJECT')
+            console.log('IN REJECT', error)
             reject('No user details');
           });
         }

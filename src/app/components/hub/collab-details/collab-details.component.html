@@ -1,4 +1,4 @@
-<section class="default-border" *ngIf="collabDetails">
+<section class="default-border default-radius" *ngIf="collabDetails">
   <app-hero-banner [toolDetails]="collabDetails"></app-hero-banner>
 
   <p-tabMenu *ngIf="currentMenuItem" [model]="items" [activeItem]="currentMenuItem">></p-tabMenu>
@@ -83,7 +83,7 @@
   <ng-container *ngIf="currentTab === 'messages'">
     <div class="mt-4 p-4">
       <p-messages severity="info">
-        <ng-template pTemplate>
+        <ng-template pTemplate="">
           <p>Only members who have
             <span class="link-color" (click)="joinCollab()">joined this collab</span>
             can post messages. Please observe our

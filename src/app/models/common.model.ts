@@ -111,6 +111,11 @@ export interface ITag {
   TopTags?: string;
 }
 
+
+export interface IFilter {
+  Labels: string;
+}
+
 export interface ISponsor {
   logoImage: string;
   logoLink: string;

@@ -33,49 +33,85 @@
       </div>
 
 
-      <div *ngIf="tags?.length" class="flex flex-wrap gap-2.5 mt-3 p-5">
+      <div *ngIf="tags?.length" class="flex flex-wrap gap-2.5 mt-3 p-5 pb-2">
         <div *ngFor="let tag of top20Tags" (click)="topTagSelected(tag)">
-          <p-chip class="cursor-pointer" [ngClass]="{'selected-chip': isSelectedFilter(tag)}"
+          <p-chip class="cursor-pointer" [ngClass]="{'selected-chip': isSelectedTag(tag)}"
                   [label]="tag.Tags"></p-chip>
         </div>
       </div>
 
-      <div *ngIf="paginatedData" class="flex flex-col gap-8 p-5">
-        <div class="default-border p-5 flex flex-wrap gap-5" *ngFor="let toolDetail of paginatedData">
-          <h1 class="max-w-[50px] min-w-[50px]" [innerHTML]="toolDetail['Type']"></h1>
-          <div class="basis-[70%]">
-            <p class="font-semibold" [innerHTML]="toolDetail['App']"></p>
-            <p class="pt-1 font-bold text-cyan-700" [innerHTML]="toolDetail['Title']"></p>
-            <p class="pt-0" [innerHTML]="toolDetail['Description']"></p>
-
-            <div class="flex flex-row flex-wrap gap-1 pt-2 text-sm-12 text-gray-700">
-              <ng-container *ngFor="let tag of toolDetail['tags']">
-                <p-chip [ngClass]="{'selected-chip': isSelectedFilter({Tags: tag})}"
-                        class="mr-2" [label]="tag" styleClass="p-1 custom-chip"></p-chip>
-              </ng-container>
-            </div>
-          </div>
-
-          <div class="ml-auto flex flex-col">
-            <p-button class="btn-color-green self-end p-button-raised p-button-rounded"
-                      [label]="toolDetail['Button-Label']" (click)="viewTool(toolDetail)">
-            </p-button>
-
-            <div class="mt-2">
-              <p class="font-semibold">Actions</p>
-              <div class="flex gap-2">
-                <ng-container *ngFor="let count of totalButtonsArray;let i = index">
-                  <div class="" *ngIf="toolDetail['Action-Label' + '-' + (i+1)]">
-                    <a class="link-color" (click)="goToDetails(toolDetail['Action-Link' + '-' + (i+1)])">
-                      {{toolDetail['Action-Label' + '-' + (i + 1)]}}
-                    </a>
-                  </div>
-                </ng-container>
-              </div>
-            </div>
+      <div *ngIf="filters?.length && paginatedData?.length && false" class="flex flex-wrap items-center gap-2.5 mt-3 p-5 pt-2">
+        <p class="text-gray-600 text-sm-12">Filter results:</p>
+        <div class="flex gap-5 flex-wrap">
+          <div *ngFor="let filter of filters" (click)="filterSelected(filter)">
+            <p class="cursor-pointer text-gray-600 text-[14px]"
+               [ngClass]="{'selected-filter': isSelectedFilter(filter)}">{{filter.Labels}}</p>
           </div>
         </div>
       </div>
+
+
+      <div *ngIf="paginatedData" class="flex flex-wrap gap-10 p-5">
+        <div class="cursor-pointer default-border w-[300px] h-[290px] rounded-[20px]"
+             *ngFor="let toolDetail of paginatedData"
+             (click)="viewTool(toolDetail)">
+          <div class="relative bg-[#f3f4f8] text-gray-600 pl-4 pr-4 pt-3 pb-4 rounded-t-[20px]">
+            <h1 class="text-[14px]" [innerHTML]="toolDetail['Type']"></h1>
+            <p class="font-semibold" [innerHTML]="toolDetail['App']"></p>
+          </div>
+
+          <hr>
+
+          <div class="flex flex-col pt-3 pb-3 pl-4 pr-4 h-[160px] text-gray-600">
+            <p class="line-clamp-4 pt-1" [title]="toolDetail['Title']" [innerHTML]="toolDetail['Title']"></p>
+            <p class="pt-2 line-clamp-1 text-[12px]" [innerHTML]="toolDetail['Description']"></p>
+          </div>
+
+          <hr>
+
+          <div class="pt-3 pb-1 pl-4 pr-4">
+            <span class="font-semibold text-cyan-600 text-[14px]"
+                  [innerHTML]="toolDetail['link-label'] || 'Learn more >'"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div *ngIf="paginatedData" class="flex flex-col gap-8 p-5">
+         <div class="default-border p-5 flex flex-wrap gap-5" *ngFor="let toolDetail of paginatedData">
+           <h1 class="max-w-[50px] min-w-[50px]" [innerHTML]="toolDetail['Type']"></h1>
+           <div class="basis-[70%]">
+             <p class="font-semibold" [innerHTML]="toolDetail['App']"></p>
+             <p class="pt-1 font-bold text-cyan-700" [innerHTML]="toolDetail['Title']"></p>
+             <p class="pt-0" [innerHTML]="toolDetail['Description']"></p>
+
+             <div class="flex flex-row flex-wrap gap-1 pt-2 text-sm-12 text-gray-700">
+               <ng-container *ngFor="let tag of toolDetail['tags']">
+                 <p-chip [ngClass]="{'selected-chip': isSelectedFilter({Tags: tag})}"
+                         class="mr-2" [label]="tag" styleClass="p-1 custom-chip"></p-chip>
+               </ng-container>
+             </div>
+           </div>
+
+           <div class="ml-auto flex flex-col">
+             <p-button class="btn-color-green self-end p-button-raised p-button-rounded"
+                       [label]="toolDetail['Button-Label']" (click)="viewTool(toolDetail)">
+             </p-button>
+
+             <div class="mt-2">
+               <p class="font-semibold">Actions</p>
+               <div class="flex gap-2">
+                 <ng-container *ngFor="let count of totalButtonsArray;let i = index">
+                   <div class="" *ngIf="toolDetail['Action-Label' + '-' + (i+1)]">
+                     <a class="link-color" (click)="goToDetails(toolDetail['Action-Link' + '-' + (i+1)])">
+                       {{toolDetail['Action-Label' + '-' + (i + 1)]}}
+                     </a>
+                   </div>
+                 </ng-container>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>-->
 
       <p-paginator [pageLinkSize]="3" *ngIf="paginatedData?.length" [rows]="pageSize"
                    [totalRecords]="toolList.length"
