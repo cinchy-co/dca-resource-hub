@@ -114,6 +114,7 @@ export interface ITag {
 
 export interface IFilter {
   Labels: string;
+  Value: string;
 }
 
 export interface ISponsor {

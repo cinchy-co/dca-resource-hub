@@ -20,14 +20,15 @@ export class HeroBannerComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log('111 toolDe', this.toolDetails)
   }
 
   toggleSidebar() {
     this.sidebarToggled.emit();
   }
 
-  goToFeedback() {
-    const url = 'https://docs.google.com/forms/d/e/1FAIpQLScqqzHjk2BSiDu4_7O-d8L8f31Gze72Wkb7UK4POLsECXiqkw/viewform?usp=sf_link';
+  goToBecomeContributor() {
+    const url = this.toolDetails.contributorButtonLink;
     if (isPlatformBrowser(this.platformId)) {
       this.windowRef.nativeWindow.open(url, '_blank');
     }

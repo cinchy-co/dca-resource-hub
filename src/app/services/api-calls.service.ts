@@ -292,8 +292,8 @@ export class ApiCallsService {
 
   // https://datacollaboration.net/API/Community/Get%20Collab%20Members%20List?%40id=w
 
-  getHubToolsSearch(tag: string): Observable<any> {
-    const url = `/API/Collaborative%20Privacy/Get%20Privacy%20Resources?%40searchStr=${tag}`;
+  getHubToolsSearch(tag: string, filter: string): Observable<any> {
+    const url = `/API/Collaborative%20Privacy/Get%20Privacy%20Resources?%40searchStr=${tag}&%40value=${filter}`;
     return this.getResponse(url);
   }
 

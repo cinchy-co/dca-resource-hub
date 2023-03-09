@@ -83,6 +83,8 @@ export interface ITools {
   title?: string;
   externalLink?: string;
   sponsor: string;
+  contributorButtonLabel: string;
+  contributorButtonLink: string;
   contributorButton: string;
   subTitle: string;
 }
@@ -193,7 +195,8 @@ export interface ICollab {
   collabId: string;
   toolName?: string; //below all only for hero anner
   sponsor: string;
-  contributorButton: string;
+  contributorButtonLink: string;
+  contributorButtonLabel: string;
   subTitle: string;
 }
 

@@ -5,8 +5,9 @@
             <h1 class="text-4xl font-semibold text-white">{{toolDetails.toolName || toolDetails.title}}</h1>
         </div>
 
-        <p-button *ngIf="toolDetails.contributorButton" class="h-[45px] btn-color-transparent p-button-raised p-button-rounded"
-                  [label]="toolDetails.contributorButton || 'Become a contributor'">
+        <p-button *ngIf="toolDetails.contributorButtonLabel" class="h-[45px] btn-color-transparent p-button-raised p-button-rounded"
+                  [label]="toolDetails.contributorButtonLabel || 'Become a contributor'"
+        (click)="goToBecomeContributor()">
         </p-button>
     </div>
 </section>
@@ -18,10 +19,10 @@
             <p class="font-bold mb-3">{{toolDetails.sponsor || 'SPONSORS'}}</p>
 
             <div class="flex flex-wrap gap-10">
-                <div class="flex w-[200px] items-center justify-center bg-white shadow-sm items-center cursor-pointer border-[1px]
-                 border-solid border-slate-100 rounded-lg"
+                <div class="flex items-center justify-center bg-white shadow-sm items-center cursor-pointer border-[1px]
+                 border-solid border-slate-100 rounded-lg h-[128px] w-[200px]"
                      (click)="goToDetails(item)" *ngFor="let item of sponsors">
-                    <img class="h-[125px] w-[150px] gap-5 content-gray" [src]="item.logoImage" [alt]="item.name">
+                    <img class="gap-5 content-gray h-[100%]" [src]="item.logoImage" [alt]="item.name">
                 </div>
             </div>
         </div>

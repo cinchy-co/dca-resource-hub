@@ -60,6 +60,7 @@ export class ResourceLocatorComponent implements OnInit {
 
     this.apiCallsService.getToolSponsors(this.toolId).pipe(take(1)).subscribe(sponsors => {
       this.sponsors = sponsors;
+      this.changeDetectorRef.detectChanges();
     });
   }
 
@@ -86,12 +87,11 @@ export class ResourceLocatorComponent implements OnInit {
     const isAlreadyPresent = this.selectedFilters.find(sFilter => sFilter.Labels === filter.Labels);
     if (isAlreadyPresent) {
       this.selectedFilters = this.selectedFilters.filter(sFilter => sFilter.Labels !== filter.Labels);
-      this.reset();
     } else {
       this.selectedFilters = [];
       this.selectedFilters.push(filter);
-      this.getToolOptions();
     }
+    this.getToolOptions();
   }
 
   isSelectedFilter(tag: IFilter): boolean {
@@ -120,7 +120,8 @@ export class ResourceLocatorComponent implements OnInit {
   }
 
   async getToolOptions() {
-    this.toolList = await this.apiCallsService.getHubToolsSearch(this.searchVal).toPromise();
+    const selectedFilterVal = this.selectedFilters?.length ? this.selectedFilters[0].Value : '';
+    this.toolList = await this.apiCallsService.getHubToolsSearch(this.searchVal, selectedFilterVal).toPromise();
     this.toolList = this.toolList.map((item: any) => ({
       ...item,
       tags: item['Tags'] ? item['Tags'].split(', ') : []

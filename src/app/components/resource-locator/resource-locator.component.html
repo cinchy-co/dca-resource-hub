@@ -40,7 +40,7 @@
         </div>
       </div>
 
-      <div *ngIf="filters?.length && paginatedData?.length && false" class="flex flex-wrap items-center gap-2.5 mt-3 p-5 pt-2">
+      <div *ngIf="(filters?.length && paginatedData?.length) || selectedFilters?.length" class="flex flex-wrap items-center gap-2.5 mt-3 p-5 pt-2">
         <p class="text-gray-600 text-sm-12">Filter results:</p>
         <div class="flex gap-5 flex-wrap">
           <div *ngFor="let filter of filters" (click)="filterSelected(filter)">
@@ -120,7 +120,8 @@
       </p-paginator>
 
       <div class="p-5 flex items-center justify-center w-full" *ngIf="!paginatedData?.length">
-        <p class="font-semibold">Please use search input or one of the top searches to see results</p>
+        <p class="font-semibold">{{selectedFilters.length ? 'No results for the combination':
+          'Please use search input or one of the top searches to see results'}}</p>
       </div>
 
       <p-progressSpinner class="item-center-n-relative"
