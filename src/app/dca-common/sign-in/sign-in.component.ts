@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ApiCallsService} from "../../services/api-calls.service";
 import {AppStateService} from "../../services/app-state.service";
+import {WindowRefService} from "../../services/window-ref.service";
 
 @Component({
   selector: 'app-sign-in',
@@ -9,8 +10,11 @@ import {AppStateService} from "../../services/app-state.service";
 })
 export class SignInComponent implements OnInit {
   @Input() message: string;
+  @Input() doRefresh: boolean;
 
-  constructor(private appApiService: ApiCallsService, private appStateService: AppStateService) { }
+  constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
+              private windowRefService: WindowRefService) {
+  }
 
   ngOnInit(): void {
   }
@@ -18,6 +22,11 @@ export class SignInComponent implements OnInit {
   login() {
     this.appStateService.setCurrentUrl();
     this.appApiService.login();
+    if (this.doRefresh) {
+      setTimeout(() => {
+        this.windowRefService.nativeWindow.location.reload();
+      }, 500)
+    }
   }
 
 }

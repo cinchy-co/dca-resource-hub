@@ -7,9 +7,9 @@
     "build": "ng build --base-href \"/hub/\"\n",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "build:production:ssr": "ng build --prod --configuration=production --base-href /privacyTools/ && ng run dca-privacy-leg:server:production",
+    "build:production:ssr": "ng build --configuration=production --base-href /privacyTools/ && ng run dca-privacy-leg:server:production",
     "build:staging:ssr": "ng build --prod --configuration=staging --base-href /privacyTools/ && ng run dca-privacy-leg:server:staging",
-    "dev:ssr": "ng run dca-privacy-leg:serve-ssr",
+    "dev:ssr": "ng run dca-privacy-leg:serve-ssr --ssl",
     "serve:ssr": "node dist/dca-privacy-leg/server/main.js",
     "build:ssr": "ng build && ng run dca-privacy-leg:server",
     "prerender": "ng run dca-privacy-leg:prerender"

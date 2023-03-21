@@ -32,7 +32,7 @@ export function appLoadFactory(config: ConfigService) {
 }
 
 export function getBaseUrl() {
-  return document.getElementsByTagName('base')[0].href;
+  return '/privacyTools/';
 }
 
 @NgModule({

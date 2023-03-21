@@ -13,7 +13,9 @@ export class WindowRefService {
   constructor(@Inject(PLATFORM_ID) private readonly platformId: object) { }
 
   get nativeWindow(): any {
-    return _window();
+    if(isPlatformBrowser(this.platformId)) {
+      return _window();
+    }
   }
 
   isSSR(): boolean {

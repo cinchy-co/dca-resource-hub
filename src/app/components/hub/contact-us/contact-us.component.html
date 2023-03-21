@@ -9,5 +9,5 @@
                   [successMessage]="'Your feedback has been submitted'">
     </app-hub-form>
 
-    <app-sign-in class="p-4" *ngIf="!isSignedIn" [message]="signInMessage"></app-sign-in>
+    <app-sign-in class="p-4" *ngIf="!isSignedIn" [message]="signInMessage" [doRefresh]="true"></app-sign-in>
 </div>

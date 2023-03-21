@@ -25,6 +25,7 @@ import {ReplaySubject, take, takeUntil} from "rxjs";
 import {MessageService} from "primeng/api";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../../services/window-ref.service";
+import { SeoService } from 'src/app/services/seo.service';
 
 @Component({
   selector: 'app-hub-home',
@@ -53,10 +54,13 @@ export class HubHomeComponent implements OnInit, OnDestroy {
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
               private changeDetectionRef: ChangeDetectorRef, private activatedRoute: ActivatedRoute,
               private router: Router, private messageService: MessageService,
-              @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService) {
+              @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService,
+              private seoService: SeoService) {
   }
 
   async ngOnInit() {
+    this.seoService.updateOgDescription('Hub Home');
+    this.seoService.updateOgTitle('TEST')
     const communityDetails = this.appStateService.communityDetails;
     this.homeDetails = communityDetails.find(item => item.id === 'home') as ICommunityDetails;
     this.newsFeed = (await this.appApiService.getHubNewsfeed().toPromise()) as INewsFeed[];

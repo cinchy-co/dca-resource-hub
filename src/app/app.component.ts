@@ -27,8 +27,8 @@ export class AppComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const url = this.windowRefService.nativeWindow.location.href;
     if (isPlatformBrowser(this.platformId)) {
+      const url = this.windowRefService.nativeWindow.location.href;
       if (!sessionStorage.getItem('current-url-hub')) {
         sessionStorage.setItem('current-url-hub', url);
       }
