@@ -1,6 +1,7 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
+  "defaultProject": "dca-privacy-leg",
   "newProjectRoot": "projects",
   "projects": {
     "dca-privacy-leg": {
@@ -141,41 +142,7 @@
             "development": {
               "optimization": false,
               "sourceMap": true,
-              "extractLicenses": false,
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve-ssr": {
-          "builder": "@nguniversal/builders:ssr-dev-server",
-          "configurations": {
-            "development": {
-              "browserTarget": "dca-privacy-leg:build:development",
-              "serverTarget": "dca-privacy-leg:server:development"
-            },
-            "production": {
-              "browserTarget": "dca-privacy-leg:build:production",
-              "serverTarget": "dca-privacy-leg:server:production"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "prerender": {
-          "builder": "@nguniversal/builders:prerender",
-          "options": {
-            "routes": [
-              "/",
-              "/landing"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "dca-privacy-leg:build:production",
-              "serverTarget": "dca-privacy-leg:server:production"
-            },
-            "development": {
-              "browserTarget": "dca-privacy-leg:build:development",
-              "serverTarget": "dca-privacy-leg:server:development"
+              "extractLicenses": false
             }
           },
           "defaultConfiguration": "production"

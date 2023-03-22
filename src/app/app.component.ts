@@ -64,17 +64,18 @@ export class AppComponent implements OnInit {
   }
 
   setRouting() {
-    const currentUrl = sessionStorage.getItem('current-url-hub');
+    const currentUrl: any = sessionStorage.getItem('current-url-hub');
     let route: any = '/';
     if (environment.production) {
-      route = currentUrl?.split('/hub')[1] || route;
+      const routeToSplitFrom = currentUrl.includes('hub-ssr') ? '/hub-ssr' : '/hub';
+      route = currentUrl?.split(routeToSplitFrom)[1] || route;
     } else {
       route = currentUrl?.split(':3000')[1] || currentUrl?.split('/hub')[1] || route;
     }
     const routeWithoutQueryParam = route.split('?')[0];
     console.log('1111 routeWithoutQueryParam', routeWithoutQueryParam, routeWithoutQueryParam === '/landing');
     if (routeWithoutQueryParam === '/' && !this.apiCallsService.isSignedIn()) {
-      this.router.navigate([`landing`]);
+     // this.router.navigate([`landing`]);
     } else if (routeWithoutQueryParam === '/landing' && this.apiCallsService.isSignedIn()) {
       console.log('1111 IN LANDING SIGN NIN')
       this.router.navigate([`/home`]);

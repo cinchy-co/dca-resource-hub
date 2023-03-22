@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, NgModule} from '@angular/core';
+import {APP_INITIALIZER, CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {AppRoutingModule} from './app-routing.module';
@@ -20,6 +20,9 @@ import {far} from "@fortawesome/free-regular-svg-icons";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
 import {ApiInterceptorService} from "./api-interceptor.service";
+import {ScullyLibModule} from "@scullyio/ng-lib";
+import {HubModule} from "./components/hub/hub.module";
+import {NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule} from "ngx-google-analytics";
 
 
 const icons = [
@@ -32,7 +35,7 @@ export function appLoadFactory(config: ConfigService) {
 }
 
 export function getBaseUrl() {
-  return '/privacyTools/';
+  return document.getElementsByTagName('base')[0].href;
 }
 
 @NgModule({
@@ -40,19 +43,23 @@ export function getBaseUrl() {
     AppComponent,
     HubSidebarComponent
   ],
-    imports: [
-        BrowserModule.withServerTransition({appId: 'serverApp'}),
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        ComponentsModule,
-        HttpClientModule,
-        CinchyModule.forRoot(),
-        ButtonModule,
-        RippleModule,
-        ProgressSpinnerModule,
-        FontAwesomeModule,
-        ToastModule
-    ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  imports: [
+    BrowserModule.withServerTransition({appId: 'serverApp'}),
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    ComponentsModule,
+    HttpClientModule,
+    CinchyModule.forRoot(),
+    ButtonModule,
+    RippleModule,
+    ProgressSpinnerModule,
+    FontAwesomeModule,
+    ToastModule,
+    ScullyLibModule,
+    NgxGoogleAnalyticsModule.forRoot('G-542M0WMC7J'),
+    NgxGoogleAnalyticsRouterModule
+  ],
   providers: [
     {
       provide: APP_INITIALIZER,

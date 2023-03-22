@@ -51,26 +51,26 @@ export class ConfigService {
   }
 
   getEnvUrl() {
-    this.enviornmentConfig = {
+   /* this.enviornmentConfig = {
        "authority": "https://datacollaboration.net/sso",
        "cinchyRootUrl": "https://datacollaboration.net",
        "clientId": "community-node-prod",
        "redirectUri": "https://datacollaboration.net/privacyTools/",
        "version": "1.0.0"
      }
-     return of (this.enviornmentConfig);
+     return of (this.enviornmentConfig);*/
 
-  /*  const url = `${this.baseUrl}assets/config.json`;
-    /!*    const headers = new HttpHeaders({
+    const url = `${this.baseUrl}assets/config.json`;
+    /*    const headers = new HttpHeaders({
           'Cache-Control': 'no-cache',
           'Pragma': 'no-cache',
           'Expires': 'Sat, 01 Jan 2000 00:00:00 GMT'
-        })*!/
+        })*/
     return this.http
       .get<any>(url).pipe(
         tap(config => {
           this.enviornmentConfig = config
-        }));*/
+        }));
   }
 
   receiveMessage(event: any) {

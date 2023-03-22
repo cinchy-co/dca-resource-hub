@@ -17,6 +17,7 @@ import {WindowRefService} from "../../services/window-ref.service";
 import {ITools} from "../hub/model/hub.model";
 import {MenuItem} from "primeng/api";
 import {ActivatedRoute, Router} from "@angular/router";
+import {SeoService} from "../../services/seo.service";
 
 @Component({
   selector: 'app-news-podcast',
@@ -65,10 +66,13 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   constructor(private appStateService: AppStateService, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private apiCallsService: ApiCallsService,
               private changeDetectorRef: ChangeDetectorRef, private activatedRoute: ActivatedRoute,
-              private router: Router) {
+              private router: Router, private seoService: SeoService) {
   }
 
   async ngOnInit() {
+    this.seoService.updateOgDescription('News Desc');
+    this.seoService.updateOgTitle('News Title');
+    this.seoService.updateOgImage('https://static.wixstatic.com/media/9eeb4e_7da4ab8b49b843419d88e5a44244915c~mv2.png');
     this.isSignedIn = this.apiCallsService.isSignedIn();
     this.currentItem = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.apiCallsService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {

@@ -26,6 +26,7 @@ import {MessageService} from "primeng/api";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../../services/window-ref.service";
 import { SeoService } from 'src/app/services/seo.service';
+import {environment} from "../../../../environments/environment";
 
 @Component({
   selector: 'app-hub-home',
@@ -59,8 +60,8 @@ export class HubHomeComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.seoService.updateOgDescription('Hub Home');
-    this.seoService.updateOgTitle('TEST')
+    this.seoService.updateOgDescription('Data Privacy Hub Desc');
+    this.seoService.updateOgTitle('Data Privacy Hub');
     const communityDetails = this.appStateService.communityDetails;
     this.homeDetails = communityDetails.find(item => item.id === 'home') as ICommunityDetails;
     this.newsFeed = (await this.appApiService.getHubNewsfeed().toPromise()) as INewsFeed[];
