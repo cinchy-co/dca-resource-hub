@@ -7,7 +7,7 @@ import { baseHrefRewrite } from '@scullyio/scully-plugin-base-href-rewrite'
 
 const defaultPostRenderers = ['seoHrefOptimise', baseHrefRewrite]
 setPluginConfig(baseHrefRewrite, {
-  href: '/hub-ssr/',
+  href: '/hub/',
 })
 export const config: ScullyConfig = {
   defaultPostRenderers,
