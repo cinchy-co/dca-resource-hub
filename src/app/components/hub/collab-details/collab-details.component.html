@@ -1,217 +1,220 @@
-<section class="default-border default-radius" *ngIf="collabDetails">
-  <app-hero-banner [toolDetails]="collabDetails"></app-hero-banner>
+<section>
+  <div class="default-border default-radius" *ngIf="collabDetails">
+    <app-hero-banner [toolDetails]="collabDetails"></app-hero-banner>
 
-  <p-tabMenu *ngIf="currentMenuItem" [model]="items" [activeItem]="currentMenuItem">></p-tabMenu>
-
-
-  <ng-container *ngIf="currentTab === 'overview'">
-    <app-video-overview class="mt-5" [toolId]="collabDetails.collabId"
-                        [userDetails]="userDetails" [successMessage]="'Successfully joined'"
-                        [errorMessage]="'You are already a member'">
-    </app-video-overview>
-  </ng-container>
-
-  <ng-container *ngIf="currentTab === 'activities'">
-    <ng-container *ngTemplateOutlet="activityTable;context:{activities: filteredActivities}"></ng-container>
-  </ng-container>
-
-  <ng-template #activityTable let-activities="activities">
-    <div *ngIf="activities?.length"
-         class="w-[100%]">
-      <p-table [value]="activities">
-        <ng-template pTemplate="header">
-          <tr>
-            <th *ngFor="let col of getCols(activities[0])">
-              {{col}}
-            </th>
-          </tr>
-
-          <tr>
-            <th *ngFor="let col of getCols(activities[0])">
-              <ng-container *ngIf="col===assignedToLabel">
-                <p-multiSelect [options]="allAssignedTo" placeholder="All"
-                               (onChange)="onAssigneeChange($event, assignedToLabel)"
-                               styleClass="p-column-filter">
-                  <ng-template let-option pTemplate="item">
-                    <div class="p-multiselect-representative-option">
-                      <span class="p-ml-1">{{option}}</span>
-                    </div>
-                  </ng-template>
-                </p-multiSelect>
-              </ng-container>
-            </th>
-          </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-tableRow>
-          <tr>
-            <td *ngFor="let col of getCols(activities[0])">
-              <ng-container *ngIf="col.includes('Open'); else elseTemp">
-                <a class="text-blue-500" [href]="tableRow[col]" target="_blank">Open</a>
-              </ng-container>
-              <ng-template #elseTemp>
-                <div class="flex gap-1 items-center">
-                  <span *ngIf="col !== 'Owner'" [innerHTML]="tableRow[col]"></span>
-                  <span *ngIf="col === 'Owner'" class="link-color" (click)="goToMemberProfile(tableRow)"
-                        [innerHTML]="tableRow[col]"></span>
-                  <ng-container
-                    *ngIf="col === 'End Date' && userDetails && userDetails.name === tableRow[assignedToLabel]">
-                    <p class="link-color" (click)="openEditDateModal(tableRow)">
-                      <i class="pi pi-pencil"></i>
-                    </p>
-                  </ng-container>
-
-                  <ng-container
-                    *ngIf="col === 'Status' && userDetails && userDetails.name === tableRow[assignedToLabel]">
-                    <p class="link-color" (click)="openEditStatusModal(tableRow)">
-                      <i class="pi pi-pencil"></i>
-                    </p>
-                  </ng-container>
-                </div>
-              </ng-template>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
-
-    <div class="default-border p-5" *ngIf="!activities?.length">
-      No activity present
-    </div>
-  </ng-template>
+    <p-tabMenu *ngIf="currentMenuItem" [model]="items" [activeItem]="currentMenuItem">></p-tabMenu>
 
 
-  <ng-container *ngIf="currentTab === 'messages'">
-    <div class="mt-4 p-4">
-      <p-messages severity="info">
-        <ng-template pTemplate="">
-          <p>Only members who have
-            <span class="link-color" (click)="joinCollab()">joined this collab</span>
-            can post messages. Please observe our
-            <span class="link-color" (click)="goToCommunity()">Community Guidelines</span>.
-          </p>
-        </ng-template>
-      </p-messages>
-    </div>
+    <ng-container *ngIf="currentTab === 'overview'">
+      <app-video-overview class="mt-5" [toolId]="collabDetails.collabId"
+                          [userDetails]="userDetails" [successMessage]="'Successfully joined'"
+                          [errorMessage]="'You are already a member'">
+      </app-video-overview>
+    </ng-container>
 
-    <div *ngIf="!showNewMessage" class="mt-4 p-4 flex justify-end">
-      <p-button *ngIf="isAllowedMessages" class="btn-color-green p-button-raised p-button-rounded" icon="pi pi-plus"
-                iconPos="left"
-                [label]="'New Message'" (click)="showNewMessageForm()">
-      </p-button>
-    </div>
+    <ng-container *ngIf="currentTab === 'activities'">
+      <ng-container *ngTemplateOutlet="activityTable;context:{activities: filteredActivities}"></ng-container>
+    </ng-container>
 
-    <div class="p-4 m-4 default-border" *ngIf="showNewMessage">
-      <div class="flex justify-between" *ngIf="isAllowedMessages">
-        <p class="font-semibold text-lg">New Message</p>
-        <i class="pi pi-times cursor-pointer" (click)="showNewMessageForm()"></i>
+    <ng-template #activityTable let-activities="activities">
+      <div *ngIf="activities?.length"
+           class="w-[100%]">
+        <p-table [value]="activities">
+          <ng-template pTemplate="header">
+            <tr>
+              <th *ngFor="let col of getCols(activities[0])">
+                {{col}}
+              </th>
+            </tr>
+
+            <tr>
+              <th *ngFor="let col of getCols(activities[0])">
+                <ng-container *ngIf="col===assignedToLabel">
+                  <p-multiSelect [options]="allAssignedTo" placeholder="All"
+                                 (onChange)="onAssigneeChange($event, assignedToLabel)"
+                                 styleClass="p-column-filter">
+                    <ng-template let-option pTemplate="item">
+                      <div class="p-multiselect-representative-option">
+                        <span class="p-ml-1">{{option}}</span>
+                      </div>
+                    </ng-template>
+                  </p-multiSelect>
+                </ng-container>
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-tableRow>
+            <tr>
+              <td *ngFor="let col of getCols(activities[0])">
+                <ng-container *ngIf="col.includes('Open'); else elseTemp">
+                  <a class="text-blue-500" [href]="tableRow[col]" target="_blank">Open</a>
+                </ng-container>
+                <ng-template #elseTemp>
+                  <div class="flex gap-1 items-center">
+                    <span *ngIf="col !== 'Owner'" [innerHTML]="tableRow[col]"></span>
+                    <span *ngIf="col === 'Owner'" class="link-color" (click)="goToMemberProfile(tableRow)"
+                          [innerHTML]="tableRow[col]"></span>
+                    <ng-container
+                      *ngIf="col === 'End Date' && userDetails && userDetails.name === tableRow[assignedToLabel]">
+                      <p class="link-color" (click)="openEditDateModal(tableRow)">
+                        <i class="pi pi-pencil"></i>
+                      </p>
+                    </ng-container>
+
+                    <ng-container
+                      *ngIf="col === 'Status' && userDetails && userDetails.name === tableRow[assignedToLabel]">
+                      <p class="link-color" (click)="openEditStatusModal(tableRow)">
+                        <i class="pi pi-pencil"></i>
+                      </p>
+                    </ng-container>
+                  </div>
+                </ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
       </div>
 
-      <app-hub-form [formId]="'chat'" [buttonLabel]="'Submit'"
-                    [existingDetails]="{'collab': collabDetails.collabId}"
-                    [updateWithHiddenOrDisabledFields]="true"
-                    [successMessage]="'Your message has been submitted'"
-                    (submitClicked)="messageAdded($event)">
-      </app-hub-form>
-    </div>
+      <div class="default-border p-5" *ngIf="!activities?.length">
+        No activity present
+      </div>
+    </ng-template>
 
-    <div class="p-5">
-      <h1 class="mb-2 pl-2 font-semibold text-lg" *ngIf="collabMessages?.length">MESSAGES</h1>
-      <ng-container *ngIf="collabMessages?.length">
-        <!--<p-virtualScroller [value]="collabMessages" scrollHeight="1000px">
-          <ng-template pTemplate="item" let-message>-->
-        <div *ngFor="let message of collabMessages" class="default-border flex flex-col mr-4 mb-3">
-          <div class="flex justify-between">
-            <div class="p-5 w-full">
-              <div class="flex justify-between items-center gap-4">
-                <div>
-                  <p class="text-[20px] font-semibold text-gray-800" [innerHTML]="message.title"></p>
-                  <span class="text-[12px] text-gray-500" *ngIf="message.edited">edited</span>
-                </div>
 
-                <div *ngIf="message.canUpdateOrDelete">
-                  <p-tieredMenu #menu [model]="actionItems" [popup]="true" appendTo="body"></p-tieredMenu>
-                  <i class="pi pi-ellipsis-h cursor-pointer" style="font-size: 1.2rem;"
-                     (click)="showContext(menu, $event, message)"></i>
-                </div>
-              </div>
+    <ng-container *ngIf="currentTab === 'messages'">
+      <div class="mt-4 p-4">
+        <p-messages severity="info">
+          <ng-template pTemplate="">
+            <p>Only members who have
+              <span class="link-color" (click)="joinCollab()">joined this collab</span>
+              can post messages. Please observe our
+              <span class="link-color" (click)="goToCommunity()">Community Guidelines</span>.
+            </p>
+          </ng-template>
+        </p-messages>
+      </div>
 
-              <div class="flex gap-2 mb-2">
-                <p class="text-[12px] text-gray-700" [innerHTML]="message.creatorName"></p>
-                <p class="text-[12px] text-gray-500"
-                   [innerHTML]="message.modifiedDate ? (message.modifiedDate | date) : (message.date | date)"></p>
-              </div>
-              <p class="text-sm text-gray-700" [innerHTML]="getMessageWithLinks(message.description)"></p>
+      <div *ngIf="!showNewMessage" class="mt-4 p-4 flex justify-end">
+        <p-button *ngIf="isAllowedMessages" class="btn-color-green p-button-raised p-button-rounded" icon="pi pi-plus"
+                  iconPos="left"
+                  [label]="'New Message'" (click)="showNewMessageForm()">
+        </p-button>
+      </div>
 
-              <div class="mt-2 flex justify-between items-center">
-                <p class="text-gray-500 hover:underline flex cursor-pointer hover:text-sky-500 items-center gap-1"
-                   (click)="getComments(message)">
-                  <i class="pi pi-comment"></i>
-                  <span>Comment</span>
-                </p>
-
-                <p class="text-gray-500 hover:underline cursor-pointer hover:text-sky-500"
-                   *ngIf="message.numberComments"
-                   (click)="getComments(message, true)">
-                  {{message.numberComments}} comments
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <!--COMMENTS SECTION-->
-          <div class="pl-5 pr-4 relative" *ngIf="commentsForMessages[message.id]">
-            <hr class="pb-2">
-            <div class="absolute right-3 top-2">
-              <p class="font-semibold text-lg"></p>
-              <i class="pi pi-times cursor-pointer" (click)="closeComments(message)"></i>
-            </div>
-          </div>
-
-          <div class="p-2 lg:mr-[150px] md:mr-[100px] sm:mr-[20px] mr-[20px]"
-               *ngIf="commentsForMessages[message.id] && isAllowedMessages">
-            <app-hub-form class="" [formId]="'comments'" [buttonLabel]="'Reply'"
-                          [existingDetails]="{'collab': collabDetails.collabId, 'msgId': message.id}"
-                          [updateWithHiddenOrDisabledFields]="true"
-                          [successMessage]="'Your message has been submitted'"
-                          [doAutoFocus]="doAutoFocus"
-                          (submitClicked)="commentAdded($event, false)">
-            </app-hub-form>
-
-            <!-- <p-virtualScroller [value]="commentsForMessages[message.id]" scrollHeight="500px">
-               <ng-template pTemplate="item" let-comment>-->
-            <!--COMMENTS-->
-            <div class="pr-5 overflow-auto" [ngClass]="{'max-h-[400px]': commentsForMessages[message.id]?.length}">
-              <div *ngFor="let comment of commentsForMessages[message.id]">
-                <div class="flex flex-col ml-8 mr-8 mt-4 mb-4 p-4 mb-2 default-border">
-                  <div class="flex justify-between items-center">
-                    <div class="flex gap-2 mb-2">
-                      <p class="text-[12px] text-gray-700" [innerHTML]="comment.creatorName"></p>
-                      <p class="text-[12px] text-gray-500"
-                         [innerHTML]="comment.modifiedDate ? (comment.modifiedDate | date) : (comment.date | date)"></p>
-                    </div>
-
-                    <div *ngIf="comment.canUpdateOrDelete">
-                      <p-tieredMenu #commentMenu [model]="actionItems" [popup]="true" appendTo="body"></p-tieredMenu>
-                      <i class="pi pi-ellipsis-h cursor-pointer" style="font-size: 1.2rem;"
-                         (click)="showContext(commentMenu, $event, comment, true)"></i>
-                    </div>
-                  </div>
-                  <p class="text-sm text-gray-700" [innerHTML]="getMessageWithLinks(comment.description)"></p>
-
-                </div>
-              </div>
-            </div>
-            <!-- </ng-template>
-           </p-virtualScroller>-->
-
-          </div>
-
+      <div class="p-4 m-4 default-border" *ngIf="showNewMessage">
+        <div class="flex justify-between" *ngIf="isAllowedMessages">
+          <p class="font-semibold text-lg">New Message</p>
+          <i class="pi pi-times cursor-pointer" (click)="showNewMessageForm()"></i>
         </div>
-        <!-- </ng-template>
-       </p-virtualScroller>-->
-      </ng-container>
-    </div>
-  </ng-container>
+
+        <app-hub-form [formId]="'chat'" [buttonLabel]="'Submit'"
+                      [existingDetails]="{'collab': collabDetails.collabId}"
+                      [updateWithHiddenOrDisabledFields]="true"
+                      [successMessage]="'Your message has been submitted'"
+                      (submitClicked)="messageAdded($event)">
+        </app-hub-form>
+      </div>
+
+      <div class="p-5">
+        <h1 class="mb-2 pl-2 font-semibold text-lg" *ngIf="collabMessages?.length">MESSAGES</h1>
+        <ng-container *ngIf="collabMessages?.length">
+          <!--<p-virtualScroller [value]="collabMessages" scrollHeight="1000px">
+            <ng-template pTemplate="item" let-message>-->
+          <div *ngFor="let message of collabMessages" class="default-border flex flex-col mr-4 mb-3">
+            <div class="flex justify-between">
+              <div class="p-5 w-full">
+                <div class="flex justify-between items-center gap-4">
+                  <div>
+                    <p class="text-[20px] font-semibold text-gray-800" [innerHTML]="message.title"></p>
+                    <span class="text-[12px] text-gray-500" *ngIf="message.edited">edited</span>
+                  </div>
+
+                  <div *ngIf="message.canUpdateOrDelete">
+                    <p-tieredMenu #menu [model]="actionItems" [popup]="true" appendTo="body"></p-tieredMenu>
+                    <i class="pi pi-ellipsis-h cursor-pointer" style="font-size: 1.2rem;"
+                       (click)="showContext(menu, $event, message)"></i>
+                  </div>
+                </div>
+
+                <div class="flex gap-2 mb-2">
+                  <p class="text-[12px] text-gray-700" [innerHTML]="message.creatorName"></p>
+                  <p class="text-[12px] text-gray-500"
+                     [innerHTML]="message.modifiedDate ? (message.modifiedDate | date) : (message.date | date)"></p>
+                </div>
+                <p class="text-sm text-gray-700" [innerHTML]="getMessageWithLinks(message.description)"></p>
+
+                <div class="mt-2 flex justify-between items-center">
+                  <p class="text-gray-500 hover:underline flex cursor-pointer hover:text-sky-500 items-center gap-1"
+                     (click)="getComments(message)">
+                    <i class="pi pi-comment"></i>
+                    <span>Comment</span>
+                  </p>
+
+                  <p class="text-gray-500 hover:underline cursor-pointer hover:text-sky-500"
+                     *ngIf="message.numberComments"
+                     (click)="getComments(message, true)">
+                    {{message.numberComments}} comments
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!--COMMENTS SECTION-->
+            <div class="pl-5 pr-4 relative" *ngIf="commentsForMessages[message.id]">
+              <hr class="pb-2">
+              <div class="absolute right-3 top-2">
+                <p class="font-semibold text-lg"></p>
+                <i class="pi pi-times cursor-pointer" (click)="closeComments(message)"></i>
+              </div>
+            </div>
+
+            <div class="p-2 lg:mr-[150px] md:mr-[100px] sm:mr-[20px] mr-[20px]"
+                 *ngIf="commentsForMessages[message.id] && isAllowedMessages">
+              <app-hub-form class="" [formId]="'comments'" [buttonLabel]="'Reply'"
+                            [existingDetails]="{'collab': collabDetails.collabId, 'msgId': message.id}"
+                            [updateWithHiddenOrDisabledFields]="true"
+                            [successMessage]="'Your message has been submitted'"
+                            [doAutoFocus]="doAutoFocus"
+                            (submitClicked)="commentAdded($event, false)">
+              </app-hub-form>
+
+              <!-- <p-virtualScroller [value]="commentsForMessages[message.id]" scrollHeight="500px">
+                 <ng-template pTemplate="item" let-comment>-->
+              <!--COMMENTS-->
+              <div class="pr-5 overflow-auto" [ngClass]="{'max-h-[400px]': commentsForMessages[message.id]?.length}">
+                <div *ngFor="let comment of commentsForMessages[message.id]">
+                  <div class="flex flex-col ml-8 mr-8 mt-4 mb-4 p-4 mb-2 default-border">
+                    <div class="flex justify-between items-center">
+                      <div class="flex gap-2 mb-2">
+                        <p class="text-[12px] text-gray-700" [innerHTML]="comment.creatorName"></p>
+                        <p class="text-[12px] text-gray-500"
+                           [innerHTML]="comment.modifiedDate ? (comment.modifiedDate | date) : (comment.date | date)"></p>
+                      </div>
+
+                      <div *ngIf="comment.canUpdateOrDelete">
+                        <p-tieredMenu #commentMenu [model]="actionItems" [popup]="true" appendTo="body"></p-tieredMenu>
+                        <i class="pi pi-ellipsis-h cursor-pointer" style="font-size: 1.2rem;"
+                           (click)="showContext(commentMenu, $event, comment, true)"></i>
+                      </div>
+                    </div>
+                    <p class="text-sm text-gray-700" [innerHTML]="getMessageWithLinks(comment.description)"></p>
+
+                  </div>
+                </div>
+              </div>
+              <!-- </ng-template>
+             </p-virtualScroller>-->
+
+            </div>
+
+          </div>
+          <!-- </ng-template>
+         </p-virtualScroller>-->
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+
 </section>
 
 <p-dialog [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}"

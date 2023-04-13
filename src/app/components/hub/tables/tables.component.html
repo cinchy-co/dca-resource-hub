@@ -8,13 +8,13 @@
   <p-divider></p-divider>
 
   <div class="flex flex-wrap gap-10">
-    <div class="cursor-pointer default-border w-[320px] h-[320px] rounded-[20px]" *ngFor="let item of tables"
+    <div class="cursor-pointer default-border w-[320px] h-[340px] rounded-[20px]" *ngFor="let item of tables"
     (click)="goToCinchyTable(item)">
       <div class="relative mb-4 responsive-image-container rounded-t-[20px]">
         <img class="rounded-t-[20px] responsive-image" alt="tool-image" [src]="item.tableImage">
       </div>
 
-      <div class="flex flex-col pt-1 pb-3 pl-4 pr-4 h-[140px]">
+      <div class="flex flex-col pt-1 pb-3 pl-4 pr-4 h-[160px]">
         <span class="line-clamp-2 text-[20px] font-semibold mb-2" [title]="item.tableName" [innerHTML]="item.tableName"></span>
 
         <span class="line-clamp-4 text-sm-12 text-gray-800" [title]="item.tableDesc" [innerHTML]="item.tableDesc"></span>

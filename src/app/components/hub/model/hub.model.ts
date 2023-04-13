@@ -1,5 +1,14 @@
 import {SafeUrl} from "@angular/platform-browser";
 
+
+export interface ISeo {
+  id: string;
+  route: string;
+  title: string;
+  desc: string;
+  imageURL: string;
+}
+
 export interface INewsFeed {
   creatorName: string;
   date: string;

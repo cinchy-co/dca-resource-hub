@@ -6,6 +6,7 @@ import {ICommunityDetails} from "../../../models/general-values.model";
 import {Router} from "@angular/router";
 import {WindowRefService} from "../../../services/window-ref.service";
 import {isPlatformBrowser} from "@angular/common";
+import {SeoService} from "../../../services/seo.service";
 
 @Component({
   selector: 'app-tools',
@@ -18,10 +19,11 @@ export class ToolsComponent implements OnInit {
 
   constructor(private appApiService: ApiCallsService, private appStateService: AppStateService,
               private router: Router, @Inject(PLATFORM_ID) private platformId: any,
-              private windowRef: WindowRefService) {
+              private windowRef: WindowRefService, private seoService: SeoService) {
   }
 
   async ngOnInit() {
+    this.seoService.setSeoDetails('apps');
     const communityDetails = this.appStateService.communityDetails;
     this.toolsHeaderDetails = communityDetails.find(item => item.id === 'tools') as ICommunityDetails;
     this.tools = await this.appApiService.getHubTools().toPromise();

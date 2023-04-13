@@ -112,7 +112,7 @@
   <!--COLLABS-->
 
   <div class="pt-[50px] pb-8 flex gap-5 justify-center items-center">
-      <img [src]="landingPageDetails.collabImage" style="height: 400px" alt="collabImage">
+      <img class="hidden md:block lg:block" [src]="landingPageDetails.collabImage" style="height: 400px" alt="collabImage">
       <div class="p-5 flex flex-col max-w-[400px]">
         <h2 class="text-[30px] text-slate-800 font-semibold mb-5"
             [innerHTML]="landingPageDetails['collabHeader'] ? landingPageDetails['collabHeader']

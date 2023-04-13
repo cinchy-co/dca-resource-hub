@@ -19,6 +19,7 @@ import {animate, style, transition, trigger} from '@angular/animations';
 import {IUser} from "../../../models/common.model";
 import {ContextMenu} from "primeng/contextmenu";
 import {TieredMenu} from "primeng/tieredmenu";
+import {SeoService} from "../../../services/seo.service";
 
 @Component({
   selector: 'app-collab-details',
@@ -64,10 +65,13 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
               private router: Router, private changeDetection: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private activatedRoute: ActivatedRoute,
-              private messageService: MessageService) {
+              private messageService: MessageService, private seoService: SeoService) {
   }
 
   async ngOnInit() {
+    const parts = this.windowRef.nativeWindow.location.href.split('/');
+    const lastPart = parts.pop() || '';
+    this.seoService.setSeoDetails(lastPart);
     this.collabDetails = this.appStateService.currentCollab;
     this.setTabItems();
     this.setActionItems();
@@ -89,7 +93,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   getCollabActivities() {
-    this.appApiService.getHubCollabActivities(this.collabDetails.collabId).pipe(take(1)).subscribe(async(activities) => {
+    this.appApiService.getHubCollabActivities(this.collabDetails.collabId).pipe(take(1)).subscribe(async (activities) => {
       this.openActivities = activities;
       this.filteredActivities = activities;
       this.setAssigneeValues();
@@ -189,7 +193,7 @@ export class CollabDetailsComponent implements OnInit, OnDestroy {
   }
 
   goToMemberProfile(row: any) {
-    const route= `member-profile/${row['hidden-owner-route']}`;
+    const route = `member-profile/${row['hidden-owner-route']}`;
     this.router.navigate([route]);
   }
 

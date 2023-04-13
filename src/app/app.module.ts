@@ -21,7 +21,6 @@ import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
 import {ApiInterceptorService} from "./api-interceptor.service";
 import {ScullyLibModule} from "@scullyio/ng-lib";
-import {HubModule} from "./components/hub/hub.module";
 import {NgxGoogleAnalyticsModule, NgxGoogleAnalyticsRouterModule} from "ngx-google-analytics";
 
 
@@ -57,7 +56,7 @@ export function getBaseUrl() {
     FontAwesomeModule,
     ToastModule,
     ScullyLibModule,
-    NgxGoogleAnalyticsModule.forRoot('G-542M0WMC7J'),
+    NgxGoogleAnalyticsModule.forRoot('G-8ZLYB6HRK0'),
     NgxGoogleAnalyticsRouterModule
   ],
   providers: [

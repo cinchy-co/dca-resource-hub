@@ -9,6 +9,7 @@ import {IDropdownClick, IFilter, IOption, ISponsor, ITag} from "../../models/com
 import {PAGE_SIZE, SearchByTag} from "../../models/general-values.model";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../services/window-ref.service";
+import {SeoService} from "../../services/seo.service";
 
 @Component({
   selector: 'app-resource-locator',
@@ -41,9 +42,11 @@ export class ResourceLocatorComponent implements OnInit {
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
               private activatedRoute: ActivatedRoute, private router: Router,
               private changeDetectorRef: ChangeDetectorRef, @Inject(PLATFORM_ID) private platformId: any,
-              private windowRef: WindowRefService) { }
+              private windowRef: WindowRefService, private seoService: SeoService) {
+  }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.seoService.setSeoDetails('privacy-resource-locator');
     this.isSignedIn = this.apiCallsService.isSignedIn();
     this.setTabItems();
     this.getTags();

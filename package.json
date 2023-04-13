@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --ssl --port 3000",
-    "build": "ng build --base-href \"/hub-ssr/\"\n",
+    "build": "ng build --base-href \"/hub/\"\n",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:production:ssr": "ng build --configuration=production --base-href /privacyTools/ && ng run dca-privacy-leg:server:production",
@@ -47,7 +47,7 @@
     "ngx-page-scroll-core": "^9.0.0",
     "ngx-sharebuttons": "^10.0.0",
     "plyr": "^3.6.12",
-    "primeicons": "^5.0.0",
+    "primeicons": "^6.0.1",
     "primeng": "^14.0.2",
     "rxjs": "~7.4.0",
     "tslib": "^2.3.0",

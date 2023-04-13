@@ -2,12 +2,13 @@ import {Component, Inject, Input, OnInit, PLATFORM_ID} from '@angular/core';
 import {ApiCallsService} from "../../services/api-calls.service";
 import {IFooter, ILanding, ILandingFooter, ILandingNav, ISocialMedia, ITestimonial} from "../../models/common.model";
 import {AppStateService} from "../../services/app-state.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {WindowRefService} from "../../services/window-ref.service";
 import {isPlatformBrowser} from "@angular/common";
 import {ICommunityDetails} from "../../models/general-values.model";
 import {MenuItem} from "primeng/api";
 import {IconProp} from "@fortawesome/fontawesome-svg-core";
+import {SeoService} from "../../services/seo.service";
 
 @Component({
   selector: 'app-landing',
@@ -30,10 +31,11 @@ export class LandingComponent implements OnInit {
 
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
               private router: Router, private windowRef: WindowRefService,
-              @Inject(PLATFORM_ID) private platformId: any,) {
+              @Inject(PLATFORM_ID) private platformId: any, private seoService: SeoService) {
   }
 
   async ngOnInit() {
+    this.seoService.setSeoDetails('landing');
     this.appStateService.setCurrentUrl();
     this.setMenuItems();
     this.appStateService.setDisplayOfSidebarToggled(false);
@@ -45,7 +47,6 @@ export class LandingComponent implements OnInit {
     const footerDetails =(await this.appApiService.getLandingPageFooter().toPromise());
     this.footerDetails = this.appStateService.getGroupedItems(footerDetails);
     this.footerKeys = Object.keys(this.footerDetails);
-    console.log('1111 landingPageDetails', this.landingPageDetails);
   }
 
   setMenuItems() {

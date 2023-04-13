@@ -70,9 +70,7 @@ export class NewsPodcastComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.seoService.updateOgDescription('News Desc');
-    this.seoService.updateOgTitle('News Title');
-    this.seoService.updateOgImage('https://static.wixstatic.com/media/9eeb4e_7da4ab8b49b843419d88e5a44244915c~mv2.png');
+    this.seoService.setSeoDetails('privacy-newsfeed');
     this.isSignedIn = this.apiCallsService.isSignedIn();
     this.currentItem = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.apiCallsService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {

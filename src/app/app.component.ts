@@ -7,6 +7,7 @@ import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "./services/window-ref.service";
 import {environment} from 'src/environments/environment';
 import {Router} from "@angular/router";
+import {AnalyticsService} from "./services/analytics.service";
 
 @Component({
   selector: 'app-root',
@@ -23,10 +24,17 @@ export class AppComponent implements OnInit {
 
   constructor(private appStateService: AppStateService, private cinchyService: CinchyService,
               private apiCallsService: ApiCallsService, @Inject(PLATFORM_ID) private platformId: any,
-              private windowRefService: WindowRefService, private router: Router) {
+              private windowRefService: WindowRefService, private router: Router,
+              private analyticsService: AnalyticsService) {
   }
 
   async ngOnInit() {
+    this.analyticsService.onAppLoad();
+ /*   this.apiCallsService.getFailedRoute().subscribe((response: any) => {
+      if (response?.failedRoute) {
+        this.router.navigate([response.failedRoute]);
+      }
+    });*/
     if (isPlatformBrowser(this.platformId)) {
       const url = this.windowRefService.nativeWindow.location.href;
       if (!sessionStorage.getItem('current-url-hub')) {
@@ -44,7 +52,7 @@ export class AppComponent implements OnInit {
       if (val) {
         this.setRoutingAndGlobalDetails()
       }
-    })
+    });
   }
 
   async setRoutingAndGlobalDetails() {

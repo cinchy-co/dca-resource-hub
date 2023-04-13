@@ -27,14 +27,17 @@
         (click)="optionClicked(option)">
         <span *ngIf="option.sidebarIconDesc === 'Icon' && (option.id !== 'more')" style="font-size: 1.2rem; width:25px">
           <fa-icon *ngIf="!option.customIcons" [icon]="getIcon(option)"></fa-icon>
-          <img *ngIf="option.customIcons" [src]="'assets/icons/' + option.customIcons" [alt]="option.customIcons"/>
+          <img *ngIf="option.customIcons" style="width: 19px; height: 19px" [src]="'assets/icons/' + option.customIcons" [alt]="option.customIcons"/>
         </span>
+
         <span *ngIf="option.id === 'more' && !showMore" style="font-size: 1.2rem; width:25px">
            <fa-icon [icon]="getIcon(option)"></fa-icon>
         </span>
+
         <span *ngIf="option.id === 'more' && showMore" class="pi" [ngClass]="option.collapseIcon" style="font-size: 1.2rem; width:25px">
            <fa-icon [icon]="getIcon(option, true)"></fa-icon>
         </span>
+
         <img style="width:25px" *ngIf="option.sidebarIconDesc === 'Image'" [src]="option.sidebarIcon" alt="side-bar-icon">
         <span *ngIf="isExpanded" class="">{{option.sidebarLabel}}</span>
       </div>

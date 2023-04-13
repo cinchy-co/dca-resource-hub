@@ -17,6 +17,7 @@ import {ISponsor, IWebsiteDetails} from "../../models/common.model";
 import {ITools} from "../hub/model/hub.model";
 import {AppStateService} from "../../services/app-state.service";
 import {MenuItem} from "primeng/api";
+import {SeoService} from "../../services/seo.service";
 
 @Component({
   selector: 'app-pipps',
@@ -74,10 +75,11 @@ export class PippsComponent implements OnInit, OnDestroy {
 
   constructor(private apiCallService: ApiCallsService, private changeDetectorRef: ChangeDetectorRef, private router: Router,
               private route: ActivatedRoute, @Inject(PLATFORM_ID) private platformId: any,
-              private windowRef: WindowRefService, private appStateService: AppStateService) {
+              private windowRef: WindowRefService, private appStateService: AppStateService, private seoService: SeoService) {
   }
 
   async ngOnInit() {
+    this.seoService.setSeoDetails('privacy-legislation-text');
     this.isSignedIn = this.apiCallService.isSignedIn();
     this.setTabItems();
     this.apiCallService.getToolDetails(this.toolId).pipe(take(1)).subscribe(tool => {

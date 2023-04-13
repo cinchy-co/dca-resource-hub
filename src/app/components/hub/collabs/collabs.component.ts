@@ -6,6 +6,7 @@ import {ICollab} from "../model/hub.model";
 import {isPlatformBrowser} from "@angular/common";
 import {WindowRefService} from "../../../services/window-ref.service";
 import {Router} from "@angular/router";
+import {SeoService} from "../../../services/seo.service";
 
 @Component({
   selector: 'app-collabs',
@@ -18,9 +19,11 @@ export class CollabsComponent implements OnInit {
 
   constructor(private appStateService: AppStateService, private appApiService: ApiCallsService,
               @Inject(PLATFORM_ID) private platformId: any, private windowRef: WindowRefService,
-              private router: Router) { }
+              private router: Router, private seoService: SeoService) {
+  }
 
   async ngOnInit() {
+    this.seoService.setSeoDetails('collaboration');
   //  this.appStateService.setSidebarOption('');
     const communityDetails = this.appStateService.communityDetails;
     this.collabsDetails = communityDetails.find(item => item.id === 'collaboration') as ICommunityDetails;

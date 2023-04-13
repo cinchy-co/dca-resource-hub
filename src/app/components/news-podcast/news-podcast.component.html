@@ -17,7 +17,7 @@
      </span>
     </div>
 
-    <div class="pt-8 p-4" *ngIf="tags && paginatedNewsData">
+    <div class="pt-8" *ngIf="tags && paginatedNewsData">
       <div *ngIf="!currentItem" class="flex flex-wrap justify-start pb-3 gap-5">
         <div class="p-4 relative flex flex-col justify-center">
           <app-search-by-autocomplete *ngIf="legislationData?.length" [searchByOptions]="searchByCountry"

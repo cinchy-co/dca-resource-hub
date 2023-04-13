@@ -15,6 +15,7 @@ import {ISelectedFilter, ITools, IToolSection} from "../hub/model/hub.model";
 import {MenuItem} from "primeng/api";
 import {combineLatest, Observable, of, ReplaySubject, take, takeUntil} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
+import {SeoService} from "../../services/seo.service";
 
 
 @Component({
@@ -52,10 +53,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
-              private activatedRoute: ActivatedRoute, private router: Router) {
+              private activatedRoute: ActivatedRoute, private router: Router, private seoService: SeoService) {
   }
 
   async ngOnInit() {
+    this.seoService.setSeoDetails('privacy-law-navigator');
     this.isSignedIn = this.apiCallsService.isSignedIn();
     this.currentLaw = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.reset();

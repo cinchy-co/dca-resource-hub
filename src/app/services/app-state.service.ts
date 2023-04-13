@@ -4,7 +4,7 @@ import {IDropdownClick, IFooter, ILandingFooter, IOption, ITag, IUser} from "../
 import {ICommunityDetails, MappedCombinedCountryKey} from "../models/general-values.model";
 import {
   ICollab, IEvents,
-  INewsSelectedFilter,
+  INewsSelectedFilter, ISeo,
   IToolDetails,
   ITools,
   IToolsOverview,
@@ -40,6 +40,7 @@ export class AppStateService {
   setRoutingOnLogin$ = new Subject();
   loggedIn: boolean;
   authorizationHeader: any;
+  seoDetails: ISeo[];
 
   constructor(@Inject(PLATFORM_ID) private platformId: any,
               private windowRef: WindowRefService, private router: Router) {

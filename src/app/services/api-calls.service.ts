@@ -6,6 +6,7 @@ import {CinchyService} from "@cinchy-co/angular-sdk";
 import {isPlatformBrowser} from "@angular/common";
 import {ConfigService} from "../config.service";
 import {AppStateService} from "./app-state.service";
+import {AnalyticsService} from "./analytics.service";
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,8 @@ export class ApiCallsService {
   cachedFooterPagesDetails: any = {};
 
   constructor(private http: HttpClient, private cinchyService: CinchyService, @Inject(PLATFORM_ID) private platformId: any,
-              private configService: ConfigService, private appStateService: AppStateService) {
+              private configService: ConfigService, private appStateService: AppStateService,
+              private analyticsService: AnalyticsService, @Inject('BASE_URL') private baseUrl: string) {
   }
 
   isSignedIn(): boolean {
@@ -64,6 +66,7 @@ export class ApiCallsService {
         //  console.log('In no user details if', userDetail);
         this.appStateService.userDetails = userDetail ? JSON.parse(userDetail) : null;
         this.appStateService.setUserDetailsSub(this.appStateService.userDetails);
+        this.analyticsService.signInUser(this.appStateService.userDetails?.username);
       }
       if (isPlatformBrowser(this.platformId)) {
         localStorage.setItem('hub-user-details', JSON.stringify(val));
@@ -78,6 +81,15 @@ export class ApiCallsService {
       }
     });
     this.appStateService.setRoutingAndGlobalDetails(true);
+  }
+
+
+  getSeoDetails(): Observable<any> {
+    const url = '/API/Website/Get%20Hub%20SEO';
+    if (this.appStateService.seoDetails) {
+      return of(this.appStateService.seoDetails);
+    }
+    return this.getResponse(url);
   }
 
   getLandingPageDetails() {
@@ -99,6 +111,7 @@ export class ApiCallsService {
     const url = `/API/Website/Landing%20Page%20Footer`;
     return this.getResponse(url);
   }
+
   ///
   getLandingPageTestimonials() {
     const url = `/API/Website/Get%20Landing%20Page%20Testimonials`;
@@ -275,17 +288,17 @@ export class ApiCallsService {
     return this.getResponse(url);
   }
 
-  updateEndDate(endDate: any, collabId: string, ): Observable<any> {
+  updateEndDate(endDate: any, collabId: string,): Observable<any> {
     const url = `/API/Community/Add%20End%20Date?%40endDate=${endDate}&%40id=${collabId}`;
     return this.getResponse(url);
   }
 
-  updateStatus(status: any, collabId: string, ): Observable<any> {
+  updateStatus(status: any, collabId: string,): Observable<any> {
     const url = `/API/Website/Update%20Activity%20Status?%40status=${status}&%40id=${collabId}`;
     return this.getResponse(url);
   }
 
-  getCollabMembers(collabId: string, ): Observable<any> {
+  getCollabMembers(collabId: string,): Observable<any> {
     const url = `/API/Community/Get%20Collab%20Members%20List?%40id=${collabId}`;
     return this.getResponse(url);
   }
@@ -416,31 +429,31 @@ export class ApiCallsService {
       if (isPlatformBrowser(this.platformId)) {
         userObjectFromStorageStr = sessionStorage.getItem('id_token_claims_obj');
       }
-   //   console.log('IN IF SESSION USER', userObjectFromStorageStr);
+      //   console.log('IN IF SESSION USER', userObjectFromStorageStr);
       if (userObjectFromStorageStr) {
         const userObjectFromStorage = JSON.parse(userObjectFromStorageStr);
-     //   console.log('IN IF 2 SESSION USER', userObjectFromStorageStr);
+        //   console.log('IN IF 2 SESSION USER', userObjectFromStorageStr);
         const userDetails = await this.getLoggedInUserDetails(userObjectFromStorage.id).toPromise() as IUser[];
-     //   console.log('IN IF 2 SESSION userDetails', userDetails)
+        //   console.log('IN IF 2 SESSION userDetails', userDetails)
         resolve(userDetails[0]);
       } else {
-       // console.log('IN USER ELSE INSIDE 1', this.cinchyService.getUserIdentity);
+        // console.log('IN USER ELSE INSIDE 1', this.cinchyService.getUserIdentity);
         let userDetail = localStorage.getItem('hub-user-details') || '';
         if (isPlatformBrowser(this.platformId)) {
-     //     console.log('IN USER ELSE LOCAL');
+          //     console.log('IN USER ELSE LOCAL');
           userDetail = userDetail ? JSON.parse(userDetail) : null;
           resolve(userDetail);
         }
         if (!userDetail) {
           this.cinchyService.getUserIdentity().subscribe(async (user: any) => {
-         //   console.log('IN USER ELSE INSIDE', user);
+            //   console.log('IN USER ELSE INSIDE', user);
             if (user?.id) {
-           //   console.log('IN USER ELSE INSIDE ID', user);
+              //   console.log('IN USER ELSE INSIDE ID', user);
               const userDetailsIdentity = await this.getLoggedInUserDetails(user.id).toPromise() as IUser[];
-             // console.log('IN USER ELSE INSIDE ID userDetailsIdentity', userDetailsIdentity);
+              // console.log('IN USER ELSE INSIDE ID userDetailsIdentity', userDetailsIdentity);
               resolve(userDetailsIdentity[0]);
             } else {
-             // console.log('IN USER ELSE INSIDE ID userDetailsIdentity REJECT');
+              // console.log('IN USER ELSE INSIDE ID userDetailsIdentity REJECT');
               reject('No user details');
             }
           }, error => {
@@ -455,6 +468,11 @@ export class ApiCallsService {
   getLoggedInUserDetails(userName: string): Observable<IUser[]> {
     const url = `/API/Website/Get%20User%20Details?%40userName=${userName}`;
     return this.getResponse(url);
+  }
+
+  getFailedRoute() {
+    const url = `${this.baseUrl}get-failed-route`;
+    return this.http.get<string>(url)
   }
 
   getResponse(url: string): Observable<any> {

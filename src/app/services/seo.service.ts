@@ -1,5 +1,11 @@
-import {Injectable} from '@angular/core';
+import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {Meta, Title} from '@angular/platform-browser';
+import {ActivatedRoute} from "@angular/router";
+import {AppStateService} from "./app-state.service";
+import {ISeo} from "../components/hub/model/hub.model";
+import {lastValueFrom, take} from "rxjs";
+import {ApiCallsService} from "./api-calls.service";
+import {isPlatformBrowser} from "@angular/common";
 
 export enum TwitterCard {
   LargeImage = 'summary_large_image',
@@ -12,7 +18,27 @@ export enum TwitterCard {
 export class SeoService {
 
 
-  constructor(private title: Title, private meta: Meta) {
+  constructor(private title: Title, private meta: Meta, private activatedRoute: ActivatedRoute,
+              private appStateService: AppStateService, private apiCallsService: ApiCallsService,
+              @Inject(PLATFORM_ID) private readonly platformId: object) {
+  }
+
+  async setSeoDetails(id: string) {
+    const seoDetails = await lastValueFrom(this.apiCallsService.getSeoDetails());
+    const seoDetailsPerRoute = seoDetails.find((item: ISeo) => item.id === id) as ISeo;
+    console.log('seoDetails', seoDetailsPerRoute, seoDetails, id);
+    if (!seoDetailsPerRoute) return;
+    const {title, desc, imageURL} = seoDetailsPerRoute;
+    this.updateTitle(title);
+    this.updateOgImage(imageURL);
+    this.updateOgTitle(title);
+    this.updateOgDescription(desc);
+  }
+
+  updateTitle(title: string) {
+    if (isPlatformBrowser(this.platformId)) {
+      this.title.setTitle(title ?? 'Data Collaboration Hub');
+    }
   }
 
   updateOgUrl(url: string) {

@@ -15,6 +15,7 @@ import {ITools} from "../hub/model/hub.model";
 import {MenuItem} from "primeng/api";
 import {ReplaySubject, take, takeUntil} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
+import {SeoService} from "../../services/seo.service";
 
 
 @Component({
@@ -50,10 +51,11 @@ export class RegHomeComponent implements OnInit, OnDestroy {
   private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
   constructor(private apiCallsService: ApiCallsService, private appStateService: AppStateService,
-              private activatedRoute: ActivatedRoute, private router: Router) {
+              private activatedRoute: ActivatedRoute, private router: Router, private seoService: SeoService) {
   }
 
   async ngOnInit() {
+    this.seoService.setSeoDetails('privacy-regulators');
     this.isSignedIn = this.apiCallsService.isSignedIn();
     this.currentRegulator = this.activatedRoute.snapshot.paramMap.get('id') as string;
     this.setTabItems();
