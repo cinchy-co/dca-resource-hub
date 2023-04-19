@@ -3,6 +3,7 @@
 # Compiled output
 /dist/dca-privacy-leg
 /dist/static
+/dist/node_modules
 /tmp
 /out-tsc
 /bazel-out
