@@ -9,7 +9,68 @@
 
   <url>
     <loc>https://datacollaboration.net/hub/</loc>
-    <lastmod>2022-08-02T17:54:49+00:00</lastmod>
+    <lastmod>2023-04-18T19:36:59+00:00</lastmod>
+    <priority>1.00</priority>
+  </url>
+
+  <url>
+    <loc>https://datacollaboration.net/hub/learning</loc>
+    <lastmod>2023-04-18T19:36:59+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://datacollaboration.net/hub/tools/privacy-newsfeed</loc>
+    <lastmod>2023-04-18T19:36:59+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://datacollaboration.net/hub/tools</loc>
+    <lastmod>2023-04-18T19:36:59+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://datacollaboration.net/hub/events</loc>
+    <lastmod>2023-04-18T19:36:58+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://datacollaboration.net/hub/apps/privacy-regulators</loc>
+    <lastmod>2023-04-19T17:54:49+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://datacollaboration.net/hub/apps/privacy-resource-locator</loc>
+    <lastmod>2023-04-19T17:54:49+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://datacollaboration.net/hub/apps/privacy-legislation-text</loc>
+    <lastmod>2023-04-19T17:54:49+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://datacollaboration.net/hub/collab-human-rights</loc>
+    <lastmod>2023-04-19T17:54:49+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://datacollaboration.net/hub/collab-mucp</loc>
+    <lastmod>2023-04-19T17:54:49+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+
+  <url>
+    <loc>https://datacollaboration.net/hub/collab-data-collaboration-policy</loc>
+    <lastmod>2023-04-19T17:54:49+00:00</lastmod>
+    <priority>0.80</priority>
   </url>
 
 

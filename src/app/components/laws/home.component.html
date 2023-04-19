@@ -53,7 +53,9 @@
 
 
     <div *ngIf="legislationData?.length" class="">
-      <p-panel header="Laws">
+      <p-panel>
+        <ng-template pTemplate="header"> <h2 class="text-primary font-semibold text-xl">Laws</h2></ng-template>
+
         <app-laws [selectedOption]="selectedOption" [legislationData]="legislationData"
                   [isCountrySelected]="!!countrySelected"
                   [countrySearchVal]="countrySelected"

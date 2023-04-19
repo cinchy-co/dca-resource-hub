@@ -67,7 +67,7 @@ app.get('*', (req, res) => {
 app.use(express.static(path.join(__dirname, 'static')));
 
 // Start server
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });

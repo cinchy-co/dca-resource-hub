@@ -44,23 +44,12 @@
                              *ngIf="!(legislationData?.length && (newsAndPodcastsData?.length || showError))">
           </p-progressSpinner>
         </div>
-
-        <!-- <div class="relative flex flex-row justify-center">
-           <app-search-by-autocomplete class="inherit-width"
-                                       [searchByOptions]="[searchByForTag]"
-                                       [allDataForOptions]="tags"
-                                       [hideSearchByOptions]="true" [preSelectedSearchBy]="searchByForTag"
-                                       [placeholderOverride]="'Search by Subject Area'"
-                                       (optionClicked)="tagSelectedInDropdown($event)"
-                                       (resetAll)="resetChild()"
-                                       [preSelectedDropdown]="searchVal"
-                                       (itemSearched)="itemSearched($event)">
-           </app-search-by-autocomplete>
-         </div>-->
       </div>
 
 
-      <p-panel header="News and Podcasts">
+      <p-panel>
+        <ng-template pTemplate="header"> <h2 class="text-primary font-semibold text-xl">News and Podcasts</h2></ng-template>
+
         <div class="pb-5">
           <div *ngIf="!currentItem" class="flex flex-row flex-wrap gap-3 items-center">
             <div class="flex flex-row flex-wrap gap-2 items-center">
@@ -179,9 +168,9 @@
                     Edit
                   </a>
 
-                  <a (click)="share(item)" target="_blank" class="cursor-pointer pt-0 text-sm-12 text-sky-500">
+                  <span (click)="share(item)" class="cursor-pointer pt-0 text-sm-12 text-sky-500">
                     Share
-                  </a>
+                  </span>
                 </div>
               </div>
             </p-card>
@@ -246,28 +235,30 @@
           <div class="pl-4 pb-2">
             <p class="text-sm font-semibold">Actions</p>
             <div class="flex flex-row flex-wrap gap-3">
-              <a role="link" [href]="item['URL']" target="_blank" class="pt-0 text-sm-12 text-sky-500">
+              <a role="link" [href]="item['URL']" target="_blank" class="pt-0 text-sm-12 text-sky-500"
+                 [title]="'View this newfeed'">
                 {{item['Type'] === 'News Story' ? 'View' : 'View'}}
               </a>
 
               <a *ngIf="item['Bookmark']" role="link" [href]="item['Bookmark']" target="_blank"
-                 class="pt-0 text-sm-12 text-sky-500">
+                 class="pt-0 text-sm-12 text-sky-500" [title]="'Bookmark this newfeed'">
                 Bookmark
               </a>
 
               <a role="link" *ngIf="item['Type'] === 'Podcast'" [href]="item['Episode']" target="_blank"
-                 class="pt-0 text-sm-12 text-sky-500">
+                 class="pt-0 text-sm-12 text-sky-500" [title]="'View this podcast'">
                 Episode
               </a>
 
               <a role="link" *ngIf="item['Edit']" [href]="item['Edit']" target="_blank"
-                 class="pt-0 text-sm-12 text-sky-500">
+                 class="pt-0 text-sm-12 text-sky-500" [title]="'Edit this newfeed'">
                 Edit
               </a>
 
-              <a (click)="share(item)" target="_blank" class="cursor-pointer pt-0 text-sm-12 text-sky-500">
+              <span (click)="share(item)" class="cursor-pointer pt-0 text-sm-12 text-sky-500"
+                    [title]="'Share this newfeed'">
                 Share
-              </a>
+              </span>
             </div>
           </div>
         </ng-template>

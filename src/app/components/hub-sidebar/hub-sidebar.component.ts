@@ -70,6 +70,7 @@ export class HubSidebarComponent implements OnInit {
       this.isExpanded = !this.isMobileOrTab;
     }
     this.appStateService.getSidebarOption().subscribe(sidebarRoute => {
+      console.log('sidebarRoute', sidebarRoute);
       this.setCurrentOption(sidebarRoute);
     })
   }
