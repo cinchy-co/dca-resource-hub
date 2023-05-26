@@ -5,17 +5,6 @@
          class="cursor-pointer" (click)="goToHome()">
     <i class="pi pi-bars cursor-pointer" style="font-size: 1.2rem" (click)="toggleSidebar()"></i>
   </div>
-<!--  <div *ngIf="isExpanded" class="flex justify-start mb-5 pl-5">
-    <button pButton pRipple type="button" [label]="collaborationBtn.sidebarLabel"
-            class="p-button-outlined p-button-success p-button-rounded" (click)="goToCollabs()">
-      <img class="mr-4" (click)="goToCollabs()" [src]="collaborationBtn.sidebarIcon" alt="logo" style="height: 20px">
-    </button>
-
-  </div>
-
-  <div *ngIf="!isExpanded" class="flex justify-start mb-5 pl-5 cursor-pointer">
-    <img (click)="goToCollabs()" [src]="collaborationBtn.sidebarIcon" alt="logo" style="height: 23px">
-  </div>-->
 
 
   <div class="flex flex-col">
@@ -23,7 +12,8 @@
 
       <div [title]="option.sidebarLabel"
         class="flex items-center justify-left pr-5 pl-5 pt-4 pb-4 gap-5 cursor-pointer text-slate-600 hover:bg-slate-100"
-        [ngClass]="{'border-r border-current bg-slate-200 text-slate-900': currentOptionSelected.sidebarRoute === option.sidebarRoute}"
+        [ngClass]="{'border-r border-current bg-slate-200 text-slate-900':
+         currentOptionSelected.sidebarRoute === option.sidebarRoute}"
         (click)="optionClicked(option)">
         <span *ngIf="option.sidebarIconDesc === 'Icon' && (option.id !== 'more')" style="font-size: 1.2rem; width:25px">
           <fa-icon *ngIf="!option.customIcons" [icon]="getIcon(option)"></fa-icon>

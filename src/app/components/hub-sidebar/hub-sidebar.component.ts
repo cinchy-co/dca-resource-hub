@@ -76,8 +76,9 @@ export class HubSidebarComponent implements OnInit {
   }
 
   setCurrentOption(routeOrUrl: string) {
+    const urlToCheck = routeOrUrl.split('/hub')[1] || routeOrUrl.split('/hub')[0];
     const home = this.currentOptionSelected = this.sidebarOptions.find(item => item.id === 'home') as ICommunityDetails;
-    const currentOption = this.sidebarOptions.find(option => routeOrUrl.includes(option.sidebarRoute) && option.sidebarRoute !== '/');
+    const currentOption = this.sidebarOptions.find(option => urlToCheck.includes(option.sidebarRoute) && option.sidebarRoute !== '/');
     this.currentOptionSelected = currentOption ? currentOption : home;
   }
 

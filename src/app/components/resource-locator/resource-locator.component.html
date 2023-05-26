@@ -11,11 +11,11 @@
   </ng-container>
 
   <ng-container *ngIf="currentTab === 'tool'">
-    <div class="p-0 pt-2 md:p-5 lg:p-5 relative flex flex-col justify-center">
+    <div class="p-0 pt-2 md:p-5 lg:p-5 relative flex flex-col pb-[150px] lg:pb-[150px] md:pb-[150px]">
       <div class="flex gap-2 pl-2 md:pl-5 lg:pl-5">
-        <div class="p-input-icon-left">
+        <div class="p-input-icon-left w-full">
           <i class="pi pi-search"></i>
-          <input class="w-[250px]" type="search" pInputText [(ngModel)]="searchVal" placeholder="Search"
+          <input class="w-full" type="search" pInputText [(ngModel)]="searchVal" placeholder="Search"
                  (keyup.enter)="itemSearched(searchVal)">
         </div>
 
@@ -119,10 +119,10 @@
                    (onPageChange)="paginate($event)">
       </p-paginator>
 
-      <div class="p-5 flex items-center justify-center w-full" *ngIf="!paginatedData?.length">
+    <!--  <div class="p-5 flex items-center justify-center w-full" *ngIf="!paginatedData?.length">
         <p class="font-semibold">{{selectedFilters.length ? 'No results for the combination':
           'Please use search input or one of the top searches to see results'}}</p>
-      </div>
+      </div>-->
 
       <p-progressSpinner class="item-center-n-relative"
                          *ngIf="!(tags?.length)">

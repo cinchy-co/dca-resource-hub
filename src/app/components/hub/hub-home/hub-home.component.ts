@@ -93,12 +93,12 @@ export class HubHomeComponent implements OnInit, OnDestroy {
   }
 
   goToSelection(feature: IFeatures) {
-    if (feature.redirectURL) {
-      this.goToExternalLink(feature);
-    } else {
+    if (feature.redirectRoute) {
       const url = feature.redirectRoute;
       this.appStateService.setSidebarOption(url);
       this.router.navigate([`/${url}`]);
+    } else {
+      this.goToExternalLink(feature);
     }
   }
 

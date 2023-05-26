@@ -58,6 +58,7 @@
     "@angular-devkit/build-angular": "^14.2.1",
     "@angular/cli": "^14.2.1",
     "@angular/compiler-cli": "^14.2.1",
+    "@gammastream/scully-plugin-sitemap": "^1.0.7",
     "@gfx/zopfli": "^1.0.15",
     "@nguniversal/builders": "^14.1.0",
     "@scullyio/scully-plugin-base-href-rewrite": "^2.1.41",

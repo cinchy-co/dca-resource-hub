@@ -8,7 +8,6 @@ import {AppStateService} from "../../services/app-state.service";
 })
 export class HubComponent implements OnInit {
   isSidebarExpanded: boolean;
-
   constructor(private appStateService: AppStateService) {
   }
 

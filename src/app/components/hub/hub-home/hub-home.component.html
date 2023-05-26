@@ -135,7 +135,7 @@
           <div class="w-[100%] flex">
             <ng-container *ngFor="let count of getArrayForCount(item.linksCount);let i = index">
               <div class="mb-2 mt-2 mr-3" *ngIf="item['linkAnchorText-'+(i+1)]">
-                <a class="text-sky-500 text-sm-12" target="_blank"
+                <a class="text-sky-500 text-sm-12" target="_blank" [title]="item['linkAnchorText-' + (i + 1)]"
                    [href]="item['link-'+(i+1)]">{{item['linkAnchorText-' + (i + 1)]}}</a>
               </div>
             </ng-container>
